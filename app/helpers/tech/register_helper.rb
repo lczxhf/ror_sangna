@@ -1,0 +1,2 @@
+module Tech::RegisterHelper
+end
