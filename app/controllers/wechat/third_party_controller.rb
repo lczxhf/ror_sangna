@@ -49,12 +49,13 @@ class Wechat::ThirdPartyController < ApplicationController
 	puts body
 	result=ThirdParty.sent_to_wechat(url,body)
 	auth_code=SangnaConfig.create(code:params[:auth_code])
+	Group.create(sangna_config_id:auth_code._id,wcgroup_id:'0',name:'默认组')
 	puts result.to_json
-	redirect_to :action=>'gzh_parameter',:auth_code_id=>auth_code._id
+	redirect_to :action=>'gzh_parameter',:id=>auth_code._id
  end
 
  def gzh_parameter 
-	auth_code=SangnaConfig.find(params[:auth_code_id])
+	auth_code=SangnaConfig.find(params[:id])
 	url='https://api.weixin.qq.com/cgi-bin/component/api_query_auth?component_access_token='+Rails.cache.read(:access_token)
         body='{"component_appid":"'+APPID+'","authorization_code":"'+auth_code.code+'"}'
         result=ThirdParty.sent_to_wechat(url,body)
@@ -69,11 +70,11 @@ class Wechat::ThirdPartyController < ApplicationController
 	end
 	auth_code.func_info=arr.join
 	auth_code.save
-	redirect_to :action=>'gzh_info',auth_code_id:auth_code._id
+	redirect_to :action=>'gzh_info',id:auth_code._id
  end
 
  def gzh_info 
-	auth_code=SangnaConfig.find(params[:auth_code_id])
+	auth_code=SangnaConfig.find(params[:id])
 	if auth_code.sangna_info
 	   sangna_info=auth_code.sangna_info
 	else
@@ -91,11 +92,11 @@ class Wechat::ThirdPartyController < ApplicationController
 	sangna_info.alias=result['alias']
 	sangna_info.qrcode_url=result['qrcode_url']
 	sangna_info.save
-	redirect_to :action=>'option_info',auth_code_id:auth_code._id
+	redirect_to :action=>'option_info',id:auth_code._id
  end
 
  def option_info 
-	auth_code=SangnaConfig.find(params[:auth_code_id])
+	auth_code=SangnaConfig.find(params[:id])
 	option=['location_report','voice_recognize','customer_service']
 	url='https://api.weixin.qq.com/cgi-bin/component/api_get_authorizer_option?component_access_token='+Rails.cache.read(:access_token)
 	option.each do |a|
@@ -104,6 +105,26 @@ class Wechat::ThirdPartyController < ApplicationController
 	  auth_code.sangna_info.send(a+'=',result)
 	end
 	auth_code.sangna_info.save
-	render plain:'ok'
+	redirect_to :action=>'set_industry',id:auth_code._id
   end
+
+   def set_industry
+      sangna_config=SangnaConfig.find(params[:id])
+      one=1
+      two=2
+      url="https://api.weixin.qq.com/cgi-bin/template/api_set_industry?access_token="+sangna_config.token
+      body='{"industry_id1":"'+one+'","industry_id2":"'+two+'"}'
+      ThirdParty.sent_to_wechat(url,body)
+      url2="https://api.weixin.qq.com/cgi-bin/template/api_add_template?access_token="+sangna_config.token
+      TempleteNumber.find_each do |templete|
+      		body2='{"template_id_short":"'+templete.number+'"}'
+      		templete_id=JSON.parse(ThirdParty.sent_to_wechat(url2,body2))["template_id"]
+      		t_message=TempleteMessage.new
+      		t_message.templete_id=templete
+      		t_message.sangna_config=sangna_config
+      		t_message.templete_number=templete
+      		t_message.save
+      end
+   	  redirect_to :controller=>"gzh_manage",:action=>'set_menu',id:sangna_config._id
+   end
 end
