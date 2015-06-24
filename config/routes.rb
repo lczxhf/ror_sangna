@@ -28,8 +28,9 @@ Rails.application.routes.draw do
 	end
 
 	namespace :staff do 
-		get 'signup' => 'per_user_staffs#new'
-
+		get 'per_user_staffs/all' => 'per_user_staffs#index'
+		get 'per_user_staffs/:id' => 'per_user_staffs#show'
+		post 'per_user_staffs/create' => 'per_user_staffs#create'
 	end
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

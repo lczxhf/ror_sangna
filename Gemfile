@@ -3,6 +3,8 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.1'
+# Use bcrypt for provides a simple wrapper for safely handling passwords.
+gem 'bcrypt', '3.1.10'
 # Use mysql as the database for Active Record
 gem 'mysql2'
 # Use SCSS for stylesheets
