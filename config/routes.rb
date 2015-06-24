@@ -12,6 +12,10 @@ Rails.application.routes.draw do
     #match "/:name/:controller/:action",:via=>[:get]
   end
 
+	namespace :tech do 
+		get 'register' => 'register#register'
+		get 'verify' => 'register#verify'
+	end
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
