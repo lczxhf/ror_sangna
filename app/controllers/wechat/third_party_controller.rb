@@ -6,7 +6,7 @@ class Wechat::ThirdPartyController < ApplicationController
 	APPID="wxf6a05c0e64bc48e1"
 	APPSECRET="0c79e1fa963cd80cc0be99b20a18faeb"
 	 def home 
-		@url="https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=#{@wechat_info.appid}&pre_auth_code=#{@wechat_info.pre_auth_code}&redirect_uri=http://shop.29mins.com/wechats/auth_code"
+		@url="https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=#{APPID}&pre_auth_code=#{Rails.cache.read(:pre_code)}&redirect_uri=http://weixin.linkke.cn/wechat/third_party/auth_code"
  	 end
  	def receive
     	puts params

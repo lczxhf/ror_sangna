@@ -1,6 +1,6 @@
 module Wechat::WechatPayHelper
 	AUTHCODE="123123"
-        MACID='1245225302'
+  MACID='1245225302'
 	module Sign
 	  require 'digest/md5'
 	  def self.generate(params)
@@ -27,9 +27,9 @@ module Wechat::WechatPayHelper
                    		mch_id: MACID,
       			 }.merge(params)
 		  if is_qrcode
-			'weixin://wxpay/bizpayurl?'+params.collect{|k,v| "#{k}=#{v}&"}.join+"sign="+TestPayHelper::Sign.generate(params)
+			'weixin://wxpay/bizpayurl?'+params.collect{|k,v| "#{k}=#{v}&"}.join+"sign="+WechatPayHelper.generate(params)
 		  else
-			"<xml>#{params.collect { |k, v| "<#{k}>#{v}</#{k}>" }.join}<sign>#{TestPayHelper::Sign.generate(params)}</sign></xml>"
+			"<xml>#{params.collect { |k, v| "<#{k}>#{v}</#{k}>" }.join}<sign>#{WechatPayHelper::Sign.generate(params)}</sign></xml>"
 		  end
 		end
 
@@ -40,7 +40,7 @@ module Wechat::WechatPayHelper
 		      nonceStr: SecureRandom.uuid.tr('-', ''),
 		      signType: 'MD5', 
 		   }.merge(params)
-		   params.merge({paySign: TestPayHelper::Sign.generate(params)})
+		   params.merge({paySign: WechatPayHelper::Sign.generate(params)})
 		end
 	end
 	
@@ -49,7 +49,7 @@ module Wechat::WechatPayHelper
 		def self.qcode(url)
     		#二维码
     		qr=RQRCode::QRCode.new(url,:size=>14,:level=>:h).to_img
-		qr.resize(300, 300).save(Rails.root.to_s+"/public/abc.png")
+		qr.resize(300, 300).save(Rails.root.join("public","abc.png"))
 
   		end
 	end
@@ -63,7 +63,7 @@ module Wechat::WechatPayHelper
 			wxappid: AUTHCODE.appid,
 			client_ip: '192.168.69.63',
 		     }.merge(params)
-		     "<xml>#{params.collect{|key,value| "<#{key}>#{value}</#{key}>"}.join}<sign>#{TestPayHelper::Sign.generate(params)}</sign></xml>"
+		     "<xml>#{params.collect{|key,value| "<#{key}>#{value}</#{key}>"}.join}<sign>#{WechatPayHelper::Sign.generate(params)}</sign></xml>"
 		end
 	end
 end

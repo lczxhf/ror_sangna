@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   # root 'welcome#index'
   namespace :wechat do
     get "third_party/test" => "third_party#test" 
+		get "third_party/home" => "third_party#home"
+		post "third_party/receive" => "third_party#receive"
     #match "/:name/:controller/:action",:via=>[:get]
   end
 
