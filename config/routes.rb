@@ -10,6 +10,15 @@ Rails.application.routes.draw do
     get "third_party/test" => "third_party#test" 
 		get "third_party/home" => "third_party#home"
 		post "third_party/receive" => "third_party#receive"
+		post "third_party/auth_code" => "third_party#auth_code"
+		get "third_party/gzh_paramter" => "third_party#gzh_paramter"
+	  get  "third_party/gzh_info" => "third_party#gzh_info"
+	  get  "third_party/option_info" => "third_party#option_info"
+		get "third_party/set_industry" => "third_party#set_industry"
+		get "gzh_manage/set_menu" => "gzh_manage#set_menu"
+		post "gzh_manage/authorize" => "gzh_manage#authorize"
+		get "gzh_manage/get_info" => "gzh_manage#get_info"
+
     #match "/:name/:controller/:action",:via=>[:get]
   end
 
