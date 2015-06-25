@@ -18,6 +18,7 @@ class Staff::PerUserStaffsController < ApplicationController
   def create
     @per_user_staff = PerUserStaff.new(user_params)
     if @per_user_staff.save
+			log_in @per_user_staff
 			render @per_user_staff.save
     else
       render json: @per_user_staff.errors
