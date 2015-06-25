@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
@@ -7,8 +8,20 @@ Rails.application.routes.draw do
   # root 'welcome#index'
   namespace :wechat do
     get "third_party/test" => "third_party#test" 
+		get "third_party/home" => "third_party#home"
+		post "third_party/receive" => "third_party#receive"
+		post "third_party/auth_code" => "third_party#auth_code"
+		get "third_party/gzh_paramter" => "third_party#gzh_paramter"
+	  get  "third_party/gzh_info" => "third_party#gzh_info"
+	  get  "third_party/option_info" => "third_party#option_info"
+		get "third_party/set_industry" => "third_party#set_industry"
+		get "gzh_manage/set_menu" => "gzh_manage#set_menu"
+		post "gzh_manage/authorize" => "gzh_manage#authorize"
+		get "gzh_manage/get_info" => "gzh_manage#get_info"
+
     #match "/:name/:controller/:action",:via=>[:get]
   end
+<<<<<<< HEAD
   
   namespace :tech do 
     post 'register' => 'register#register'
@@ -17,6 +30,22 @@ Rails.application.routes.draw do
     post 'upload' => 'register#upload'
     get 'up' => 'register#up'
   end
+=======
+
+	namespace :tech do 
+		get 'register' => 'register#register'
+		get 'verify' => 'register#verify'
+	end
+
+	namespace :staff do 
+		get    'per_user_staffs/all'    => 'per_user_staffs#index'
+		get    'per_user_staffs/:id'    => 'per_user_staffs#show'
+		post   'per_user_staffs/create' => 'per_user_staffs#create'
+		get    'sessions/login'   => 'sessions#new'
+		post   'sessions/login'   => 'sessions#create'
+		delete 'sessionslogout'   => 'sessions#destroy'
+	end
+>>>>>>> 4cae071ed23f78c05057e33daea81b794431aa91
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

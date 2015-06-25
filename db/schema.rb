@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150623074942) do
+ActiveRecord::Schema.define(version: 20150624144205) do
 
   create_table "agents", force: :cascade do |t|
     t.string   "username",             limit: 11,  null: false
@@ -156,7 +156,7 @@ ActiveRecord::Schema.define(version: 20150623074942) do
 
   create_table "media", force: :cascade do |t|
     t.string   "mtype",            limit: 255
-    t.string   "url",              limit: 255
+    t.text     "url",              limit: 65535
     t.string   "media_id",         limit: 255
     t.integer  "sangna_config_id", limit: 4
     t.datetime "created_at"
@@ -181,8 +181,8 @@ ActiveRecord::Schema.define(version: 20150623074942) do
     t.integer  "menu_info_id", limit: 4
     t.string   "name",         limit: 255
     t.string   "type",         limit: 255
-    t.string   "level",        limit: 255
-    t.string   "order",        limit: 255
+    t.integer  "level",        limit: 4
+    t.integer  "order",        limit: 4
     t.string   "content",      limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -314,8 +314,10 @@ ActiveRecord::Schema.define(version: 20150623074942) do
     t.string   "identification_numbers", limit: 18
     t.integer  "status",                 limit: 1,     default: 2, null: false
     t.string   "client_id",              limit: 255,               null: false
+    t.string   "password_digest",        limit: 255
   end
 
+  add_index "per_user_staffs", ["username"], name: "index_per_user_staffs_on_username", unique: true, using: :btree
   add_index "per_user_staffs", ["username"], name: "login", unique: true, using: :btree
 
   create_table "per_user_sys_menus", force: :cascade do |t|
@@ -380,7 +382,7 @@ ActiveRecord::Schema.define(version: 20150623074942) do
   end
 
   create_table "receive_links", force: :cascade do |t|
-    t.integer "rereive_message_id", limit: 4
+    t.integer "receive_message_id", limit: 4
     t.string  "title",              limit: 255
     t.text    "description",        limit: 65535
     t.string  "url",                limit: 255
@@ -425,7 +427,7 @@ ActiveRecord::Schema.define(version: 20150623074942) do
   end
 
   create_table "receive_videos", force: :cascade do |t|
-    t.integer "reveive_message_id", limit: 4
+    t.integer "receive_message_id", limit: 4
     t.string  "media_id",           limit: 255
     t.string  "thumb_media_id",     limit: 255
   end
@@ -580,20 +582,21 @@ ActiveRecord::Schema.define(version: 20150623074942) do
   end
 
   create_table "wechat_users", force: :cascade do |t|
-    t.string   "nickname",       limit: 255
-    t.boolean  "sex",            limit: 1
-    t.string   "city",           limit: 255
-    t.string   "country",        limit: 255
-    t.string   "province",       limit: 255
-    t.string   "language",       limit: 255
-    t.string   "headimgurl",     limit: 255
-    t.string   "subscribe_time", limit: 255
-    t.string   "remark",         limit: 255
-    t.string   "unionid",        limit: 255
-    t.integer  "group_id",       limit: 4
-    t.integer  "member_id",      limit: 4
+    t.string   "nickname",         limit: 255
+    t.boolean  "sex",              limit: 1
+    t.string   "city",             limit: 255
+    t.string   "country",          limit: 255
+    t.string   "province",         limit: 255
+    t.string   "language",         limit: 255
+    t.string   "headimgurl",       limit: 255
+    t.string   "subscribe_time",   limit: 255
+    t.string   "remark",           limit: 255
+    t.string   "unionid",          limit: 255
+    t.integer  "group_id",         limit: 4
+    t.integer  "member_id",        limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "wechat_config_id", limit: 4
   end
 
   add_foreign_key "appointment_logs", "appointments", name: "appointments_id"

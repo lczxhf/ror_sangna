@@ -111,7 +111,7 @@
 
       def encrypt_message(msg_xml)
         # 加密回复的XML
-        encrypt_xml = Wechat.new.encrypt(msg_xml,@wechat_info.encodingkey,@wechat_info.appid).gsub("\n","")
+        encrypt_xml = ThirdParty.new.encrypt(msg_xml,KEY,APPID).gsub("\n","")
         # 标准的回包
         generate_encrypt_message(encrypt_xml)
       end
@@ -125,7 +125,7 @@
         msg.to_xml
       end
       def generate_msg_signature(encrypt_msg, msg)
-        sort_params = [encrypt_msg, @wechat_info.token,
+        sort_params = [encrypt_msg, TOKEN,
                        msg.TimeStamp, msg.Nonce].sort.join
         Digest::SHA1.hexdigest(sort_params)
       end
