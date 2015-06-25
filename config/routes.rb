@@ -9,7 +9,14 @@ Rails.application.routes.draw do
     get "third_party/test" => "third_party#test" 
     #match "/:name/:controller/:action",:via=>[:get]
   end
-
+  
+  namespace :tech do 
+    post 'register' => 'register#register'
+    post 'verify' => 'register#verify'
+    get 'project' => 'register#project'
+    post 'upload' => 'register#upload'
+    get 'up' => 'register#up'
+  end
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
