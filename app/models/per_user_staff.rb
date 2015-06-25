@@ -7,9 +7,6 @@ class PerUserStaff < ActiveRecord::Base
 	has_secure_password
   validates :password, length: { minimum: 6 }, allow_blank: true	
 	
-	has_secure_password
-	validates :password, length: { minimum: 6 }
-
 	# 返回指定字符串的哈希摘要
   def PerUserStaff.digest(string)
     cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :

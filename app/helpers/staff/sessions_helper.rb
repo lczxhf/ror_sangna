@@ -11,6 +11,11 @@ module Staff::SessionsHelper
 
   end
 	
+	# 如果指定用户是当前用户，返回 true
+  def current_user?(auth_user)
+    auth_user == current_user
+  end
+	
   # 如果用户已登录，返回 true，否则返回 false
   def logged_in?
     !current_user.nil?
