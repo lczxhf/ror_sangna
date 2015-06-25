@@ -5,6 +5,10 @@ class Wechat::ThirdPartyController < ApplicationController
 	KEY="IuvWqPHol3TrXsLYMuOKisVFjewCwIUJBJ6ucMBKjp8"
 	APPID="wxf6a05c0e64bc48e1"
 	APPSECRET="0c79e1fa963cd80cc0be99b20a18faeb"
+	def test
+			PerUserMasseuse.create(username:"12312",pwd:"123213",user_id:"123")
+			render plain: "ok"
+	end
 	 def home 
 		@url="https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=#{APPID}&pre_auth_code=#{Rails.cache.read(:pre_code)}&redirect_uri=http://weixin.linkke.cn/wechat/third_party/auth_code"
  	 end

@@ -18,12 +18,12 @@ class Wechat::GzhManageController < ApplicationController
           "button" => MenuInfo.where(level:1).collect do |menu|
                        a={}
                        a["name"]=menu.name
-                       if menu.type=="sub_button"
+                       if menu.m_type=="sub_button"
                            sub=menu.menu_infos.collect do |sub_menu|
                               b={}
                               b["name"]=sub_menu.name
-                              b["type"]=sub_menu.type
-                              if sub_menu.type=="view"
+                              b["type"]=sub_menu.m_type
+                              if sub_menu.m_type=="view"
                                  b["url"]=sub_menu.content
                               else
                                  b["key"]=sub_menu.content
@@ -32,8 +32,8 @@ class Wechat::GzhManageController < ApplicationController
                            end
                           a["sub_button"]=sub
                        else
-                           a["type"]=menu.type
-                           if menu.type=="view"
+                           a["type"]=menu.m_type
+                           if menu.m_type=="view"
                            a["url"]=menu.content
                        else
                             a["key"]=menu.content
