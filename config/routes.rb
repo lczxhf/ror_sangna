@@ -21,7 +21,6 @@ Rails.application.routes.draw do
 
     #match "/:name/:controller/:action",:via=>[:get]
   end
-<<<<<<< HEAD
   
   namespace :tech do 
     post 'register' => 'register#register'
@@ -30,23 +29,19 @@ Rails.application.routes.draw do
     post 'upload' => 'register#upload'
     get 'up' => 'register#up'
   end
-=======
-
-	namespace :tech do 
-		get 'register' => 'register#register'
-		get 'verify' => 'register#verify'
-	end
 
 	namespace :staff do 
 		get    'per_user_staffs/all'    => 'per_user_staffs#index'
 		get    'per_user_staffs/:id'    => 'per_user_staffs#show'
 		get    'per_user_staffs/edit'   => 'per_user_staffs#edit'
 		post   'per_user_staffs/create' => 'per_user_staffs#create'
-		get    'sessions/login'   => 'sessions#new'
-		post   'sessions/login'   => 'sessions#create'
-		delete 'sessionslogout'   => 'sessions#destroy'
+		get    'sessions/login'         => 'sessions#new'
+		post   'sessions/login'         => 'sessions#create'
+		delete 'sessionslogout'         => 'sessions#destroy'
+		get    'password_resets/new'    => 'password_resets#new'
+		post   'password_resets/create' => 'password_resets#create'
+		get    'password_resets/edit'   => 'password_resets#edit'
 	end
->>>>>>> 4cae071ed23f78c05057e33daea81b794431aa91
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
