@@ -30,6 +30,7 @@ Rails.application.routes.draw do
 	namespace :staff do 
 		get    'per_user_staffs/all'    => 'per_user_staffs#index'
 		get    'per_user_staffs/:id'    => 'per_user_staffs#show'
+		get    'per_user_staffs/edit'   => 'per_user_staffs#edit'
 		post   'per_user_staffs/create' => 'per_user_staffs#create'
 		get    'sessions/login'   => 'sessions#new'
 		post   'sessions/login'   => 'sessions#create'
