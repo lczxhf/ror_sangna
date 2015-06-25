@@ -1,0 +1,2 @@
+module Wechat::MessageHelper
+end
