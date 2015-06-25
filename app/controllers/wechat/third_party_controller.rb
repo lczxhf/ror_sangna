@@ -114,8 +114,8 @@ class Wechat::ThirdPartyController < ApplicationController
 
    def set_industry
       sangna_config=SangnaConfig.find(params[:id])
-      one=1
-      two=2
+      one=39
+      two=24
       url="https://api.weixin.qq.com/cgi-bin/template/api_set_industry?access_token="+sangna_config.token
       body='{"industry_id1":"'+one+'","industry_id2":"'+two+'"}'
       ThirdParty.sent_to_wechat(url,body)
