@@ -2,7 +2,7 @@ class Staff::PerUserStaffsController < ApplicationController
 	before_action :logged_in_user, only: [:index, :edit, :update, :destroy]
 	before_action :correct_user,   only: [:edit, :update]
 	# skip_before_action :verify_authenticity_token # 交互时忽略csrf
-
+	include Staff::SessionsHelper
   def index
 		# @peruserstaffs = PerUserStaff.all
 		render json: PerUserStaff.all

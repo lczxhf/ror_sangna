@@ -7,7 +7,7 @@ module Staff::SessionsHelper
 
 	# 返回当前登录的用户（如果有的话）
 	def current_user
-    @current_user ||= PerUserStaff.find_by(id: session[:user_id]e
+    @current_user ||= PerUserStaff.find_by(id: session[:user_id])
 
   end
 	

@@ -1,7 +1,7 @@
 class PerUserMasseuse < ActiveRecord::Base
-<<<<<<< HEAD
+
 	 mount_uploader :img,ImageAvatarUploader
-=======
+
 	require 'bcrypt'
 	attr_accessor :pwd
 	#回调
@@ -26,5 +26,5 @@ class PerUserMasseuse < ActiveRecord::Base
 	    def password_required
 	        password.blank? || self.pwd.present?
 	    end  
->>>>>>> 4cae071ed23f78c05057e33daea81b794431aa91
+
 end

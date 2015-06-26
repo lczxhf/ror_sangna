@@ -3,7 +3,7 @@ class Wechat::WcpayController < ApplicationController
 	require 'nokogiri'
 	require 'net/https'
 	require 'rest-client'
-	 skip_before_action :verify_authenticity_token
+	
 	  WECHATURL='https://api.mch.weixin.qq.com/pay/'
 	def pay
 		puts params

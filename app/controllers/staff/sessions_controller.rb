@@ -1,5 +1,5 @@
 class Staff::SessionsController < ApplicationController
-
+	include Staff::SessionsHelper
 	def new
 	end
 
