@@ -6,8 +6,8 @@ class Wechat::ThirdPartyController < ApplicationController
 	APPID="wxf6a05c0e64bc48e1"
 	APPSECRET="0c79e1fa963cd80cc0be99b20a18faeb"
 	def test
-		puts PerUser.all.pluck(:username,:auth_key).inspect
-	end
+			render plain: PerUserProject.find("1").to_json 
+  end
 	 def home 
 		@url="https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=#{APPID}&pre_auth_code=#{Rails.cache.read(:pre_code)}&redirect_uri=http://weixin.linkke.cn/wechat/third_party/auth_code"
  	 	render :home,:layout=>false

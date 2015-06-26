@@ -1,0 +1,122 @@
+	<%content_for :head do%>	
+	<meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+			 <%=javascript_include_tag "jquery-2.1.0"%>
+             <%=javascript_include_tag "mui.min"%>
+             <%=stylesheet_link_tag "wechat_front/mui.min"%>
+             <%=stylesheet_link_tag "wechat_front/common"%>
+             <%=stylesheet_link_tag "wechat_front/HuiSuo_infor"%>
+        <%=stylesheet_link_tag "wechat_front/iconfont"%>
+	
+		<title>会所信息</title>
+<%end%>
+<%content_for :body do%>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title"><%=@sangna.name%></h1>
+			<a class="mui-pull-right mui-icon iconfont icon-sandianhover"></a>
+		</header>
+		<div class="mui-content">
+			<div class="box">
+				<div id="slider" class="mui-slider" >
+					<div class="mui-slider-group mui-slider-loop">
+						<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+						<div class="mui-slider-item mui-slider-item-duplicate">
+							<a href="#">
+								<img src="<%=@sangna_info.main_img%>" width="100%" height="200px">
+							</a>
+						</div>
+						<!-- 第一张 -->
+						<div class="mui-slider-item">
+							<a href="#">
+								<img src="<%=@sangna_info.main_img%>" width="100%" height="200px">
+							</a>
+						</div>
+						<!-- 第二张 -->
+						<div class="mui-slider-item">
+							<a href="#">
+								<img src="<%=@sangna_info.main_img%>" width="100%" height="200px">
+							</a>
+						</div>
+						<!-- 第三张 -->
+						<div class="mui-slider-item">
+							<a href="#">
+								<img src="<%=@sangna_info.main_img%>" width="100%" height="200px">
+							</a>
+						</div>
+						<!-- 第四张 -->
+						<div class="mui-slider-item">
+							<a href="#">
+								<img src="<%=@sangna_info.main_img%>" width="100%" height="200px">
+							</a>
+						</div>
+						<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+						<div class="mui-slider-item mui-slider-item-duplicate">
+							<a href="#">
+								<img src="<%=@sangna_info.main_img%>" width="100%" height="200px">
+							</a>
+						</div>
+					</div>
+					<div class="mui-slider-indicator">
+						<div class="mui-indicator mui-active"></div>
+						<div class="mui-indicator"></div>
+						<div class="mui-indicator"></div>
+						<div class="mui-indicator"></div>
+					</div>
+				</div>
+			</div>
+			<div class="box_infor fs14">
+				<div class="huisuo_infor">
+					<span class="left">最低消费</span>
+					<span class="right fs12">200元</span>
+				</div>
+				<div class="huisuo_infor">
+					<span class="left">净桑</span>
+					<span class="right fs12">200元</span>
+				</div>
+			</div>
+			<div class="box_infor fs14">
+				<div class="huisuo_infor">
+					<span class="left">前台电话</span>
+					<span class="right fs12"><%=@sangna.phone%></span>
+				</div>
+				<div class="huisuo_infor">
+					<span class="left">专车电话</span>
+					<span class="right fs12">13535435432</span>
+				</div>
+			</div>
+			<div class="box_infor fs14">
+				<div class="addr">
+					<span class="">详细地址</span>
+				</div>
+				<div class="huisuo_infor">
+					<span class="fs12"><%=@sangna.address%></span>
+				</div>
+			</div>
+			<div class="box_infor fs14">
+				<div class="addr">
+					<span class="">详细内容</span>
+				</div>
+				<div class="huisuo_infor2">
+					<div class="fs12"><%=@sangna_info.info%></div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" charset="utf-8">
+			mui.init({
+				swipeBack:true //启用右滑关闭功能
+			});
+			var slider = mui("#slider");
+			document.getElementById("switch").addEventListener('toggle', function(e) {
+				if (e.detail.isActive) {
+					slider.slider({
+						interval: 5000
+					});
+				} else {
+					slider.slider({
+						interval: 0
+					});
+				}
+			});
+		</script>
+<%end%>

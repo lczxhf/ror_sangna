@@ -1,0 +1,47 @@
+
+	<%content_for :head do%>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<%=javascript_include_tag "jquery-2.1.0"%>
+		<%=javascript_include_tag "mui.min"%>
+		<%=stylesheet_link_tag "wechat_front/mui.min"%>
+		<%=stylesheet_link_tag "wechat_front/common"%>
+		<%=stylesheet_link_tag "wechat_front/Box_jishi"%>
+		<%=stylesheet_link_tag "wechat_front/iconfont"%>
+		<title>挑选技师</title>
+		<script>
+			function show_info(technician_id){
+					window.location.href="technician_info?t_id="+technician_id;
+			}
+		</script>
+	<%end%>
+	<%content_for :body do%>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">现场技师</h1>
+		</header>
+		<div class="mui-content">
+		<%@technicians.each_with_index do |technician|%>
+			<div class="Jishi_infor <%=return_job_class(technician.job_class_status,false)%>_color%" onclick="show_info('<%=technician.id%>')">
+				<div class="box_jishi">
+					<div class="box_img <%=return_job_class(technician.job_class_status,false)%>_background%">
+						<img class="jishi_img" src="<%=technician.img.thumb.url%>" alt="" height="50px" width="50px" />
+					</div>
+					<span class="jishi_num fs17"><%=technician.job_number%></span>
+					<span class="jishi_sex fs11">（<%= technician.sex==1 ? "男":"女"%>）</span>
+					<span class="jishi_type"><%=return_job_class(technician.job_class_status)%></span>
+					<span class="jishi_state fs11">
+						<span class="time">13:00pm</span>有预约
+					</span>
+					
+				</div>
+				<div class="evaluate fs10">
+					客户评价：
+					<span class="project"><%=get_hot_project(technician.id)%></span>
+					<span class="jishi_best"><%=get_hot_comment(technician.id)%></span>
+				</div>
+				<span class="current_state fs12">当前<%=return_technician_state(technician.work_status)%></span>
+			</div>
+		<%end%>
+		</div>
+	<%end%>

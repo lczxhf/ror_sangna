@@ -7,7 +7,7 @@
 		<title>微信公众号绑定</title>
 		<script type="text/javascript">
 			$(function(){$("#authorize").click(function(){
-				if($("#check").attr("checked")=="checked"){
+				if($("#check").is(":checked")){
 				window.location.href= "<%=raw @url%>";}else{alert("请查看条款");}})})
 		</script>
 	</head>

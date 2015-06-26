@@ -26,7 +26,13 @@ Rails.application.routes.draw do
     post 'wcpay/qrcallback' => "wcpay#qrcallback"
     post 'wcpay/qrresult' => "wcpay#qrresult"
 
-    get "wc_front/choose_jishi" => "wc_front#choose_jishi"
+    get "wc_front/choose_technician" => "wc_front#choose_technician"
+		get "wc_front/technician_info" => "wc_front#technician_info"
+		get "wc_front/project_info" => "wc_front#project_info"
+		get "wc_front/project_detail" => "wc_front#project_detail"
+		get "wc_front/sangna_info" => "wc_front#sangna_info"
+		get "wc_front/my_account" => "wc_front#my_account"
+		get "wc_front/my_collect" => "wc_front#my_collect"
     #match "/:name/:controller/:action",:via=>[:get]
   end
   

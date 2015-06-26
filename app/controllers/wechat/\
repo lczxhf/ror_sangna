@@ -16,18 +16,7 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def sangna_info
-			@sangna=PerUser.where(id:params[:s_id],del:1,status:1).first
-			if @sangna
-				@sangna_info=PerUserInfo.where(user_id:@sangna.id).first
-			else
-				render plain: "该会所暂时无法查看"
-			end
-	end
-
-	def my_account
-			 
-	end
-
-	def my_collect
+			@sangna=PerUser.find(params[:s_id])
+			@sangna_info=@sangna.per_user_info
 	end
 end
