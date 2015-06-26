@@ -18,7 +18,15 @@ Rails.application.routes.draw do
 		get "gzh_manage/set_menu" => "gzh_manage#set_menu"
 		post "gzh_manage/authorize" => "gzh_manage#authorize"
 		get "gzh_manage/get_info" => "gzh_manage#get_info"
+    post 'message/receive' => "message#receive"
+    post 'wcpay/get_order' => "wcpay#get_order"
+    post 'wcpay/callback' => "wcpay#callback"
+    post 'wcpay/qr_pay' => "wcpay#qr_pay"
+    post 'wcpay/redbage' => "wcpay#redbage"
+    post 'wcpay/qrcallback' => "wcpay#qrcallback"
+    post 'wcpay/qrresult' => "wcpay#qrresult"
 
+    get "wc_front/choose_jishi" => "wc_front#choose_jishi"
     #match "/:name/:controller/:action",:via=>[:get]
   end
   

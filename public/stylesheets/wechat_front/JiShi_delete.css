@@ -1,0 +1,91 @@
+.mui-bar-tab{
+	text-align: center;
+}
+.mui-btn-negative{
+	width: 65%;
+	background: #ED2532;
+	font-size: 15px;
+	letter-spacing: 8px;
+}
+.infor{
+	background: white;
+	width: 100%;
+	height: 95px;
+	border-bottom: 1px solid #E3E3E6;
+	margin-bottom: 3px;
+	padding: 8px 2% 0;
+	position: relative;
+}
+.mui-left input[type=checkbox]{
+	position: absolute;
+	top: 20px;
+	left: 8% !important;
+}
+
+.Jishi_infor{
+	background: white;
+	width: 75%;
+	margin-left: 25%;
+	position: relative;
+}
+.box_jishi{
+	font-size: 15px;
+	position: relative;
+	padding-bottom: 3px;
+	border-bottom: 1px solid #E6E6E6;
+}
+.box_img{
+	width: 52px;
+	height: 52px;
+}
+.jishi_img{
+	margin: 1px;
+}
+.jishi_num{
+	position: absolute;
+	top: 8px;
+	left: 60px;
+	letter-spacing: 1px;
+}
+.jishi_sex{
+	position: absolute;
+	top: 10px;
+	left: 105px;
+}
+.jishi_type{
+	position: absolute;
+	top: 30px;
+	left: 60px;
+}
+.jishi_state{
+	position: absolute;
+	top: -5px;
+	right: 0;
+	color: #666666;
+}
+.btn_yuyue{
+	width: 70px;
+	padding: 5px 15px;
+	border-radius: 0;
+	background: white;
+	color: #666666;
+	position: absolute;
+	top: 23px;
+	right: 0;
+}
+.evaluate{
+	margin: 3px 0 0 3px;
+}
+.jishi_best{
+	margin-left: 10px;
+}
+.current_state{
+	position: absolute;
+	bottom: 5px;
+	right: 6%;
+	color: #666666;
+}
+
+
+
+

@@ -15,12 +15,12 @@ class Wechat::WcpayController < ApplicationController
 		   body: '好看的衣服啊',
 		   out_trade_no: SecureRandom.hex,
 		   total_fee: 1,
-		   notify_url: 'http://shop.29mins.com/test_pay/callback'
+		   notify_url: 'http://weixin.linkke.cn/wechat/wcpay/callback'
 		}
 		if params[:type]=="qrcode"
-			hash.merge({product_id: params[:product_id],notify_url:'http://shop.29mins.com/native_pay/pay_result'})
+			hash.merge!({product_id: params[:product_id]})
 		else
-			hash.merge({openid: params[:openid]})
+			hash.merge!({openid: params[:openid]})
 		end
 		body=PayXml.get_xml(hash)	
 		result=ThirdParty.sent_to_wechat(url,body)
@@ -52,6 +52,9 @@ class Wechat::WcpayController < ApplicationController
 	def result
 		puts params
 	end
+
+	def qrresult
+	end
 	
 	def get_order
 		url=WECHATURL+'orderquery'
@@ -64,7 +67,7 @@ class Wechat::WcpayController < ApplicationController
                 puts doc
 		
 	end
-	
+
 	def callback
 		puts params
 		puts request.body.read

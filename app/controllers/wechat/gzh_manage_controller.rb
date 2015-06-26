@@ -45,7 +45,12 @@ class Wechat::GzhManageController < ApplicationController
       body=hash.to_s.gsub("=>",":")
       result=ThirdParty.sent_to_wechat(url,body)
 		  puts result
-      render nothing: true
+      if params[:authorize]
+          redirect_to("www.linkke.cn/wx_weixin/index?appid="+gzh._id)
+      else
+         render nothing: true
+      end
+
   	end
 
 
