@@ -28,6 +28,7 @@ Rails.application.routes.draw do
     get 'project' => 'register#project'
     post 'upload' => 'register#upload'
     get 'up' => 'register#up'
+    post 'login_in' => 'register#login_in'
   end
 
 	namespace :staff do 

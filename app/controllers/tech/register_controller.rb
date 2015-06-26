@@ -3,33 +3,33 @@ class Tech::RegisterController < ApplicationController
 		tel =  params[:user]
 		tel_code = Rails.cache.read(tel)
 		register = PerUserMasseuse.new
-		register.username = params[:user] 
-		register.password = params[:pwd]
+		register.username = tel
+		register.pwd = params[:pwd]
 		club = PerUser.find_by(poll_code: params[:club_code])
         register.user_id = club.id
         verify = params[:verify]
-      #   user = PerUserMasseuse.where(username: tel).first
-      #   if user
-
-      #   		render plain: '用户名已经存在'
-	     # else
+        user = PerUserMasseuse.where(username: tel).first
+        if user
+        		render plain: '用户名已经存在'
+	     else
 	        
 	     	if verify != tel_code
 	       		render plain: '验证码错误'
 	    	else
 	        	register.save
-	        	render plain: 'ok'
+	        	registers = PerUserMasseuse.select('id','user_id').where(username: tel)
+	        	render json: registers 
 	        end
-        # end
+        end
         
 		
 	end
 
 	def verify
-		verify = rand(9999).to_s
+		verify = rand(1000..9999).to_s
 		tel =  params[:user]
 		user = PerUserMasseuse.where(username: tel).first
-		if user.username
+		if user
 			render plain: '用户名已经存在'
 		else
 			 Rails.cache.write(tel,verify)
@@ -40,6 +40,7 @@ class Tech::RegisterController < ApplicationController
 	         	response=http.request request
 	         	puts  response.body
 	         end
+	         render nothing:true
 		end	
 		
 		
@@ -54,7 +55,7 @@ class Tech::RegisterController < ApplicationController
 
 
 	def upload
-		upload = PerUserMasseuse.find(177)
+		upload = PerUserMasseuse.find(params[:tech_id])
 		upload.img = params[:uploadkey1]
 		upload.entry_time = params[:entry]
 		upload.name = params[:name]
@@ -62,10 +63,28 @@ class Tech::RegisterController < ApplicationController
 		upload.sex = params[:sex]
 		upload.job_class_status = params[:type]
 		upload.identification_numbers = params[:ident]
-		render nothing:true
+		upload.language = params[:language]
+    upload.client_id = params[:cid]
+		if upload.save
+			render plain: 'ok'
+    else
+		  render nothing:true
+		end
 	end
 
 	def up
 	end
+
+  def login_in
+    user = params[:user]
+    pwd = params[:pwd]
+    login = PerUserMasseuse.authenticate_mobile(user, pwd)
+    if login
+      u = PerUserMasseuse.select('id').find_by(username: user)
+      render plain: u.id
+    else
+      render plain: 'no'
+    end
+  end
 
 end
