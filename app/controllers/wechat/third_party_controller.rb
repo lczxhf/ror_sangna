@@ -6,8 +6,12 @@ class Wechat::ThirdPartyController < ApplicationController
 	APPID="wxf6a05c0e64bc48e1"
 	APPSECRET="0c79e1fa963cd80cc0be99b20a18faeb"
 	def test
-			render plain: PerUserProject.find("1").to_json 
+			Rails.cache.write(:abc,"asdsad")
+			render plain: "xx"
   end
+	def test1
+			render plain: Rails.cache.read(:ticket)
+	end	
 	 def home 
 		@url="https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=#{APPID}&pre_auth_code=#{Rails.cache.read(:pre_code)}&redirect_uri=http://weixin.linkke.cn/wechat/third_party/auth_code"
  	 	render :home,:layout=>false
@@ -15,7 +19,6 @@ class Wechat::ThirdPartyController < ApplicationController
  	def receive
     	puts params
 		str=request.body.read
-		puts str
 		doc=Nokogiri::Slop str
 		ticket=doc.xml.Encrypt.content	
 	
@@ -24,16 +27,20 @@ class Wechat::ThirdPartyController < ApplicationController
 			puts result
 			xml=Nokogiri::Slop result
 			if xml.xml.InfoType.content.to_s=='component_verify_ticket'
-			   verify_ticket=xml.xml.ComponentVerifyTicket.content
-			   Rails.cache.write(:ticket,verify_ticket.to_s)
+			   verify_ticket=xml.xml.ComponentVerifyTicket.content.to_s
+			   Rails.cache.write(:ticket,verify_ticket)
 			   url='https://api.weixin.qq.com/cgi-bin/component/api_component_token'
-			   body='{"component_appid":"'+APPID+'","component_appsecret":"'+APPSECRET+'","component_verify_ticket":"'+Rails.cache.read(:ticket)+'"}'
-			   access_token=JSON.parse(ThirdParty.sent_to_wechat(url,body))['component_access_token']
-			   Rails.cache.write(:access_token,access_token)
+			   body='{"component_appid":"'+APPID+'","component_appsecret":"'+APPSECRET+'","component_verify_ticket":"'+verify_ticket+'"}'
+			   access_token=JSON.parse(ThirdParty.sent_to_wechat(url,body))
+				puts access_token
+			   Rails.cache.write(:access_token,access_token['component_access_token'])
 			   url='https://api.weixin.qq.com/cgi-bin/component/api_create_preauthcode?component_access_token='+access_token
 			   body='{"component_appid":"'+APPID+'"}'
 			   pre_auth_code=JSON.parse(ThirdParty.sent_to_wechat(url,body))['pre_auth_code']
+					puts 'aaaa'
+					puts pre_auth_code
 			   Rails.cache.write(:pre_code,pre_auth_code)
+					puts Rails.cache.read(:pre_code)
 			else
 			   appid=xml_root.get_elements('AuthorizerAppid')[0][0].to_s
 			   SangnaConfig.where(appid:appid).first.delete

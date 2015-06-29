@@ -22,9 +22,9 @@
 		</header>
 		<div class="mui-content">
 		<%@technicians.each_with_index do |technician|%>
-			<div class="Jishi_infor <%=return_job_class(technician.job_class_status,false)%>_color%" onclick="show_info('<%=technician.id%>')">
+			<div class="Jishi_infor <%=return_job_class(technician.job_class_status,false)%>_color" onclick="show_info('<%=technician.id%>')">
 				<div class="box_jishi">
-					<div class="box_img <%=return_job_class(technician.job_class_status,false)%>_background%">
+					<div class="box_img <%=return_job_class(technician.job_class_status,false)%>_background">
 						<img class="jishi_img" src="<%=technician.img.thumb.url%>" alt="" height="50px" width="50px" />
 					</div>
 					<span class="jishi_num fs17"><%=technician.job_number%></span>
@@ -35,12 +35,12 @@
 					</span>
 					
 				</div>
-				<div class="evaluate fs10">
-					客户评价：
+				<div class="evaluate fs12">
+					其它客户觉得TA：
 					<span class="project"><%=get_hot_project(technician.id)%></span>
 					<span class="jishi_best"><%=get_hot_comment(technician.id)%></span>
+			    <span class="current_state fs12">当前<%=return_technician_state(technician.work_status)%></span>
 				</div>
-				<span class="current_state fs12">当前<%=return_technician_state(technician.work_status)%></span>
 			</div>
 		<%end%>
 		</div>

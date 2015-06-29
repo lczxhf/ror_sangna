@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   # root 'welcome#index'
   namespace :wechat do
     get "third_party/test" => "third_party#test" 
+		get "third_party/test1" => "third_party#test1"
 		get "third_party/home" => "third_party#home"
 		post "third_party/receive" => "third_party#receive"
 		post "third_party/auth_code" => "third_party#auth_code"
@@ -18,7 +19,7 @@ Rails.application.routes.draw do
 		get "gzh_manage/set_menu" => "gzh_manage#set_menu"
 		post "gzh_manage/authorize" => "gzh_manage#authorize"
 		get "gzh_manage/get_info" => "gzh_manage#get_info"
-    post 'message/receive' => "message#receive"
+    post 'message/:appid' => "message#receive"
     post 'wcpay/get_order' => "wcpay#get_order"
     post 'wcpay/callback' => "wcpay#callback"
     post 'wcpay/qr_pay' => "wcpay#qr_pay"

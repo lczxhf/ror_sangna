@@ -9,7 +9,7 @@ module Wechat::WcFrontHelper
 	end
 
 	def return_technician_state(number)
-		state=[0,"不当值","空闲","上锁","上钟"]
+		state=[0,"下班","空闲","上锁","上钟"]
 		state[number]
 	end
 
