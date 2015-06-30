@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150629165725) do
+ActiveRecord::Schema.define(version: 20150630040055) do
 
   create_table "agents", force: :cascade do |t|
     t.string   "username",             limit: 11,  null: false
@@ -134,6 +134,15 @@ ActiveRecord::Schema.define(version: 20150629165725) do
     t.string   "wcgroup_id",       limit: 255
     t.string   "name",             limit: 255
     t.integer  "sangna_config_id", limit: 4
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "masseuses_collects", force: :cascade do |t|
+    t.integer  "per_user_id",          limit: 4
+    t.integer  "per_user_masseuse_id", limit: 4
+    t.integer  "member_id",            limit: 4
+    t.integer  "del",                  limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
   end
