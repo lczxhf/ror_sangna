@@ -76,13 +76,14 @@ class Wechat::GzhManageController < ApplicationController
       wechat_config.openid=result['openid']
       wechat_config.scope=result['scope']
       wechat_config.save
-      redirect_to :action=>'get_info',:id=>wechat_config._id
+      Sangna.get_user_info(wechat_config.id)
+      redirect_to "http://weixin.linkke.cn"+cookies[:next_url]
     end
   end
 
 	  def oauth
-           puts params
-            url="https://api.weixin.qq.com/sns/oauth2/component/access_token?appid=#{params[:appid]}&code=#{params[:code]}&grant_type=authorization_code&component_appid=wxf6a05c0e64bc48e1&component_access_token="+Rails.cache.read(:access_token) 
+          puts params
+          url="https://api.weixin.qq.com/sns/oauth2/component/access_token?appid=#{params[:appid]}&code=#{params[:code]}&grant_type=authorization_code&component_appid=wxf6a05c0e64bc48e1&component_access_token="+Rails.cache.read(:access_token) 
           result=JSON.parse(Wechat.get_to_wechat(url))
 					if params[:state]=='200'
            cookies[:p_openid]=result["openid"]
@@ -91,39 +92,5 @@ class Wechat::GzhManageController < ApplicationController
 					end
            redirect_to "http://weixin.linkke.cn"+cookies[:next_url]
      end
-
-	
-  
-  def get_info
-    wechat_config=WechatConfig.find(params[:id])
-    sangna_config=wechat_config.sangna_config
-    if Time.now-sangna_config.updated_at>=7200
-              result=JSON.parse(ThirdParty.refresh_gzh_token(Rails.cache.read(:access_token),APPID,sangna_config.appid,sangna_config.refresh_token))
-              sangna_config.refresh_token=result['authorizer_refresh_token']
-              sangna_config.token=result['authorizer_access_token']
-              sangna_config.save
-    end
-    url="https://api.weixin.qq.com/cgi-bin/user/info?access_token=#{sangna_config.token}&openid=#{wechat_config.openid}&lang=zh_CN"
-    info=JSON.parse(ThirdParty.get_to_wechat(url)) 
-    puts info
-    wechat_user=WechatUser.new
-    wechat_user.nickname=info['nickname']
-    wechat_user.sex=info['sex']=='1'?true:false
-    wechat_user.province=info['province']
-    wechat_user.city=info['city']
-    wechat_user.country=info['country']
-    wechat_user.headimgurl=info['headimgurl']
-    #wechat_user.unionid=info['unionid']
-    wechat_user.subscribe_time=info['subscribe_time']
-    wechat_user.remark=info['remark']
-    wechat_user.group=Group.where(wcgroup_id:info["groupid"],sangna_config_id:sangna_config._id).first
-    wechat_user.wechat_config=wechat_config
-    wechat_user.save
-		if cookies[:next_url] && cookies[:openid]
-       redirect_to "http://weixin.linkke.cn"+cookies[:next_url]
-		else
-			 render xml: reply_text_message('欢迎') 				
-		end
-  end
 
 end
