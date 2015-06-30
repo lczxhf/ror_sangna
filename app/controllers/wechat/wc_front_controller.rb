@@ -1,12 +1,12 @@
 class Wechat::WcFrontController < ApplicationController
-	before_action :check_openid,:excrpt=>[:choose_technician]
+	before_action :check_openid,:except=>[:choose_technician,:technician_info]
 	def choose_technician
 		if params[:first]
 			cookies[:openid]=params[:openid]
 		end
 		#sangna_config=SangnaConfig.includes(:per_user).find(params[:appid])
-		sangna_config=SangnaConfig.find(params[:user_id])
-		@technicians=sangna_config.per_user
+		#@technicians=sangna_config.per_user
+		 @technicians=PerUserMasseuse.where(user_id:params[:user_id])
 	end
 	
 	def technician_info

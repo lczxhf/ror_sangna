@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 		get "third_party/test1" => "third_party#test1"
 		get "third_party/home" => "third_party#home"
 		post "third_party/receive" => "third_party#receive"
-		post "third_party/auth_code" => "third_party#auth_code"
+		get "third_party/auth_code" => "third_party#auth_code"
 		get "third_party/gzh_paramter" => "third_party#gzh_paramter"
 	  get  "third_party/gzh_info" => "third_party#gzh_info"
 	  get  "third_party/option_info" => "third_party#option_info"

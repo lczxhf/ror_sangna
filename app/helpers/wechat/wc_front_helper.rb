@@ -68,4 +68,14 @@ module Wechat::WcFrontHelper
 		  @level_rate=((level_arr.inject{|a,b| a+b}).to_f/(level_arr.size*5).to_f)*100
 		end
 	end
+
+	def is_collect(technician_id)
+			wechat_config=WechatConfig.includes(:member).find_by_openid(cookies[:openid])
+			member_id=wechat_config.member.id
+			if MasseusesCollect.where(per_user_masseuse_id:technician_id,member_id:member_id).exist?
+					'man'
+			else
+					'kong'
+			end
+	end
 end

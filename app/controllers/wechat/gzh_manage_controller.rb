@@ -57,7 +57,6 @@ class Wechat::GzhManageController < ApplicationController
 
     def authorize
     if params[:appid]
-      
       gzh=SangnaConfig.where(appid:params[:appid]).first
       url="https://api.weixin.qq.com/sns/oauth2/component/access_token?appid=#{gzh.appid}&code=#{params[:code]}&grant_type=authorization_code&component_appid=#{APPID}&component_access_token="+Rails.cache.read(:access_token)
       result=JSON.parse(ThirdParty.sent_to_wechat(url,body))
@@ -69,6 +68,7 @@ class Wechat::GzhManageController < ApplicationController
           wechat_config=WechatConfig.new
            
       end
+			cookies[:openid]=result["openid"]
       wechat_config.sangna_config=gzh
       wechat_config.code=params[:code]
       wechat_config.token=result['access_token']
@@ -107,19 +107,23 @@ class Wechat::GzhManageController < ApplicationController
     info=JSON.parse(ThirdParty.get_to_wechat(url)) 
     puts info
     wechat_user=WechatUser.new
-    wechat_user.nick_name=info['nickname']
+    wechat_user.nickname=info['nickname']
     wechat_user.sex=info['sex']=='1'?true:false
     wechat_user.province=info['province']
     wechat_user.city=info['city']
     wechat_user.country=info['country']
-    wechat_user.head_image=info['headimgurl']
+    wechat_user.headimgurl=info['headimgurl']
     #wechat_user.unionid=info['unionid']
     wechat_user.subscribe_time=info['subscribe_time']
     wechat_user.remark=info['remark']
     wechat_user.group=Group.where(wcgroup_id:info["groupid"],sangna_config_id:sangna_config._id).first
     wechat_user.wechat_config=wechat_config
     wechat_user.save
-    redirect_to :controller=>:wc_front,:action=>:choose_technician,:openid=>wechat_config.openid
+		if cookies[:next_url] && cookies[:openid]
+       redirect_to "http://weixin.linkke.cn"+cookies[:next_url]
+		else
+			 render xml: reply_text_message('欢迎') 				
+		end
   end
 
 end
