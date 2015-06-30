@@ -5,6 +5,7 @@ class Wechat::WcpayController < ApplicationController
 	require 'rest-client'
 	
 	  WECHATURL='https://api.mch.weixin.qq.com/pay/'
+	before_action :check_popenid,:only=>[:pay]
 	def pay
 		puts params
 		url=WECHATURL+'unifiedorder'
@@ -15,12 +16,12 @@ class Wechat::WcpayController < ApplicationController
 		   body: '好看的衣服啊',
 		   out_trade_no: SecureRandom.hex,
 		   total_fee: 1,
-		   notify_url: 'http://shop.29mins.com/test_pay/callback'
+		   notify_url: 'http://weixin.linkke.cn/wechat/wcpay/callback'
 		}
 		if params[:type]=="qrcode"
-			hash.merge({product_id: params[:product_id],notify_url:'http://shop.29mins.com/native_pay/pay_result'})
+			hash.merge!({product_id: params[:product_id]})
 		else
-			hash.merge({openid: params[:openid]})
+			hash.merge!({openid: cookies[:p_openid]})
 		end
 		body=PayXml.get_xml(hash)	
 		result=ThirdParty.sent_to_wechat(url,body)
@@ -52,6 +53,9 @@ class Wechat::WcpayController < ApplicationController
 	def result
 		puts params
 	end
+
+	def qrresult
+	end
 	
 	def get_order
 		url=WECHATURL+'orderquery'
@@ -64,7 +68,7 @@ class Wechat::WcpayController < ApplicationController
                 puts doc
 		
 	end
-	
+
 	def callback
 		puts params
 		puts request.body.read
@@ -122,4 +126,14 @@ class Wechat::WcpayController < ApplicationController
 		puts response.body
 		render nothing: true
 	end
+
+		private
+		def check_oponid
+         if !cookies[:p_openid]
+              cookies[:next_url]=request.fullpath
+							auth_url="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx478d531345351176&redirect_uri=http://weixin.linkke.cn/wechat/gzh_manage/oauth&response_type=code&scope=snsapi_base&state=200&component_appid=#{Rails.cache.read(:appid)}#wechat_redirect"             
+	           redirect_to auth_url
+         end
+        end
+	
 end

@@ -1,0 +1,48 @@
+.mui-content>.mui-table-view:first-child{
+	margin-top: 0;
+}
+
+.mui-collapse{
+	padding-right: 0!important;
+	padding-left: 3%;
+	background: white;
+}
+.box_list{
+	width: 100%;
+	height: 50px !important;
+	position: relative;
+}
+.size{
+	font-size: 15px;
+	color: #82858A;
+}
+.loca_1{
+	letter-spacing: 1px;
+	position: absolute;
+	top: 15px;
+	left: 8%;
+}
+.loca_2{
+	position: absolute;
+	top: 15px;
+	left: 50%;
+}
+.loca_3{
+	position: absolute;
+	top: 15px;
+	right: 0;
+}
+.box2{
+	padding: 10px 20px 10px 10px;
+	width: 98%;
+	background: #E8E8E8;
+	height: 250px;
+	margin: 0 !important;
+}
+.size_p{
+	width: 85%;
+	margin: 0 10% 0 3%;
+}
+
+
+

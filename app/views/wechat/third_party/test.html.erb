@@ -1,4 +1,11 @@
+<%content_for :head do %>
+<%= javascript_include_tag 'wechat/wechat_front', 'data-turbolinks-track' => true %>
+<%= stylesheet_link_tag    'wechat/wechat_front', media: 'all', 'data-turbolinks-track' => true %>
+<%end%>
+
+<%content_for :body do %>
  <form action="home" method="post" enctype="multipart/form-data" >
 		<input type="file" name="url"/>
 		<input type="submit" value="upload"/>
-	</form>
+ </form>
+<%end%>

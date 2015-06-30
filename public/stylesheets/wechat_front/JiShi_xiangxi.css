@@ -1,0 +1,139 @@
+
+
+.box_jishi{
+	width: 100%;
+	height: 90px;
+	background: white;
+	position: relative;
+	color: #808080;
+}
+.jishi_img{
+	width: 67px;
+	height: 67px;
+	background: #E6E6E6;
+	position: absolute;
+	top: 10px;
+	left: 20px;
+}
+.jishi_img img{
+	margin: 1px;
+}
+.jishi_num{
+	position: absolute;
+	top: 35px;
+	left: 95px;
+	letter-spacing: 1px;
+}
+.jishi_sex{
+	position: absolute;
+	top: 37px;
+	left: 140px;
+}
+
+.jishi_type{
+	position: absolute;
+	left: 95px;
+	bottom: 15px;
+}
+.icon-lianxiren{
+	font-size: 10px !important;
+}
+.box_jishi .icon-xingxingkong{
+	position: absolute;
+	right: 10px;
+	bottom: 15px;
+	font-size: 20px;
+	color: #F0B181;
+}
+.box_jishi .icon-xingxingman{
+	position: absolute;
+	right: 10px;
+	bottom: 15px;
+	font-size: 20px;
+	color: #F0B181;
+}
+.title{
+	height: 30px;
+	padding: 6px 0 0 10px;
+	color: #4D4D4D;
+	border-bottom: 1px solid #E3E2E5;
+}
+.mui-table-view li{
+	padding: 4px 0 2px 20px;
+	color: #666666;
+}
+.jishi_state{
+	background: white;
+	margin-top: 20px;
+}
+.jishi_infor{
+	width: 100%;
+	height: 40px;
+	color: #646162;
+	border-bottom: 1px solid #D3D2D2;
+	line-height: 40px;
+	padding: 0 4% 0 6%;
+	overflow: hidden;
+	position: relative;
+}
+.jishi_best{
+	height: 25px;
+	width: 60px;
+	margin-top: 7px;
+	padding: 2px 13px;
+	border: 1px solid #B3B3B3;
+	line-height: 20px;
+}
+.assess{
+	width: 100%;
+	height: 140px;
+	background: white;
+	color: #908E8F;
+	padding: 20px;
+	margin-bottom: 30px;
+}
+.option1{
+	margin-bottom: 3px;
+}
+.option1 .iconfont{
+	color: #0994DC;
+}
+.size1{
+	margin-right: 13px;
+}
+
+.size2{
+	margin-left: 13px;
+}
+
+/*技师个人信息页*/
+
+.jishi_num_2{
+	position: absolute;
+	top: 25px;
+	left: 95px;
+	letter-spacing: 1px;
+}
+.jishi_sex_2{
+	position: absolute;
+	top: 27px;
+	left: 140px;
+}
+
+.jishi_type_2{
+	position: absolute;
+	left: 95px;
+	bottom: 26px;
+}
+.jishi_phone_2{
+	position: absolute;
+	left: 95px;
+	bottom: 10px;
+}
+.icon-dianhua{
+	font-size: 10px !important;
+}
+
+
+
+

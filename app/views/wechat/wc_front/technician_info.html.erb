@@ -1,0 +1,144 @@
+<%content_for :head do%>		
+			<meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+			
+			<%=javascript_include_tag "jquery-2.1.0"%>
+       <%=javascript_include_tag "mui.min"%>
+       <%=stylesheet_link_tag "wechat_front/mui.min"%>
+       <%=stylesheet_link_tag "wechat_front/common"%>
+       <%=stylesheet_link_tag "wechat_front/JiShi_xiangxi"%>
+     <%=stylesheet_link_tag "wechat_front/iconfont"%>
+			<title>技师详细</title>
+		<script>
+				$(function(){
+				   $.each($(".option1"),function(){
+							var value=$(this).children(":last").html();
+							value=(value.substr(0,value.length-1))/100*5;
+							for(var i=0;i< parseInt(value);i++){
+								$(this).children().eq(i+1).attr("class","mui-icon iconfont icon-xingxingman")
+							}
+							var o_value=value-parseInt(value);
+							if(o_value>0.3&&o_value<0.7){
+									$(this).children().eq(parseInt(value)+1).attr("class","mui-icon iconfont icon-xingxingbanke")
+							}
+					 })	
+				})
+				function project_info(id){
+						window.location.href="project_info?id="+id;
+				}
+		</script>
+<%end%>
+<%content_for :body do%>
+		<header class="mui-bar mui-bar-nav">
+			<a href="javascript:history.go(-1);" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">详细</h1>
+		</header>
+		<div class="mui-content">
+			<div class="box_jishi">
+				<div class="jishi_img">
+					<img src="<%=@technician.img.thumb.url%>" alt="" width="65px" height="65px" />
+				</div>
+				<span class="jishi_num fs17"><%=@technician.job_number%></span>
+				<span class="jishi_sex fs11">（<%=@technician.sex==1 ? "男":"女"%>）</span>
+				<div class="jishi_type fs11">
+					<span class="mui-icon iconfont icon-lianxiren "></span>
+					<span class=""><%=return_job_class(@technician.job_class_status)%></span>
+				</div>
+				<span class="mui-icon iconfont icon-xingxing<%=is_collect(@technician.id)%>"></span>
+			</div>
+		<!--	<div class="box_yuyue">
+				<div class="title fs16">预约</div>
+				<ul class="mui-table-view fs12">
+					<li class="mui-table-view-cell">
+						<span class="mui-icon iconfont icon-dian "></span>
+						<span>13:00pm有预约</span>
+					</li>
+					<li class="mui-table-view-cell">
+						<span class="mui-icon iconfont icon-dian "></span>
+						<span>13:00pm有预约</span>
+					</li>
+					<li class="mui-table-view-cell">
+						<span class="mui-icon iconfont icon-dian "></span>
+						<span>13:00pm有预约</span>
+					</li>
+					<li class="mui-table-view-cell">
+						<span class="mui-icon iconfont icon-dian "></span>
+						<span>13:00pm有预约</span>
+					</li>
+				</ul>
+			</div>
+		--!>
+			<div class="box_yuyue">
+				<div class="title fs16">项目</div>
+				<ul class="mui-table-view fs12">
+				<%PerUserProject.where("id IN (#{@technician.projects_id})").pluck(:name,:id).each do |arr| %>
+					<li class="mui-table-view-cell" onclick="project_info('<%=arr[1]%>')">
+						<span class="mui-icon iconfont icon-dian "></span>
+						<span><%=arr[0]%></span>
+					</li>
+				<%end%>
+				</ul>	
+			</div>
+			<div class="jishi_state">
+				<div class="jishi_infor">
+					<span class="left fs14">这个月收藏</span>
+					<span class="right fs14"><%=@technician.collect_count%>次</span>
+				</div>
+				<div class="jishi_infor">
+					<span class="left fs14">语言</span>
+					<span class="right fs14"><%=get_language_name(@technician.language)%></span>
+				</div>
+				<div class="jishi_infor">
+					<span class="left fs14">最多人赞的项目</span>
+					<span class="right fs14 jishi_best"><%=get_hot_project(@technician.id)%></span>
+				</div>
+				<div class="jishi_infor">
+					<span class="left fs14">最多人赞的技能</span>
+					<span class="right fs14"><%=get_hot_comment(@technician.id)%></span>
+				</div>
+			</div>
+			<div class="assess fs14">
+      <%if get_review_rate(@technician.id)==false %>
+					<divi class="option1">未评价</div>
+			<%else%>
+				<div class="option1">
+					<span class="size1">服务</span>
+					<span class="mui-icon iconfont icon-xingxingkong"></span>
+					<span class="mui-icon iconfont icon-xingxingkong"></span>
+					<span class="mui-icon iconfont icon-xingxingkong"></span>
+					<span class="mui-icon iconfont icon-xingxingkong"></span>
+					<span class="mui-icon iconfont icon-xingxingkong"></span>
+					<span class="size2 fs12"><%=@level_rate%>%</span>
+				</div>
+				<div class="option1">
+					<span class="size1">手法</span>
+					<span class="mui-icon iconfont icon-xingxingkong"></span>
+					<span class="mui-icon iconfont icon-xingxingkong"></span>
+					<span class="mui-icon iconfont icon-xingxingkong"></span>
+					<span class="mui-icon iconfont icon-xingxingkong"></span>
+					<span class="mui-icon iconfont icon-xingxingkong"></span>
+					<span class="size2 fs12"><%=@level_rate%>%</span>
+				</div>
+				<div class="option1">
+					<span class="size1">力度</span>
+					<span class="mui-icon iconfont icon-xingxingkong"></span>
+					<span class="mui-icon iconfont icon-xingxingkong"></span>
+					<span class="mui-icon iconfont icon-xingxingkong"></span>
+					<span class="mui-icon iconfont icon-xingxingkong"></span>
+					<span class="mui-icon iconfont icon-xingxingkong"></span>
+					<span class="size2 fs12"><%=@level_rate%>%</span>
+				</div>
+				<div class="option1">
+					<span class="size1">服务</span>
+					<span class="mui-icon iconfont icon-xingxingkong"></span>
+					<span class="mui-icon iconfont icon-xingxingkong"></span>
+					<span class="mui-icon iconfont icon-xingxingkong"></span>
+					<span class="mui-icon iconfont icon-xingxingkong"></span>
+					<span class="mui-icon iconfont icon-xingxingkong"></span>
+					<span class="size2 fs12"><%=@level_rate%>%</span>
+				</div>
+			<%end%>
+			</div>
+		</div>
+<%end%>
+

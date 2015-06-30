@@ -1,0 +1,64 @@
+
+.mui-content>.mui-table-view:first-child {
+ margin-top: 0; 
+}
+.mui-collapse{
+	padding-right: 0!important;
+	padding-left: 3%;
+	background: white;
+}
+
+.box_list{
+	width: 100%;
+	height: 50px !important;
+}
+.size{
+	font-size: 11px;
+	color: #938799;
+}
+.fz15{
+	font-size: 15px;
+}
+.time_loca{
+	position: absolute;
+	bottom: 0;
+	left: 9%;
+}
+.state{
+	position: absolute;
+	right: 0;
+	top: 15px;
+	color: #B3B3B3;
+}
+.mui-table-view-chevron{
+	background: #FAF1E9;
+}
+.mui-collapse .mui-table-view-cell{
+	position: relative;
+}
+.type_1{
+	letter-spacing: 7px;
+}	
+.type_2{
+	letter-spacing: 28px;
+}
+.loca{
+	position: absolute;
+	left: 85px;
+	top: 12px;
+}
+.box_btn{
+	
+}
+.mui-btn-positive{
+	width: 60%;
+	margin: 0 20% 0 15%;
+	background: #75B86E;
+	font-size: 13px;
+	letter-spacing: 2px;
+	border: none;
+}
+
+
+
+

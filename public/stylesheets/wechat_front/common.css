@@ -1,0 +1,100 @@
+body{
+	font-family: "Microsoft YaHei","iconfont"  !important;
+	background: #FAF1E9;
+}
+.bold{
+	font-weight: bold;
+}
+/*header*/
+.mui-bar-nav{
+	background: #4E4640;
+	box-shadow:none;
+	
+}
+.mui-title{
+	letter-spacing: 2px;
+	color: white;
+	font-size: 15px;
+}
+.mui-bar-nav .mui-icon{
+	color: white;
+	
+}
+.mui-pull-right{
+	color: white;
+	letter-spacing: 1px;
+	line-height: 45px;
+	text-decoration: underline;
+	height: 45px;
+	width: 45px;
+	text-align: right;
+}
+.mui-content{
+	/*position: relative;*/
+	background: #FAF1E9;
+}
+.infor{
+	margin-top: 1px;
+	width: 100%;
+	height: 40px;
+	background: white;
+	position: relative;
+	
+}
+
+/*浮动*/
+.left{
+	float: left;
+}
+.right{
+	float: right;
+}
+
+/*技师颜色*/
+.Dating_color{
+	color: #0D996A;
+}
+.Dating_background{
+	background: #0D996A;
+}
+.Meirong_color{
+	color: #EB3232;
+}
+.Meirong_background{
+	background: #EB3232;
+}
+.Fangjian_color{
+	color: #6633FF;
+}
+.Fangjian_background{
+	background: #6633FF;
+}
+/*字体大小*/
+.fs17{
+	font-size: 17px;
+}
+.fs12{
+	font-size: 12px;
+}
+.fs11{
+	font-size: 11px;
+}
+.fs10{
+	font-size: 10px;
+}
+.fs14{
+	font-size: 14px;
+}
+.fs15{
+	font-size: 15px;
+}
+.fs16{
+	font-size: 16px;
+}
+
+
+
+
+
+
+
