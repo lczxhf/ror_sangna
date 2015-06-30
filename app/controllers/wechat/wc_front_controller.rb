@@ -1,10 +1,11 @@
 class Wechat::WcFrontController < ApplicationController
-	before_action :check_openid
+	before_action :check_openid,:excrpt=>[:choose_technician]
 	def choose_technician
 		if params[:first]
-				cookies[:openid]=params[:openid]
+			cookies[:openid]=params[:openid]
 		end
-		sangna_config=SangnaConfig.includes(:per_user).find(params[:appid])
+		#sangna_config=SangnaConfig.includes(:per_user).find(params[:appid])
+		sangna_config=SangnaConfig.find(params[:user_id])
 		@technicians=sangna_config.per_user
 	end
 	
@@ -32,12 +33,15 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def my_account
-				wechat_config=WechatConfig.includes(:sangna_info).find_by_openid(cookies[:openid]) 
-				@wechat_info=wechat_config.wechat_info
+				wechat_config=WechatConfig.includes(:wechat_user).find_by_openid(cookies[:openid]) 
+				@wechat_user=wechat_config.wechat_user
 	end
 
 	def my_collect
-				
+				sangna_config=SangnaConfig.includes(:per_user).find(params[:appid])
+				wechat_config=WechatConfig.includes(:member).find_by_openid(cookies[:openid])
+				technician_ids=sangna_config.per_user.masseuses_collects.where(member_id:wechat_config.member.id).pluck(:per_user_masseuse_id)
+				@technicians=PerUserMasseuse.find(technician_ids)
 	end
 
 

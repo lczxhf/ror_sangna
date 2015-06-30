@@ -1,5 +1,4 @@
-
-	<%content_for :head do%>
+<%content_for :head do%>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<%=javascript_include_tag "jquery-2.1.0"%>
@@ -8,7 +7,7 @@
 		<%=stylesheet_link_tag "wechat_front/common"%>
 		<%=stylesheet_link_tag "wechat_front/Box_jishi"%>
 		<%=stylesheet_link_tag "wechat_front/iconfont"%>
-		<title>挑选技师</title>
+		<title>我的收藏</title>
 		<script>
 			function show_info(technician_id){
 					window.location.href="technician_info?t_id="+technician_id;
@@ -16,5 +15,5 @@
 		</script>
 	<%end%>
 	<%content_for :body do%>
-			<%=render partial: "technician" ,locals: {technicians:@technicians,topic: "挑选技师"}%>
+			<%=render partial: "technician" ,locals: {technicians:@technicians,topic: "我的收藏"}%>
 	<%end%>

@@ -20,14 +20,14 @@
 				<a class="mui-navigate-right">
 					<span class="size loca_3">头像</span>
 					<div class="img_border">
-						<img src="../images/2.jpg" width="55px" height="55px" />
+						<img src="<%=@wechat_user.headimgurl%>" width="55px" height="55px" />
 					</div>
 				</a>
 			</div>
 			<div class="infor NiCheng">
 				<a class="mui-navigate-right">
 					<span class="size loca_1">昵称</span>
-					<span class="size loca_2">ANDY</span>
+					<span class="size loca_2"><%=@wechat_user.nickname%></span>
 				</a>
 			</div>
 			<div class="infor Zhenshi_Xingming">
@@ -38,16 +38,16 @@
 			</div>
 		</div>
 		
-		<script>
+		// <script>
 			
 			
-			document.querySelector('.NiCheng').addEventListener('tap', function() {
-			  //打开昵称页面
-			  mui.openWindow({
-			    url: 'NiCheng.html' 
-			  });
-			});
+		// 	document.querySelector('.NiCheng').addEventListener('tap', function() {
+		// 	  //打开昵称页面
+		// 	  mui.openWindow({
+		// 	    url: 'NiCheng.html' 
+		// 	  });
+		// 	});
 			
-		</script>
+		// </script>
 		
 <%end%>

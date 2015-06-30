@@ -45,6 +45,13 @@
 	font-size: 20px;
 	color: #F0B181;
 }
+.box_jishi .icon-xingxingman{
+	position: absolute;
+	right: 10px;
+	bottom: 15px;
+	font-size: 20px;
+	color: #F0B181;
+}
 .title{
 	height: 30px;
 	padding: 6px 0 0 10px;
