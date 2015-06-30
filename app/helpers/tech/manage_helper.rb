@@ -1,0 +1,2 @@
+module Tech::ManageHelper
+end

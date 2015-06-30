@@ -23,12 +23,14 @@ Rails.application.routes.draw do
   end
   
   namespace :tech do 
-    post 'register' => 'register#register'
-    post 'verify' => 'register#verify'
-    get 'project' => 'register#project'
-    post 'upload' => 'register#upload'
+    post 'register' => 'register#register' #注册
+    post 'verify' => 'register#verify'  #验证码
+    get 'project' => 'register#project' #获取项目
+    post 'upload' => 'register#upload' #完善用户资料
     get 'up' => 'register#up'
-    post 'login_in' => 'register#login_in'
+    post 'login' => 'register#login' #登陆
+    get 'craft' => 'register#craft' #获取工种
+    get 'language' => 'register#language' #获取语言
   end
 
 	namespace :staff do 
