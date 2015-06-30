@@ -6,8 +6,6 @@ class Wechat::ThirdPartyController < ApplicationController
 	APPID="wxf6a05c0e64bc48e1"
 	APPSECRET="0c79e1fa963cd80cc0be99b20a18faeb"
 	def test
-			TempleteMessage.all.delete_all
-			render plain: Rails.cache.read(:access_token)
   end
 	def test1
 			render plain: Rails.cache.read(:ticket)
