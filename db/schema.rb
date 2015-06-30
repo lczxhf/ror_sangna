@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150624144205) do
+ActiveRecord::Schema.define(version: 20150629165725) do
 
   create_table "agents", force: :cascade do |t|
     t.string   "username",             limit: 11,  null: false
@@ -180,7 +180,7 @@ ActiveRecord::Schema.define(version: 20150624144205) do
   create_table "menu_infos", force: :cascade do |t|
     t.integer  "menu_info_id", limit: 4
     t.string   "name",         limit: 255
-    t.string   "type",         limit: 255
+    t.string   "m_type",       limit: 255
     t.integer  "level",        limit: 4
     t.integer  "order",        limit: 4
     t.string   "content",      limit: 255
@@ -294,9 +294,9 @@ ActiveRecord::Schema.define(version: 20150624144205) do
   end
 
   create_table "per_user_staffs", force: :cascade do |t|
-    t.integer  "user_id",                limit: 4,                 null: false
     t.datetime "entry_time"
-    t.datetime "create_time",                                      null: false
+    t.datetime "created_at",                                       null: false
+    t.datetime "updated_at",                                       null: false
     t.integer  "del",                    limit: 1,                 null: false
     t.string   "name",                   limit: 200,               null: false
     t.string   "img",                    limit: 200,               null: false
@@ -306,7 +306,6 @@ ActiveRecord::Schema.define(version: 20150624144205) do
     t.string   "address",                limit: 255,               null: false
     t.integer  "sex",                    limit: 1,                 null: false
     t.string   "job_number",             limit: 200,               null: false
-    t.string   "password",               limit: 255
     t.string   "username",               limit: 255
     t.integer  "native_city_id",         limit: 4,                 null: false
     t.integer  "native_province_id",     limit: 4,                 null: false
@@ -454,14 +453,15 @@ ActiveRecord::Schema.define(version: 20150624144205) do
     t.datetime "updated_at"
   end
 
-  create_table "regions", force: :cascade do |t|
-    t.integer "parent_id",    limit: 2
-    t.string  "region_name",  limit: 120
-    t.boolean "region_type",  limit: 1
-    t.integer "default_city", limit: 1,   default: 0, null: false
+  create_table "regions", primary_key: "regions_ID", force: :cascade do |t|
+    t.string "regions_CODE",         limit: 100, null: false
+    t.string "regions_NAME",         limit: 100, null: false
+    t.float  "PARENT_ID",            limit: 53,  null: false
+    t.float  "regions_LEVEL",        limit: 53,  null: false
+    t.float  "regions_ORDER",        limit: 53,  null: false
+    t.string "regions_NAME_EN",      limit: 100, null: false
+    t.string "regions_SHORTNAME_EN", limit: 10,  null: false
   end
-
-  add_index "regions", ["parent_id"], name: "parent_id", using: :btree
 
   create_table "reveive_locations", force: :cascade do |t|
     t.integer "receive_message_id", limit: 4
@@ -485,7 +485,10 @@ ActiveRecord::Schema.define(version: 20150624144205) do
     t.string   "func_info",     limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "per_user_id",   limit: 4
   end
+
+  add_index "sangna_configs", ["per_user_id"], name: "index_sangna_configs_on_per_user_id", using: :btree
 
   create_table "sangna_infos", force: :cascade do |t|
     t.string   "nickname",         limit: 255
@@ -552,20 +555,20 @@ ActiveRecord::Schema.define(version: 20150624144205) do
 
   add_index "technique_evalutions", ["name"], name: "name_UNIQUE", unique: true, using: :btree
 
+  create_table "templete_messages", force: :cascade do |t|
+    t.integer  "sangna_config_id",   limit: 4
+    t.integer  "templete_number_id", limit: 4
+    t.string   "tmplete_id",         limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "templete_numbers", force: :cascade do |t|
     t.string   "number",     limit: 255
     t.string   "industry",   limit: 255
     t.string   "topic",      limit: 255
     t.string   "fields",     limit: 255
     t.string   "name",       limit: 255
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "templte_messages", force: :cascade do |t|
-    t.integer  "sangna_config_id",   limit: 4
-    t.integer  "tomplete_number_id", limit: 4
-    t.string   "tmplete_id",         limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -579,7 +582,10 @@ ActiveRecord::Schema.define(version: 20150624144205) do
     t.integer  "sangna_config_id", limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "member_id",        limit: 4
   end
+
+  add_index "wechat_configs", ["member_id"], name: "index_wechat_configs_on_member_id", using: :btree
 
   create_table "wechat_users", force: :cascade do |t|
     t.string   "nickname",         limit: 255

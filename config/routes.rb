@@ -18,6 +18,7 @@ Rails.application.routes.draw do
 		get "third_party/set_industry" => "third_party#set_industry"
 		get "gzh_manage/set_menu" => "gzh_manage#set_menu"
 		post "gzh_manage/authorize" => "gzh_manage#authorize"
+		post "gzh_manage/oauth" =>"gzh_manage#oauth"
 		get "gzh_manage/get_info" => "gzh_manage#get_info"
     post 'message/:appid' => "message#receive"
     post 'wcpay/get_order' => "wcpay#get_order"

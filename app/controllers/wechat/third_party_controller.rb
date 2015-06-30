@@ -6,7 +6,7 @@ class Wechat::ThirdPartyController < ApplicationController
 	APPID="wxf6a05c0e64bc48e1"
 	APPSECRET="0c79e1fa963cd80cc0be99b20a18faeb"
 	def test
-			Rails.cache.write(:abc,"asdsad")
+			TempleteNumber.joins(:templete_messages).find(3)
 			render plain: "xx"
   end
 	def test1

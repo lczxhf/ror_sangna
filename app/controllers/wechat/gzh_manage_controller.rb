@@ -24,7 +24,7 @@ class Wechat::GzhManageController < ApplicationController
                               b["name"]=sub_menu.name
                               b["type"]=sub_menu.m_type
                               if sub_menu.m_type=="view"
-                                 b["url"]=sub_menu.content
+                                 b["url"]=sub_menu.content+"?appid="+gzh.appid
                               else
                                  b["key"]=sub_menu.content
                               end
@@ -34,7 +34,7 @@ class Wechat::GzhManageController < ApplicationController
                        else
                            a["type"]=menu.m_type
                            if menu.m_type=="view"
-                           a["url"]=menu.content
+                           a["url"]=menu.content+"?appid="+gzh.appid
                        else
                             a["key"]=menu.content
                         end
@@ -79,6 +79,20 @@ class Wechat::GzhManageController < ApplicationController
       redirect_to :action=>'get_info',:id=>wechat_config._id
     end
   end
+
+	  def oauth
+           puts params
+            url="https://api.weixin.qq.com/sns/oauth2/component/access_token?appid=#{params[:appid]}&code=#{params[:code]}&grant_type=authorization_code&component_appid=wxf6a05c0e64bc48e1&component_access_token="+Rails.cache.read(:access_token) 
+          result=JSON.parse(Wechat.get_to_wechat(url))
+					if params[:state]=='200'
+           cookies[:p_openid]=result["openid"]
+					else
+						cookies[:openid]=result["openid"]
+					end
+           redirect_to "http://weixin.linkke.cn"+cookies[:next_url]
+     end
+
+	
   
   def get_info
     wechat_config=WechatConfig.find(params[:id])
@@ -105,14 +119,7 @@ class Wechat::GzhManageController < ApplicationController
     wechat_user.group=Group.where(wcgroup_id:info["groupid"],sangna_config_id:sangna_config._id).first
     wechat_user.wechat_config=wechat_config
     wechat_user.save
-    hash={}
-    hash['first']='恭喜你成为速达易会员'
-    hash['keyword1']=info['nickname']
-    hash['keyword2']=(Time.now+1.year).strftime('%Y%m%d').to_s
-    hash['remark']='更多详情请关注速达易'
-     Sangna.sent_template_message(wechat_config.sangna_config.token,wechat_config.openid,"E3PgD8slAbZ03ZvYVtD_S5y-ekdTKpSXs64docm8Ojc","http://shop.29mins.com/wechats/home",hash)
-
-    render nothing:true 
+    redirect_to :controller=>:wc_front,:action=>:choose_technician,:openid=>wechat_config.openid
   end
 
 end
