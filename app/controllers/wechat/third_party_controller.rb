@@ -6,6 +6,7 @@ class Wechat::ThirdPartyController < ApplicationController
 	APPID="wxf6a05c0e64bc48e1"
 	APPSECRET="0c79e1fa963cd80cc0be99b20a18faeb"
 	def test
+				 Member.create!(user_id:1,username:"oE_fQskJ4vstsxhgmq6D2ltcuWE0",sex:1)
   end
 	def test1
 			render plain: Rails.cache.read(:ticket)

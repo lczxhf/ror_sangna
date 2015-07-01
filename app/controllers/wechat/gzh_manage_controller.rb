@@ -68,7 +68,7 @@ class Wechat::GzhManageController < ApplicationController
           wechat_config=WechatConfig.new
            
       end
-			cookies[:openid]=result["openid"]
+			cookies["#{params[:appid]}_openid"]=result["openid"]
       wechat_config.sangna_config=gzh
       wechat_config.code=params[:code]
       wechat_config.token=result['access_token']
@@ -76,7 +76,7 @@ class Wechat::GzhManageController < ApplicationController
       wechat_config.openid=result['openid']
       wechat_config.scope=result['scope']
       wechat_config.save
-      Sangna.get_user_info(wechat_config.id)
+      Sangna.get_user_info(wechat_config.id,APPID)
       redirect_to "http://weixin.linkke.cn"+cookies[:next_url]
     end
   end
@@ -84,11 +84,11 @@ class Wechat::GzhManageController < ApplicationController
 	  def oauth
           puts params
           url="https://api.weixin.qq.com/sns/oauth2/component/access_token?appid=#{params[:appid]}&code=#{params[:code]}&grant_type=authorization_code&component_appid=wxf6a05c0e64bc48e1&component_access_token="+Rails.cache.read(:access_token) 
-          result=JSON.parse(Wechat.get_to_wechat(url))
+          result=JSON.parse(ThirdParty.get_to_wechat(url))
 					if params[:state]=='200'
            cookies[:p_openid]=result["openid"]
 					else
-						cookies[:openid]=result["openid"]
+						cookies["#{params[:appid]}_openid"]=result["openid"]
 					end
            redirect_to "http://weixin.linkke.cn"+cookies[:next_url]
      end

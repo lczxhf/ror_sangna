@@ -69,10 +69,10 @@ module Wechat::WcFrontHelper
 		end
 	end
 
-	def is_collect(technician_id)
-			wechat_config=WechatConfig.includes(:member).find_by_openid(cookies[:openid])
+	def is_collect(appid,technician_id)
+			wechat_config=WechatConfig.includes(:member).find_by_openid(cookies["#{appid}_openid"])
 			member_id=wechat_config.member.id
-			if MasseusesCollect.where(per_user_masseuse_id:technician_id,member_id:member_id).exist?
+			if MasseusesCollect.where(per_user_masseuse_id:technician_id,member_id:member_id,del:1).exists?
 					'man'
 			else
 					'kong'

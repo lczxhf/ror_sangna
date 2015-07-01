@@ -1,5 +1,5 @@
 class PerUserMasseuse < ActiveRecord::Base
-
+	 default_scope {where(del:1)}
 	 mount_uploader :img,ImageAvatarUploader
 
 	require 'bcrypt'

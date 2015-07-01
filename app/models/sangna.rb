@@ -73,19 +73,23 @@ class Sangna
                 end
 	end
 
-	def self.get_user_info(user_id)
+	def self.get_user_info(user_id,appid)
 		 wechat_config=WechatConfig.find(user_id)
- 	     sangna_config=wechat_config.sangna_config
- 	     if Time.now-sangna_config.updated_at>=7200
-              result=JSON.parse(ThirdParty.refresh_gzh_token(Rails.cache.read(:access_token),APPID,sangna_config.appid,sangna_config.refresh_token))
+ 	   sangna_config=wechat_config.sangna_config
+ 	   if Time.now-sangna_config.updated_at>=7200
+              result=JSON.parse(ThirdParty.refresh_gzh_token(Rails.cache.read(:access_token),appid,sangna_config.appid,sangna_config.refresh_token))
               sangna_config.refresh_token=result['authorizer_refresh_token']
               sangna_config.token=result['authorizer_access_token']
               sangna_config.save
-  	     end
+  	 end
  		   url="https://api.weixin.qq.com/cgi-bin/user/info?access_token=#{sangna_config.token}&openid=#{wechat_config.openid}&lang=zh_CN"
  		   info=JSON.parse(ThirdParty.get_to_wechat(url)) 
  		   puts info
+			if wechat_config.wechat_user
+				wechat_user=wechat_config.wechat_user
+			else
  		   wechat_user=WechatUser.new
+			end
 		    wechat_user.nickname=info['nickname']
 		    wechat_user.sex=info['sex']=='1'?true:false
  		   wechat_user.province=info['province']

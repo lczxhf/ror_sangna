@@ -126,7 +126,7 @@
         msg.to_xml
       end
       def generate_msg_signature(encrypt_msg, msg)
-        sort_params = [encrypt_msg, TOKEN,
+        sort_params = [encrypt_msg, Wechat::MessageController::TOKEN,
                        msg.TimeStamp, msg.Nonce].sort.join
         Digest::SHA1.hexdigest(sort_params)
       end

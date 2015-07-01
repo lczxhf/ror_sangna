@@ -23,8 +23,14 @@ class Wechat::MessageController < ApplicationController
 			@weixin_message=Message.factory hash
 			if @weixin_message.MsgType=='event'
 			    if @weixin_message.Event=='subscribe'
-			    	wechat_config=WechatConfig.create(openid:@weixin_message.FromUserName)
-			    	Sangna.get_user_info(wechat_config.id)
+							
+							wechat_config=WechatConfig.find_or_create_by(openid:@weixin_message.FromUserName,sangna_config_id: gzh.id)
+							if !wechat_config.member
+									member=Member.create(user_id:gzh.per_user.id,username:wechat_config.openid)
+									wechat_config.member=member
+									wechat_config.save
+							end
+			    	Sangna.get_user_info(wechat_config.id,APPID)
 					render xml: reply_text_message('欢迎')	
 			    else
 			
