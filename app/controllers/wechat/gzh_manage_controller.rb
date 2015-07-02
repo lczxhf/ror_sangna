@@ -93,4 +93,22 @@ class Wechat::GzhManageController < ApplicationController
            redirect_to "http://weixin.linkke.cn"+cookies[:next_url]
      end
 
+		def change_qrcode
+					qrcode=PerUserQrCode.where(per_user_id:params[:user_id],hand_code:params[:hand_code],id_code:params[:id_code]).first
+					if qrcode
+							if qrcode.status==1
+									qrcode.status=2
+									@status=1
+							else
+									if member=Member.find_by_hand_code(qrcode.hand_code)	
+												qrcode.status=1
+												member.hand_code=""
+												memver.save
+												@status=2
+									end
+							end
+									render nothing: true
+					end
+		end
+
 end
