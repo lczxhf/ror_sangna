@@ -6,7 +6,7 @@ class Wechat::ThirdPartyController < ApplicationController
 	APPID="wxf6a05c0e64bc48e1"
 	APPSECRET="0c79e1fa963cd80cc0be99b20a18faeb"
 	def test
-				 Member.create!(user_id:1,username:"oE_fQskJ4vstsxhgmq6D2ltcuWE0",sex:1)
+			render plain: Sangna.get_user_info(6,APPID)
   end
 	def test1
 			render plain: Rails.cache.read(:ticket)
@@ -16,14 +16,12 @@ class Wechat::ThirdPartyController < ApplicationController
  	 	render :home,:layout=>false
  	 end
  	def receive
-    	puts params
 		str=request.body.read
 		doc=Nokogiri::Slop str
 		ticket=doc.xml.Encrypt.content	
 	
 		if ThirdParty.check_info(TOKEN,params[:timestamp],params[:nonce],ticket,params[:msg_signature])
 			result=ThirdParty.new.decrypt(ticket.to_s,KEY,APPID)
-			puts result
 			xml=Nokogiri::Slop result
 			if xml.xml.InfoType.content.to_s=='component_verify_ticket'
 			   verify_ticket=xml.xml.ComponentVerifyTicket.content.to_s

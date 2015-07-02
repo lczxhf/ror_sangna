@@ -101,7 +101,9 @@ class Sangna
  		   wechat_user.remark=info['remark']
  		   wechat_user.group=Group.where(wcgroup_id:info["groupid"],sangna_config_id:sangna_config.id).first
  		   wechat_user.wechat_config=wechat_config
- 		   wechat_user.save
+ 		   if wechat_user.save
+			 else
+			 end
 	end
 
 	def self.upload_news(token,array)

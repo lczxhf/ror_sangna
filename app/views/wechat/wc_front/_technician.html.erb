@@ -1,7 +1,8 @@
 <header class="mui-bar mui-bar-nav">
-	<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+<!-- 	<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a> --!>
 	<h1 class="mui-title"><%=topic%></h1>
 </header>
+
 	<div class="mui-content">
 		<%technicians.each do |technician|%>
 			<div class="Jishi_infor <%=return_job_class(technician.job_class_status,false)%>_color" onclick="show_info('<%=technician.id%>')">
