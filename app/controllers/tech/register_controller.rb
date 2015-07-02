@@ -72,8 +72,10 @@ class Tech::RegisterController < ApplicationController
     upload.native_province_id = params[:na_pr]
     upload.native_city_id = params[:na_city]
     upload.projects_id = params[:ck_string]
+    upload.job_number = params[:job_number]
     if upload.save
-      render plain: 'ok'
+      rs = "#{upload.id.to_s},#{upload.user_id.to_s}"
+      render plain: rs
     else
       render nothing:true
     end

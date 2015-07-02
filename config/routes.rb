@@ -48,6 +48,7 @@ Rails.application.routes.draw do
     get 'job' => 'manage#project' #技师所属项目
     get 'job_number' =>'manage#job_number' #技师工号
     get 'appointment' => 'manage#appointment' #上报预约
+    get 'projecttime' => 'manage#gettime' #项目时长
   end
 
 	namespace :staff do 

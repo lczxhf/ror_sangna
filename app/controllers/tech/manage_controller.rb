@@ -9,6 +9,7 @@ class Tech::ManageController < ApplicationController
          job_list = {}
          job_list['id']= club.id
          job_list['name'] = club.name
+         job_list['time'] = club.duration
          work_list.push(job_list)
     end
     render json: work_list
@@ -23,5 +24,10 @@ class Tech::ManageController < ApplicationController
     appoint = Appointment.new
     appoint
 
+  end
+
+  def gettime
+    protime = PerUserProject.select('duration').where('id = ? And user_id = ?',params[:tech_id],params[:tech_user_id]).first
+    render plain: protime.duration.to_s
   end
 end
