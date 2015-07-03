@@ -9,7 +9,7 @@ module Wechat::WcFrontHelper
 	end
 
 	def return_technician_state(number)
-		state=[0,"下班","空闲","上锁","上钟"]
+		state=[0,"已经下班","空闲","30分钟后有空","上钟"]
 		state[number]
 	end
 
@@ -19,7 +19,7 @@ module Wechat::WcFrontHelper
 			"无"
 	  else
 			index=reckon_most(arr)
-			PerUserProject.pluck(:name).find(arr[index]).first
+			PerUserProject.find(arr[index]).name
 		end
 	end
 
@@ -47,7 +47,7 @@ module Wechat::WcFrontHelper
 			"无"
 		else
 			index=reckon_most(arr)
-			TechniqueEvalution.pluck(:name).find(arr[index]).first
+			TechniqueEvalution.find(arr[index]).name
 		end
 	end
 

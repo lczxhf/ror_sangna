@@ -39,7 +39,7 @@ class Wechat::MessageController < ApplicationController
 				elsif @weixin_message.Content=="qrpay"
 				abc='http://shop.29mins.com/test_pay/pay?type=qrcode&product_id='+SecureRandom.hex(12)
 				else
-						puts @weixin_message.Content.chars.each {|a| puts a.ascii_only?}
+						@weixin_message.Content.chars.each {|a| puts a.bytesize}
 						abc='test'
 				end
 				render xml: reply_text_message(abc)	

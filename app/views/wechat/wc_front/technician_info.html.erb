@@ -43,6 +43,72 @@
 						window.location.href="project_info?id="+id;
 				}
 		</script>
+
+		<script>
+		mui.init();
+		mui.ready(function () {
+			var imgs = document.querySelectorAll("img.mui-action-preview");
+			imgs = mui.slice.call(imgs);
+			var slider = null;
+			if(imgs&&imgs.length>0){
+				slider = document.createElement("div");
+				slider.setAttribute("id","__mui-imageview__");
+				slider.classList.add("mui-slider");
+				slider.classList.add("mui-fullscreen");
+				slider.style.display = "none";
+				slider.addEventListener("tap",function () {
+					slider.style.display = "none";
+				});
+				slider.addEventListener("touchmove",function (event) {
+					event.preventDefault();
+				})
+				
+				var slider_group = document.createElement("div");
+				slider_group.setAttribute("id","__mui-imageview__group");
+				slider_group.classList.add("mui-slider-group");
+				
+				imgs.forEach(function (value,index,array) {
+					//给图片添加点击事件，触发预览显示；
+					value.addEventListener('tap',function () {
+						slider.style.display = "block";
+						_slider.refresh();
+						_slider.gotoItem(index,0);
+					})
+					
+					var item = document.createElement("div");
+					item.classList.add("mui-slider-item");
+					var a = document.createElement("a");
+					// a.setAttribute("href","#");
+					var img = document.createElement("img");
+					img.setAttribute("src",value.src);
+					a.appendChild(img)
+					item.appendChild(a);
+					slider_group.appendChild(item);
+				});
+				
+				slider.appendChild(slider_group);
+				document.body.appendChild(slider);
+				var _slider = mui(slider).slider();
+			}
+			
+			var oldback = mui.back;
+			mui.back = function () {
+				if(slider&&slider.style.display=="block"){
+					slider.style.display = "none";
+				}else{
+					oldback();
+				}
+			}
+			
+		});
+	</script>
+	<style>
+		.mui-fullscreen{
+				position: fixed;
+				z-index: 20;
+				background-color: #000;
+			}
+	</style>
 <%end%>
 <%content_for :body do%>
 <!--		<header class="mui-bar mui-bar-nav">
@@ -54,7 +120,7 @@
 		<div class="mui-content">
 			<div class="box_jishi">
 				<div class="jishi_img">
-					<img src="<%=@technician.img.thumb.url%>" alt="" width="65px" height="65px" />
+					<img src="<%=@technician.img.url%>"  class="mui-action-preview" alt="" width="65px" height="65px" />
 				</div>
 				<span class="jishi_num fs17"><%=@technician.job_number%></span>
 				<span class="jishi_sex fs11">（<%=@technician.sex==1 ? "男":"女"%>）</span>
@@ -106,16 +172,17 @@
 					<span class="left fs14">语言</span>
 					<span class="right fs14"><%=get_language_name(@technician.language)%></span>
 				</div>
-				<div class="jishi_infor">
+<!--				<div class="jishi_infor">
 					<span class="left fs14">最多人赞的项目</span>
 					<span class="right fs14 jishi_best"><%=get_hot_project(@technician.id)%></span>
 				</div>
+--!>
 				<div class="jishi_infor">
 					<span class="left fs14">最多人赞的技能</span>
 					<span class="right fs14"><%=get_hot_comment(@technician.id)%></span>
 				</div>
 			</div>
-			<div class="assess fs14">
+<!--			<div class="assess fs14">
       <%if get_review_rate(@technician.id)==false %>
 					<div class="option1">未评价</div>
 			<%else%>
@@ -157,6 +224,7 @@
 				</div>
 			<%end%>
 			</div>
+--!>
 		</div>
 <%end%>
 
