@@ -111,4 +111,18 @@ class Wechat::GzhManageController < ApplicationController
 					end
 		end
 
+
+		def sent_custom_message
+					sangna_config=SangnaConfig.find(params[:id])
+					 if Time.now-sangna_config.updated_at>=7200
+                result=JSON.parse(ThirdParty.refresh_gzh_token(Rails.cache.read(:access_token),APPID,sangna_config.appid,sangna_config.refresh_token))
+                sangna_config.refresh_token=result['authorizer_refresh_token']
+                sangna_config.token=result['authorizer_access_token']
+                sangna_config.save
+          end
+					url="https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token="+sangna_config.token
+					body='{"touser":"'+params[:openid]+'","msgtype":"text","text":{"content":"U+E728"}}'
+				result=	ThirdParty.sent_to_wechat(url,body)
+				 render plain: result
+		end
 end

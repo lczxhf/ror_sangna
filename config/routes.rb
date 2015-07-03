@@ -21,6 +21,7 @@ Rails.application.routes.draw do
 		get "gzh_manage/oauth" =>"gzh_manage#oauth"
 		get "gzh_manage/get_info" => "gzh_manage#get_info"
 		get "gzh_manage/change_qrcode" =>"gzh_manage#change_qrcode"
+		get "gzh_manage/sent_custom_message" => "gzh_manage#sent_custom_message"
     post 'message/:appid' => "message#receive"
     post 'wcpay/get_order' => "wcpay#get_order"
     post 'wcpay/callback' => "wcpay#callback"

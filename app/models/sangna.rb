@@ -83,7 +83,7 @@ class Sangna
               sangna_config.save
   	 end
  		   url="https://api.weixin.qq.com/cgi-bin/user/info?access_token=#{sangna_config.token}&openid=#{wechat_config.openid}&lang=zh_CN"
- 		   info=JSON.parse(ThirdParty.get_to_wechat(url)) 
+ 		   info=JSON.parse(ThirdParty.get_to_wechat(url))
  		   puts info
 			if wechat_config.wechat_user
 				wechat_user=wechat_config.wechat_user

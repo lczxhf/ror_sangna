@@ -9,7 +9,6 @@ class Wechat::MessageController < ApplicationController
   def receive
 		gzh=SangnaConfig.where(appid:params[:appid]).first
 		str=request.body.read
-		puts str
 		doc=Nokogiri::Slop str
 		encrypt=doc.xml.Encrypt.content
 		if ThirdParty.check_info(TOKEN,params[:timestamp],params[:nonce],encrypt,params[:msg_signature])
@@ -33,7 +32,6 @@ class Wechat::MessageController < ApplicationController
 			    	Sangna.get_user_info(wechat_config.id,APPID)
 					render xml: reply_text_message('欢迎')	
 			    else
-			
 			    end
 			elsif @weixin_message.MsgType=='text'
 				if @weixin_message.Content=='pay'
@@ -41,11 +39,12 @@ class Wechat::MessageController < ApplicationController
 				elsif @weixin_message.Content=="qrpay"
 				abc='http://shop.29mins.com/test_pay/pay?type=qrcode&product_id='+SecureRandom.hex(12)
 				else
-						abc="123"
+						puts @weixin_message.Content.chars.each {|a| puts a.ascii_only?}
+						abc='test'
 				end
 				render xml: reply_text_message(abc)	
 			else
-				render xml: reply_image_message(generate_image('w2JRa2y49yY748mqkZ2rja_urrI0ccvVOGYFQHdbtUsUDAsqhMgU_z7MVjd7WSk1'))
+				render xml: reply_text_message("other") 
 			end
 		end
    end
