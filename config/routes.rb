@@ -43,12 +43,12 @@ Rails.application.routes.draw do
     post 'verify' => 'register#verify'  #验证码
     get 'project' => 'register#project' #获取项目
     post 'upload' => 'register#upload' #完善用户资料
-    get 'up' => 'register#up'
     post 'login' => 'register#login' #登陆
     get 'job' => 'manage#project' #技师所属项目
     get 'job_number' =>'manage#job_number' #技师工号
     get 'appointment' => 'manage#appointment' #上报预约
     get 'projecttime' => 'manage#gettime' #项目时长
+    get 'details' => 'manage#details' #个人详细资料
   end
 
 	namespace :staff do 

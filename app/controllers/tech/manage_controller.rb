@@ -30,4 +30,9 @@ class Tech::ManageController < ApplicationController
     protime = PerUserProject.select('duration').where('id = ? And user_id = ?',params[:tech_id],params[:tech_user_id]).first
     render plain: protime.duration.to_s
   end
+
+  def details
+    details = PerUserMasseuse.find(params[:tech_id])
+    render json: details
+  end
 end

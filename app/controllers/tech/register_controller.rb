@@ -81,31 +81,21 @@ class Tech::RegisterController < ApplicationController
     end
   end
 
-  def up
-  end
 
   def login
     user = params[:user]
     pwd = params[:pwd]
     login = PerUserMasseuse.authenticate_mobile(user, pwd)
+    puts 111
+    puts login
     if login
-      render plain: login.id
+      club = "#{login.id.to_s},#{login.user_id.to_s}"
+      render plain: club
     else
+      puts 222
       render plain: 'no'
     end
   end
 
-  def craft
-    craft = PerUserMasseuse.find(params[:tech_id])
-    craft.job_class_status = params[:craft]
-    craft.save
-    render nothing:true
-  end
 
-  def language
-    language = PerUserMasseuse.find(params[:tech_id])
-    language.language = params[:language]
-    language.save
-    render nothing:true
-  end  
 end
