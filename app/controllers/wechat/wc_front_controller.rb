@@ -2,14 +2,17 @@ class Wechat::WcFrontController < ApplicationController
 	before_action :check_openid
 	def choose_technician
 		if params[:first]
-			cookies["#{params[:appid]}_openid"]=params[:openid]
+			cookies.signed["#{params[:appid]}_openid"]=params[:openid]
 		end
+		#cookies.delete("#{params[:appid]}_openid")
+		#cookies.delete(:next_url)
 		sangna_config=SangnaConfig.includes(:per_user).find_by_appid(params[:appid])
 		@technicians=PerUserMasseuse.where(user_id:sangna_config.per_user.id,)
 		# @technicians=PerUserMasseuse.where(user_id:params[:user_id])
 	end
 	
 	def technician_info
+		puts request.url
 		@technician=PerUserMasseuse.find(params[:t_id])
 	end
 
@@ -33,13 +36,13 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def my_account
-				wechat_config=WechatConfig.includes(:wechat_user).find_by_openid(cookies["#{params[:appid]}_openid"]) 
+				wechat_config=WechatConfig.includes(:wechat_user).find_by_openid(cookies.signed["#{params[:appid]}_openid"]) 
 				@wechat_user=wechat_config.wechat_user
 	end
 
 	def my_collect
 				sangna_config=SangnaConfig.includes(:per_user).find_by_appid(params[:appid])
-				wechat_config=WechatConfig.includes(:member).find_by_openid(cookies["#{params[:appid]}_openid"])
+				wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
 				technician_ids=sangna_config.per_user.masseuses_collects.where(member_id:wechat_config.member.id,del:1).pluck(:per_user_masseuse_id)
 				@technicians=PerUserMasseuse.find(technician_ids)
 	end
@@ -47,7 +50,7 @@ class Wechat::WcFrontController < ApplicationController
 	def change_collect
 				puts params
 				technician=PerUserMasseuse.find(params[:technician_id])
-				wechat_config=WechatConfig.includes(:member).find_by_openid(cookies["#{params[:appid]}_openid"])
+				wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
 				sangna_config=SangnaConfig.includes(:per_user).find_by_appid(params[:appid])
 			  collect=MasseusesCollect.find_or_initialize_by(per_user_masseuse_id:technician.id,member_id:wechat_config.member.id,per_user_id:sangna_config.per_user.id)
 				if params[:status]=="add"
@@ -63,9 +66,9 @@ class Wechat::WcFrontController < ApplicationController
 	
 	def check_openid
 			if !cookies["#{params[:appid]}_openid"]							
-			cookies[:next_url]=request.fullpath
+			cookies.signed[:next_url]=request.url
 			auth_url="https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{params[:appid]}&redirect_uri=http://weixin.linkke.cn/wechat/gzh_manage/oauth&response_type=code&scope=snsapi_base&state=123&component_appid=wxf6a05c0e64bc48e1#wechat_redirect"                    
-		    redirect_to auth_url
+		   redirect_to auth_url
 			end
 	end
 end

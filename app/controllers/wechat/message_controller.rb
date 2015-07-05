@@ -30,7 +30,7 @@ class Wechat::MessageController < ApplicationController
 									wechat_config.save
 							end
 			    	Sangna.get_user_info(wechat_config.id,APPID)
-					render xml: reply_text_message('欢迎')	
+					render xml: reply_text_message(wechat_config.wechat_user.nickname+"!你好")	
 			    else
 			    end
 			elsif @weixin_message.MsgType=='text'

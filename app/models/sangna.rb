@@ -103,6 +103,11 @@ class Sangna
  		   wechat_user.wechat_config=wechat_config
  		   if wechat_user.save
 			 else
+						wechat_user.nickname=wechat_user.nickname.chars.collect do |a|
+								if a.bytesize>=4
+										"?"
+								end	
+						end.join
 			 end
 	end
 
