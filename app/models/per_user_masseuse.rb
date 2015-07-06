@@ -1,11 +1,6 @@
 class PerUserMasseuse < ActiveRecord::Base
-<<<<<<< HEAD
-
-  mount_uploader :img,ImageAvatarUploader
-=======
 	 default_scope {where(del:1)}
 	 mount_uploader :img,ImageAvatarUploader
->>>>>>> 08b60acac660d91d0c5f40966fcac120e9ad0434
 
 	require 'bcrypt'
 	attr_accessor :pwd,:pwdagain
