@@ -1,6 +1,7 @@
  module Wechat::ReplyWeixinMessageHelper
+		include Wechat::MessagesHelper
 	 def reply_text_message(from=nil, to=nil, content)
-      message = MessagesHelper::TextReplyMessage.new
+      message = TextReplyMessage.new
       message.FromUserName = from || @weixin_message.ToUserName
       message.ToUserName   = to   || @weixin_message.FromUserName
       message.Content      = content
@@ -8,7 +9,7 @@
     end
 
     def generate_music(title, desc, music_url, hq_music_url)
-      music = MessagesHelper::Music.new
+      music = Music.new
       music.Title       = title
       music.Description = desc
       music.MusicUrl    = music_url
@@ -18,7 +19,7 @@
 
     # music = generate_music
     def reply_music_message(from=nil, to=nil, music)
-      message = MessagesHelper::MusicReplyMessage.new
+      message = MusicReplyMessage.new
       message.FromUserName = from || @weixin_message.ToUserName
       message.ToUserName   = to   || @weixin_message.FromUserName
       message.Music        = music
@@ -26,7 +27,7 @@
     end
 
     def generate_article(title, desc, pic_url, link_url)
-      item = MessagesHelper::Article.new
+      item = Article.new
       item.Title       = title
       item.Description = desc
       item.PicUrl = pic_url
@@ -36,7 +37,7 @@
 
     # articles = [generate_article]
     def reply_news_message(from=nil, to=nil, articles)
-      message = MessagesHelper::NewsReplyMessage.new
+      message = NewsReplyMessage.new
       message.FromUserName = from || @weixin_message.ToUserName
       message.ToUserName   = to   || @weixin_message.FromUserName
       message.Articles     = articles
@@ -45,7 +46,7 @@
     end
 
     def generate_video(media_id, desc, title)
-      video = MessagesHelper::Video.new
+      video = Video.new
       video.MediaId = media_id
       video.Title   = title
       video.Description = desc
@@ -65,7 +66,7 @@
     # </xml>
 
     def reply_video_message(from=nil, to=nil, video)
-      message = MessagesHelper::VideoReplyMessage.new
+      message =VideoReplyMessage.new
       message.FromUserName = from || @weixin_message.ToUserName
       message.ToUserName   = to   || @weixin_message.FromUserName
       message.Video = video
@@ -73,13 +74,13 @@
     end
 
     def generate_voice(media_id)
-      voice = MessagesHelper::Voice.new
+      voice = Voice.new
       voice.MediaId = media_id
       voice
     end
 
     def reply_voice_message(from=nil, to=nil, voice)
-      message = MessagesHelper::VoiceReplyMessage.new
+      message = VoiceReplyMessage.new
       message.FromUserName = from || @weixin_message.ToUserName
       message.ToUserName   = to   || @weixin_message.FromUserName
       message.Voice = voice
@@ -87,13 +88,13 @@
     end
 
     def generate_image(media_id)
-      image = MessagesHelper::Image.new
+      image = Image.new
       image.MediaId = media_id
       image
     end
 
     def reply_image_message(from=nil, to=nil, image)
-      message = MessagesHelper::ImageReplyMessage.new
+      message = ImageReplyMessage.new
       message.FromUserName = from || @weixin_message.ToUserName
       message.ToUserName   = to   || @weixin_message.FromUserName
       message.Image = image
@@ -101,7 +102,7 @@
     end
 
     def reply_transfer_customer_service_message(from=nil, to=nil)
-      message = MessagesHelper::TransferCustomerServiceReplyMessage.new
+      message = TransferCustomerServiceReplyMessage.new
       message.FromUserName = from || @weixin_message.ToUserName
       message.ToUserName   = to   || @weixin_message.FromUserName
       encrypt_message message.to_xml
@@ -111,13 +112,13 @@
 
       def encrypt_message(msg_xml)
         # 加密回复的XML
-        encrypt_xml = ThirdParty.new.encrypt(msg_xml,KEY,APPID).gsub("\n","")
+        encrypt_xml = ThirdParty.new.encrypt(msg_xml,Wechat::MessageController::KEY,Wechat::MessageController::APPID).gsub("\n","")
         # 标准的回包
         generate_encrypt_message(encrypt_xml)
       end
 
       def generate_encrypt_message(encrypt_xml)
-        msg              = MessagesHelper::EncryptMessage.new
+        msg              = EncryptMessage.new
         msg.Encrypt      = encrypt_xml
         msg.TimeStamp    = Time.now.to_i.to_s
         msg.Nonce        = SecureRandom.hex(8)
@@ -125,7 +126,7 @@
         msg.to_xml
       end
       def generate_msg_signature(encrypt_msg, msg)
-        sort_params = [encrypt_msg, TOKEN,
+        sort_params = [encrypt_msg, Wechat::MessageController::TOKEN,
                        msg.TimeStamp, msg.Nonce].sort.join
         Digest::SHA1.hexdigest(sort_params)
       end

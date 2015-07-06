@@ -9,7 +9,7 @@ module Wechat::WcFrontHelper
 	end
 
 	def return_technician_state(number)
-		state=[0,"下班","空闲","上锁","上钟"]
+		state=[0,"已经下班","空闲","30分钟后有空","上钟"]
 		state[number]
 	end
 
@@ -19,7 +19,7 @@ module Wechat::WcFrontHelper
 			"无"
 	  else
 			index=reckon_most(arr)
-			PerUserProject.pluck(:name).find(arr[index]).first
+			PerUserProject.find(arr[index]).name
 		end
 	end
 
@@ -47,7 +47,7 @@ module Wechat::WcFrontHelper
 			"无"
 		else
 			index=reckon_most(arr)
-			TechniqueEvalution.pluck(:name).find(arr[index]).first
+			TechniqueEvalution.find(arr[index]).name
 		end
 	end
 
@@ -69,10 +69,10 @@ module Wechat::WcFrontHelper
 		end
 	end
 
-	def is_collect(technician_id)
-			wechat_config=WechatConfig.includes(:member).find_by_openid(cookies[:openid])
+	def is_collect(appid,technician_id)
+			wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{appid}_openid"])
 			member_id=wechat_config.member.id
-			if MasseusesCollect.where(per_user_masseuse_id:technician_id,member_id:member_id).exist?
+			if MasseusesCollect.where(per_user_masseuse_id:technician_id,member_id:member_id,del:1).exists?
 					'man'
 			else
 					'kong'

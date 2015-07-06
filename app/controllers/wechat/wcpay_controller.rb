@@ -21,7 +21,7 @@ class Wechat::WcpayController < ApplicationController
 		if params[:type]=="qrcode"
 			hash.merge!({product_id: params[:product_id]})
 		else
-			hash.merge!({openid: cookies[:p_openid]})
+			hash.merge!({openid: cookies.signed[:p_openid]})
 		end
 		body=PayXml.get_xml(hash)	
 		result=ThirdParty.sent_to_wechat(url,body)
@@ -130,7 +130,7 @@ class Wechat::WcpayController < ApplicationController
 		private
 		def check_oponid
          if !cookies[:p_openid]
-              cookies[:next_url]=request.fullpath
+              cookies.signed[:next_url]=request.url
 							auth_url="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx478d531345351176&redirect_uri=http://weixin.linkke.cn/wechat/gzh_manage/oauth&response_type=code&scope=snsapi_base&state=200&component_appid=#{Rails.cache.read(:appid)}#wechat_redirect"             
 	           redirect_to auth_url
          end

@@ -68,7 +68,7 @@ class Wechat::GzhManageController < ApplicationController
           wechat_config=WechatConfig.new
            
       end
-			cookies[:openid]=result["openid"]
+			cookies.signed["#{params[:appid]}_openid"]=result["openid"]
       wechat_config.sangna_config=gzh
       wechat_config.code=params[:code]
       wechat_config.token=result['access_token']
@@ -76,21 +76,58 @@ class Wechat::GzhManageController < ApplicationController
       wechat_config.openid=result['openid']
       wechat_config.scope=result['scope']
       wechat_config.save
-      Sangna.get_user_info(wechat_config.id)
-      redirect_to "http://weixin.linkke.cn"+cookies[:next_url]
+      Sangna.get_user_info(wechat_config.id,APPID)
+			next_url=cookies.signed[:next_url]
+      redirect_to next_url
     end
   end
 
 	  def oauth
           puts params
           url="https://api.weixin.qq.com/sns/oauth2/component/access_token?appid=#{params[:appid]}&code=#{params[:code]}&grant_type=authorization_code&component_appid=wxf6a05c0e64bc48e1&component_access_token="+Rails.cache.read(:access_token) 
-          result=JSON.parse(Wechat.get_to_wechat(url))
+          result=JSON.parse(ThirdParty.get_to_wechat(url))
 					if params[:state]=='200'
-           cookies[:p_openid]=result["openid"]
+           cookies.signed[:p_openid]=result["openid"]
 					else
-						cookies[:openid]=result["openid"]
+						cookies.signed["#{params[:appid]}_openid"]=result["openid"]
 					end
-           redirect_to "http://weixin.linkke.cn"+cookies[:next_url]
+							next_url=cookies.signed[:next_url]
+							cookies.delete(:next_url)
+           redirect_to next_url
      end
 
+		def change_qrcode
+					qrcode=PerUserQrCode.where(per_user_id:params[:user_id],hand_code:params[:hand_code],id_code:params[:id_code]).first
+					if qrcode
+							if qrcode.status==1
+									qrcode.status=2
+									@status=1
+							else
+									if member=Member.find_by_hand_code(qrcode.hand_code)	
+												qrcode.status=1
+												member.hand_code=""
+												memver.save
+												@status=2
+									else
+												redirect_to request.fullpath
+									end
+							end
+									render nothing: true
+					end
+		end
+
+
+		def sent_custom_message
+					sangna_config=SangnaConfig.find(params[:id])
+					 if Time.now-sangna_config.updated_at>=7200
+                result=JSON.parse(ThirdParty.refresh_gzh_token(Rails.cache.read(:access_token),APPID,sangna_config.appid,sangna_config.refresh_token))
+                sangna_config.refresh_token=result['authorizer_refresh_token']
+                sangna_config.token=result['authorizer_access_token']
+                sangna_config.save
+          end
+					url="https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token="+sangna_config.token
+					body='{"touser":"'+params[:openid]+'","msgtype":"text","text":{"content":"U+E728"}}'
+				result=	ThirdParty.sent_to_wechat(url,body)
+				 render plain: result
+		end
 end

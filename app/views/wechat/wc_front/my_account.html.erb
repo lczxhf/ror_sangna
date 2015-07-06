@@ -7,14 +7,24 @@
           <%=stylesheet_link_tag "wechat_front/common"%>
           <%=stylesheet_link_tag "wechat_front/My_account"%>
        <%=stylesheet_link_tag "wechat_front/iconfont"%>
+       <%=javascript_include_tag 'emojify'%>
 		<title>个人资料</title>
+			    <style>
+        .emoji {
+      width: 1.5em;
+      height: 1.5em;
+      display: inline-block;
+     margin-bottom: -0.25em;
+      }
+      </style>
+
 <%end%>
 <%content_for :body do%>
-		<header class="mui-bar mui-bar-nav">
-			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+<!--		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>  
 			<h1 class="mui-title">个人资料</h1>
 		</header>
-		
+--!>
 		<div class="mui-content">
 			<div class="box_1">
 				<a class="mui-navigate-right">
@@ -38,7 +48,7 @@
 			</div>
 		</div>
 		
-		// <script>
+		 <script>
 			
 			
 		// 	document.querySelector('.NiCheng').addEventListener('tap', function() {

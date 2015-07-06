@@ -1,6 +1,6 @@
 module Wechat::WcpayHelper
 	AUTHCODE=SangnaConfig.first
-     MACID='1245225302'
+     MACID='1251933801'
 	module Sign
 	  require 'digest/md5'
 	  def self.generate(params)

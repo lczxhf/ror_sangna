@@ -18,8 +18,10 @@ Rails.application.routes.draw do
 		get "third_party/set_industry" => "third_party#set_industry"
 		get "gzh_manage/set_menu" => "gzh_manage#set_menu"
 		post "gzh_manage/authorize" => "gzh_manage#authorize"
-		post "gzh_manage/oauth" =>"gzh_manage#oauth"
+		get "gzh_manage/oauth" =>"gzh_manage#oauth"
 		get "gzh_manage/get_info" => "gzh_manage#get_info"
+		get "gzh_manage/change_qrcode" =>"gzh_manage#change_qrcode"
+		get "gzh_manage/sent_custom_message" => "gzh_manage#sent_custom_message"
     post 'message/:appid' => "message#receive"
     post 'wcpay/get_order' => "wcpay#get_order"
     post 'wcpay/callback' => "wcpay#callback"
@@ -35,6 +37,7 @@ Rails.application.routes.draw do
 		get "wc_front/sangna_info" => "wc_front#sangna_info"
 		get "wc_front/my_account" => "wc_front#my_account"
 		get "wc_front/my_collect" => "wc_front#my_collect"
+		get "wc_front/change_collect" =>"wc_front#change_collect"
     #match "/:name/:controller/:action",:via=>[:get]
   end
   

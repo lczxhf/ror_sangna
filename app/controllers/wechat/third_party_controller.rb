@@ -6,25 +6,30 @@ class Wechat::ThirdPartyController < ApplicationController
 	APPID="wxf6a05c0e64bc48e1"
 	APPSECRET="0c79e1fa963cd80cc0be99b20a18faeb"
 	def test
-			TempleteMessage.all.delete_all
-			render plain: Rails.cache.read(:access_token)
+			PerUserMasseuse.find_each do |a|
+					a.pwd='123456'
+					a.save
+			end
+			render plain: 'ok'
   end
 	def test1
-			render plain: Rails.cache.read(:ticket)
+			user=WechatUser.find(12)
+			puts '\u{6d69}'.
+			puts user.nickname.dump
+			puts user.nickname.codepoints.to_a.inspect
+			#user.nickname.length.times {|a| puts user.nickname[a]}
 	end	
 	 def home 
 		@url="https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=#{APPID}&pre_auth_code=#{Rails.cache.read(:pre_code)}&redirect_uri=http://weixin.linkke.cn/wechat/third_party/auth_code"
  	 	render :home,:layout=>false
  	 end
  	def receive
-    	puts params
 		str=request.body.read
 		doc=Nokogiri::Slop str
 		ticket=doc.xml.Encrypt.content	
 	
 		if ThirdParty.check_info(TOKEN,params[:timestamp],params[:nonce],ticket,params[:msg_signature])
 			result=ThirdParty.new.decrypt(ticket.to_s,KEY,APPID)
-			puts result
 			xml=Nokogiri::Slop result
 			if xml.xml.InfoType.content.to_s=='component_verify_ticket'
 			   verify_ticket=xml.xml.ComponentVerifyTicket.content.to_s
@@ -111,6 +116,7 @@ class Wechat::ThirdPartyController < ApplicationController
 	end
 	auth_code.sangna_info.save
 	redirect_to :action=>'set_industry',id:auth_code.id
+	# render nothing: true
   end
 
    def set_industry

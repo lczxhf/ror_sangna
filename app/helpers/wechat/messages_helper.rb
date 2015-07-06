@@ -5,7 +5,7 @@ module Wechat::MessagesHelper
     	xml_name :xml
 
     	xml_accessor :ToUserName, :cdata   => true
-   	    xml_accessor :FromUserName, :cdata => true
+   	   xml_accessor :FromUserName, :cdata => true
     	xml_reader   :CreateTime, :as => Integer
     	xml_reader   :MsgType, :cdata => true
 

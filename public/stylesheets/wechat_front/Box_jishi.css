@@ -1,3 +1,9 @@
+
+.mui-pull-right{
+	width: 60px;
+	text-decoration: none;
+}
+
 /*box--技师信息*/
 .Jishi_infor{
 	background: white;
@@ -40,7 +46,7 @@
 .jishi_state{
 	position: absolute;
 	top: -5px;
-	right: 0;
+	right: 2%;
 	color: #666666;
 }
 .btn_yuyue{
@@ -65,7 +71,7 @@
 .current_state{
 	position: absolute;
 	top: 0;
-	right: 6%;
+	right: 1%;
 	color: #666666;
 }
 
