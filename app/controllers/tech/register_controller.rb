@@ -56,23 +56,22 @@ class Tech::RegisterController < ApplicationController
 
   def upload
     upload = PerUserMasseuse.find(params[:tech_id])
-    upload.img = params[:uploadkey1]
     upload.entry_time = params[:entry]
     upload.name = params[:name]
-    upload.address = params[:address]
     upload.sex = params[:sex]
-    upload.identification_numbers = params[:ident]
     upload.language = params[:language]
     upload.client_id = params[:cid]
-    upload.province_id = params[:ad_pr]
-    upload.city_id = params[:ad_city]
-    upload.district_id = params[:ad_area]
-    upload.address = params[:address]
     upload.job_class_status = params[:craft]
-    upload.native_province_id = params[:na_pr]
-    upload.native_city_id = params[:na_city]
     upload.projects_id = params[:ck_string]
     upload.job_number = params[:job_number]
+#    upload.img = params[:uploadkey1]
+#    upload.province_id = params[:ad_pr]
+#    upload.city_id = params[:ad_city]
+#    upload.district_id = params[:ad_area]
+#    upload.identification_numbers = params[:ident]
+#    upload.address = params[:address]
+#    upload.native_province_id = params[:na_pr]
+#    upload.native_city_id = params[:na_city]
     if upload.save
       rs = "#{upload.id.to_s},#{upload.user_id.to_s}"
       render plain: rs
@@ -86,13 +85,10 @@ class Tech::RegisterController < ApplicationController
     user = params[:user]
     pwd = params[:pwd]
     login = PerUserMasseuse.authenticate_mobile(user, pwd)
-    puts 111
-    puts login
     if login
       club = "#{login.id.to_s},#{login.user_id.to_s}"
       render plain: club
     else
-      puts 222
       render plain: 'no'
     end
   end

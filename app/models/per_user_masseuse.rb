@@ -1,6 +1,6 @@
 class PerUserMasseuse < ActiveRecord::Base
 
-	 mount_uploader :img,ImageAvatarUploader
+  mount_uploader :img,ImageAvatarUploader
 
 	require 'bcrypt'
 	attr_accessor :pwd
