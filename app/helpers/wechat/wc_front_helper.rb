@@ -78,4 +78,27 @@ module Wechat::WcFrontHelper
 					'kong'
 			end
 	end
+
+	def signature(timestamp,noncestr)
+			if !Rails.cache.read("#{params[:appid]}_ticket")
+						if Time.now-@sangna_config.updated_at>=7200
+              result=JSON.parse(ThirdParty.refresh_gzh_token(Rails.cache.read(:access_token),'wxf6a05c0e64bc48e1',@sangna_config.appid,@sangna_config.refresh_token))
+              @sangna_config.refresh_token=result['authorizer_refresh_token']
+              @sangna_config.token=result['authorizer_access_token']
+              @sangna_config.save
+						end					
+						url="https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=#{@sangna_config.token}&type=jsapi"
+						ticket=JSON.parse(ThirdParty.get_to_wechat(url))["ticket"]
+						Rails.cache.write("#{params[:appid]}_ticket",ticket,:expires_in=>7200)
+			end
+			query={	
+				timestamp: timestamp,
+				noncestr: noncestr,
+				url: request.url,
+			  jsapi_ticket: Rails.cache.read("#{params[:appid]}_ticket")
+			}.sort.collect do |key, value|
+								"#{key}=#{value}"
+				     end.join('&')
+			Digest::SHA1.hexdigest(query)
+	end
 end

@@ -6,15 +6,12 @@ class Wechat::ThirdPartyController < ApplicationController
 	APPID="wxf6a05c0e64bc48e1"
 	APPSECRET="0c79e1fa963cd80cc0be99b20a18faeb"
 	def test
-			PerUserMasseuse.find_each do |a|
-					a.pwd='123456'
-					a.save
-			end
+			puts 'aa'
 			render plain: 'ok'
   end
 	def test1
 			user=WechatUser.find(12)
-			puts '\u{6d69}'.
+			puts '\u{6d69}'
 			puts user.nickname.dump
 			puts user.nickname.codepoints.to_a.inspect
 			#user.nickname.length.times {|a| puts user.nickname[a]}

@@ -1,11 +1,5 @@
-<header class="mui-bar mui-bar-nav">
-<!-- 	<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a> --!>
-<!--	<h1 class="mui-title"><%=topic%></h1> --!>
-		<a class="mui-pull-right ">扫一扫</a>
-</header>
-
 	<div class="mui-content">
-		<div class="div_type">你可扫描锁牌上的二维码转为场内状态查看更多技师信息</div>
+		<div class="div_type"><%=tips%></div>
 		<%technicians.each do |technician|%>
 			<div class="Jishi_infor <%=return_job_class(technician.job_class_status,false)%>_color" onclick="show_info('<%=technician.id%>')">
 				<div class="box_jishi">
@@ -15,15 +9,19 @@
 					<span class="jishi_num fs17"><%=technician.job_number%></span>
 					<span class="jishi_sex fs11">（<%= technician.sex==1 ? "男":"女"%>）</span>
 					<span class="jishi_type"><%=return_job_class(technician.job_class_status)%></span>
+					<%if inscene%>
 					<span class="jishi_state fs11">
 					<%=return_technician_state(technician.work_status)%>
 					</span>
+					<%end%>
 				</div>
 				<div class="evaluate fs12">
 					其它客户觉得TA：
 		<!--			<span class="project"><%=get_hot_project(technician.id)%></span   --!>
 					<span class="jishi_best"><%=get_hot_comment(technician.id)%></span>
+					<%if inscene%>
 			    <span class="current_state fs12"> <span class="time">13:00pm</span>有预约</span>
+					<%end%>
 				</div>
 			</div>
 		<%end%>

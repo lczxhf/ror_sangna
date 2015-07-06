@@ -1,4 +1,6 @@
 class PerUserMasseuse < ActiveRecord::Base
+	has_many :masseuses_imgs,foreign_key: "masseuses_id"
+	belongs_to :per_user,foreign_key: "user_id"	
 	 default_scope {where(del:1)}
 	 mount_uploader :img,ImageAvatarUploader
 

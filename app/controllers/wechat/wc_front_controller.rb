@@ -6,8 +6,18 @@ class Wechat::WcFrontController < ApplicationController
 		end
 		#cookies.delete("#{params[:appid]}_openid")
 		#cookies.delete(:next_url)
-		sangna_config=SangnaConfig.includes(:per_user).find_by_appid(params[:appid])
-		@technicians=PerUserMasseuse.where(user_id:sangna_config.per_user.id,)
+		@sangna_config=SangnaConfig.includes(:per_user).find_by_appid(params[:appid])
+		@technicians=PerUserMasseuse.where(user_id:@sangna_config.per_user.id,)
+		@inscene=false
+		if wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])	
+			 if wechat_config.member.hand_code	
+						if PerUserQrCode.where(user_id:@sangna_config.per_user.id,hand_code:wechat_config.member.hand_code).first
+								@inscene=true
+						else
+								cookies["next_url"]=request.url
+						end
+			 end
+		end
 		# @technicians=PerUserMasseuse.where(user_id:params[:user_id])
 	end
 	
@@ -29,7 +39,8 @@ class Wechat::WcFrontController < ApplicationController
 			sangna_config=SangnaConfig.includes(:per_user).find_by_appid(params[:appid])
 			@sangna=sangna_config.per_user
 			if @sangna.status==1&&@sangna.del==1
-				@sangna_info=PerUserInfo.where(user_id:@sangna.id).first
+				@per_user_imgs=@sangna.per_user_imgs
+				@sangna_info=@sangna.per_user_info
 			else
 				render plain: "该会所暂时无法查看"
 			end
