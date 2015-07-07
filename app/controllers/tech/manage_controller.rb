@@ -37,5 +37,8 @@ class Tech::ManageController < ApplicationController
 	def modifyname
 	  tech =	PerUserMasseuse.find(params[:tech_id])
 		tech.name = params[:name]
+    if tech.save
+      render plain: 'ok'
+    end
 	end
 end
