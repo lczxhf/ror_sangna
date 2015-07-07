@@ -8,49 +8,56 @@
     <%=stylesheet_link_tag "wechat_front/PingJiaJiShi"%>
     <%=stylesheet_link_tag "wechat_front/iconfont"%>
 	<title>评价技师</title>
+		<script>
+				function collect(technician_id){
+						$.get("chang_collect",{technician_id:technician_id,status:"add",appid:'<%=params[:appid]%>'},function(obj){
+									alert("收藏成功");
+							})		
+				}
+		</script>
 <%end%>
 <%content_for :body do%>
 		<div class="mui-content">
 					<div class="bg_img">
 						<div class="title">评价技师</div>
 							<div class="img_box">
-								<img src="../images/0.jpg" alt="" width="78px" height="78px" />
+								<img src="<%=image_path @technician.img.url.url%>" alt="" width="78px" height="78px" />
 							</div>
-							<div class="JiShi_num">NO.123</div>
+							<div class="JiShi_num">NO.<%=@technician.job_number%></div>
 							<div class="tip">分享朋友圈获取￥10元现金券</div>
 							<div class="PingJia_box">
 								<form class="">
 									 <div class="mui-input-row mui-radio mui-left">
 										 <label>头肩高手</label>
-										 <input name="radio1" type="radio">
+										 <input name="remark" type="radio">
 								   </div>
 									<div class="mui-input-row mui-radio mui-left">
 											<label>服务很好</label>
-						    			<input name="radio1" type="radio" checked>
+						    			<input name="remark" type="radio" checked>
 								  </div>
 									<div class="mui-input-row mui-radio mui-left">
 											<label>腰背一流</label>
-											<input name="radio1" type="radio">
+											<input name="remark" type="radio">
 									</div>
 								  <div class="mui-input-row mui-radio mui-left">
 									    <label>态度不错</label>
-									    <input name="radio1" type="radio" checked>
+									    <input name="remark" type="radio" checked>
 									</div>
 								  <div class="mui-input-row mui-radio mui-left">
 										<label>腿脚酸爽</label>
-									  <input name="radio1" type="radio">
+									  <input name="remark" type="radio">
 								  </div>
 								  <div class="mui-input-row mui-radio mui-left">
 											<label>尽心尽力</label>
-											<input name="radio1" type="radio" checked>
+											<input name="remark" type="radio" checked>
 								  </div>
 								  <div class="mui-input-row mui-radio mui-left">
 											<label>力度十足</label>
-											<input name="radio1" type="radio">
+											<input name="remark" type="radio">
 									</div>
 									<div class="mui-input-row mui-radio mui-left">
 											<label>感觉一般</label>
-											<input name="radio1" type="radio" checked>
+											<input name="remark" type="radio" checked>
 									</div>
 							</form>
 					</div>
@@ -58,7 +65,9 @@
 							<button class="mui-btn mui-btn-outlined left btn_cancel">有钱也不要？</button>
 							<button class="mui-btn mui-btn-outlined mui-btn-positive left">分享得红包</button>
 					</div>
-					<a href="" class="collect">收藏技师</a>
+					<%if is_collect(params[:appid],@technician.id)=='kong'%>
+					<a href="javascript:void(0)" class="collect" onclick="collect('<%=@technician.id%>')">收藏技师</a>
+					<%end%>
 					<div class="propaganda">领客·水疗行业的微信营销利器</div>
 					<div class="website">www.linkke.cn</div>
 			</div>

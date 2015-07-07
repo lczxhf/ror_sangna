@@ -26,6 +26,7 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def technician_remark
+		@technician=PerUserMasseuse.find(params[:t_id])
 	end
 
 	def project_info
