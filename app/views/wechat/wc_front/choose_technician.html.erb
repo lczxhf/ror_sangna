@@ -24,10 +24,11 @@
 		wx.ready(function(){
 			$("#qrcode").click(function(){
 				wx.scanQRCode({
-					needResult: 0, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+					needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
 					scanType: ["qrCode"], // 可以指定扫二维码还是一维码，默认二者都有
 					success: function (res) {
 						var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+							window.location.href=result;
 					}
 				});	
 			});
@@ -40,11 +41,12 @@
 		</script>
 	<%end%>
 	<%content_for :body do%>
+<!--
 	 <header class="mui-bar mui-bar-nav">
-   <!--  <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a> --!>
-   <!--  <h1 class="mui-title">挑选技师</h1> --!>
-   <%if !@inscene%>    <a class="mui-pull-right " href="javascript:void(0)" id="qrcode">扫一扫</a> <%end%>
+     <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a> 
+     <h1 class="mui-title">挑选技师</h1> 
+      <a class="mui-pull-right " href="javascript:void(0)" id="qrcode">扫一扫</a>
    </header>
-
+--!>
 			<%=render partial: "technician" ,locals: {technicians:@technicians,tips:'',inscene:@inscene}%>
 	<%end%>

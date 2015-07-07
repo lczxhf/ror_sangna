@@ -52,6 +52,7 @@ Rails.application.routes.draw do
     get 'appointment' => 'manage#appointment' #上报预约
     get 'projecttime' => 'manage#gettime' #项目时长
     get 'details' => 'manage#details' #个人详细资料
+		get 'modifyname' => 'manage#modifyname' #修改技师姓名
   end
 
 	namespace :staff do 

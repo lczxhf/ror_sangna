@@ -22,8 +22,6 @@ class Tech::ManageController < ApplicationController
 
   def appointment
     appoint = Appointment.new
-    appoint
-
   end
 
   def gettime
@@ -35,4 +33,9 @@ class Tech::ManageController < ApplicationController
     details = PerUserMasseuse.find(params[:tech_id])
     render json: details
   end
+
+	def modifyname
+	  tech =	PerUserMasseuse.find(params[:tech_id])
+		tech.name = params[:name]
+	end
 end
