@@ -22,8 +22,10 @@ class Wechat::WcFrontController < ApplicationController
 	end
 	
 	def technician_info
-		puts request.url
 		@technician=PerUserMasseuse.find(params[:t_id])
+	end
+
+	def technician_remark
 	end
 
 	def project_info

@@ -1,0 +1,66 @@
+<%content_for :head do%>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	  <%=javascript_include_tag "jquery-2.1.0"%>
+	  <%=javascript_include_tag "mui.min"%>
+    <%=stylesheet_link_tag "wechat_front/mui.min"%>
+    <%=stylesheet_link_tag "wechat_front/common"%>
+    <%=stylesheet_link_tag "wechat_front/PingJiaJiShi"%>
+    <%=stylesheet_link_tag "wechat_front/iconfont"%>
+	<title>评价技师</title>
+<%end%>
+<%content_for :body do%>
+		<div class="mui-content">
+					<div class="bg_img">
+						<div class="title">评价技师</div>
+							<div class="img_box">
+								<img src="../images/0.jpg" alt="" width="78px" height="78px" />
+							</div>
+							<div class="JiShi_num">NO.123</div>
+							<div class="tip">分享朋友圈获取￥10元现金券</div>
+							<div class="PingJia_box">
+								<form class="">
+									 <div class="mui-input-row mui-radio mui-left">
+										 <label>头肩高手</label>
+										 <input name="radio1" type="radio">
+								   </div>
+									<div class="mui-input-row mui-radio mui-left">
+											<label>服务很好</label>
+						    			<input name="radio1" type="radio" checked>
+								  </div>
+									<div class="mui-input-row mui-radio mui-left">
+											<label>腰背一流</label>
+											<input name="radio1" type="radio">
+									</div>
+								  <div class="mui-input-row mui-radio mui-left">
+									    <label>态度不错</label>
+									    <input name="radio1" type="radio" checked>
+									</div>
+								  <div class="mui-input-row mui-radio mui-left">
+										<label>腿脚酸爽</label>
+									  <input name="radio1" type="radio">
+								  </div>
+								  <div class="mui-input-row mui-radio mui-left">
+											<label>尽心尽力</label>
+											<input name="radio1" type="radio" checked>
+								  </div>
+								  <div class="mui-input-row mui-radio mui-left">
+											<label>力度十足</label>
+											<input name="radio1" type="radio">
+									</div>
+									<div class="mui-input-row mui-radio mui-left">
+											<label>感觉一般</label>
+											<input name="radio1" type="radio" checked>
+									</div>
+							</form>
+					</div>
+			    <div class="btn_box">
+							<button class="mui-btn mui-btn-outlined left btn_cancel">有钱也不要？</button>
+							<button class="mui-btn mui-btn-outlined mui-btn-positive left">分享得红包</button>
+					</div>
+					<a href="" class="collect">收藏技师</a>
+					<div class="propaganda">领客·水疗行业的微信营销利器</div>
+					<div class="website">www.linkke.cn</div>
+			</div>
+	</div>
+<%end%>

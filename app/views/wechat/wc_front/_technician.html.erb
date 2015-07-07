@@ -1,7 +1,6 @@
 	<div class="mui-content">
-	<!--	<div class="div_type"><%=tips%></div> --!>
 		<div class="Sao">到场客户可
-				<a href="">扫一扫</a>
+				<a href="javascript:void(0)" id="qrcode">扫一扫</a>
 				店家二维码查看技师详细资料
 			</div>
 
@@ -14,18 +13,21 @@
 					<span class="jishi_num fs17"><%=technician.job_number%></span>
 					<span class="jishi_sex fs11">（<%= technician.sex==1 ? "男":"女"%>）</span>
 					<span class="jishi_type"><%=return_job_class(technician.job_class_status)%></span>
-					<div class="yuan_yuyue">
-						<span class="mui-icon mui-icon-phone"></span>
-						<!--<span class="mui-icon iconfont icon-dianhua"></span>-->
-					</div>
-					<div class="yuan_shoucang ">
-						<!--<span class="mui-icon iconfont icon-xingxingman"></span>-->
-						<span class="mui-icon iconfont icon-xingxingkong"></span>
-					</div>
 					<%if inscene%>
 					<span class="jishi_state fs11">
 					<%=return_technician_state(technician.work_status)%>
 					</span>
+					<%else%>
+					<a href="tel:123213">
+					<div class="yuan_yuyue">
+						<span class="mui-icon mui-icon-phone"></span>
+						<!--<span class="mui-icon iconfont icon-dianhua"></span> --!>
+					</div>
+					</a>
+					<div class="yuan_shoucang">
+					<!--	<span class="mui-icon iconfont icon-xingxingman"> </span>  --!>
+						<span class="mui-icon iconfont icon-xingxing<%=is_collect(params[:appid],technician.id)%>" onclick="collect('<%=technician.id%>',this)"></span> 
+					</div>
 					<%end%>
 				</div>
 				<div class="evaluate fs12">
