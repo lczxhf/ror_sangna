@@ -1,0 +1,79 @@
+<%content_for :head do%>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	     <%=javascript_include_tag "jquery-2.1.0"%>
+          <%=javascript_include_tag "mui.min"%>
+          <%=stylesheet_link_tag "wechat_front/mui.min"%>
+          <%=stylesheet_link_tag "wechat_front/common"%>
+          <%=stylesheet_link_tag "wechat_front/HongBao"%>
+		<title>红包</title>
+<%end%>
+	<%content_for :body do%>
+		<div class="mui-content">
+			<div class="head">
+				<div class="img_box">
+					<img src="/0.jpg" alt="" width="40px" height="40px" />
+				</div>
+				<div class="tip_hongbao">
+					<span class="user_name">陈小姐</span>
+					送您一张
+					<span class="money">50</span>
+					元代金券
+					<span class="addr">xxx会所</span>
+					使用
+				</div>
+				<div class="box_voucher">
+					<img class="ground" src="/round.png" alt="" />
+					<img class="cloud_1" src="/cloud_1.png" alt="" width="95.6%" height="110px" />
+					<img class="cloud_2" src="/cloud_2.png" alt="" width="95.6%" height="100px"/>
+					<span class="money_num">50</span>
+					<span class="company">元</span>
+				</div>
+				
+			</div>
+			<div class="content">
+				<button class="mui-btn  mui-btn-outlined">领取红包</button>
+				<div class="box_title">
+					<img src="/label.png" alt="" />
+					<span class="title">会所</span>
+				</div>
+				<div class="box_huisuo">
+					<div class="huisuo_img">
+						<img src="/5.jpg" alt="" width="84%" height="120px" />
+					</div>
+					<div class="huisuo_info">
+						内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容
+						容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容
+					</div>
+					<button class="mui-btn mui-btn-positive">技师风采</button>
+				</div>
+				<div class="box_title">
+					<img src="/label.png" alt="" />
+					<span class="title">联系我们</span>
+				</div>
+				<div class="box_contact">
+					<div class="size huisuo_addr">
+						地址：深圳市XXXXXXXXXXXXXX
+					</div>
+					<div class="size huisuo_phone">
+						电话：0755-24512365
+					</div>
+				</div>
+			</div>
+			<div class="box_linkke">
+				<div class="propaganda">领客 · 水疗行业的微信营销利器</div>
+				<div class="website">www.linkke.cn</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			$(function(){
+				var width = window.innerWidth;
+				$('.ground').css("width",width*0.8);
+				$('.ground').css("height",width*0.8*274/363);
+				$('.box_voucher').css("height",width*0.8*274/363+10);
+				$('.head').css("height",width*0.8*274/363+80);
+				$('.money_num').css("bottom",width*0.8*274/363*0.36)
+				$('.company').css("bottom",width*0.8*274/363*0.35)
+			})
+		</script>
+<%end%>

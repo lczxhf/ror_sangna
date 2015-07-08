@@ -1,0 +1,160 @@
+.mui-content{
+	background: #CF101A;
+}
+.head{
+	width: 100%;8
+	color: #666666;
+	position: relative;
+}
+.img_box{
+	background: #DBBA97;
+	width: 42px;
+	height: 42px;
+	border-radius: 50%;
+	position:absolute;
+	top: 25px;
+	left: 7%;
+}
+.img_box img{
+	margin: 1px;
+	border-radius: 50%;
+}
+.tip_hongbao{
+	background: #DF6066;
+	width: 70%;
+	height: 33px;
+	line-height: 33px;
+	font-size: 11px;
+	padding-left: 10px;
+	color: white;
+	position: absolute;
+	top: 30px;
+	left: 23%;
+}
+.user_name{
+	color: #F9D47F;
+}
+
+.box_voucher{
+	
+}
+.ground{
+	position: absolute;
+	top: 70px;
+	left: 10%;
+	z-index: 2;
+}
+.cloud_1{
+	position: absolute;
+	left: 2.25%;
+	bottom: 0;
+	z-index: 1;
+}
+.cloud_2{
+	position: absolute;
+	bottom: -3px;
+	left: 2.25%;
+	z-index: 3;
+}
+.money_num{
+	width: 20%;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	font-size: 36px;
+	color: white;
+	position: absolute;
+	left: 39%;
+	z-index: 2;
+}
+.company{
+	font-size: 13px;
+	color: white;
+	position: absolute;
+	right: 37%;
+	z-index: 2;
+}
+.content{
+	background: white;
+	margin: 0 2.37%;
+	padding-top: 20px;
+	padding-bottom: 35px;
+	margin-bottom: 20px;
+	border-bottom-left-radius: 6px;
+	border-bottom-right-radius: 6px;
+}
+.mui-btn-outlined{
+	width: 60%;
+	padding: 10px 12px;
+	margin-left: 20%;
+	margin-bottom: 30px;
+	border: none;
+	background: #FFB438;
+	color: white;
+	font-size: 15px;
+	letter-spacing: 2px;
+}
+.box_title{
+	position: relative;
+	width: 100%;
+	height: 36px;
+	margin-bottom: 20px;
+}
+.box_title img{
+	position: absolute;
+	left: -1px;
+	top: 0;
+}
+.box_title .title{
+	color: white;
+	font-size: 15px;
+	letter-spacing: 2px;
+	position: absolute;
+	left: 8px;
+	top: 6px;
+}
+.box_huisuo{
+	width: 100%;
+	padding-bottom: 35px;
+}
+.huisuo_img{
+	width: 100%;
+	margin-bottom: 15px;
+}
+.huisuo_img img{
+	margin-left: 8%;
+	border: 5px solid #EDD2B4;
+}
+.huisuo_info{
+	font-size: 13px;
+	color: #666666;
+	text-indent:2em;
+	width: 90%;
+	margin-left: 5%;
+	margin-bottom: 15px;
+}
+.mui-btn-positive{
+	width: 55%;
+	margin-left: 22.5%;
+	padding: 8px 12px;
+	font-size: 13px;
+	letter-spacing: 2px;
+}
+.box_contact{
+	margin-left: 20px;
+	font-size: 13px;
+	color: #666666;
+}
+.size{
+	text-decoration: underline;
+	margin-bottom: 5px;
+}
+.box_linkke{
+	padding-bottom: 20px;
+	color: white;
+	font-size: 11px;
+	text-align: center;
+}
+
+
+

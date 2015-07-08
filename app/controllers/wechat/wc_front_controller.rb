@@ -62,6 +62,10 @@ class Wechat::WcFrontController < ApplicationController
 				@technicians=PerUserMasseuse.find(technician_ids)
 	end
 
+	def redbage
+		
+	end
+
 	def change_collect
 				puts params
 				technician=PerUserMasseuse.find(params[:technician_id])
