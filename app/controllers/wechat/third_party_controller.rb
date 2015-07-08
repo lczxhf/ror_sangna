@@ -6,8 +6,9 @@ class Wechat::ThirdPartyController < ApplicationController
 	APPID="wxf6a05c0e64bc48e1"
 	APPSECRET="0c79e1fa963cd80cc0be99b20a18faeb"
 	def test
-			puts 'aa'
-			render plain: 'ok'
+			#		WechatConfig.all.each do |a|
+			#				Sangna.get_user_info(a.id,APPID)
+			#		end
   end
 	def test1
 			user=WechatUser.find(12)

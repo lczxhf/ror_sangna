@@ -26,7 +26,7 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def technician_remark
-		@technician=PerUserMasseuse.find(params[:t_id])
+					@order=OrderByMasseuse.includes(:per_user_masseuse).find(params[:o_id])
 	end
 
 	def project_info
@@ -50,7 +50,8 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def my_account
-				wechat_config=WechatConfig.includes(:wechat_user).find_by_openid(cookies.signed["#{params[:appid]}_openid"]) 
+				wechat_config=WechatConfig.includes(:wechat_user,:sangna_config).find_by_openid(cookies.signed["#{params[:appid]}_openid"]) 
+				@sangna_config=wechat_config.sangna_config
 				@wechat_user=wechat_config.wechat_user
 	end
 

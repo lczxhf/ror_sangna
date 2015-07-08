@@ -9,66 +9,30 @@
        <%=stylesheet_link_tag "wechat_front/iconfont"%>
 			  <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 		<title>个人资料</title>
-			    <style>
-        .emoji {
-      width: 1.5em;
-      height: 1.5em;
-      display: inline-block;
-     margin-bottom: -0.25em;
-      }
-      </style>
-
 			<script>
-					  $(function(){
 							        wx.config({
-								       debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅>    在pc端时才会打印。
+								       debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅>    在pc端时才会打印。
 									      appId: '<%=params[:appid]%>', // 必填，公众号的唯一标识
 									       timestamp:'<%=timestamp=Time.now.to_i%>' , // 必填，生成签名的时间戳
 										     nonceStr: '<%=nonceStr=SecureRandom.uuid.tr('-', '')%>', // 必填，生成签名的随机串
 										     signature: '<%=signature(timestamp,nonceStr)%>',// 必填，签名，见附录1
-											   jsApiList: ["onMenuShareTimeline,onMenuShareAppMessage"] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+											   jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
 										 });
 							   
-								      wx.ready(function(){
-												//	wx.hideOptionMenu();
-													 wx.checkJsApi({
-														    jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage']
-													 });
-															wx.onMenuShareTimeline({
-																 title: '互联网之子', 
-																 link: 'http://movie.douban.com/subject/25785114/',
-																 imgUrl: 'http://img3.douban.com/view/movie_poster_cover/spst/public/p2166127561.jpg',
-																 success: function (res) { 
-																			 alert('a');
-																  },
-																 cancel: function (res) { 
-																			 alert('b');
-																  }
-															});
-
-
-															wx.onMenuShareAppMessage({
-																    title: '互联网之子',
-																	  desc: '在长大的过程中，我才慢慢发现，我身边的所有事，别人跟我说的所有事，那些所谓本来如此，注定如此的事，它们其实没有非得如此，事情是可以改变的。更重要的是，有些事既然错了，那就该做出改变。',
-																	  link: 'http://movie.douban.com/subject/25785114/',
-																	  imgUrl: 'http://img3.douban.com/view/movie_poster_cover/spst/public/p2166127561.jpg',
-																	  trigger: function (res) {
-																	        alert('用户点击发送给朋友');
-																	  },
-																	  success: function (res) {
-																	        alert('已分享');
-																	  },
-																	  cancel: function (res) {
-																	      alert('已取消');
-																		},
-																		fail: function (res) {
-																			alert(JSON.stringify(res));
-																		}
-															});
-						     })
-						 
-						 })
-
+								     wx.ready(function(){
+								//					wx.hideOptionMenu();
+												 wx.onMenuShareTimeline({
+													  title: '<%=@wechat_user.nickname%>的主页', 
+													  link: '<%=request.url%>',
+													  imgUrl: '<%=@wechat_user.headimgurl%>',
+														success: function(res){
+																alert("success");
+														},
+														cancel: function(res){
+																mui.toast('欢迎体验Hello MUI');
+														}
+											   });
+									})
 			</script>
 
 <%end%>
