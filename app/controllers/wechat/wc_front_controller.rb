@@ -1,5 +1,5 @@
 class Wechat::WcFrontController < ApplicationController
-	before_action :check_openid
+	before_action :check_openid,:except=>[:remark]
 	def choose_technician
 		if params[:first]
 			cookies.signed["#{params[:appid]}_openid"]=params[:openid]
@@ -26,7 +26,8 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def technician_remark
-					@order=OrderByMasseuse.includes(:per_user_masseuse).find(params[:o_id])
+					@order=OrderByMasseuse.includes(:per_user_masseuse,:per_user).find(params[:o_id])
+					@sangna_config=@order.per_user.sangna_config
 	end
 
 	def project_info
@@ -64,6 +65,23 @@ class Wechat::WcFrontController < ApplicationController
 
 	def redbage
 		
+	end
+
+	def remark
+					order=OrderByMasseuse.where(id:params[:o_id],del:1,status:2,is_reviewed:1).first
+					if order
+						masseuse_review=MasseusesReview.new
+						masseuse_review.user_id=order.user_id
+						masseuse_review.masseuses_id=order.masseuse_id
+						masseuse_review.member_id=order.member_id
+						masseuse_review.technique_evalution_id=params[:remark].to_i
+						masseuse_review.save
+						order.is_reviewed=2
+						order.save
+						render plain: 'ok'
+					else
+						render plain: 'err'
+					end
 	end
 
 	def change_collect

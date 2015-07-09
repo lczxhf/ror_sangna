@@ -41,6 +41,7 @@ Rails.application.routes.draw do
 		get "wc_front/my_collect" => "wc_front#my_collect"
 		get "wc_front/change_collect" =>"wc_front#change_collect"
     get "wc_front/redbage" =>"wc_front#redbage"
+		post "wc_front/remark" => "wc_front#remark"
     #match "/:name/:controller/:action",:via=>[:get]
   end
   

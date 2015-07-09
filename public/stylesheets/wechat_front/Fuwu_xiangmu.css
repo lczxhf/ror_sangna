@@ -14,7 +14,7 @@
 }
 .size{
 	font-size: 15px;
-	color: #82858A;
+	color: #7D7780 !important;
 }
 .loca_1{
 	letter-spacing: 1px;
@@ -23,20 +23,32 @@
 	left: 8%;
 }
 .loca_2{
+	font-size: 12px;
 	position: absolute;
 	top: 15px;
-	left: 50%;
+	left: 38%;
+}
+.loca_2_1{
+	position: absolute;
+	top:15px;
+	left:47%;
 }
 .loca_3{
+	font-size: 12px;
 	position: absolute;
 	top: 15px;
 	right: 0;
+}
+.loca_3_1{
+	position: absolute;
+	top:15px;
+	right:5%;
 }
 .box2{
 	padding: 10px 20px 10px 10px;
 	width: 98%;
 	background: #E8E8E8;
-	height: 250px;
+	height: auto;
 	margin: 0 !important;
 }
 .size_p{

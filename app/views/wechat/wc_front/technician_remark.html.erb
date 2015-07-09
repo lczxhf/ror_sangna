@@ -41,6 +41,34 @@
 										 });
 				  })
 
+				$(function(){
+						$("#remark").click(function(){
+								var data=$('#my_form').serialize();
+								if(data==''){
+										mui.toast('请选择评论!');
+								}
+								else{
+										data=data+"&o_id=<%=params[:o_id]%>"
+										$.post('/wechat/wc_front/remark',data,function(obj){
+												if(obj=='ok'){
+													 wx.closeWindow();
+													}
+												else{
+														mui.toast('已经评论过了!')	
+													}
+										})
+								}
+							})
+						 //立即分享到微信朋友圈点击事件
+						   $("#share_btn").on("click", function() {
+								   $("#shareit").show();
+								 });
+								$("#shareit").on("click", function(){
+										$("#shareit").hide(); 
+								})
+
+					})
+
 		</script>
 <%end%>
 <%content_for :body do%>
@@ -53,44 +81,18 @@
 							<div class="JiShi_num">NO.<%=@order.per_user_masseuse.job_number%></div>
 							<div class="tip">分享朋友圈获取￥10元现金券</div>
 							<div class="PingJia_box">
-								<form class="">
+								<form class="" id='my_form'>
+									<%TechniqueEvalution.where(del:1).each do |evalution|%>
 									 <div class="mui-input-row mui-radio mui-left">
-										 <label>头肩高手</label>
-										 <input name="remark" type="radio">
+										 <label><%=evalution.name%></label>
+										 <input name="remark" type="radio" value='<%=evalution.id%>'>
 								   </div>
-									<div class="mui-input-row mui-radio mui-left">
-											<label>服务很好</label>
-						    			<input name="remark" type="radio" checked>
-								  </div>
-									<div class="mui-input-row mui-radio mui-left">
-											<label>腰背一流</label>
-											<input name="remark" type="radio">
-									</div>
-								  <div class="mui-input-row mui-radio mui-left">
-									    <label>态度不错</label>
-									    <input name="remark" type="radio" checked>
-									</div>
-								  <div class="mui-input-row mui-radio mui-left">
-										<label>腿脚酸爽</label>
-									  <input name="remark" type="radio">
-								  </div>
-								  <div class="mui-input-row mui-radio mui-left">
-											<label>尽心尽力</label>
-											<input name="remark" type="radio" checked>
-								  </div>
-								  <div class="mui-input-row mui-radio mui-left">
-											<label>力度十足</label>
-											<input name="remark" type="radio">
-									</div>
-									<div class="mui-input-row mui-radio mui-left">
-											<label>感觉一般</label>
-											<input name="remark" type="radio" checked>
-									</div>
+									 <%end%>
 							</form>
 					</div>
 			    <div class="btn_box">
-							<button class="mui-btn mui-btn-outlined left btn_cancel">有钱也不要？</button>
-							<button class="mui-btn mui-btn-outlined mui-btn-positive left">分享得红包</button>
+							<button class="mui-btn mui-btn-outlined left btn_cancel" id="remark">有钱也不要？</button>
+							<button class="mui-btn mui-btn-outlined mui-btn-positive left share_btn">分享得红包</button>
 					</div>
 					<%if is_collect(params[:appid],@order.per_user_masseuse.id)=='kong'%>
 					<a href="javascript:void(0)" class="collect" onclick="collect('<%=@order.per_user_masseuse.id%>',this)">收藏技师</a>
@@ -99,4 +101,9 @@
 					<div class="website">www.linkke.cn</div>
 			</div>
 	</div>
+	<div id="shareit">
+			<img class="arrow" src="http://dev.vxtong.com/cases/nuannan/imgs/share-it.png">
+			<div href="#" id="follow" >点击右上角分享即可得到红包</div>
+	</div>
+
 <%end%>
