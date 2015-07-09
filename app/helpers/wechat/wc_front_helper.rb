@@ -79,6 +79,7 @@ module Wechat::WcFrontHelper
 			end
 	end
 
+
 	def signature(timestamp,noncestr)
 			if !Rails.cache.read("#{params[:appid]}_ticket")
 						if Time.now-@sangna_config.updated_at>=7200

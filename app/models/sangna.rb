@@ -96,19 +96,13 @@ class Sangna
  		   wechat_user.city=info['city']
  		   wechat_user.country=info['country']
 		    wechat_user.headimgurl=info['headimgurl']
+				wechat_user.language=info['language']
  		   #wechat_user.unionid=info['unionid']
 		    wechat_user.subscribe_time=info['subscribe_time']
  		   wechat_user.remark=info['remark']
  		   wechat_user.group=Group.where(wcgroup_id:info["groupid"],sangna_config_id:sangna_config.id).first
  		   wechat_user.wechat_config=wechat_config
- 		   if wechat_user.save
-			 else
-						wechat_user.nickname=wechat_user.nickname.chars.collect do |a|
-								if a.bytesize>=4
-										"?"
-								end	
-						end.join
-			 end
+ 		   wechat_user.save
 	end
 
 	def self.upload_news(token,array)

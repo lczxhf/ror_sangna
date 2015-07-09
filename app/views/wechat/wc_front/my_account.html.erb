@@ -7,16 +7,33 @@
           <%=stylesheet_link_tag "wechat_front/common"%>
           <%=stylesheet_link_tag "wechat_front/My_account"%>
        <%=stylesheet_link_tag "wechat_front/iconfont"%>
-       <%=javascript_include_tag 'emojify'%>
+			  <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 		<title>个人资料</title>
-			    <style>
-        .emoji {
-      width: 1.5em;
-      height: 1.5em;
-      display: inline-block;
-     margin-bottom: -0.25em;
-      }
-      </style>
+			<script>
+							        wx.config({
+								       debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅>    在pc端时才会打印。
+									      appId: '<%=params[:appid]%>', // 必填，公众号的唯一标识
+									       timestamp:'<%=timestamp=Time.now.to_i%>' , // 必填，生成签名的时间戳
+										     nonceStr: '<%=nonceStr=SecureRandom.uuid.tr('-', '')%>', // 必填，生成签名的随机串
+										     signature: '<%=signature(timestamp,nonceStr)%>',// 必填，签名，见附录1
+											   jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+										 });
+							   
+								     wx.ready(function(){
+								//					wx.hideOptionMenu();
+												 wx.onMenuShareTimeline({
+													  title: '<%=@wechat_user.nickname%>的主页', 
+													  link: '<%=request.url%>',
+													  imgUrl: '<%=@wechat_user.headimgurl%>',
+														success: function(res){
+																alert("success");
+														},
+														cancel: function(res){
+																mui.toast('欢迎体验Hello MUI');
+														}
+											   });
+									})
+			</script>
 
 <%end%>
 <%content_for :body do%>

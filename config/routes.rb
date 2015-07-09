@@ -22,6 +22,7 @@ Rails.application.routes.draw do
 		get "gzh_manage/get_info" => "gzh_manage#get_info"
 		get "gzh_manage/change_qrcode" =>"gzh_manage#change_qrcode"
 		get "gzh_manage/sent_custom_message" => "gzh_manage#sent_custom_message"
+		post "gzh_manage/sent_consumption_message" => "gzh_manage#sent_consumption_message"
     post 'message/:appid' => "message#receive"
     post 'wcpay/get_order' => "wcpay#get_order"
     post 'wcpay/callback' => "wcpay#callback"
@@ -32,12 +33,14 @@ Rails.application.routes.draw do
 
     get "wc_front/choose_technician" => "wc_front#choose_technician"
 		get "wc_front/technician_info" => "wc_front#technician_info"
+		get "wc_front/technician_remark" => "wc_front#technician_remark"
 		get "wc_front/project_info" => "wc_front#project_info"
 		get "wc_front/project_detail" => "wc_front#project_detail"
 		get "wc_front/sangna_info" => "wc_front#sangna_info"
 		get "wc_front/my_account" => "wc_front#my_account"
 		get "wc_front/my_collect" => "wc_front#my_collect"
 		get "wc_front/change_collect" =>"wc_front#change_collect"
+    get "wc_front/redbage" =>"wc_front#redbage"
     #match "/:name/:controller/:action",:via=>[:get]
   end
   

@@ -22,8 +22,11 @@ class Wechat::WcFrontController < ApplicationController
 	end
 	
 	def technician_info
-		puts request.url
 		@technician=PerUserMasseuse.find(params[:t_id])
+	end
+
+	def technician_remark
+					@order=OrderByMasseuse.includes(:per_user_masseuse).find(params[:o_id])
 	end
 
 	def project_info
@@ -47,7 +50,8 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def my_account
-				wechat_config=WechatConfig.includes(:wechat_user).find_by_openid(cookies.signed["#{params[:appid]}_openid"]) 
+				wechat_config=WechatConfig.includes(:wechat_user,:sangna_config).find_by_openid(cookies.signed["#{params[:appid]}_openid"]) 
+				@sangna_config=wechat_config.sangna_config
 				@wechat_user=wechat_config.wechat_user
 	end
 
@@ -56,6 +60,10 @@ class Wechat::WcFrontController < ApplicationController
 				wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
 				technician_ids=sangna_config.per_user.masseuses_collects.where(member_id:wechat_config.member.id,del:1).pluck(:per_user_masseuse_id)
 				@technicians=PerUserMasseuse.find(technician_ids)
+	end
+
+	def redbage
+		
 	end
 
 	def change_collect

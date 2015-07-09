@@ -35,9 +35,26 @@
 		})
 
 })
+		<%if @inscene%>
 			function show_info(technician_id){
 					window.location.href="technician_info?t_id="+technician_id+"&appid=<%=params[:appid]%>";
 			}
+			<%else%>
+			function collect(technician_id,icon){
+						   var status="add";
+							 if($(icon).attr("class").substr(-1)=="n"){
+							 status="rm";
+							 }
+							 $.get("change_collect",{technician_id:technician_id,status:status,appid:"<%=params[:appid]%>"},function(obj){
+									if(status=="add"){
+										 $(icon).attr("class","mui-icon iconfont icon-xingxingman");
+									}   
+								  else{
+								     $(icon).attr("class","mui-icon iconfont icon-xingxingkong");
+								  }
+							 })
+			}
+		<%end%>
 		</script>
 	<%end%>
 	<%content_for :body do%>
