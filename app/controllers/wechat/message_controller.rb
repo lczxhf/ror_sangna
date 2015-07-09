@@ -30,7 +30,7 @@ class Wechat::MessageController < ApplicationController
 									wechat_config.save
 							end
 			    	Sangna.get_user_info(wechat_config.id,APPID)
-					render xml: reply_text_message(wechat_config.wechat_user.nickname+"!你好")	
+					render xml: reply_news_message(generate_article("欢迎您关注#{gzh.per_user.name}会所","立即开始查看我们的技师实时状态，选择您喜欢的技师！","http://weixin.linkke.cn/subscribe.png","http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=#{gzh.appid}"))	
 			    else
 			    end
 			elsif @weixin_message.MsgType=='text'
