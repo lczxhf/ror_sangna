@@ -1,5 +1,5 @@
 class Wechat::WcFrontController < ApplicationController
-	before_action :check_openid,:except=>[:remark]
+	before_action :check_openid,:except=>[:remark,:get_redbage]
 	def choose_technician
 		if params[:first]
 			cookies.signed["#{params[:appid]}_openid"]=params[:openid]
@@ -64,7 +64,26 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def redbage
-		
+					
+	end
+
+	def get_redbage
+				order=OrderByMasseuse.includes(:per_user).find(params[:o_id])
+				if !order.coupons_record
+				coupon_rule=order.per_user.coupons_rules.find_by_name("分享得红包")
+				coupon_record=coupon_rule.coupons_records.build
+				o = [('a'..'z'),('A'..'Z')].map{|i| i.to_a}.flatten
+				string = (0...50).map{ o[rand(o.length)] }.join
+				coupon_record.number=Time.now.to_i.to_s+string
+				coupon_record.user_id=coupon_rule.user_id
+				coupon_record.member_id=order.member_id
+				coupon_record.create_time=Time.now
+				coupon_record.order_id=params[:o_id]
+				coupon_record.save
+				render plain: 'ok'
+				else
+					render plain: 'err'
+				end
 	end
 
 	def remark
@@ -75,6 +94,7 @@ class Wechat::WcFrontController < ApplicationController
 						masseuse_review.masseuses_id=order.masseuse_id
 						masseuse_review.member_id=order.member_id
 						masseuse_review.technique_evalution_id=params[:remark].to_i
+						masseuse_review.order_id=order.id
 						masseuse_review.save
 						order.is_reviewed=2
 						order.save

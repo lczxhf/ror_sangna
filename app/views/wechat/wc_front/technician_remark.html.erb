@@ -33,10 +33,31 @@
 									        link: '<%=request.url%>',
 									        imgUrl: 'http://weixin.linkke.cn<%=image_path @order.per_user_masseuse.img.url%>',
 									        success: function(res){
-															mui.toast('欢迎体验Hello MUI');
+															var data=$("#my_form").serialize();
+															if (dara==''){
+																	mui.toast('请选择评论');
+															}
+															else{
+																	data=data+"&o_id=<%=params[:o_id]%>";
+																	 $.post('remark',data,function(obj){
+																		    if(obj=='ok'){
+																						mui.toast('评论成功!');
+																						$.post('get_redbage',{o_id:'<%=params[:o_id]%>'},function(r_obj){
+																									if(r_obj=='ok'){
+																											mui.toast('领取红包成功!');
+																									}
+																									else{
+																											mui.toast('您已领取过红包!');
+																									}
+																							})
+																		    }
+																		    else{
+																		       mui.toast('已经评论过了!')  
+																		    }
+																		})
+															}
 									        },
 									        cancel: function(res){
-															mui.toast('cancel')
 											    }
 										 });
 				  })
@@ -51,6 +72,7 @@
 										data=data+"&o_id=<%=params[:o_id]%>"
 										$.post('/wechat/wc_front/remark',data,function(obj){
 												if(obj=='ok'){
+														mui.toast('评论成功');
 													 wx.closeWindow();
 													}
 												else{
@@ -60,7 +82,9 @@
 								}
 							})
 						 //立即分享到微信朋友圈点击事件
-						   $("#share_btn").on("click", function() {
+					
+							$('#shareit').css('height',document.body.clientHeight);
+						   $(".share_btn").on("click", function() {
 								   $("#shareit").show();
 								 });
 								$("#shareit").on("click", function(){
@@ -102,7 +126,7 @@
 			</div>
 	</div>
 	<div id="shareit">
-			<img class="arrow" src="http://dev.vxtong.com/cases/nuannan/imgs/share-it.png">
+			<img class="arrow" src="<%=image_path 'share-it.png'%>">
 			<div href="#" id="follow" >点击右上角分享即可得到红包</div>
 	</div>
 

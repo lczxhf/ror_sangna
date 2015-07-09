@@ -48,9 +48,11 @@
 							 $.get("change_collect",{technician_id:technician_id,status:status,appid:"<%=params[:appid]%>"},function(obj){
 									if(status=="add"){
 										 $(icon).attr("class","mui-icon iconfont icon-xingxingman");
+										 mui.toast('收藏成功');
 									}   
 								  else{
 								     $(icon).attr("class","mui-icon iconfont icon-xingxingkong");
+										 mui.toast('取消收藏成功');
 								  }
 							 })
 			}

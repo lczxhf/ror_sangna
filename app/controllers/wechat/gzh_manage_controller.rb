@@ -127,15 +127,16 @@ class Wechat::GzhManageController < ApplicationController
 
 
 		def sent_consumption_message
-								templete_number=TempleteNumber.find_by_topic('计次项目消费提醒')	
+								templete_number=TempleteNumber.find_by_topic('优惠券获得提醒')	
 								order=OrderByMasseuse.includes(:member,:per_user_masseuse,:per_user_project,:per_user).where(id:params[:o_id],status:2,del:1,is_reviewed:1).first
 						if order.hand_number==params[:h]
 								templete_message=templete_number.templete_messages.where(sangna_config:order.per_user.sangna_config.id).first
 								url="http://weixin.linkke.cn/wechat/wc_front/technician_remark?o_id=#{params[:o_id]}&appid=#{order.per_user.sangna_config.appid}"
 								hash={}
-								hash["first"]="尊敬的#{order.member.wechat_config.wechat_user.nickname}!\\n您本次消费已经结束!"
-								hash["remark"]="点击详情评价技师\\n分享得红包!"
-								array=[order.per_user_project.name,((order.end_time.to_i-order.start_time.to_i)/60).to_s]
+								hash["first"]="您还有一个优惠劵未领取！ \\n #{Time.now.strftime('%Y%m%d')}"
+								hash["remark"]="点击“详情”评价技师，领取优惠劵！"
+								coupon_rule=order.per_user.coupons_rules.where(name:'分享得红包').first
+								array=[coupon_rule.face_value,coupon_rule.validity_end_time.strftime('%Y%m%d')]
 								templete_number.fields.split(',').each_with_index do |a,index|
 										hash[a]=array[index]	
 								end

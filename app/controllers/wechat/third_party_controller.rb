@@ -59,6 +59,16 @@ class Wechat::ThirdPartyController < ApplicationController
 	#result=ThirdParty.sent_to_wechat(url,body)
 	auth_code=SangnaConfig.create(code:params[:auth_code])
 	Group.create(sangna_config_id:auth_code.id,wcgroup_id:'0',name:'默认组')
+	rule=CouponsRule.new
+	rule.name='分享得红包'
+	rule.face_value=10
+	rule.price=0
+	rule.validity_start_time=Time.now
+	rule.validity_end_time=Time.now+1.month
+	rule.effective_time=1
+	rule.status=2
+	rule.create_time=Time.now
+	rule.save
 	redirect_to :action=>'gzh_paramter',:id=>auth_code.id
  end
 

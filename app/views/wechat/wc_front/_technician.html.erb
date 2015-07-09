@@ -5,9 +5,9 @@
 			</div>
 
 		<%technicians.each do |technician|%>
-			<div class="Jishi_infor <%=return_job_class(technician.job_class_status,false)%>_color" onclick="show_info('<%=technician.id%>')">
+			<div class="Jishi_infor jishi_color" onclick="show_info('<%=technician.id%>')">
 				<div class="box_jishi">
-					<div class="box_img <%=return_job_class(technician.job_class_status,false)%>_background">
+					<div class="box_img jishi_background">
 						<img class="jishi_img" src="<%=technician.img.url%>" alt="" height="50px" width="50px" />
 					</div>
 					<span class="jishi_num fs17"><%=technician.job_number%></span>
