@@ -44,6 +44,7 @@ class Tech::RegisterController < ApplicationController
     end	
 
 
+
   end
 
   def project

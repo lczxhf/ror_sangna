@@ -5,9 +5,10 @@ class PerUserMasseuse < ActiveRecord::Base
 	 mount_uploader :img,ImageAvatarUploader
 
 	require 'bcrypt'
-	attr_accessor :pwd,:pwdagain
+	attr_accessor :pwd
 	#回调
-	  before_save :encrypt_password, :if => [:password_required, :confirm_again]
+	  before_save :encrypt_password, :if => [:password_required]
+    
 	
 	#  #验证手机、密码是否正确的方法
 	    def self.authenticate_mobile(mobile, pwd)
@@ -30,8 +31,5 @@ class PerUserMasseuse < ActiveRecord::Base
 	        password.blank? || self.pwd.present?
 	    end  
 
-			def confirm_again
-						pwd==pwdagain ? true : false
-			end
 
 end

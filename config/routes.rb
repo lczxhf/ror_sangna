@@ -53,6 +53,10 @@ Rails.application.routes.draw do
     get 'projecttime' => 'manage#gettime' #项目时长
     get 'details' => 'manage#details' #个人详细资料
 		get 'modifyname' => 'manage#modifyname' #修改技师姓名
+    get 'modifycraft' => 'manage#modifycraft' #修改技师工号
+    get 'findpwd' => 'manage#findpwd' #技师找回密码之验证码
+    get 'modifypwd' => 'manage#modifypwd' #找回密码提交验证码
+    post 'ensurepwd' => 'manage#ensurepwd' #修改密码
   end
 
 	namespace :staff do 
