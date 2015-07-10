@@ -9,6 +9,50 @@
 					<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 		<title>红包</title>
 		<script>
+			wx.hideAllNonBaseMenuItem();
+
+				 wx.config({
+					  debug: false, 
+					  appId: '<%=params[:appid]%>', 
+					  timestamp:'<%=timestamp=Time.now.to_i%>' , 
+					  nonceStr: '<%=nonceStr=SecureRandom.uuid.tr('-', '')%>', 
+					  signature: '<%=signature(timestamp,nonceStr)%>',
+					  jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage'] 
+				});
+				wx.ready(function(){
+				//    wx.hideOptionMenu();
+					wx.showAllNonBaseMenuItem();
+					wx.onMenuShareTimeline({
+					title: '我刚去完<%=@order.per_user.name%>会所,它们服务很好可以微信点技师,你也来抢个礼包吧!', 
+					ink: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&o_id=<%=@order.id%>&id=<%=@order.member_id%>',
+					imgUrl: 'http://weixin.linkke.cn<%=image_path @order.per_user.per_user_imgs.first.url.url%>',
+					success: function(res){
+							var data=$("#my_form").serialize();
+							if (data==''){
+								mui.toast('请选择评论后,重新分享');
+							}
+							else{
+								data=data+"&o_id=<%=params[:o_id]%>";
+								$.post('remark',data,function(obj){
+									$.post('get_redbage',{o_id:'<%=params[:o_id]%>'},function(r_obj){
+										if(r_obj=='ok'){
+											mui.toast('领取红包成功!');
+										}
+										else{
+											mui.toast('您已领取过红包!');
+										}
+									})
+							     })
+							}
+					},
+					cancel: function(res){
+					}
+				  });
+			   })
+
+
+
+
 			$(function(){
 						$('#technician').click(function(){
 									window.location.href='choose_technician?appid=<%=params[:appid]%>';
