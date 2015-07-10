@@ -1,0 +1,46 @@
+
+.box_coupons{
+	margin: 10px 2% 0;
+	width: 96%;
+	position: relative;
+	background: url(../images/coupons.png) no-repeat;
+	background-size: 100% 100%;
+}
+.coupons_num{
+	border-radius: 50%;
+	font-size: 36px;
+	color: white;
+	text-align: center;
+	background: #785F57;
+	position: absolute;
+	bottom: 12%;
+	left: 7%;
+}
+.box{
+	width: 65%;
+	position: absolute;
+	top:30%;
+}
+.project{
+	font-size: 22px;
+	color: #584846;
+}
+.closing_time{
+	padding: 3px 0 0 3px;
+	font-size: 12px;
+	color: #785F57;
+}
+.closing_time a{
+	color: #785F57;
+	text-decoration: underline;
+}
+.status{
+	font-size: 13px;
+	color: #785F57;
+	position: absolute;
+	top: 3%;
+	right: 5%;
+}
+
+
+

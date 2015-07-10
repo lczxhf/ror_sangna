@@ -1,0 +1,50 @@
+body{
+	font-family: "Microsoft YaHei","iconfont"  !important;
+	background: white;
+}
+.mui-content{
+	background: white;
+	position: relative;
+	width: 100%;
+	
+}
+.yue{
+	font-size: 20px;
+	text-align: center;
+	width: 50%;
+	margin: 80px auto 0;
+}
+.yue_num{
+	font-size: 28px;
+	text-align: center;
+	width: 50%;
+	margin: 10px auto 0;
+}
+
+.public_btn{
+	display: block;
+	border: none;
+	width: 90%;
+	background: #1B813E;
+	margin: 0 auto;
+	letter-spacing: 5px;
+	padding: 9px 20px;
+	font-size: 18px;
+	color: white;
+	text-align: center;
+	margin-top: 50px;
+}
+.footer{
+	width: 100%;
+	height: auto;
+	color: #999999;
+	font-size: 12px;
+	text-align: center;
+	position: fixed;
+	left: 0;
+	bottom: 0;
+}
+
+
+
+

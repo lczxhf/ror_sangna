@@ -1,0 +1,20 @@
+<%content_for :head do%>
+		<meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	    <%=javascript_include_tag "jquery-2.1.0"%>
+		<%=javascript_include_tag "mui.min"%>
+		<%=stylesheet_link_tag "wechat_front/mui.min"%>
+		<%=stylesheet_link_tag "wechat_front/YuE"%>
+	    <title>余额</title>
+	    <%end%>
+<%content_for :body do%>
+		<div class="mui-content">
+			<div class="yue">余额</div>
+			<div class="yue_num">￥10.00</div>
+			<button id="submit" class="mui-btn public_btn">充值</button>
+			<div class="footer">
+				<a href="" class="">常见问题</a>
+				<div class="">啊实打实大师大厦阿萨</div>
+			</div>
+		</div>
+<%end%>
