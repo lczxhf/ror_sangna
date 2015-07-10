@@ -1,4 +1,5 @@
 class Wechat::WcFrontController < ApplicationController
+			require "rexml/document" 
 	before_action :check_openid,:except=>[:remark,:get_redbage]
 	def choose_technician
 		if params[:first]
@@ -55,9 +56,9 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def my_account
-				wechat_config=WechatConfig.includes(:wechat_user,:sangna_config).find_by_openid(cookies.signed["#{params[:appid]}_openid"]) 
-				@sangna_config=wechat_config.sangna_config
-				@wechat_user=wechat_config.wechat_user
+				@wechat_config=WechatConfig.includes(:wechat_user,:member,:sangna_config).find_by_openid(cookies.signed["#{params[:appid]}_openid"]) 
+				@sangna_config=@wechat_config.sangna_config
+				@wechat_user=@wechat_config.wechat_user
 	end
 
 	def my_collect
@@ -136,12 +137,50 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def phone_bind
+
 	end
 
 	def card_info
+		
 	end
 
 	def balance
+		
+	end
+
+	def sent_code
+	 if params[:phone].length==11 && params[:phone].to_i.to_s.length==11
+		 if !Member.find_by_username(params[:phone])
+				 code=rand(1000..9999).to_s
+				 Rails.cache.write(params[:phone],code,:expire_in=>1.hour)
+				 uri = URI("http://106.ihuyi.cn/webservice/sms.php?method=Submit")
+				 Net::HTTP.start(uri.host, uri.port,:use_ssl => uri.scheme == 'https') do |http|
+				    request= Net::HTTP::Post.new(uri,{'Content-Type'=>'application/json'})
+					  request.set_form_data({"account"=>"cf_zxy0506","password"=>"zxy0506","mobile"=>"#{params[:phone]}","content"=>"您的验证码是：#{code}。请不要把验证码泄露给其他人。如非本人操作，可不用理会！"})
+						response=http.request request
+						a=response.body.dup
+						puts a
+						 result= REXML::Document.new a
+						 render plain:  result.root.get_elements('msg')[0][0].to_s
+				end
+	   else
+					render plain: 'exist'
+	   end
+	 else
+					render plain: 'err'
+	 end
+	end
+
+
+	def bind_phone
+		  if params[:code]==Rails.cache.read(params[:phone])
+					 wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
+					 wechat_config.member.username=params[:phone]
+					 wechat_config.member.save
+					 render plain: 'ok'
+			else
+						render plain: 'err'
+			end
 	end
 
 	private

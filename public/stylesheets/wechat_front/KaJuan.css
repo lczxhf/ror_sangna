@@ -3,7 +3,7 @@
 	margin: 10px 2% 0;
 	width: 96%;
 	position: relative;
-	background: url(../images/coupons.png) no-repeat;
+	background: url(/images/coupons.png) no-repeat;
 	background-size: 100% 100%;
 }
 .coupons_num{

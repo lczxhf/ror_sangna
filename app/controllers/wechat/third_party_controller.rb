@@ -8,14 +8,9 @@ class Wechat::ThirdPartyController < ApplicationController
 	 include Wechat::ReplyWeixinMessageHelper
 
 	def test
-				Member.all.each do |a |
-							a.del=1
-							a.save
-							a.wechat_config.del=1
-							a.wechat_user.del=1
-							a.wechat_config.save
-							a.wechat_user.save
-				end
+				 order=OrderByMasseuse.includes(per_user:[:sangna_config]).find(1)
+				 wechat_config=WechatConfig.includes(wechat_user:[:member]).first.
+
   end
 	def test1
 			user=WechatUser.find(12)

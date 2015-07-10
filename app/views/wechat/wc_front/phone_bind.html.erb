@@ -9,17 +9,16 @@
 		<%=stylesheet_link_tag "wechat_front/ShouJiYanZheng"%>
 		<%=stylesheet_link_tag "wechat_front/iconfont"%>
 	    <title>手机绑定</title>
-
+<%end%>
 	<%content_for :body do%>
 
 		<div class="mui-content">
 			<div class="box_infor">
 				<div class="title">手机绑定</div>
-				<form action="" id="testForm" novalidate="novalidate">
 					<div class="infor">
 						<div class="mui-input-row">
 							<span class="mui-icon iconfont icon-iconfontshouji"></span>
-							<input class="mui-input-clear" type="text" placeholder="请输入手机号码"  />
+							<input class="mui-input-clear" type="text" placeholder="请输入手机号码" id="user" />
 						</div>
 					</div>
 					<div class="infor_2">
@@ -28,12 +27,25 @@
 						<button id="btn" class="mui-btn mui-btn-positive" type="button">获取验证码</button>
 					</div>
 					
-					<button id="submit" class="mui-btn public_btn">立即绑定</button>
-				</form>
+					<button id="my_bind" class="mui-btn public_btn" type='button'>立即绑定</button>
 			</div> 
 		</div>
 		<script type="text/javascript">
-			document.getElementById("btn").addEventListener("click",function(){
+					document.getElementById('my_bind').addEventListener('click',function(){
+						$.post('bind_phone',{appid:'<%=params[:appid]%>',phone:$("#user").val(),code:$("#verify").val()},function(obj){
+								if(obj=='err'){
+										mui.toast("验证码错误!");
+								}
+								else{
+										mui.toast('绑定成功!'); 
+								}
+						}) 
+					})
+
+
+
+
+					document.getElementById("btn").addEventListener("click",function(){
 					//倒计时
 					var count = 60;
 	                var countdown = setInterval(CountDown, 1000)   
@@ -56,22 +68,29 @@
                 
 				    var user = $("#user");
 				    var user_val=$('#user').val();
-				    if ($.html5Validate.isAllpass(user)) {
-			   		 //ajax 短信验证
-				   mui.post(ServerUrl+'tech/verify',{user:user_val},function(data){
-				   if(data){
+				   $.post('sent_code',{phone:user_val,appid:'<%=params[:appid]%>'},function(data){
+				   if(data=='exist'){
 				   			mui.toast('该用户名已存在');
 				   			$("#btn").html('获取验证码');
-	                        clearInterval(countdown);
+	              clearInterval(countdown);
 				   	}
+						else if(data=='err'){
+								mui.toast('请输入正确的手机号码!');	
+								$("#btn").html('获取验证码');
+	              clearInterval(countdown);
+						}
+						else if (data=='提交成功'){
+							
+						}
+						else{
+								mui.toast(data);
+								 $("#btn").html('获取验证码');
+								 clearInterval(countdown);
+
+						}
 			
 			   	})
 //倒计时
-				   
-			   }
-				    
-						
-					
 			});
 		</script>
 		<%end%>
