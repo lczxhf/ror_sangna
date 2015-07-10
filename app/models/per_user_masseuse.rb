@@ -18,7 +18,6 @@ class PerUserMasseuse < ActiveRecord::Base
 	
 	    #验证密码是否正确的方法
 	    def has_password?(pwd)
-          puts password
 	        ::BCrypt::Password.new(password) == pwd
 	    end
 	    private

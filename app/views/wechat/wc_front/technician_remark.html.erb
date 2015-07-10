@@ -17,6 +17,7 @@
 							})		
 				}
 				
+			wx.hideAllNonBaseMenuItem();
 
 				 wx.config({
 					      debug: false, 
@@ -28,33 +29,28 @@
 				});
 					 wx.ready(function(){
 						   //    wx.hideOptionMenu();
+							 wx.showAllNonBaseMenuItem();
 							       wx.onMenuShareTimeline({
-								          title: '点击领取红包', 
-									        link: '<%=request.url%>',
-									        imgUrl: 'http://weixin.linkke.cn<%=image_path @order.per_user_masseuse.img.url%>',
+								          title: '我刚去完<%=@order.per_user.name%>会所,它们服务很好可以微信点技师,你也来抢个礼包吧!', 
+									        link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&o_id=<%=@order.id%>&id=<%=@order.member_id%>',
+									        imgUrl: 'http://weixin.linkke.cn<%=image_path @order.per_user.per_user_imgs.first.url.url%>',
 									        success: function(res){
 															var data=$("#my_form").serialize();
-															if (dara==''){
-																	mui.toast('请选择评论');
+															if (data==''){
+																	mui.toast('请选择评论后,重新分享');
 															}
 															else{
 																	data=data+"&o_id=<%=params[:o_id]%>";
 																	 $.post('remark',data,function(obj){
-																		    if(obj=='ok'){
-																						mui.toast('评论成功!');
-																						$.post('get_redbage',{o_id:'<%=params[:o_id]%>'},function(r_obj){
-																									if(r_obj=='ok'){
-																											mui.toast('领取红包成功!');
-																									}
-																									else{
-																											mui.toast('您已领取过红包!');
-																									}
-																							})
-																		    }
-																		    else{
-																		       mui.toast('已经评论过了!')  
-																		    }
-																		})
+																				$.post('get_redbage',{o_id:'<%=params[:o_id]%>'},function(r_obj){
+																				   if(r_obj=='ok'){
+																								mui.toast('领取红包成功!');
+																						}
+																						else{
+																								mui.toast('您已领取过红包!');
+																						}
+																				 })
+															     })
 															}
 									        },
 									        cancel: function(res){
@@ -85,7 +81,13 @@
 					
 							$('#shareit').css('height',document.body.clientHeight);
 						   $(".share_btn").on("click", function() {
-								   $("#shareit").show();
+									var data=$("#my_form").serialize();
+									if (data==''){
+									     mui.toast('请选择评论');
+									 }
+								  else{
+										 $("#shareit").show();
+							    }
 								 });
 								$("#shareit").on("click", function(){
 										$("#shareit").hide(); 

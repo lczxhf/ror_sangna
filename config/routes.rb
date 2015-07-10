@@ -17,7 +17,7 @@ Rails.application.routes.draw do
 	  get  "third_party/option_info" => "third_party#option_info"
 		get "third_party/set_industry" => "third_party#set_industry"
 		get "gzh_manage/set_menu" => "gzh_manage#set_menu"
-		post "gzh_manage/authorize" => "gzh_manage#authorize"
+		get "gzh_manage/authorize" => "gzh_manage#authorize"
 		get "gzh_manage/oauth" =>"gzh_manage#oauth"
 		get "gzh_manage/get_info" => "gzh_manage#get_info"
 		get "gzh_manage/change_qrcode" =>"gzh_manage#change_qrcode"

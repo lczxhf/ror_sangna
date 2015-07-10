@@ -26,8 +26,12 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def technician_remark
-					@order=OrderByMasseuse.includes(:per_user_masseuse,:per_user).find(params[:o_id])
+					@order=OrderByMasseuse.includes(:per_user_masseuse,:per_user,member: [:wechat_config]).find(params[:o_id])
+					if @order.member.wechat_config.openid==cookies.signed["#{params[:appid]}_openid"]
 					@sangna_config=@order.per_user.sangna_config
+					else
+								render nothing: true
+					end
 	end
 
 	def project_info
@@ -64,26 +68,38 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def redbage
-					
+			#cookies.delete("#{params[:appid]}_openid")
+			if params[:from]=='timeline'
+				@order=OrderByMasseuse.includes(:member,:per_user).find(params[:o_id])				
+				if @order.member_id==params[:id].to_i
+						render :redbage
+				else
+						render nothing: true
+				end
+			else
+					render nothing: true
+			end
 	end
 
 	def get_redbage
-				order=OrderByMasseuse.includes(:per_user).find(params[:o_id])
-				if !order.coupons_record
-				coupon_rule=order.per_user.coupons_rules.find_by_name("分享得红包")
-				coupon_record=coupon_rule.coupons_records.build
-				o = [('a'..'z'),('A'..'Z')].map{|i| i.to_a}.flatten
-				string = (0...50).map{ o[rand(o.length)] }.join
-				coupon_record.number=Time.now.to_i.to_s+string
-				coupon_record.user_id=coupon_rule.user_id
-				coupon_record.member_id=order.member_id
-				coupon_record.create_time=Time.now
-				coupon_record.order_id=params[:o_id]
-				coupon_record.save
-				render plain: 'ok'
+				order=OrderByMasseuse.includes(per_user:[:sangna_config]).find(params[:o_id])
+				member_id=WechatConfig.find_by_openid(cookies.signed["#{order.per_user.sangna_config.appid}_openid"]).member_id
+				o_member_id=order.coupons_records.first.try(:member_id)
+				if order.coupons_records.find_by_member_id(member_id)
+						render plain: 'err'
 				else
-					render plain: 'err'
-				end
+							coupon_rule=order.per_user.coupons_rules.find_by_name("分享得红包")
+							coupon_record=coupon_rule.coupons_records.build
+							o = [('a'..'z'),('A'..'Z')].map{|i| i.to_a}.flatten
+							string = (0...4).map{ o[rand(o.length)] }.join
+							coupon_record.number=Time.now.to_i.to_s+string
+							coupon_record.user_id=coupon_rule.user_id
+							coupon_record.member_id=o_member_id.nil? ? o_member_id : member_id
+							coupon_record.create_time=Time.now
+							coupon_record.order_id=params[:o_id]
+							coupon_record.save
+							render plain: 'ok'
+				end		
 	end
 
 	def remark
@@ -117,6 +133,15 @@ class Wechat::WcFrontController < ApplicationController
 				end
 				collect.save
 				render plain: "success"	
+	end
+
+	def phone_bind
+	end
+
+	def card_info
+	end
+
+	def balance
 	end
 
 	private
