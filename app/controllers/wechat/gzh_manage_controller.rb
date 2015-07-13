@@ -57,16 +57,17 @@ class Wechat::GzhManageController < ApplicationController
 
     def authorize
     if params[:appid]
+			puts params
       gzh=SangnaConfig.where(appid:params[:appid]).first
       url="https://api.weixin.qq.com/sns/oauth2/component/access_token?appid=#{gzh.appid}&code=#{params[:code]}&grant_type=authorization_code&component_appid=#{APPID}&component_access_token="+Rails.cache.read(:access_token)
-      result=JSON.parse(ThirdParty.sent_to_wechat(url,body))
+			puts url
+      result=JSON.parse(ThirdParty.get_to_wechat(url))
       puts result
-      if previous=WechatConfig.where(openid:result['openid'],sangna_config_id:gzh._id).first
+      if previous=WechatConfig.where(openid:result['openid'],sangna_config_id:gzh.id).first
          wechat_config=previous
 
       else
           wechat_config=WechatConfig.new
-           
       end
 			cookies.signed["#{params[:appid]}_openid"]=result["openid"]
       wechat_config.sangna_config=gzh
@@ -75,8 +76,12 @@ class Wechat::GzhManageController < ApplicationController
       wechat_config.refresh_token=result['refresh_token']
       wechat_config.openid=result['openid']
       wechat_config.scope=result['scope']
-      wechat_config.save
-      Sangna.get_user_info(wechat_config.id,APPID)
+			 if !wechat_config.member
+				   member=Member.create(user_id:gzh.per_user.id,username:wechat_config.openid)
+					 wechat_config.member=member
+			 end
+			 wechat_config.save
+      Sangna.get_oauth2_info(wechat_config.id,APPID)
 			next_url=cookies.signed[:next_url]
       redirect_to next_url
     end
@@ -86,15 +91,21 @@ class Wechat::GzhManageController < ApplicationController
           puts params
           url="https://api.weixin.qq.com/sns/oauth2/component/access_token?appid=#{params[:appid]}&code=#{params[:code]}&grant_type=authorization_code&component_appid=wxf6a05c0e64bc48e1&component_access_token="+Rails.cache.read(:access_token) 
           result=JSON.parse(ThirdParty.get_to_wechat(url))
-					if params[:state]=='200'
-           cookies.signed[:p_openid]=result["openid"]
-					else
-						cookies.signed["#{params[:appid]}_openid"]=result["openid"]
-					end
+					puts result
+					if WechatConfig.find_by_openid(result["openid"])
+							if params[:state]=='200'
+									cookies.signed[:p_openid]=result["openid"]
+							else
+									cookies.signed["#{params[:appid]}_openid"]=result["openid"]
+							end
 							next_url=cookies.signed[:next_url]
 							cookies.delete(:next_url)
-           redirect_to next_url
-     end
+							redirect_to next_url
+					else
+							url2="https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{params[:appid]}&redirect_uri=http://weixin.linkke.cn/wechat/gzh_manage/authorize&response_type=code&scope=snsapi_userinfo&state=200&component_appid=#{APPID}#wechat_redirect'"
+							redirect_to url2
+					end
+		end
 
 		def change_qrcode
 					qrcode=PerUserQrCode.where(user_id:params[:user_id],hand_code:params[:hand_code],id_code:params[:id_code]).first
@@ -127,15 +138,16 @@ class Wechat::GzhManageController < ApplicationController
 
 
 		def sent_consumption_message
-								templete_number=TempleteNumber.find_by_topic('计次项目消费提醒')	
+								templete_number=TempleteNumber.find_by_topic('优惠券获得提醒')	
 								order=OrderByMasseuse.includes(:member,:per_user_masseuse,:per_user_project,:per_user).where(id:params[:o_id],status:2,del:1,is_reviewed:1).first
 						if order.hand_number==params[:h]
 								templete_message=templete_number.templete_messages.where(sangna_config:order.per_user.sangna_config.id).first
 								url="http://weixin.linkke.cn/wechat/wc_front/technician_remark?o_id=#{params[:o_id]}&appid=#{order.per_user.sangna_config.appid}"
 								hash={}
-								hash["first"]="尊敬的#{order.member.wechat_config.wechat_user.nickname}!\\n您本次消费已经结束!"
-								hash["remark"]="点击详情评价技师\\n分享得红包!"
-								array=[order.per_user_project.name,((order.end_time.to_i-order.start_time.to_i)/60).to_s]
+								hash["first"]="您还有一个优惠劵未领取！ \\n #{Time.now.strftime('%Y%m%d')}"
+								hash["remark"]="点击“详情”评价技师，领取优惠劵！"
+								coupon_rule=order.per_user.coupons_rules.where(name:'分享得红包').first
+								array=[coupon_rule.face_value,coupon_rule.validity_end_time.strftime('%Y%m%d')]
 								templete_number.fields.split(',').each_with_index do |a,index|
 										hash[a]=array[index]	
 								end

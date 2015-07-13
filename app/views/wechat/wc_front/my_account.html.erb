@@ -7,32 +7,19 @@
           <%=stylesheet_link_tag "wechat_front/common"%>
           <%=stylesheet_link_tag "wechat_front/My_account"%>
        <%=stylesheet_link_tag "wechat_front/iconfont"%>
-			  <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-		<title>个人资料</title>
+		<title>会员中心</title>
 			<script>
-							        wx.config({
-								       debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅>    在pc端时才会打印。
-									      appId: '<%=params[:appid]%>', // 必填，公众号的唯一标识
-									       timestamp:'<%=timestamp=Time.now.to_i%>' , // 必填，生成签名的时间戳
-										     nonceStr: '<%=nonceStr=SecureRandom.uuid.tr('-', '')%>', // 必填，生成签名的随机串
-										     signature: '<%=signature(timestamp,nonceStr)%>',// 必填，签名，见附录1
-											   jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-										 });
-							   
-								     wx.ready(function(){
-								//					wx.hideOptionMenu();
-												 wx.onMenuShareTimeline({
-													  title: '<%=@wechat_user.nickname%>的主页', 
-													  link: '<%=request.url%>',
-													  imgUrl: '<%=@wechat_user.headimgurl%>',
-														success: function(res){
-																alert("success");
-														},
-														cancel: function(res){
-																mui.toast('欢迎体验Hello MUI');
-														}
-											   });
-									})
+
+								function tophonebind(){
+										window.location.href='phone_bind?appid=<%=params[:appid]%>';
+								}
+								function tobalance(){
+										window.location.href='balance?appid=<%=params[:appid]%>';
+								}
+								function tocardinfo(){
+										window.location.href='card_info?appid=<%=params[:appid]%>';
+									
+								}
 			</script>
 
 <%end%>
@@ -44,25 +31,38 @@
 --!>
 		<div class="mui-content">
 			<div class="box_1">
-				<a class="mui-navigate-right">
 					<span class="size loca_3">头像</span>
 					<div class="img_border">
 						<img src="<%=@wechat_user.headimgurl%>" width="55px" height="55px" />
 					</div>
-				</a>
 			</div>
 			<div class="infor NiCheng">
-				<a class="mui-navigate-right">
 					<span class="size loca_1">昵称</span>
 					<span class="size loca_2"><%=@wechat_user.nickname%></span>
-				</a>
 			</div>
-			<div class="infor Zhenshi_Xingming">
-				<a class="mui-navigate-right">
-					<span class="size loca_1">邮箱</span>
+			<div class="infor Zhenshi_Xingming" onclick="tophonebind()">
+				<a class="mui-navigate-right" >
+					<span class="size loca_1">手机</span>
+					<%if @wechat_config.member.username!=@wechat_config.openid %>
+					<span class="size loca_2"><%=@wechat_config.member.username%></span>
+					<%else%>
 					<span class="size loca_2">未绑定</span>
+					<%end%>
 				</a>
 			</div>
+	<div class="infor Zhenshi_Xingming" onclick="tobalance()">
+				<a class="mui-navigate-right" >
+					<span class="size loca_1">余额</span>
+					<span class="size loca_2">0</span>
+				</a>
+			</div>
+	<div class="infor Zhenshi_Xingming" onclick="tocardinfo()">
+				<a class="mui-navigate-right" >
+					<span class="size loca_1">卡卷</span>
+					<span class="size loca_2">无</span>
+				</a>
+			</div>
+	
 		</div>
 		
 		 <script>

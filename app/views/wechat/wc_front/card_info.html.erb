@@ -1,0 +1,34 @@
+<%content_for :head do%>
+		<meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<%=javascript_include_tag "jquery-2.1.0"%>
+		<%=javascript_include_tag "mui.min"%>
+		<%=stylesheet_link_tag "wechat_front/mui.min"%>
+		<%=stylesheet_link_tag "wechat_front/common"%>
+		<%=stylesheet_link_tag "wechat_front/KaJuan"%>
+	    <title>卡劵</title>
+<%end%>
+<%content_for :body do%>
+		<div class="mui-content">
+			<div class="box_coupons">
+				<div class="coupons_num">50</div>
+				<div class="box">
+					<div class="project">代金券</div>
+					<div class="closing_time">截止日期:2015年06月20日
+						<a>(规则)</a>
+					</div>
+				</div>
+				<div class="status">未激活</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			$(function(){
+				var Height = window.innerWidth*0.96*180/590;
+				$('.box_coupons').css("height",Height);
+				$('.coupons_num').css('height',Height*0.7);
+				$('.coupons_num').css('width',Height*0.7);
+				$('.coupons_num').css('line-height',Height*0.02);
+				$('.box').css('left',(Height*0.7+window.innerWidth*0.96*0.10));
+			})
+		</script>
+<%end%>

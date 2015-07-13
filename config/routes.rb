@@ -17,7 +17,7 @@ Rails.application.routes.draw do
 	  get  "third_party/option_info" => "third_party#option_info"
 		get "third_party/set_industry" => "third_party#set_industry"
 		get "gzh_manage/set_menu" => "gzh_manage#set_menu"
-		post "gzh_manage/authorize" => "gzh_manage#authorize"
+		get "gzh_manage/authorize" => "gzh_manage#authorize"
 		get "gzh_manage/oauth" =>"gzh_manage#oauth"
 		get "gzh_manage/get_info" => "gzh_manage#get_info"
 		get "gzh_manage/change_qrcode" =>"gzh_manage#change_qrcode"
@@ -33,14 +33,20 @@ Rails.application.routes.draw do
 
     get "wc_front/choose_technician" => "wc_front#choose_technician"
 		get "wc_front/technician_info" => "wc_front#technician_info"
-		get "wc_front/technician_remark" => "wc_front#technician_remark"
 		get "wc_front/project_info" => "wc_front#project_info"
 		get "wc_front/project_detail" => "wc_front#project_detail"
 		get "wc_front/sangna_info" => "wc_front#sangna_info"
 		get "wc_front/my_account" => "wc_front#my_account"
 		get "wc_front/my_collect" => "wc_front#my_collect"
 		get "wc_front/change_collect" =>"wc_front#change_collect"
-    get "wc_front/redbage" =>"wc_front#redbage"
+		get "wc_front/redbage" =>"wc_front#redbage"
+		post "wc_front/remark" => "wc_front#remark"
+		post "wc_front/get_redbage" => "wc_front#get_redbage"
+		get "wc_front/balance" => "wc_front#balance"
+		get "wc_front/card_info" => "wc_front#card_info"
+		get "wc_front/phone_bind" => "wc_front#phone_bind"
+		post "wc_front/sent_code" => "wc_front#sent_code"
+		post "wc_front/bind_phone" => "wc_front#bind_phone"
     #match "/:name/:controller/:action",:via=>[:get]
   end
   

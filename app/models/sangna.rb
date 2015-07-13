@@ -65,7 +65,7 @@ class Sangna
 		url=URI.parse('https://api.weixin.qq.com/cgi-bin/material/add_material?access_token='+token)
 		   description='{"title":"'+title+'","introduction":"'+introduction+'"}'
 		 req = Net::HTTP::Post::Multipart.new url,
-                "media" =>UploadIO.new(media,name),
+     "media" =>UploadIO.new(media,name),
 		"type" =>type,
 		"description"=>description
                 res = Net::HTTP.start(url.host, url.port,:use_ssl => url.scheme == 'https') do |http|
@@ -74,7 +74,7 @@ class Sangna
 	end
 
 	def self.get_user_info(user_id,appid)
-		 wechat_config=WechatConfig.find(user_id)
+		 wechat_config=WechatConfig.includes(:member,:sangna_config).find(user_id)
  	   sangna_config=wechat_config.sangna_config
  	   if Time.now-sangna_config.updated_at>=7200
               result=JSON.parse(ThirdParty.refresh_gzh_token(Rails.cache.read(:access_token),appid,sangna_config.appid,sangna_config.refresh_token))
@@ -90,6 +90,7 @@ class Sangna
 			else
  		   wechat_user=WechatUser.new
 			end
+				wechat_user.member=wechat_config.member
 		    wechat_user.nickname=info['nickname']
 		    wechat_user.sex=info['sex']=='1'?true:false
  		   wechat_user.province=info['province']
@@ -103,6 +104,36 @@ class Sangna
  		   wechat_user.group=Group.where(wcgroup_id:info["groupid"],sangna_config_id:sangna_config.id).first
  		   wechat_user.wechat_config=wechat_config
  		   wechat_user.save
+	end
+
+	def self.get_oauth2_info(sangna_config_id,appid)
+				wechat_config=WechatConfig.includes(:sangna_config).find(sangna_config_id)
+				sangna_config=wechat_config.sangna_config
+				 if Time.now-sangna_config.updated_at>=7200
+					  result=JSON.parse(ThirdParty.refresh_gzh_token(Rails.cache.read(:access_token),appid,sangna_config.appid,sangna_config.refresh_token))
+						sangna_config.refresh_token=result['authorizer_refresh_token']
+						sangna_config.token=result['authorizer_access_token']
+						sangna_config.save
+				 end
+				url="https://api.weixin.qq.com/sns/userinfo?access_token=#{wechat_config.token}&openid=#{wechat_config.openid}&lang=zh_CN"
+				info=JSON.parse(ThirdParty.get_to_wechat(url)) 
+				puts info
+				if a=wechat_config.wechat_user
+					 wechat_user=a
+				else
+						 wechat_user=WechatUser.new
+						 wechat_user.wechat_config=wechat_config
+				end
+				wechat_user.member=wechat_config.member
+				wechat_user.nickname=info['nickname']
+				wechat_user.sex=info['sex']=='1'?true:false
+				wechat_user.province=info['province']
+				wechat_user.city=info['city']
+				wechat_user.country=info['country']
+				wechat_user.headimgurl=info['headimgurl']
+				wechat_user.unionid=info['unionid']
+        wechat_user.group=Group.where(wcgroup_id:info["groupid"],sangna_config_id:sangna_config.id).first
+				wechat_user.save
 	end
 
 	def self.upload_news(token,array)

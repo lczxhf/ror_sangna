@@ -51,23 +51,24 @@ body{
 }
 
 /*技师颜色*/
-.Dating_color{
-	color: #0D996A;
+/*.Dating_color{
+	color: #897870;
 }
 .Dating_background{
-	background: #0D996A;
+	background: #897870;
 }
 .Meirong_color{
-	color: #EB3232;
+	color: #897870;
 }
 .Meirong_background{
-	background: #EB3232;
+	background: #897870;
 }
-.Fangjian_color{
-	color: #6633FF;
+*/
+.jishi_color{
+	color: #897870;
 }
-.Fangjian_background{
-	background: #6633FF;
+.jishi_background{
+	background: #897870;
 }
 /*字体大小*/
 .fs17{

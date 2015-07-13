@@ -5,10 +5,12 @@ class Wechat::ThirdPartyController < ApplicationController
 	KEY="IuvWqPHol3TrXsLYMuOKisVFjewCwIUJBJ6ucMBKjp8"
 	APPID="wxf6a05c0e64bc48e1"
 	APPSECRET="0c79e1fa963cd80cc0be99b20a18faeb"
+	 include Wechat::ReplyWeixinMessageHelper
+
 	def test
-			#		WechatConfig.all.each do |a|
-			#				Sangna.get_user_info(a.id,APPID)
-			#		end
+				 order=OrderByMasseuse.includes(per_user:[:sangna_config]).find(1)
+				 wechat_config=WechatConfig.includes(wechat_user:[:member]).first.
+
   end
 	def test1
 			user=WechatUser.find(12)

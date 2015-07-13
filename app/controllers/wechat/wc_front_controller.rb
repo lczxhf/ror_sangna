@@ -1,5 +1,6 @@
 class Wechat::WcFrontController < ApplicationController
-	before_action :check_openid
+			require "rexml/document" 
+	before_action :check_openid,:except=>[:remark,:get_redbage]
 	def choose_technician
 		if params[:first]
 			cookies.signed["#{params[:appid]}_openid"]=params[:openid]
@@ -26,7 +27,12 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def technician_remark
-					@order=OrderByMasseuse.includes(:per_user_masseuse).find(params[:o_id])
+					@order=OrderByMasseuse.includes(:per_user_masseuse,:per_user,member: [:wechat_config]).find(params[:o_id])
+					if @order.member.wechat_config.openid==cookies.signed["#{params[:appid]}_openid"]
+					@sangna_config=@order.per_user.sangna_config
+					else
+								render nothing: true
+					end
 	end
 
 	def project_info
@@ -50,9 +56,9 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def my_account
-				wechat_config=WechatConfig.includes(:wechat_user,:sangna_config).find_by_openid(cookies.signed["#{params[:appid]}_openid"]) 
-				@sangna_config=wechat_config.sangna_config
-				@wechat_user=wechat_config.wechat_user
+				@wechat_config=WechatConfig.includes(:wechat_user,:member,:sangna_config).find_by_openid(cookies.signed["#{params[:appid]}_openid"]) 
+				@sangna_config=@wechat_config.sangna_config
+				@wechat_user=@wechat_config.wechat_user
 	end
 
 	def my_collect
@@ -63,7 +69,56 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def redbage
-		
+			#cookies.delete("#{params[:appid]}_openid")
+			if params[:from]=='timeline'
+				@order=OrderByMasseuse.includes(:member,:per_user).find(params[:o_id])				
+				if @order.member_id==params[:id].to_i
+						render :redbage
+				else
+						render nothing: true
+				end
+			else
+					render nothing: true
+			end
+	end
+
+	def get_redbage
+				order=OrderByMasseuse.includes(per_user:[:sangna_config]).find(params[:o_id])
+				member_id=WechatConfig.find_by_openid(cookies.signed["#{order.per_user.sangna_config.appid}_openid"]).member_id
+				o_member_id=order.coupons_records.first.try(:member_id)
+				if order.coupons_records.find_by_member_id(member_id)
+						render plain: 'err'
+				else
+							coupon_rule=order.per_user.coupons_rules.find_by_name("分享得红包")
+							coupon_record=coupon_rule.coupons_records.build
+							o = [('a'..'z'),('A'..'Z')].map{|i| i.to_a}.flatten
+							string = (0...4).map{ o[rand(o.length)] }.join
+							coupon_record.number=Time.now.to_i.to_s+string
+							coupon_record.user_id=coupon_rule.user_id
+							coupon_record.member_id=o_member_id.nil? ? o_member_id : member_id
+							coupon_record.create_time=Time.now
+							coupon_record.order_id=params[:o_id]
+							coupon_record.save
+							render plain: 'ok'
+				end		
+	end
+
+	def remark
+					order=OrderByMasseuse.where(id:params[:o_id],del:1,status:2,is_reviewed:1).first
+					if order
+						masseuse_review=MasseusesReview.new
+						masseuse_review.user_id=order.user_id
+						masseuse_review.masseuses_id=order.masseuse_id
+						masseuse_review.member_id=order.member_id
+						masseuse_review.technique_evalution_id=params[:remark].to_i
+						masseuse_review.order_id=order.id
+						masseuse_review.save
+						order.is_reviewed=2
+						order.save
+						render plain: 'ok'
+					else
+						render plain: 'err'
+					end
 	end
 
 	def change_collect
@@ -79,6 +134,53 @@ class Wechat::WcFrontController < ApplicationController
 				end
 				collect.save
 				render plain: "success"	
+	end
+
+	def phone_bind
+
+	end
+
+	def card_info
+		
+	end
+
+	def balance
+		
+	end
+
+	def sent_code
+	 if params[:phone].length==11 && params[:phone].to_i.to_s.length==11
+		 if !Member.find_by_username(params[:phone])
+				 code=rand(1000..9999).to_s
+				 Rails.cache.write(params[:phone],code,:expire_in=>1.hour)
+				 uri = URI("http://106.ihuyi.cn/webservice/sms.php?method=Submit")
+				 Net::HTTP.start(uri.host, uri.port,:use_ssl => uri.scheme == 'https') do |http|
+				    request= Net::HTTP::Post.new(uri,{'Content-Type'=>'application/json'})
+					  request.set_form_data({"account"=>"cf_zxy0506","password"=>"zxy0506","mobile"=>"#{params[:phone]}","content"=>"您的验证码是：#{code}。请不要把验证码泄露给其他人。如非本人操作，可不用理会！"})
+						response=http.request request
+						a=response.body.dup
+						puts a
+						 result= REXML::Document.new a
+						 render plain:  result.root.get_elements('msg')[0][0].to_s
+				end
+	   else
+					render plain: 'exist'
+	   end
+	 else
+					render plain: 'err'
+	 end
+	end
+
+
+	def bind_phone
+		  if params[:code]==Rails.cache.read(params[:phone])
+					 wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
+					 wechat_config.member.username=params[:phone]
+					 wechat_config.member.save
+					 render plain: 'ok'
+			else
+						render plain: 'err'
+			end
 	end
 
 	private
