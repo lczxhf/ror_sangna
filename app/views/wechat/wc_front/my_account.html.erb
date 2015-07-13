@@ -59,7 +59,7 @@
 	<div class="infor Zhenshi_Xingming" onclick="tocardinfo()">
 				<a class="mui-navigate-right" >
 					<span class="size loca_1">卡卷</span>
-					<span class="size loca_2">无</span>
+					<span class="size loca_2"><%=@sangna_config.per_user.coupons_records.where(member_id:@wechat_config.member_id).count%></span>
 				</a>
 			</div>
 	

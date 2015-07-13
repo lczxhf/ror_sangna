@@ -58,6 +58,20 @@
 			}
 		<%end%>
 		</script>
+		<script type="text/javascript">
+			$(function(){
+				$('.backdrop').show();
+				$('.close_popup').click(function(){
+					$('.popup').hide();
+					$('.prompt').show();
+				})
+				$('.close_prompt').click(function(){
+					$('.backdrop').hide();
+					$('.prompt').hide();
+				})
+			})
+		</script>
+		
 	<%end%>
 	<%content_for :body do%>
 <!--

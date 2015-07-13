@@ -98,7 +98,12 @@
 					oldback();
 				}
 			}
-			
+			$('.backdrop').show();
+			$('.popup').show();
+			$('.close').click(function(){
+				$('.backdrop').hide();
+				$('.popup').hide();
+			})
 		});
 	</script>
 	<style>
@@ -223,7 +228,15 @@
 				</div>
 			<%end%>
 			</div>
---!>
+--!>		
+			<div class="backdrop">
+				<div class="popup">
+					<div class="bold">店内技师详细资料内的声明 </div>
+					<div class="content">本技师承诺：只在本店内提供水疗、按摩等正规理疗服务</div>
+					<button class="close">确定<tton>
+				</div>
+			</div>
+		
 		</div>
 <%end%>
 

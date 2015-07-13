@@ -6,11 +6,18 @@
 		<%=stylesheet_link_tag "wechat_front/mui.min"%>
 		<%=stylesheet_link_tag "wechat_front/YuE"%>
 	    <title>余额</title>
+			<script>
+					$(function(){
+							$('#submit').click(function(){
+										mui.toast('暂不支持充值');
+								})
+						})
+			</script>
 	    <%end%>
 <%content_for :body do%>
 		<div class="mui-content">
 			<div class="yue">余额</div>
-			<div class="yue_num"><span>￥</span>10.00</div>
+			<div class="yue_num"><span>￥</span>0.00</div>
 			<button id="submit" class="mui-btn public_btn">充值</button>
 			<div class="footer">
 				<a href="" class="">服务条款</a>
