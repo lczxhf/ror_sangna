@@ -124,4 +124,51 @@ line-height: 30px;
 	right: 1%;
 	color: #666666;
 }
+/*弹窗*/
+.backdrop{
+ -webkit-user-select: none;
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.85);
+  top: 0;
+  left: 0;
+  z-index: 105;
+}
+.popup{
+	width: 80%;
+	background: white;
+	padding: 25px 5% 20px ;
+	border-radius: 5px;
+	position: fixed;
+	top:20%;
+	left: 10%;
+	z-index: 100;
+}
+.bold{
+	margin-bottom: 20px;
+}
+.content{
+	text-indent: 2em;
+	font-size: 14px;
+	color: #646162;
+}
+.close{
+	display: block;
+	background: #eeeeee;
+	width: 90%;
+	margin: 40px auto 10px;
+}
+.prompt{
+	display: none;
+	width: 80%;
+	background: white;
+	padding: 25px 5% 20px ;
+	border-radius: 5px;
+	position: fixed;
+	top:20%;
+	left: 10%;
+	z-index: 100;
+}
 

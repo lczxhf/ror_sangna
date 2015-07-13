@@ -1,9 +1,22 @@
 	<div class="mui-content">
-		<div class="Sao">到场客户可
+			<div class="Sao">到场客户可
 				<a href="javascript:void(0)" id="qrcode">扫一扫</a>
 				店家二维码查看技师详细资料
 			</div>
-
+			<div class="backdrop">
+				<div class="popup">
+					<div class="bold">XXXX会所郑重承诺: </div>
+					<div class="content">本会所严格按照国家有关法律规定，只提供健康休闲水疗、SPA、桑拿等服务；”领客云平台”只提供技术支持，本微信公众账号内所有数据皆由店家或技师自行上传。</div>
+					<button class="close close_popup">确定<tton>
+				</div>
+				<div class="prompt">
+					<div class="bold">店内外扫描提示: </div>
+					<div class="content">到店扫描店家提供的二维码后可查看技师图片、技师评价、是否空闲等详细资料</div>
+					<button class="close close_prompt">确定<tton>
+				</div>
+			</div>
+		
+		
 		<%technicians.each do |technician|%>
 			<div class="Jishi_infor jishi_color" onclick="show_info('<%=technician.id%>')">
 				<div class="box_jishi">
