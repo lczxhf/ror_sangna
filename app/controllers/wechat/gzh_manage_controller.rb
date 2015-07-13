@@ -59,6 +59,12 @@ class Wechat::GzhManageController < ApplicationController
     if params[:appid]
 			puts params
       gzh=SangnaConfig.where(appid:params[:appid]).first
+			 if Time.now-gzh.updated_at>=7200
+				     result=JSON.parse(ThirdParty.refresh_gzh_token(Rails.cache.read(:access_token),appid,gzh.appid,gzh.refresh_token))
+						gzh.refresh_token=result['authorizer_refresh_token']
+						gzh.token=result['authorizer_access_token']
+						gzh.save
+			end
       url="https://api.weixin.qq.com/sns/oauth2/component/access_token?appid=#{gzh.appid}&code=#{params[:code]}&grant_type=authorization_code&component_appid=#{APPID}&component_access_token="+Rails.cache.read(:access_token)
 			puts url
       result=JSON.parse(ThirdParty.get_to_wechat(url))
@@ -138,19 +144,21 @@ class Wechat::GzhManageController < ApplicationController
 
 
 		def sent_consumption_message
+							puts params
 								templete_number=TempleteNumber.find_by_topic('优惠券获得提醒')	
 								order=OrderByMasseuse.includes(:member,:per_user_masseuse,:per_user_project,:per_user).where(id:params[:o_id],status:2,del:1,is_reviewed:1).first
 						if order.hand_number==params[:h]
-								templete_message=templete_number.templete_messages.where(sangna_config:order.per_user.sangna_config.id).first
+								templete_message=templete_number.templete_messages.where(sangna_config_id:order.per_user.sangna_config.id).first
 								url="http://weixin.linkke.cn/wechat/wc_front/technician_remark?o_id=#{params[:o_id]}&appid=#{order.per_user.sangna_config.appid}"
 								hash={}
-								hash["first"]="您还有一个优惠劵未领取！ \\n #{Time.now.strftime('%Y%m%d')}"
+								hash["first"]="您还有一个优惠劵未领取！ \\n #{Time.now.strftime('%Y年%m月%d日')}"
 								hash["remark"]="点击“详情”评价技师，领取优惠劵！"
 								coupon_rule=order.per_user.coupons_rules.where(name:'分享得红包').first
-								array=[coupon_rule.face_value,coupon_rule.validity_end_time.strftime('%Y%m%d')]
+								array=[coupon_rule.face_value.to_s,coupon_rule.validity_end_time.strftime('%Y年%m月%d日')]
 								templete_number.fields.split(',').each_with_index do |a,index|
 										hash[a]=array[index]	
 								end
+								puts hash.to_json
 								Sangna.sent_template_message(order.per_user.sangna_config.token,order.member.wechat_config.openid,templete_message.templete_id,url,hash)
 						end
 								render nothing: true

@@ -33,6 +33,7 @@ Rails.application.routes.draw do
 
     get "wc_front/choose_technician" => "wc_front#choose_technician"
 		get "wc_front/technician_info" => "wc_front#technician_info"
+		get "wc_front/technician_remark" => "wc_front#technician_remark"
 		get "wc_front/project_info" => "wc_front#project_info"
 		get "wc_front/project_detail" => "wc_front#project_detail"
 		get "wc_front/sangna_info" => "wc_front#sangna_info"

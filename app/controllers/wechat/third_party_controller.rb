@@ -9,7 +9,7 @@ class Wechat::ThirdPartyController < ApplicationController
 
 	def test
 				 order=OrderByMasseuse.includes(per_user:[:sangna_config]).find(1)
-				 wechat_config=WechatConfig.includes(wechat_user:[:member]).first.
+				 wechat_config=WechatConfig.includes(wechat_user:[:member]).first
 
   end
 	def test1
@@ -24,6 +24,7 @@ class Wechat::ThirdPartyController < ApplicationController
  	 	render :home,:layout=>false
  	 end
  	def receive
+			puts params
 		str=request.body.read
 		doc=Nokogiri::Slop str
 		ticket=doc.xml.Encrypt.content	

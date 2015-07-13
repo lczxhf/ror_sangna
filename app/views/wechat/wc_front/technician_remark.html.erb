@@ -56,6 +56,18 @@
 									        cancel: function(res){
 											    }
 										 });
+
+
+										 wx.onMenuShareAppMessage({
+											    title: '我刚去完<%=@order.per_user.name%>会所,它们服务很好可以微信点技师,你也来抢个礼包吧!', 
+												  desc: '', 
+												  link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&o_id=<%=@order.id%>&id=<%=@order.member_id%>', 
+													imgUrl: 'http://weixin.linkke.cn<%=image_path @order.per_user.per_user_imgs.first.url.url%>',
+													success: function () { 
+													},
+													cancel: function () { 
+													}
+										 });
 				  })
 
 				$(function(){

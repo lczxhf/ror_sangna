@@ -56,8 +56,8 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def my_account
-				@wechat_config=WechatConfig.includes(:wechat_user,:member,:sangna_config).find_by_openid(cookies.signed["#{params[:appid]}_openid"]) 
-				@sangna_config=@wechat_config.sangna_config
+				@wechat_config=WechatConfig.includes(:wechat_user,:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"]) 
+				@sangna_config=SangnaConfig.includes(per_user:[:coupons_records]).find(@wechat_config.sangna_config_id)
 				@wechat_user=@wechat_config.wechat_user
 	end
 
@@ -141,7 +141,9 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def card_info
-		
+				sangna_config=SangnaConfig.includes(per_user:[:coupons_records]).find_by_appid(params[:appid])
+				wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
+				@cards=sangna_config.per_user.coupons_records.includes(:coupons_rule).where(member_id:wechat_config.member.id)
 	end
 
 	def balance
