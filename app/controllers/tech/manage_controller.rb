@@ -44,7 +44,7 @@ class Tech::ManageController < ApplicationController
     end
   end
 
-  def modifycraft
+  def modifynumber
     tech = PerUserMasseuse.find(params[:tech_id])
     tech.job_number = params[:job_number]
     if tech.save
@@ -99,7 +99,154 @@ class Tech::ManageController < ApplicationController
        else
           render plain: '密码不一致'
        end
-       changepwd.pwd = params[:pwd]
        
+  end
+
+  def modifysex
+    changesex = PerUserMasseuse.find(params[:tech_id])
+    changesex.sex = params[:ck_sex]
+    if changesex.save
+      render plain: "#{changesex.sex.to_s}"
+    else
+      render plain: "no"
+    end
+  end
+
+  def order
+     orders = OrderByMasseuse.new
+     orders.user_id = params[:tech_user_id] 
+     orders.masseuse_id = params[:tech_id]
+     orders.project_id = params[:project_name_num]
+     orders.status = params[:status]
+     orders.start_time = Time.now
+     if orders.save
+       render plain: "#{orders.id.to_s}"
+     else
+       render plain: 'no'
+     end  
+  end
+
+  def orderdown
+     handnum = OrderByMasseuse.find(params[:order_id])
+     if handnum
+       puts handnum.hand_number
+
+       pull = PerUserQrCode.where(hand_code: params[:hand_num],user_id: params[:tech_user_id]).first
+       if pull
+         handnum.status = params[:down].to_i
+         handnum.end_time = Time.now
+         handnum.hand_number = params[:hand_num]
+         member = Member.where(user_id: params[:tech_user_id],hand_code: params[:hand_num]).first
+         if member
+          handnum.member=member
+          handnum.save
+          uri = URI('http://weixin.linkke.cn/wechat/gzh_manage/sent_consumption_message')
+          res = Net::HTTP.post_form(uri, 'h' => pull.hand_code, 'o_id' => handnum.id)
+          end
+       else
+           handnum.save
+       end
+       render plain: 'ok'
+     else
+       render plain: 'no'  
+     end
+  end
+
+  def modifyident
+    ident = PerUserMasseuse.find(params[:tech_id])
+    ident.identification_numbers = params[:ident]
+    if ident.save
+      render plain: "#{ident.identification_numbers.to_s}"
+    else
+      render plain: 'no'
+    end
+  end
+
+  def modifyentry
+     enter = PerUserMasseuse.find(params[:tech_id])
+     enter.entry_time = params[:work_time]
+     if enter.save
+       render plain: "#{enter.entry_time.to_s}"
+     else
+       render  'no'
+     end 
+  end
+
+  def modifycraft   
+    craft = PerUserMasseuse.find(params[:tech_id])
+    craft.job_class_status = params[:craft]
+    if craft.save
+      render plain: "#{craft.job_class_status.to_i}"
+    end
+  end
+
+  def modifylanguage
+    language = PerUserMasseuse.find(params[:tech_id])
+    language.language = params[:language]
+    if language.save
+      render plain: "#{language.language.to_s}"
+    end
+  end
+
+  def modifyproject
+    project = PerUserMasseuse.find(params[:tech_id])
+    puts 111
+    puts project.projects_id
+    puts params[:project]
+    puts 222
+    project.projects_id = params[:project]
+    if project.save
+      render plain: "#{project.projects_id.to_s}"
+    end
+  end
+
+  def changepwd
+    changepwd = PerUserMasseuse.authenticate_id(params[:tech_id],params[:old_pwd])
+    if changepwd
+      pwd = params[:pwd]
+      apwd = params[:apwd]
+      if pwd == apwd
+        changepwd.pwd = pwd
+        changepwd.save
+        render plain: "ok"
+      else
+        render plain: '密码不一致'
+      end
+    else
+      render plain: '密码错误'  
+    end  
+  end
+
+  def getaddress
+    pro =  Region.where(regions_CODE: params[:pro]).first
+    city =  Region.where(regions_CODE: params[:city]).first
+    area =  Region.where(regions_CODE: params[:are]).first
+    render plain: "#{pro.regions_NAME.to_s}#{city.regions_NAME.to_s}#{area.regions_NAME.to_s}"
+  end
+
+  def nativeplace
+    pro =  Region.where(regions_CODE: params[:pro]).first
+    city =  Region.where(regions_CODE: params[:city]).first
+    render plain: "#{pro.regions_NAME.to_s}#{city.regions_NAME.to_s}"
+  end
+
+  def modifynativaplace
+    native = PerUserMasseuse.find(params[:tech_id])
+    native.native_province_id = params[:pro]
+    native.native_city_id = params[:city]
+    if native.save
+      render plain: "#{native.native_province_id.to_s},#{native.native_city_id.to_s}"
+    end
+  end
+
+  def modifyaddress
+    address = PerUserMasseuse.find(params[:tech_id])
+    address.province_id = params[:pro]
+    address.city_id = params[:city]
+    address.district_id = params[:are]
+    address.address = params[:address]
+    if address.save
+      render plain: "#{address.province_id.to_s},#{address.city_id.to_s},#{address.district_id.to_s},#{address.address.to_s}"
+    end
   end
 end

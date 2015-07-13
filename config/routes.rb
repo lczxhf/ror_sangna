@@ -63,10 +63,24 @@ Rails.application.routes.draw do
     get 'projecttime' => 'manage#gettime' #项目时长
     get 'details' => 'manage#details' #个人详细资料
 		get 'modifyname' => 'manage#modifyname' #修改技师姓名
-    get 'modifycraft' => 'manage#modifycraft' #修改技师工号
+    get 'modifynumber' => 'manage#modifynumber' #修改技师工种
     get 'findpwd' => 'manage#findpwd' #技师找回密码之验证码
     get 'modifypwd' => 'manage#modifypwd' #找回密码提交验证码
     post 'ensurepwd' => 'manage#ensurepwd' #修改密码
+    get 'modifysex' => 'manage#modifysex' #技师修改性别
+    get 'orderup' => 'manage#order' #订单上钟
+    get 'orderdown' => 'manage#orderdown' #订单下钟
+    get 'modifyident' => 'manage#modifyident' #技师修改身份证
+    get 'modifysex' => 'manage#modifysex' #技师修改性别
+    get 'modifyentry' => 'manage#modifyentry' #技师修改入职时间
+    get 'modifycraft' => 'manage#modifycraft' #技师修改工种
+    get 'modifylanguage' => 'manage#modifylanguage' #技师修改语言
+    get 'modifyproject' => 'manage#modifyproject' #技师修改项目
+    post 'changepwd' => 'manage#changepwd' #技师修改密码
+    get 'getaddress' => 'manage#getaddress' #技师修改三级联动
+    get 'nativeplace' => 'manage#nativeplace' #获取技师籍贯
+    get 'modifynativaplace' => 'manage#modifynativaplace' #修改技师籍贯
+    get 'modifyaddress' => 'manage#modifyaddress' #修改技师地址
   end
 
 	namespace :staff do 
