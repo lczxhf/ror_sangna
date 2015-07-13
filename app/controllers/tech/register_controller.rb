@@ -12,7 +12,6 @@ class Tech::RegisterController < ApplicationController
     if user
       render plain: '用户名已经存在'
     else
-
       if verify != tel_code
         render plain: '验证码错误'
       else
