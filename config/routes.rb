@@ -67,7 +67,7 @@ Rails.application.routes.draw do
     get 'modifypwd' => 'manage#modifypwd' #找回密码提交验证码
     post 'ensurepwd' => 'manage#ensurepwd' #修改密码
     get 'modifysex' => 'manage#modifysex' #技师修改性别
-    get 'orderup' => 'manage#order' #订单上钟
+    get 'orderup' => 'manage#orderup' #订单上钟
     get 'orderdown' => 'manage#orderdown' #订单下钟
     get 'modifyident' => 'manage#modifyident' #技师修改身份证
     get 'modifysex' => 'manage#modifysex' #技师修改性别
@@ -80,6 +80,8 @@ Rails.application.routes.draw do
     get 'nativeplace' => 'manage#nativeplace' #获取技师籍贯
     get 'modifynativaplace' => 'manage#modifynativaplace' #修改技师籍贯
     get 'modifyaddress' => 'manage#modifyaddress' #修改技师地址
+    get 'jobstatus' => 'manage#jobstatus' #获取技师状态
+    get 'modifystatus' => 'manage#modifystatus' #改变技师状态
   end
 
 	namespace :staff do 
