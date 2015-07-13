@@ -23,7 +23,8 @@
 									$(this).children().eq(parseInt(value)+1).attr("class","mui-icon iconfont icon-xingxingbanke")
 							}
 						}
-					 })	
+					 })
+				 
 						$("#collect").click(function(){
 								var status="add";
 								if($(this).attr("class").substr(-1)=="n"){
@@ -44,7 +45,7 @@
 		</script>
 
 		<script>
-		mui.init();
+	mui.init();
 		mui.ready(function () {
 			var imgs = document.querySelectorAll("img.mui-action-preview");
 			imgs = mui.slice.call(imgs);
@@ -61,11 +62,11 @@
 				slider.addEventListener("touchmove",function (event) {
 					event.preventDefault();
 				})
-				
+
 				var slider_group = document.createElement("div");
 				slider_group.setAttribute("id","__mui-imageview__group");
 				slider_group.classList.add("mui-slider-group");
-				
+
 				imgs.forEach(function (value,index,array) {
 					//给图片添加点击事件，触发预览显示；
 					value.addEventListener('tap',function () {
@@ -73,7 +74,7 @@
 						_slider.refresh();
 						_slider.gotoItem(index,0);
 					})
-					
+
 					var item = document.createElement("div");
 					item.classList.add("mui-slider-item");
 					var a = document.createElement("a");
@@ -84,12 +85,12 @@
 					item.appendChild(a);
 					slider_group.appendChild(item);
 				});
-				
+
 				slider.appendChild(slider_group);
 				document.body.appendChild(slider);
 				var _slider = mui(slider).slider();
 			}
-			
+
 			var oldback = mui.back;
 			mui.back = function () {
 				if(slider&&slider.style.display=="block"){
@@ -98,12 +99,7 @@
 					oldback();
 				}
 			}
-			$('.backdrop').show();
-			$('.popup').show();
-			$('.close').click(function(){
-				$('.backdrop').hide();
-				$('.popup').hide();
-			})
+
 		});
 	</script>
 	<style>
@@ -111,6 +107,11 @@
 				position: fixed;
 				z-index: 20;
 				background-color: #000;
+			}
+			.title_2{
+				margin: 8px auto;
+				font-size: 12px;
+				text-align: center;
 			}
 	</style>
 <%end%>
@@ -122,6 +123,7 @@
 --!>
 		
 		<div class="mui-content">
+			<div class="title_2">本技师承诺:只在本店内提供正规水疗服务</div>
 			<div class="box_jishi">
 				<div class="jishi_img">
 					<img src="<%=@technician.img.url%>"  class="mui-action-preview" alt="" width="65px" height="65px" />
@@ -187,9 +189,7 @@
 				</div>
 			</div>
 <!--			<div class="assess fs14">
-      <%if get_review_rate(@technician.id)==false %>
 					<div class="option1">未评价</div>
-			<%else%>
 				<div class="option1">
 					<span class="size1">服务</span>
 					<span class="mui-icon iconfont icon-xingxingkong"></span>
@@ -197,7 +197,7 @@
 					<span class="mui-icon iconfont icon-xingxingkong"></span>
 					<span class="mui-icon iconfont icon-xingxingkong"></span>
 					<span class="mui-icon iconfont icon-xingxingkong"></span>
-					<span class="size2 fs12"><%=@level_rate%>%</span>
+					<span class="size2 fs12">%</span>
 				</div>
 				<div class="option1">
 					<span class="size1">手法</span>
@@ -206,7 +206,7 @@
 					<span class="mui-icon iconfont icon-xingxingkong"></span>
 					<span class="mui-icon iconfont icon-xingxingkong"></span>
 					<span class="mui-icon iconfont icon-xingxingkong"></span>
-					<span class="size2 fs12"><%=@level_rate%>%</span>
+					<span class="size2 fs12">%</span>
 				</div>
 				<div class="option1">
 					<span class="size1">力度</span>
@@ -215,7 +215,7 @@
 					<span class="mui-icon iconfont icon-xingxingkong"></span>
 					<span class="mui-icon iconfont icon-xingxingkong"></span>
 					<span class="mui-icon iconfont icon-xingxingkong"></span>
-					<span class="size2 fs12"><%=@level_rate%>%</span>
+					<span class="size2 fs12">%</span>
 				</div>
 				<div class="option1">
 					<span class="size1">服务</span>
@@ -224,19 +224,10 @@
 					<span class="mui-icon iconfont icon-xingxingkong"></span>
 					<span class="mui-icon iconfont icon-xingxingkong"></span>
 					<span class="mui-icon iconfont icon-xingxingkong"></span>
-					<span class="size2 fs12"><%=@level_rate%>%</span>
+					<span class="size2 fs12">%</span>
 				</div>
-			<%end%>
 			</div>
 --!>		
-			<div class="backdrop">
-				<div class="popup">
-					<div class="bold">店内技师详细资料内的声明 </div>
-					<div class="content">本技师承诺：只在本店内提供水疗、按摩等正规理疗服务</div>
-					<button class="close">确定<tton>
-				</div>
-			</div>
-		
-		</div>
+	</div>
 <%end%>
 

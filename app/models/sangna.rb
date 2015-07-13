@@ -90,6 +90,7 @@ class Sangna
 			else
  		   wechat_user=WechatUser.new
 			end
+				wechat_user.del=1
 				wechat_user.member=wechat_config.member
 		    wechat_user.nickname=info['nickname']
 		    wechat_user.sex=info['sex']=='1'?true:false

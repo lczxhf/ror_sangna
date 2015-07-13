@@ -33,6 +33,11 @@
 				});	
 			});
 		})
+	$('.backdrop').show();
+				$('.close_popup').click(function(){
+					$('.popup').hide();
+					$('.backdrop').hide();
+				})
 
 })
 		<%if @inscene%>
@@ -58,19 +63,6 @@
 			}
 		<%end%>
 		</script>
-		<script type="text/javascript">
-			$(function(){
-				$('.backdrop').show();
-				$('.close_popup').click(function(){
-					$('.popup').hide();
-					$('.prompt').show();
-				})
-				$('.close_prompt').click(function(){
-					$('.backdrop').hide();
-					$('.prompt').hide();
-				})
-			})
-		</script>
 		
 	<%end%>
 	<%content_for :body do%>
@@ -81,5 +73,5 @@
       <a class="mui-pull-right " href="javascript:void(0)" id="qrcode">扫一扫</a>
    </header>
 --!>
-			<%=render partial: "technician" ,locals: {technicians:@technicians,tips:'',inscene:@inscene}%>
+			<%=render partial: "technician" ,locals: {technicians:@technicians,tips:'',inscene:@inscene,name:@sangna_config.per_user.name}%>
 	<%end%>

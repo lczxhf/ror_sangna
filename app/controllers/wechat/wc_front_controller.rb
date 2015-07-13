@@ -2,11 +2,6 @@ class Wechat::WcFrontController < ApplicationController
 			require "rexml/document" 
 	before_action :check_openid,:except=>[:remark,:get_redbage]
 	def choose_technician
-		if params[:first]
-			cookies.signed["#{params[:appid]}_openid"]=params[:openid]
-		end
-		#cookies.delete("#{params[:appid]}_openid")
-		#cookies.delete(:next_url)
 		@sangna_config=SangnaConfig.includes(:per_user).find_by_appid(params[:appid])
 		@technicians=PerUserMasseuse.where(user_id:@sangna_config.per_user.id,)
 		@inscene=false
@@ -62,9 +57,9 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def my_collect
-				sangna_config=SangnaConfig.includes(:per_user).find_by_appid(params[:appid])
+				@sangna_config=SangnaConfig.includes(:per_user).find_by_appid(params[:appid])
 				wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
-				technician_ids=sangna_config.per_user.masseuses_collects.where(member_id:wechat_config.member.id,del:1).pluck(:per_user_masseuse_id)
+				technician_ids=@sangna_config.per_user.masseuses_collects.where(member_id:wechat_config.member.id,del:1).pluck(:per_user_masseuse_id)
 				@technicians=PerUserMasseuse.find(technician_ids)
 	end
 
@@ -95,7 +90,7 @@ class Wechat::WcFrontController < ApplicationController
 							string = (0...4).map{ o[rand(o.length)] }.join
 							coupon_record.number=Time.now.to_i.to_s+string
 							coupon_record.user_id=coupon_rule.user_id
-							coupon_record.member_id=o_member_id.nil? ? o_member_id : member_id
+							coupon_record.member_id=o_member_id.nil? ? member_id : o_member_id
 							coupon_record.create_time=Time.now
 							coupon_record.order_id=params[:o_id]
 							coupon_record.save
