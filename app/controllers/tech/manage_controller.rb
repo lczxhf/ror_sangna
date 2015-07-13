@@ -112,7 +112,7 @@ class Tech::ManageController < ApplicationController
     end
   end
 
-  def order
+  def orderup
      orders = OrderByMasseuse.new
      orders.user_id = params[:tech_user_id] 
      orders.masseuse_id = params[:tech_id]
@@ -120,6 +120,9 @@ class Tech::ManageController < ApplicationController
      orders.status = params[:status]
      orders.start_time = Time.now
      if orders.save
+       status = PerUserMasseuse.find(params[:tech_id])
+       status.work_status = 3
+       status.save
        render plain: "#{orders.id.to_s}"
      else
        render plain: 'no'
@@ -129,26 +132,29 @@ class Tech::ManageController < ApplicationController
   def orderdown
      handnum = OrderByMasseuse.find(params[:order_id])
      if handnum
-       puts handnum.hand_number
-
        pull = PerUserQrCode.where(hand_code: params[:hand_num],user_id: params[:tech_user_id]).first
        if pull
          handnum.status = params[:down].to_i
          handnum.end_time = Time.now
          handnum.hand_number = params[:hand_num]
          member = Member.where(user_id: params[:tech_user_id],hand_code: params[:hand_num]).first
+         # tech = PerUserMasseuse.find(params[:tech_id])
          if member
-          handnum.member=member
-          handnum.save
-          uri = URI('http://weixin.linkke.cn/wechat/gzh_manage/sent_consumption_message')
-          res = Net::HTTP.post_form(uri, 'h' => pull.hand_code, 'o_id' => handnum.id)
+            handnum.member=member
+            handnum.save
+            uri = URI('http://weixin.linkke.cn/wechat/gzh_manage/sent_consumption_message')
+            res = Net::HTTP.post_form(uri, 'h' => pull.hand_code, 'o_id' => handnum.id)
+          # elsif params[:objectdown_name] == 1
+          #   tech.
+          # elsif params[:objectdown_name] == 2
+            
           end
+         render plain: 'ok'
        else
-           handnum.save
+         render plain: 'no'
        end
-       render plain: 'ok'
-     else
-       render plain: 'no'  
+     
+
      end
   end
 
@@ -249,4 +255,17 @@ class Tech::ManageController < ApplicationController
       render plain: "#{address.province_id.to_s},#{address.city_id.to_s},#{address.district_id.to_s},#{address.address.to_s}"
     end
   end
+
+  def jobstatus
+    jobstatus = PerUserMasseuse.find(params[:tech_id])
+    render plain: jobstatus.work_status
+  end
+
+  def modifystatus
+    jobstatus = PerUserMasseuse.find(params[:tech_id])
+    jobstatus.work_status = params[:status]
+    if jobstatus.save
+      render plain: jobstatus.work_status
+    end  
+  end  
 end

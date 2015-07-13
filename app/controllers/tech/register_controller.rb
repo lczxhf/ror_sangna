@@ -6,21 +6,25 @@ class Tech::RegisterController < ApplicationController
     register.username = tel
     register.pwd = params[:pwd]
     club = PerUser.find_by(poll_code: params[:club_code])
-    register.user_id = club.id
+    
     verify = params[:verify]
     user = PerUserMasseuse.where(username: tel).first
-    if user
-      render plain: '用户名已经存在'
-    else
-      if verify != tel_code
-        render plain: '验证码错误'
+    if club
+      register.user_id = club.id
+      if user
+        render plain: '用户名已经存在'
       else
-        register.save
-        registers = PerUserMasseuse.select('id','user_id').where(username: tel)
-        render json: registers 
+        if verify != tel_code
+          render plain: '验证码错误'
+        else
+          register.save
+          registers = PerUserMasseuse.select('id','user_id').where(username: tel)
+          render json: registers 
+        end
       end
+    else  
+      render plain: '注册码输入错误'
     end
-
 
   end
 
