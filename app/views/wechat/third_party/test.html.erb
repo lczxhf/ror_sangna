@@ -2,34 +2,17 @@
 <%= javascript_include_tag 'wechat/wechat_front', 'data-turbolinks-track' => true %>
 <%= stylesheet_link_tag    'wechat/wechat_front', media: 'all', 'data-turbolinks-track' => true %>
 <%= javascript_include_tag 'jquery-2.1.0'%>
-	<script>
-		$(function(){
-			$("#test").click(function(){
-					$.ajax({
-						type: 'POST',
-						url: "http://weixin.linkke.cn/wechat/message/123",
-						data: "<xml><ToUserName><![CDATA[gh_2627cc1b9cee]]></ToUserName><Encrypt><![CDATA[lQXfwDpKA8/qDG8X/upYc+mB/L/6+PysQxBxpOZ0gBbM79kOmLgbWyl3zjC7BwCp3ENany1aoH7m0dfcqj0rtL++DhgmkMN05+NRPu2wEFfMwr+R0DyGuMzNQ4GblMtAlHm9zyhIQt/WbKQ4xxGZYZyOyNsGBbyCz2JjTslx528U9nRc1d0Lz/nYULCHgyW3it1UBC6N3YwyxhXQnrKZd8gcQz4rutK0Asv7GJ3FcNMV92XqwFwSom8Os/jBpsuE+/J5gOoPlXUKBjBC7gcZpWw9/En4KO/cgRpoQRF22sGbmDDV6OXSNwAlQa7iB26/xhtTCapjp5iw4Fvgr49b93leBNsUkW8J984B3LJmSdh1iab7PYRpTixlNYBc/TIC9j0hI7sH/hTEO6Nss2CgEaofOJX28k6IHv+9njZMfZU=]]></Encrypt></xml>",
-						success: function(){},
-						dataType: "xml"
-					});
-			})
-			
-		})	
-	</script>
+
 <%end%>
 
 <%content_for :body do %>
- <form action="http://weixin.linkke.cn/wechat/message/123" method="post" enctype="multipart/form-data" >
-		<input type="file" name="url"/>
-		<input type="submit" value="upload"/>
-		<input type="button" id="test" value="test"/>
- </form>
+
  <form action="/wechat/gzh_manage/sent_consumption_message" method="post">
 			<input type="hidden" value="196" name="o_id" />
 			<input type="hidden" value="001" name="h" />
 			<input type="submit" value="tijiao" />
  </form>
 
-  <img class="arrow" src="/share-it.png">
+<input type="file" value='choose'/>
 
 <%end%>
