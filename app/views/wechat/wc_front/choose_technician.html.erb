@@ -10,51 +10,7 @@
 		<%=stylesheet_link_tag "wechat_front/iconfont"%>
 		<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 		<title>挑选技师</title>
-		<script>
-			mui.init({
-				pullRefresh: {
-					container: '#pullrefresh',
-					down: {
-						callback: pulldownRefresh
-					},
-					up: {
-						contentrefresh: '正在加载...',
-						callback: pullupRefresh
-					}
-				}
-			});
-			/**
-			 * 下拉刷新具体业务实现
-			 */
-			function pulldownRefresh() {
-				setTimeout(function() {
-					location.reload(true);
-					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
-				}, 1500);
-			}
-
-			/**
-			 * 上拉加载具体业务实现
-			 */
-			function pullupRefresh() {
-				setTimeout(function() {
-					mui('#pullrefresh').pullRefresh().endPullupToRefresh(); 
-					
-				}, 1500);
-			}
-			if (mui.os.plus) {
-				mui.plusReady(function() {
-					setTimeout(function() {
-//						mui('#pullrefresh').pullRefresh().pullupLoading();
-					}, 1000);
-
-				});
-			} else {
-				mui.ready(function() {
-//					mui('#pullrefresh').pullRefresh().pullupLoading();
-				});
-			}
-		</script>
+		
 		<script>
 				<%if @inscene%>
 				$(function(){
@@ -120,12 +76,5 @@
 		
 	<%end%>
 	<%content_for :body do%>
-<!--
-	 <header class="mui-bar mui-bar-nav">
-     <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a> 
-     <h1 class="mui-title">挑选技师</h1> 
-      <a class="mui-pull-right " href="javascript:void(0)" id="qrcode">扫一扫</a>
-   </header>
---!>
 	 <%=render partial: "technician" ,locals: {technicians:@technicians,inscene:@inscene,name:@sangna_config.per_user.name,wechat_config:@wechat_config}%>
 	<%end%>
