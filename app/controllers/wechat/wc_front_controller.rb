@@ -5,9 +5,9 @@ class Wechat::WcFrontController < ApplicationController
 		@sangna_config=SangnaConfig.includes(:per_user).find_by_appid(params[:appid])
 		@technicians=PerUserMasseuse.where(user_id:@sangna_config.per_user.id,)
 		@inscene=false
-		if wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])	
-			 if wechat_config.member.hand_code	
-						if PerUserQrCode.where(user_id:@sangna_config.per_user.id,hand_code:wechat_config.member.hand_code).first
+		if @wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])	
+			 if @wechat_config.member.hand_code	
+						if PerUserQrCode.where(user_id:@sangna_config.per_user.id,hand_code:@wechat_config.member.hand_code).first
 								@inscene=true
 						else
 								cookies["next_url"]=request.url
@@ -58,9 +58,17 @@ class Wechat::WcFrontController < ApplicationController
 
 	def my_collect
 				@sangna_config=SangnaConfig.includes(:per_user).find_by_appid(params[:appid])
-				wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
-				technician_ids=@sangna_config.per_user.masseuses_collects.where(member_id:wechat_config.member.id,del:1).pluck(:per_user_masseuse_id)
+				@wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
+				technician_ids=@sangna_config.per_user.masseuses_collects.where(member_id:@wechat_config.member.id,del:1).pluck(:per_user_masseuse_id)
 				@technicians=PerUserMasseuse.find(technician_ids)
+				@inscene=false
+				 if @wechat_config.member.hand_code	
+						if PerUserQrCode.where(user_id:@sangna_config.per_user.id,hand_code:@wechat_config.member.hand_code).first
+								@inscene=true
+						else
+								cookies["next_url"]=request.url
+						end
+			 end
 	end
 
 	def redbage

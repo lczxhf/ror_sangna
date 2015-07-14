@@ -1,10 +1,14 @@
 module Wechat::WcFrontHelper
 	def return_job_class(number,is_zh=true)
 		job_class=[0,["Dating","大厅技师"],["Fangjian","房间技师"],["Meirong","美容技师"]]
-		if is_zh
-			return job_class[number][1]
+		if number
+			if is_zh
+				return job_class[number][1]
+			else
+				return job_class[number][0]
+			end
 		else
-			return job_class[number][0]
+				return '技师'
 		end
 	end
 

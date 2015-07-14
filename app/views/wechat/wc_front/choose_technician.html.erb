@@ -11,38 +11,15 @@
 		<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 		<title>挑选技师</title>
 		<script>
-		$(function(){
-			wx.config({
-    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-    appId: '<%=params[:appid]%>', // 必填，公众号的唯一标识
-    timestamp:'<%=timestamp=Time.now.to_i%>' , // 必填，生成签名的时间戳
-    nonceStr: '<%=nonceStr=SecureRandom.uuid.tr('-', '')%>', // 必填，生成签名的随机串
-    signature: '<%=signature(timestamp,nonceStr)%>',// 必填，签名，见附录1
-    jsApiList: ["scanQRCode"] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-		});
-
-		wx.ready(function(){
-			$("#qrcode").click(function(){
-				wx.scanQRCode({
-					needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
-					scanType: ["qrCode"], // 可以指定扫二维码还是一维码，默认二者都有
-					success: function (res) {
-						var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
-							window.location.href=result;
-					}
-				});	
-			});
-		})
-	$('.backdrop').show();
-				$('.close_popup').click(function(){
-					$('.popup').hide();
-					$('.backdrop').hide();
-				})
-
-})
-		<%if @inscene%>
+				<%if @inscene%>
+				$(function(){
+					$('.mui-content').attr("class","mui-content pt44");
+					})
 			function show_info(technician_id){
 					window.location.href="technician_info?t_id="+technician_id+"&appid=<%=params[:appid]%>";
+			}
+			function toperson(){
+					window.location.href='my_account?appid=<%=params[:appid]%>';
 			}
 			<%else%>
 			function collect(technician_id,icon){
@@ -61,6 +38,38 @@
 								  }
 							 })
 			}
+			$(function(){
+					$('.backdrop').show();
+				$('.close_popup').click(function(){
+					$('.popup').hide();
+					$('.backdrop').hide();
+				})
+			$('.cancel').click(function(){
+						wx.closeWindow();
+				})
+			wx.config({
+    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+    appId: '<%=params[:appid]%>', // 必填，公众号的唯一标识
+    timestamp:'<%=timestamp=Time.now.to_i%>' , // 必填，生成签名的时间戳
+    nonceStr: '<%=nonceStr=SecureRandom.uuid.tr('-', '')%>', // 必填，生成签名的随机串
+    signature: '<%=signature(timestamp,nonceStr)%>',// 必填，签名，见附录1
+    jsApiList: ["scanQRCode"] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+		});
+
+		wx.ready(function(){
+			$("#qrcode").click(function(){
+				wx.scanQRCode({
+					needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+					scanType: ["qrCode"], // 可以指定扫二维码还是一维码，默认二者都有
+					success: function (res) {
+						var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+							$('.mui-content').attr("class","mui-content pt44");
+							window.location.href=result;
+					}
+				});	
+			});
+		})
+			})
 		<%end%>
 		</script>
 		
@@ -73,5 +82,5 @@
       <a class="mui-pull-right " href="javascript:void(0)" id="qrcode">扫一扫</a>
    </header>
 --!>
-			<%=render partial: "technician" ,locals: {technicians:@technicians,tips:'',inscene:@inscene,name:@sangna_config.per_user.name}%>
+			<%=render partial: "technician" ,locals: {technicians:@technicians,inscene:@inscene,name:@sangna_config.per_user.name,wechat_config:@wechat_config}%>
 	<%end%>
