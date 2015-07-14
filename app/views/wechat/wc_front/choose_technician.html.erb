@@ -127,5 +127,5 @@
       <a class="mui-pull-right " href="javascript:void(0)" id="qrcode">扫一扫</a>
    </header>
 --!>
-	 <%=render partial: "technician" ,locals: {technicians:@technicians,inscene:@inscene,name:@sangna_config.per_user.name,wechat_config:@wechat_config}%>
+	 <%=render partial: "technician" ,locals: {technicians:@technicians,inscene:@inscene,name:@sangna_config.per_user.name,wechat_config:@wechat_config},layout: "tech_layout"%>
 	<%end%>
