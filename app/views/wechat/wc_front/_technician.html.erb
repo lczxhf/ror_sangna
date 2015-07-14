@@ -22,39 +22,40 @@
 		 <div class="mui-scroll">
 			 <!--数据列表-->
 			<ul class="mui-table-view mui-table-view-chevron">
-		<%technicians.each do |technician|%>
-			<div class="Jishi_infor jishi_color" onclick="show_info('<%=technician.id%>')">
-				<div class="box_jishi">
-					<div class="box_img jishi_background">
-						<img class="jishi_img" src="<%=technician.img.url%>" alt="" height="50px" width="50px" />
+			<%technicians.each do |technician|%>
+				<div class="Jishi_infor jishi_color" onclick="show_info('<%=technician.id%>')">
+					<div class="box_jishi">
+						<div class="box_img jishi_background">
+							<img class="jishi_img" src="<%=technician.img.url%>" alt="" height="50px" width="50px" />
+						</div>
+						<span class="jishi_num fs17"><%=technician.job_number%></span>
+						<span class="jishi_sex fs11">（<%= technician.sex==1 ? "男":"女"%>）</span>
+						<span class="jishi_type"><%=return_job_class(technician.job_class_status)%></span>
+						<%if inscene%>
+						<span class="jishi_state fs11">
+						<%=return_technician_state(technician.work_status)%>
+						</span>
+						<%else%>
+						<a href="tel:123213">
+						<div class="yuan_yuyue">
+							<span class="mui-icon mui-icon-phone"></span>
+							<!--<span class="mui-icon iconfont icon-dianhua"></span> --!>
+						</div>
+						</a>
+						<div class="yuan_shoucang">
+						<!--	<span class="mui-icon iconfont icon-xingxingman"> </span>  --!>
+							<span class="mui-icon iconfont icon-xingxing<%=is_collect(params[:appid],technician.id)%>" onclick="collect('<%=technician.id%>',this)"></span> 
+						</div>
+						<%end%>
 					</div>
-					<span class="jishi_num fs17"><%=technician.job_number%></span>
-					<span class="jishi_sex fs11">（<%= technician.sex==1 ? "男":"女"%>）</span>
-					<span class="jishi_type"><%=return_job_class(technician.job_class_status)%></span>
-					<%if inscene%>
-					<span class="jishi_state fs11">
-					<%=return_technician_state(technician.work_status)%>
-					</span>
-					<%else%>
-					<a href="tel:123213">
-					<div class="yuan_yuyue">
-						<span class="mui-icon mui-icon-phone"></span>
-						<!--<span class="mui-icon iconfont icon-dianhua"></span> --!>
+					<div class="evaluate fs12">
+						其它客户觉得TA：
+			<!--			<span class="project"><%=get_hot_project(technician.id)%></span   --!>
+						<span class="jishi_best"><%=get_hot_comment(technician.id)%></span>
+						<%if inscene%>
+				    <span class="current_state fs12"> <span class="time">13:00pm</span>有预约</span>
+						<%end%>
 					</div>
-					</a>
-					<div class="yuan_shoucang">
-					<!--	<span class="mui-icon iconfont icon-xingxingman"> </span>  --!>
-						<span class="mui-icon iconfont icon-xingxing<%=is_collect(params[:appid],technician.id)%>" onclick="collect('<%=technician.id%>',this)"></span> 
-					</div>
-					<%end%>
-				</div>
-				<div class="evaluate fs12">
-					其它客户觉得TA：
-		<!--			<span class="project"><%=get_hot_project(technician.id)%></span   --!>
-					<span class="jishi_best"><%=get_hot_comment(technician.id)%></span>
-					<%if inscene%>
-			    <span class="current_state fs12"> <span class="time">13:00pm</span>有预约</span>
-					<%end%>
 				</div>
 			</div>
 		<%end%>
