@@ -55,7 +55,7 @@ Rails.application.routes.draw do
     post 'register' => 'register#register' #注册
     post 'verify' => 'register#verify'  #验证码
     get 'project' => 'register#project' #获取项目
-    post 'upload' => 'register#upload' #完善用户资料
+    get 'upload' => 'register#upload' #完善用户资料
     post 'login' => 'register#login' #登陆
     get 'job' => 'manage#project' #技师所属项目
     get 'job_number' =>'manage#job_number' #技师工号

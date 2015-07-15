@@ -64,7 +64,7 @@ class Tech::RegisterController < ApplicationController
     upload.name = params[:name]
     upload.sex = params[:sex]
     upload.language = params[:language]
-    upload.client_id = params[:cid]
+    # upload.client_id = params[:cid]
     upload.job_class_status = params[:craft]
     upload.projects_id = params[:ck_string]
     upload.job_number = params[:job_number]
