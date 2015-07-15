@@ -5,17 +5,6 @@
 }
 
 /*box--技师信息*/
-/*扫一扫*/
-.Sao{
-	margin: 8px auto;
-	font-size: 12px;
-	text-align: center;
-}
-.Sao a{
-	color: #54A468;
-	text-decoration: underline;
-}
-
 .yuan_yuyue{
 	color: #897870;
 	width: 35px;
@@ -154,21 +143,91 @@ line-height: 30px;
 	font-size: 14px;
 	color: #646162;
 }
-.close{
-	display: block;
+.box_btn{
+	text-align: center;
+	margin: 40px 0 10px;
+}
+.cancel{
 	background: #eeeeee;
-	width: 90%;
-	margin: 40px auto 10px;
+	color: #cccccc;
+	border: none;
+	display: inline-block;
+	width: 30%;
+	height: 35px;
 }
-.prompt{
-	display: none;
-	width: 80%;
-	background: white;
-	padding: 25px 5% 20px ;
-	border-radius: 5px;
-	position: fixed;
-	top:20%;
-	left: 10%;
-	z-index: 100;
+.close{
+	margin-left: 4%;
+	display: inline-block;
+	background: #eeeeee;
+	width: 60%;
+	height: 35px;
 }
+
+
+
+
+
+/*底部*/
+.mui-content{
+	padding-top: 0;
+	padding-bottom: 57px;
+}
+.mui-bar-tab{
+	opacity: 0.9;
+	height: 50px;
+	line-height:35px;
+	padding-top: 10px;
+}
+.tip{
+	padding-left: 2%;
+	width: 81%;
+	font-size: 12px;
+}
+/*扫一扫*/
+.btn_sao{
+	width: 17%;
+	font-size: 0.7em;
+	position: absolute;
+	top: 10px;
+	right: 2%;
+}
+.mui-bar-nav{
+	opacity: 0.8;
+	background: #FAF1E9;
+	height: 50px;
+	text-align: center;
+	line-height: 50px;
+}
+
+
+.user_img_2{
+	width: 40px;
+	height: 40px;
+	position: absolute;
+	left: 3%;
+	top: 6px;
+	background: #736158 ;
+	border-radius: 50%;
+	margin-bottom: 5px;
+}
+.user_img_2 img{
+	border-radius: 50%;
+	margin: 2px;
+}
+
+.hand_num_2{
+	font-size: 18px;
+}
+.personal{
+	position: absolute;
+	right: 2%;
+	top: 0;
+	font-size: 16px;
+}
+
+.pt44{
+	padding-top: 44px !important;	
+}
+
+
 

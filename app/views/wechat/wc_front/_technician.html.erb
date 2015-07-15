@@ -1,56 +1,38 @@
-	<div class="mui-content">
-			<div class="Sao">到场客户可
-				<a href="javascript:void(0)" id="qrcode">扫一扫</a>
-				店家二维码查看技师详细资料
-			</div>
-			<div class="backdrop">
-				<div class="popup">
-					<div class="bold">XXXX会所郑重承诺: </div>
-					<div class="content">本会所严格按照国家有关法律规定，只提供健康休闲水疗、SPA、桑拿等服务；”领客云平台”只提供技术支持，本微信公众账号内所有数据皆由店家或技师自行上传。</div>
-					<button class="close close_popup">确定<tton>
-				</div>
-				<div class="prompt">
-					<div class="bold">店内外扫描提示: </div>
-					<div class="content">到店扫描店家提供的二维码后可查看技师图片、技师评价、是否空闲等详细资料</div>
-					<button class="close close_prompt">确定<tton>
-				</div>
-			</div>
-		
-		
-		<%technicians.each do |technician|%>
-			<div class="Jishi_infor jishi_color" onclick="show_info('<%=technician.id%>')">
-				<div class="box_jishi">
-					<div class="box_img jishi_background">
-						<img class="jishi_img" src="<%=technician.img.url%>" alt="" height="50px" width="50px" />
-					</div>
-					<span class="jishi_num fs17"><%=technician.job_number%></span>
-					<span class="jishi_sex fs11">（<%= technician.sex==1 ? "男":"女"%>）</span>
-					<span class="jishi_type"><%=return_job_class(technician.job_class_status)%></span>
-					<%if inscene%>
-					<span class="jishi_state fs11">
-					<%=return_technician_state(technician.work_status)%>
-					</span>
-					<%else%>
-					<a href="tel:123213">
-					<div class="yuan_yuyue">
-						<span class="mui-icon mui-icon-phone"></span>
-						<!--<span class="mui-icon iconfont icon-dianhua"></span> --!>
-					</div>
-					</a>
-					<div class="yuan_shoucang">
-					<!--	<span class="mui-icon iconfont icon-xingxingman"> </span>  --!>
-						<span class="mui-icon iconfont icon-xingxing<%=is_collect(params[:appid],technician.id)%>" onclick="collect('<%=technician.id%>',this)"></span> 
-					</div>
-					<%end%>
-				</div>
-				<div class="evaluate fs12">
-					其它客户觉得TA：
-		<!--			<span class="project"><%=get_hot_project(technician.id)%></span   --!>
-					<span class="jishi_best"><%=get_hot_comment(technician.id)%></span>
-					<%if inscene%>
-			    <span class="current_state fs12"> <span class="time">13:00pm</span>有预约</span>
-					<%end%>
+
+			<%technicians.each do |technician|%>
+				<div class="Jishi_infor jishi_color" onclick="show_info('<%=technician.id%>')">
+					<div class="box_jishi">
+						<div class="box_img jishi_background">
+							<img class="jishi_img" src="<%=technician.img.url%>" alt="" height="50px" width="50px" />
+						</div>
+						<span class="jishi_num fs17"><%=technician.job_number%></span>
+						<span class="jishi_sex fs11">（<%= technician.sex==1 ? "男":"女"%>）</span>
+						<span class="jishi_type"><%=return_job_class(technician.job_class_status)%></span>
+						<%if inscene%>
+							<span class="jishi_state fs11">
+								<%=return_technician_state(technician.work_status)%>
+							</span>
+						<%else%>
+								<a href="tel:123213">
+									<div class="yuan_yuyue">
+										<span class="mui-icon mui-icon-phone"></span>
+										<!--<span class="mui-icon iconfont icon-dianhua"></span> --!>
+									</div>
+								</a>
+								<div class="yuan_shoucang">
+									<!--	<span class="mui-icon iconfont icon-xingxingman"> </span>  --!>
+									<span class="mui-icon iconfont icon-xingxing<%=is_collect(params[:appid],technician.id)%>" onclick="collect('<%=technician.id%>',this)"></span> 
+								</div>
+						<%end%>
+						</div>
+						<div class="evaluate fs12">
+							其它客户觉得TA：
+							<!--			<span class="project"></span>   --!>
+							<span class="jishi_best"><%=get_hot_comment(technician.id)%></span>
+							<%if inscene%>
+								<span class="current_state fs12"> <span class="time">13:00pm</span>有预约</span>
+							<%end%>
+						</div>
 				</div>
 			</div>
 		<%end%>
-	</div>

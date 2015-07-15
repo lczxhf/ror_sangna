@@ -8,15 +8,28 @@ class Wechat::ThirdPartyController < ApplicationController
 	 include Wechat::ReplyWeixinMessageHelper
 
 	def test
-				 order=OrderByMasseuse.includes(per_user:[:sangna_config]).find(1)
-				 wechat_config=WechatConfig.includes(wechat_user:[:member]).first
+			masseuse=PerUserMasseuse.find_by_job_number(1234)
+			Dir::foreach('/home/lzh/1234') do |dir|
+					if file=(/\w+\.[a-zA-Z0-9]+/.match(dir))
+						    file="/home/lzh/1234/"+file.to_s
+						    puts file
+							# File::open(file,'r') do |a|
+							# 	img=MasseusesImg.new
+							# 	img.per_user_masseuse=masseuse
+							# 	img.url=a
+							# 	img.i_type=2
+							# 	img.user_id=masseuse.user_id
+							# 	img.save
+							# end
+					end
 
+			end
   end
 	def test1
 			user=WechatUser.find(12)
 			puts '\u{6d69}'
 			puts user.nickname.dump
-			puts user.nickname.codepoints.to_a.inspect
+			puts user.nickname.codepoints.to_a.inspect	
 			#user.nickname.length.times {|a| puts user.nickname[a]}
 	end	
 	 def home 

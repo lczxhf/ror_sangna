@@ -24,6 +24,7 @@ class Wechat::MessageController < ApplicationController
 			    if @weixin_message.Event=='subscribe'
 							
 							wechat_config=WechatConfig.find_or_create_by(openid:@weixin_message.FromUserName,sangna_config_id: gzh.id)
+							wechat_config.del=1
 							if !wechat_config.member
 									member=Member.create(user_id:gzh.per_user.id,username:wechat_config.openid)
 									wechat_config.member=member
