@@ -119,10 +119,13 @@ class Tech::ManageController < ApplicationController
      orders.project_id = params[:project_name_num]
      orders.status = params[:status]
      orders.start_time = Time.now
+     puts Time.now
      if orders.save
        status = PerUserMasseuse.find(params[:tech_id])
        status.work_status = 3
        status.save
+       p 1111
+       p orders.to_json
        render plain: "#{orders.id.to_s}"
      else
        render plain: 'no'
@@ -149,8 +152,10 @@ class Tech::ManageController < ApplicationController
           # elsif params[:objectdown_name] == 2
             
           end
+          p 111
          render plain: 'ok'
        else
+          p  222
          render plain: 'no'
        end
      
