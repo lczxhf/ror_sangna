@@ -26,11 +26,6 @@ class Wechat::ThirdPartyController < ApplicationController
 			end
   end
 	def test1
-			user=WechatUser.find(12)
-			puts '\u{6d69}'
-			puts user.nickname.dump
-			puts user.nickname.codepoints.to_a.inspect	
-			#user.nickname.length.times {|a| puts user.nickname[a]}
 	end	
 	 def home 
 		@url="https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=#{APPID}&pre_auth_code=#{Rails.cache.read(:pre_code)}&redirect_uri=http://weixin.linkke.cn/wechat/third_party/auth_code"

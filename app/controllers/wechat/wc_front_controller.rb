@@ -1,22 +1,30 @@
 class Wechat::WcFrontController < ApplicationController
 			require "rexml/document" 
-	before_action :check_openid,:except=>[:remark,:get_redbage]
+	before_action :check_openid,:except=>[:remark,:get_redbage,:page_technician]
 	def choose_technician
+		if params[:page]
+				page=params[:page].to_i
+		else
+				page=1
+		end
 		@sangna_config=SangnaConfig.includes(:per_user).find_by_appid(params[:appid])
-		@technicians=PerUserMasseuse.where(user_id:@sangna_config.per_user.id,)
-		@inscene=false
-		if @wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])	
-			 if @wechat_config.member.hand_code	
+		@technicians=PerUserMasseuse.where(user_id:@sangna_config.per_user.id).limit(5).offset(5*(page-1))
+			@inscene=false
+			if @wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])	
+				 if @wechat_config.member.hand_code	
 						if PerUserQrCode.where(user_id:@sangna_config.per_user.id,hand_code:@wechat_config.member.hand_code).first
 								@inscene=true
 						else
 								cookies["next_url"]=request.url
 						end
-			 end
-		end
-		# @technicians=PerUserMasseuse.where(user_id:params[:user_id])
+				 end
+			end
 	end
-	
+
+	def page_technician
+			technicians=PerUserMasseuse.where(user_id:params[:id]).limit(5).offset(5*(params[:page].to_i-1))
+			render plain: technicians.to_json
+	end
 	def technician_info
 		@technician=PerUserMasseuse.find(params[:t_id])
 	end
