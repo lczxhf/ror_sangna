@@ -151,8 +151,8 @@ class Wechat::GzhManageController < ApplicationController
 								templete_message=templete_number.templete_messages.where(sangna_config_id:order.per_user.sangna_config.id).first
 								url="http://weixin.linkke.cn/wechat/wc_front/technician_remark?o_id=#{params[:o_id]}&appid=#{order.per_user.sangna_config.appid}"
 								hash={}
-								hash["first"]="您还有一个优惠劵未领取！ \\n #{Time.now.strftime('%Y年%m月%d日')}"
-								hash["remark"]="点击“详情”评价技师，领取优惠劵！"
+								hash["first"]="您还有一个优惠劵未领取！ \\n #{Time.now.strftime('%Y年%m月%d日')} \\n #{order.per_user.name}#{order.per_user_masseuse.job_number}号技师已经为您完成了#{order.per_user_project.name}服务"
+								hash["remark"]="点击“详情”获取代金券!"
 								coupon_rule=order.per_user.coupons_rules.where(name:'分享得红包').first
 								array=[coupon_rule.face_value.to_s,coupon_rule.validity_end_time.strftime('%Y年%m月%d日')]
 								templete_number.fields.split(',').each_with_index do |a,index|

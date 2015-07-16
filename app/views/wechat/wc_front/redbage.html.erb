@@ -23,7 +23,7 @@
 				//    wx.hideOptionMenu();
 					wx.showAllNonBaseMenuItem();
 					wx.onMenuShareTimeline({
-					title: '我刚去完<%=@order.per_user.name%>会所,它们服务很好可以微信点技师,你也来抢个礼包吧!', 
+					title: '送你￥10<%=@order.per_user.name%>会所代金券,推荐<%=@order.per_user_masseuse.job_number%>号技师帮你服务!', 
 					ink: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&o_id=<%=@order.id%>&id=<%=@order.member_id%>',
 					imgUrl: 'http://weixin.linkke.cn<%=image_path @order.per_user.per_user_imgs.first.url.url%>',
 					success: function(res){
@@ -51,9 +51,9 @@
 
 
 					 wx.onMenuShareAppMessage({
-						  title: '我刚去完<%=@order.per_user.name%>会所,它们服务很好可以微信点技师,你也来抢个礼包吧!', 
+						  title: '送你￥10<%=@order.per_user.name%>会所代金券,推荐<%=@order.per_user_masseuse.job_number%>号技师帮你服务!', 
 							desc: '', 
-							link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&o_id=<%=@order.id%>&id=<%=@orde    r.member_id%>', 
+							link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&o_id=<%=@order.id%>&id=<%=@order.member_id%>', 
 							imgUrl: 'http://weixin.linkke.cn<%=image_path @order.per_user.per_user_imgs.first.url.url%>',
 							success: function () { 
 							},
@@ -93,7 +93,7 @@
 				<div class="tip_hongbao">
 					<span class="user_name"><%=@order.member.wechat_user.nickname%></span>
 					送您一张
-					<span class="money"><%=@order.coupons_records.first.coupons_rule.face_value%></span>
+					<span class="money">10</span>
 					元代金券
 					<span class="addr"><%=@order.per_user.name%>会所</span>
 					
@@ -102,7 +102,7 @@
 					<img class="ground" src="/images/round.png" alt="" />
 					<img class="cloud_1" src="/images//cloud_1.png" alt="" width="95.6%" height="110px" />
 					<img class="cloud_2" src="/images/cloud_2.png" alt="" width="95.6%" height="100px"/>
-					<span class="money_num"><%=@order.coupons_records.first.coupons_rule.face_value%></span>
+					<span class="money_num">10</span>
 					<span class="company">元</span>
 				</div>
 				

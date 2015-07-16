@@ -74,5 +74,5 @@
 		</script>
 	<%end%>
 	<%content_for :body do%>
-			<%=render partial: "technician" ,locals: {technicians:@technicians,inscene:@inscene,name:@sangna_config.per_user.name,wechat_config:@wechat_config},layout: 'tech_layout'%>
+			<%=render partial: "technician" ,locals: {technicians:@technicians,inscene:@inscene,per_user:@sangna_config.per_user,wechat_config:@wechat_config},layout: 'tech_layout'%>
 	<%end%>

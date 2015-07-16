@@ -191,22 +191,40 @@ line-height: 30px;
 	top: 10px;
 	right: 2%;
 }
-.mui-bar-nav{
-	opacity: 0.8;
-	background: #FAF1E9;
-	height: 50px;
-	text-align: center;
-	line-height: 50px;
-}
 
+/*头部--2*/
+.mui-bar-nav{
+	opacity: 0.9;
+	height: 50px;
+	padding: 0;
+	overflow: hidden;
+}
+.left_box{
+	float: left;
+	width: 50%;
+	height: 50px;	
+	line-height: 50px;
+	background: #8DBD94;
+	color:  #334037;
+	font-size: 14px;
+	padding-left: 3%;
+}
+.right_box{
+	float: left;
+	width: 50%;
+	height: 100%;
+	font-size: 11px;
+	background: #A6D4AE;
+	position: relative;
+}
 
 .user_img_2{
 	width: 40px;
 	height: 40px;
 	position: absolute;
-	left: 3%;
-	top: 6px;
-	background: #736158 ;
+	right: 4%;
+	top: 5px;
+	background: #4F7D5A ;
 	border-radius: 50%;
 	margin-bottom: 5px;
 }
@@ -215,18 +233,22 @@ line-height: 30px;
 	margin: 2px;
 }
 
-.hand_num_2{
-	font-size: 18px;
-}
-.personal{
+.hand{
 	position: absolute;
-	right: 2%;
-	top: 0;
-	font-size: 16px;
+	right: 33%;
+	bottom: 18px;
+}
+.hand_num{
+	position: absolute;
+	right: 33%;
+	bottom: 3px;
 }
 
+
+
+
 .pt44{
-	padding-top: 44px !important;	
+	padding-top: 54px !important;	
 }
 
 .mui-table-view{

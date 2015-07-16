@@ -8,15 +8,18 @@
 					</div>
 				</div>
 			</div>
-			<%if inscene%>
+<%if inscene%>
 			<header class="mui-bar mui-bar-nav">
-					<div class="user_img_2">
-							<img src="<%=wechat_config.wechat_user.headimgurl%>" alt=""  width="36px" height="36px" />
+				<div class="left_box">您在场内状态！</div>
+				<div class="right_box">
+					<div class="user_img_2" onclick='toperson()'>
+						<img src="<%=wechat_config.wechat_user.headimgurl%>" alt=""  width="36px" height="36px" />
 					</div>
-					<span class="hand_num_2"><%=wechat_config.member.hand_code%></span>
-					<span class="personal" onclick='toperson()'>个人中心</span>
+					<div class="hand">当前锁牌</div>
+					<div class="hand_num"><%=wechat_config.member.hand_code%></div>
+				</div>
 			</header>
-			<%end%>
+<%end%>
 
 	<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
 		 <div class="mui-scroll">

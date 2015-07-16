@@ -32,9 +32,6 @@ class TechAvatarUploader < CarrierWave::Uploader::Base
   # end
 
   # Create different versions of your uploaded files:
-   version :thumb do
-     process :resize_to_fit => [50, 50]
-   end
 
 	 version :normal do 
 			process :resize_to_fit => [300,300]

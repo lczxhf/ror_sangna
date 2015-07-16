@@ -31,7 +31,7 @@
 						   //    wx.hideOptionMenu();
 							 wx.showAllNonBaseMenuItem();
 							       wx.onMenuShareTimeline({
-								          title: '我刚去完<%=@order.per_user.name%>会所,它们服务很好可以微信点技师,你也来抢个礼包吧!', 
+								          title: '送你￥10<%=@order.per_user.name%>会所代金券,推荐<%=@order.per_user_masseuse.job_number%>号技师帮你服务!', 
 									        link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&o_id=<%=@order.id%>&id=<%=@order.member_id%>',
 									        imgUrl: 'http://weixin.linkke.cn<%=image_path @order.per_user.per_user_imgs.first.url.url%>',
 									        success: function(res){
@@ -59,7 +59,7 @@
 
 
 										 wx.onMenuShareAppMessage({
-											    title: '我刚去完<%=@order.per_user.name%>会所,它们服务很好可以微信点技师,你也来抢个礼包吧!', 
+											    title: '送你￥10<%=@order.per_user.name%>会所代金券,推荐<%=@order.per_user_masseuse.job_number%>号技师帮你服务!', 
 												  desc: '', 
 												  link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&o_id=<%=@order.id%>&id=<%=@order.member_id%>', 
 													imgUrl: 'http://weixin.linkke.cn<%=image_path @order.per_user.per_user_imgs.first.url.url%>',
@@ -114,7 +114,7 @@
 					<div class="bg_img">
 						<div class="title">评价技师</div>
 							<div class="img_box">
-								<img src="<%=image_path @order.per_user_masseuse.img.normal.url%>" alt="" width="78px" height="78px" />
+								<img src="<%=@order.per_user_masseuse.img.normal.url%>" alt="" width="78px" height="78px" />
 							</div>
 							<div class="JiShi_num">NO.<%=@order.per_user_masseuse.job_number%></div>
 							<div class="tip">分享朋友圈获取￥10元现金券</div>

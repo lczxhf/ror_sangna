@@ -123,16 +123,12 @@ class Wechat::WcFrontController < ApplicationController
 
 	def redbage
 			#cookies.delete("#{params[:appid]}_openid")
-			if params[:from]=='timeline'
 				@order=OrderByMasseuse.includes(:member,:per_user).find(params[:o_id])				
 				if @order.member_id==params[:id].to_i
 						render :redbage
 				else
 						render nothing: true
 				end
-			else
-					render nothing: true
-			end
 	end
 
 	def get_redbage
