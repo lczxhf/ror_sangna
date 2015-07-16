@@ -90,8 +90,12 @@
 										}
 									})
 								 //立即分享到微信朋友圈点击事件
-							
-									  $('#shareit').css('height',document.body.clientHeight);
+										var avail=window.screen.availHeight	
+										var client=document.body.clientHeight
+										if(avail>client){
+												client=avail
+											}
+									  $('#shareit').css('height',client);
 								  	  $(".share_btn").on("click", function() {
 											var data=$("#my_form").serialize();
 											if (data==''){

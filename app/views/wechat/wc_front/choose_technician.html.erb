@@ -57,10 +57,12 @@
 
 
 		<script>
+	function toperson(){
+					window.location.href='my_account?appid=<%=params[:appid]%>';
+			}
 				wx.hideAllNonBaseMenuItem();
 				<%if @inscene%>
 				$(function(){
-					$('.mui-content').attr("class","mui-content mui-scroll-wrapper pt44");
 					wx.config({
 				    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
 				    appId: '<%=params[:appid]%>', // 必填，公众号的唯一标识
@@ -72,9 +74,6 @@
 				})
 			function show_info(technician_id){
 					window.location.href="technician_info?t_id="+technician_id+"&appid=<%=params[:appid]%>";
-			}
-			function toperson(){
-					window.location.href='my_account?appid=<%=params[:appid]%>';
 			}
 			<%else%>
 			function collect(technician_id,icon){
@@ -119,15 +118,14 @@
 					scanType: ["qrCode"], // 可以指定扫二维码还是一维码，默认二者都有
 					success: function (res) {
 						var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
-							$('.mui-content').attr("class","mui-content mui-scroll-wrapper pt44");
 							window.location.href=result;
 					}
 				});	
 			});
 			wx.showAllNonBaseMenuItem();
 		wx.onMenuShareTimeline({
-		      title: '<%=@technician.per_user.name%>会所!', 
-		        link: 'http://weixin.linkke.cn/wechat/wc_front/sangna_info?appid=<%=params[:appid]%>,
+		      title: '<%=@sangna_config.per_user.name%>会所!', 
+		        link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>',
 		        imgUrl: 'http://weixin.linkke.cn<%=image_path @sangna_config.per_user.per_user_imgs.first.url.url%>',
 		        success: function(res){
 							
@@ -138,10 +136,10 @@
 
 
 			 wx.onMenuShareAppMessage({
-				    title: '送你￥10<%=@order.per_user.name%>会所代金券,推荐<%=@order.per_user_masseuse.job_number%>号技师帮你服务!', 
+				    title: '<%=@sangna_config.per_user.name%>会所!', 
 					  desc: '', 
-					  link: 'http://weixin.linkke.cn/wechat/wc_front/sangna_info?appid=<%=params[:appid]%>, 
-						imgUrl: 'http://weixin.linkke.cn<%=image_path @order.per_user.per_user_imgs.first.url.url%>',
+					  link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>', 
+						imgUrl: 'http://weixin.linkke.cn<%=image_path @sangna_config.per_user.per_user_imgs.first.url.url%>',
 						success: function () { 
 						},
 						cancel: function () { 

@@ -162,35 +162,30 @@ line-height: 30px;
 	width: 60%;
 	height: 35px;
 }
-
-
-
-
-
-/*底部*/
-.mui-content{
-	padding-top: 0;
-	padding-bottom: 57px;
-}
-.mui-bar-tab{
-	opacity: 0.9;
-	height: 50px;
-	line-height:35px;
-	padding-top: 10px;
-}
-.tip{
-	padding-left: 2%;
-	width: 81%;
-	font-size: 12px;
-}
-/*扫一扫*/
-.btn_sao{
-	width: 17%;
-	font-size: 0.7em;
-	position: absolute;
-	top: 10px;
-	right: 2%;
-}
+	/*底部*/
+	.mui-content{
+		padding-top: 54px !important;
+		padding-bottom: 57px;
+	}
+	.mui-bar-tab{
+		height: 50px;
+		line-height: 50px;
+		text-align: center;
+		font-size: 12px;
+		background: white;
+		color: #ADADAD;
+	}
+	.mui-bar{
+		box-shadow: 0 0 1px rgba(208, 188, 188, 0.85);
+	}
+	.mui-bar-tab img{
+		position: absolute;
+		left: 3%;
+		top:4px;
+	}
+	.mui-bar-tab span{
+		padding-left: 14%;
+	}
 
 /*头部--2*/
 .mui-bar-nav{
@@ -208,6 +203,15 @@ line-height: 30px;
 	color:  #334037;
 	font-size: 14px;
 	padding-left: 3%;
+}
+.left_box span{
+		display: block;
+			width: 100%;
+				height: 100%;
+}
+.centain{
+	padding: 0;
+	text-align:center;
 }
 .right_box{
 	float: left;

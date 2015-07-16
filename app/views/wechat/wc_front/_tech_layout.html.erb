@@ -8,18 +8,20 @@
 					</div>
 				</div>
 			</div>
-<%if inscene%>
 			<header class="mui-bar mui-bar-nav">
-				<div class="left_box">您在场内状态！</div>
+				<%if inscene%>
+				<div class="left_box"><span>您在场内状态！</span></div>
+				<%else%>
+					<div class="left_box"><span class="centain" id="qrcode">进场扫一扫</span></div>	
+				<%end%>
 				<div class="right_box">
 					<div class="user_img_2" onclick='toperson()'>
 						<img src="<%=wechat_config.wechat_user.headimgurl%>" alt=""  width="36px" height="36px" />
 					</div>
 					<div class="hand">当前锁牌</div>
-					<div class="hand_num"><%=wechat_config.member.hand_code%></div>
+					<div class="hand_num"><%=wechat_config.member.hand_code=="" ? "未进场" : wechat_config.member.hand_code%></div>
 				</div>
 			</header>
-<%end%>
 
 	<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
 		 <div class="mui-scroll">
@@ -31,7 +33,7 @@
 	</div>
 <%if !inscene %>
 			<nav class="mui-bar mui-bar-tab">
-				  <div class="tip">到店扫描锁牌上的二维码后可查看技师详细资料	</div>
-				 <button class="btn_sao" id='qrcode'>扫一扫</button>
-			</nav>
-<%end%>
+					<img src="/images/buttom_img.png" alt="" width="42px" height="42px" />
+						<span>到店扫描锁牌上的二维码后可查看技师详细资料</span>
+				</nav>
+			<%end%>

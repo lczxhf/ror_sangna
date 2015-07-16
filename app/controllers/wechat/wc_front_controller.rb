@@ -1,7 +1,7 @@
 class Wechat::WcFrontController < ApplicationController
 			require "rexml/document" 
 	before_action :check_openid,:except=>[:remark,:get_redbage,:page_technician]
-	before_action :set_sangna_config,:except=>[:remark,:get_redbage,:page_technician]
+	before_action :set_sangna_config,:except=>[:remark,:get_redbage]
 	include Wechat::WcFrontHelper
 	def choose_technician
 		if params[:page]
@@ -174,7 +174,7 @@ class Wechat::WcFrontController < ApplicationController
 				technician=PerUserMasseuse.find(params[:technician_id])
 				wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
 				
-			  collect=MasseusesCollect.find_or_initialize_by(per_user_masseuse_id:technician.id,member_id:wechat_config.member.id,per_user_id:sangna_config.per_user.id)
+			  collect=MasseusesCollect.find_or_initialize_by(per_user_masseuse_id:technician.id,member_id:wechat_config.member.id,per_user_id:@sangna_config.per_user.id)
 				if params[:status]=="add"
 						collect.del=1
 				else
@@ -246,7 +246,7 @@ class Wechat::WcFrontController < ApplicationController
 	def set_sangna_config
 			if params[:appid]
 					@sangna_config=Rails.cache.fetch(params[:appid],expire_in: 4.hours) do 
-							SangnaConfig.includes(:per_user).find_by_appid(params[:appid])
+							SangnaConfig.includes(per_user:[:per_user_imgs]).find_by_appid(params[:appid])
 					end
 			end
 	end

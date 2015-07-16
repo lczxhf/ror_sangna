@@ -24,14 +24,10 @@ class Wechat::ThirdPartyController < ApplicationController
 		#			end
 
 		#	end
-
+				render plain: Rails.cache.read('lzh').to_json
   end
 	def test1
-				PerUserMasseuse.all.each do |a|
-						a.pwd='123456'
-						a.save
-				end
-	      
+					Rails.cache.write('lzh',SangnaConfig.includes(:per_user).first)
 	end	
 	 def home 
 		@url="https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=#{APPID}&pre_auth_code=#{Rails.cache.read(:pre_code)}&redirect_uri=http://weixin.linkke.cn/wechat/third_party/auth_code"

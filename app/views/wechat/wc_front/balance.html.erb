@@ -29,8 +29,8 @@
 		//    wx.hideOptionMenu();
 		wx.showAllNonBaseMenuItem();
 		wx.onMenuShareTimeline({
-		      title: '<%=@technician.per_user.name%>会所!', 
-		        link: 'http://weixin.linkke.cn/wechat/wc_front/sangna_info?appid=<%=params[:appid]%>,
+		      title: '<%=@sangna_config.per_user.name%>会所!', 
+		        link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>',
 		        imgUrl: 'http://weixin.linkke.cn<%=image_path @sangna_config.per_user.per_user_imgs.first.url.url%>',
 		        success: function(res){
 							
@@ -41,10 +41,10 @@
 
 
 			 wx.onMenuShareAppMessage({
-				    title: '送你￥10<%=@order.per_user.name%>会所代金券,推荐<%=@order.per_user_masseuse.job_number%>号技师帮你服务!', 
+				    title: '<%=@sangna_config.per_user.name%>会所!', 
 					  desc: '', 
-					  link: 'http://weixin.linkke.cn/wechat/wc_front/sangna_info?appid=<%=params[:appid]%>, 
-						imgUrl: 'http://weixin.linkke.cn<%=image_path @order.per_user.per_user_imgs.first.url.url%>',
+					  link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>', 
+						imgUrl: 'http://weixin.linkke.cn<%=image_path @sangna_config.per_user.per_user_imgs.first.url.url%>',
 						success: function () { 
 						},
 						cancel: function () { 
