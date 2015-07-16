@@ -57,9 +57,18 @@
 
 
 		<script>
+				wx.hideAllNonBaseMenuItem();
 				<%if @inscene%>
 				$(function(){
 					$('.mui-content').attr("class","mui-content mui-scroll-wrapper pt44");
+					wx.config({
+				    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+				    appId: '<%=params[:appid]%>', // 必填，公众号的唯一标识
+				    timestamp:'<%=timestamp=Time.now.to_i%>' , // 必填，生成签名的时间戳
+				    nonceStr: '<%=nonceStr=SecureRandom.uuid.tr('-', '')%>', // 必填，生成签名的随机串
+				    signature: '<%=signature(timestamp,nonceStr)%>',// 必填，签名，见附录1
+				    jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+					});
 				})
 			function show_info(technician_id){
 					window.location.href="technician_info?t_id="+technician_id+"&appid=<%=params[:appid]%>";
@@ -94,14 +103,15 @@
 						wx.closeWindow();
 				})
 			wx.config({
-    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-    appId: '<%=params[:appid]%>', // 必填，公众号的唯一标识
-    timestamp:'<%=timestamp=Time.now.to_i%>' , // 必填，生成签名的时间戳
-    nonceStr: '<%=nonceStr=SecureRandom.uuid.tr('-', '')%>', // 必填，生成签名的随机串
-    signature: '<%=signature(timestamp,nonceStr)%>',// 必填，签名，见附录1
-    jsApiList: ["scanQRCode"] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-		});
-
+		    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+		    appId: '<%=params[:appid]%>', // 必填，公众号的唯一标识
+		    timestamp:'<%=timestamp=Time.now.to_i%>' , // 必填，生成签名的时间戳
+		    nonceStr: '<%=nonceStr=SecureRandom.uuid.tr('-', '')%>', // 必填，生成签名的随机串
+		    signature: '<%=signature(timestamp,nonceStr)%>',// 必填，签名，见附录1
+		    jsApiList: ["scanQRCode",'onMenuShareTimeline','onMenuShareAppMessage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+				});
+			})
+		<%end%>
 		wx.ready(function(){
 			$("#qrcode").click(function(){
 				wx.scanQRCode({
@@ -114,9 +124,30 @@
 					}
 				});	
 			});
+			wx.showAllNonBaseMenuItem();
+		wx.onMenuShareTimeline({
+		      title: '<%=@technician.per_user.name%>会所!', 
+		        link: 'http://weixin.linkke.cn/wechat/wc_front/sangna_info?appid=<%=params[:appid]%>,
+		        imgUrl: 'http://weixin.linkke.cn<%=image_path @sangna_config.per_user.per_user_imgs.first.url.url%>',
+		        success: function(res){
+							
+		        },
+		        cancel: function(res){
+				    }
+			 });
+
+
+			 wx.onMenuShareAppMessage({
+				    title: '送你￥10<%=@order.per_user.name%>会所代金券,推荐<%=@order.per_user_masseuse.job_number%>号技师帮你服务!', 
+					  desc: '', 
+					  link: 'http://weixin.linkke.cn/wechat/wc_front/sangna_info?appid=<%=params[:appid]%>, 
+						imgUrl: 'http://weixin.linkke.cn<%=image_path @order.per_user.per_user_imgs.first.url.url%>',
+						success: function () { 
+						},
+						cancel: function () { 
+						}
+			 });
 		})
-			})
-		<%end%>
 		</script>
 		
 	<%end%>

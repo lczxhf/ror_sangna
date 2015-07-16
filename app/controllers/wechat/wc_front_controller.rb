@@ -1,6 +1,7 @@
 class Wechat::WcFrontController < ApplicationController
 			require "rexml/document" 
 	before_action :check_openid,:except=>[:remark,:get_redbage,:page_technician]
+	before_action :set_sangna_config,:except=>[:remark,:get_redbage,:page_technician]
 	include Wechat::WcFrontHelper
 	def choose_technician
 		if params[:page]
@@ -8,7 +9,7 @@ class Wechat::WcFrontController < ApplicationController
 		else
 				page=1
 		end
-		@sangna_config=SangnaConfig.includes(:per_user).find_by_appid(params[:appid])
+		
 		@technicians=PerUserMasseuse.where(user_id:@sangna_config.per_user.id).limit(5).offset(5*(page-1))
 			@inscene=false
 			if @wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])	
@@ -23,8 +24,8 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def page_technician
-			sangna_config=SangnaConfig.includes(:per_user).find_by_appid(params[:appid])
-			technicians=PerUserMasseuse.where(user_id:sangna_config.per_user.id).limit(5).offset(5*(params[:page].to_i-1))
+			
+			technicians=PerUserMasseuse.where(user_id:@sangna_config.per_user.id).limit(5).offset(5*(params[:page].to_i-1))
 			arr=[]
 			technicians.each do |technician|
 			arr<<%{	<div class="Jishi_infor jishi_color" onclick="show_info('#{technician.id}')">
@@ -42,7 +43,7 @@ class Wechat::WcFrontController < ApplicationController
 							</span>
 						}	
 			  else
-						%{		<a href="tel:#{sangna_config.per_user.phone}">
+						%{		<a href="tel:#{@sangna_config.per_user.phone}">
 									<div class="yuan_yuyue">
 										<span class="mui-icon mui-icon-phone"></span>
 										<!--<span class="mui-icon iconfont icon-dianhua"></span>  --!>
@@ -81,8 +82,7 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def project_info
-			sangna_config=SangnaConfig.includes(:per_user).find_by_appid(params[:appid])
-			@projects=PerUserProject.where(user_id:sangna_config.per_user.id)
+			@projects=PerUserProject.where(user_id:@sangna_config.per_user.id)
 	end
 
 	def project_detail
@@ -90,8 +90,7 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def sangna_info
-			sangna_config=SangnaConfig.includes(:per_user).find_by_appid(params[:appid])
-			@sangna=sangna_config.per_user
+			@sangna=@sangna_config.per_user
 			if @sangna.status==1&&@sangna.del==1
 				@per_user_imgs=@sangna.per_user_imgs
 				@sangna_info=@sangna.per_user_info
@@ -102,12 +101,12 @@ class Wechat::WcFrontController < ApplicationController
 
 	def my_account
 				@wechat_config=WechatConfig.includes(:wechat_user,:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"]) 
-				@sangna_config=SangnaConfig.includes(per_user:[:coupons_records]).find(@wechat_config.sangna_config_id)
+				
 				@wechat_user=@wechat_config.wechat_user
 	end
 
 	def my_collect
-				@sangna_config=SangnaConfig.includes(:per_user).find_by_appid(params[:appid])
+				
 				@wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
 				technician_ids=@sangna_config.per_user.masseuses_collects.where(member_id:@wechat_config.member.id,del:1).pluck(:per_user_masseuse_id)
 				@technicians=PerUserMasseuse.find(technician_ids)
@@ -174,7 +173,7 @@ class Wechat::WcFrontController < ApplicationController
 				puts params
 				technician=PerUserMasseuse.find(params[:technician_id])
 				wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
-				sangna_config=SangnaConfig.includes(:per_user).find_by_appid(params[:appid])
+				
 			  collect=MasseusesCollect.find_or_initialize_by(per_user_masseuse_id:technician.id,member_id:wechat_config.member.id,per_user_id:sangna_config.per_user.id)
 				if params[:status]=="add"
 						collect.del=1
@@ -186,13 +185,13 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def phone_bind
-
+			
 	end
 
 	def card_info
-				sangna_config=SangnaConfig.includes(per_user:[:coupons_records]).find_by_appid(params[:appid])
+				
 				wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
-				@cards=sangna_config.per_user.coupons_records.includes(:coupons_rule).where(member_id:wechat_config.member.id)
+				@cards=@sangna_config.per_user.coupons_records.includes(:coupons_rule).where(member_id:wechat_config.member.id)
 	end
 
 	def balance
@@ -241,6 +240,14 @@ class Wechat::WcFrontController < ApplicationController
 			cookies.signed[:next_url]=request.url
 			auth_url="https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{params[:appid]}&redirect_uri=http://weixin.linkke.cn/wechat/gzh_manage/oauth&response_type=code&scope=snsapi_base&state=123&component_appid=wxf6a05c0e64bc48e1#wechat_redirect"                    
 		   redirect_to auth_url
+			end
+	end
+
+	def set_sangna_config
+			if params[:appid]
+					@sangna_config=Rails.cache.fetch(params[:appid],expire_in: 4.hours) do 
+							SangnaConfig.includes(:per_user).find_by_appid(params[:appid])
+					end
 			end
 	end
 end
