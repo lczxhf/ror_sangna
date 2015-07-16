@@ -8,11 +8,11 @@ class Wechat::ThirdPartyController < ApplicationController
 	 include Wechat::ReplyWeixinMessageHelper
 
 	def test
-			masseuse=PerUserMasseuse.find_by_job_number(1234)
-			Dir::foreach('/home/lzh/1234') do |dir|
-					if file=(/\w+\.[a-zA-Z0-9]+/.match(dir))
-						    file="/home/lzh/1234/"+file.to_s
-						    puts file
+		#	masseuse=PerUserMasseuse.find_by_job_number(1234)
+		#	Dir::foreach('/home/lzh/1234') do |dir|
+		#			if file=(/\w+\.[a-zA-Z0-9]+/.match(dir))
+		#				    file="/home/lzh/1234/"+file.to_s
+		#				    puts file
 							# File::open(file,'r') do |a|
 							# 	img=MasseusesImg.new
 							# 	img.per_user_masseuse=masseuse
@@ -21,11 +21,17 @@ class Wechat::ThirdPartyController < ApplicationController
 							# 	img.user_id=masseuse.user_id
 							# 	img.save
 							# end
-					end
+		#			end
 
-			end
+		#	end
+
   end
 	def test1
+				PerUserMasseuse.all.each do |a|
+						a.pwd='123456'
+						a.save
+				end
+	      
 	end	
 	 def home 
 		@url="https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=#{APPID}&pre_auth_code=#{Rails.cache.read(:pre_code)}&redirect_uri=http://weixin.linkke.cn/wechat/third_party/auth_code"

@@ -28,8 +28,12 @@
 		* 下拉刷新具体业务实现
 		*/
 		function pulldownRefresh(){
+			page = 1;
 			setTimeout(function(){
-				location.reload(true);
+			
+			$.get('page_technician',{appid:'<%=params[:appid]%>',page:page,inscene:<%=@inscene%>},function(obj){
+						$("#t_data").html(obj);
+				})
 				mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
 			}, 1500);
 		}
@@ -38,21 +42,16 @@
 	*/
 	function pullupRefresh() {
 				setTimeout(function(){
-					$.get('page_technician',{id:'<%=@sangna_config.per_user.id%>',page:(page+1)},function(obj){
-						alert(obj)
+					$.get('page_technician',{appid:'<%=params[:appid]%>',page:(page+1),inscene:<%=@inscene%>},function(obj){
+								if(obj==''){
+								}
+								else{
+									$('#t_data').append(obj);
+									page++;
+								}
+							mui('#pullrefresh').pullRefresh().endPullupToRefresh(); //参数为true代表没有更多数据了。
 						})
-					mui('#pullrefresh').pullRefresh().endPullupToRefresh(); //参数为true代表没有更多数据了。
 				}, 1500);
-	}
-		if (mui.os.plus) {
-			mui.plusReady(function() {
-						setTimeout(function() {
-			}, 1000);
-			});
-	} else {
-		mui.ready(function() {
-		//					mui('#pullrefresh').pullRefresh().pullupLoading();
-		});
 	}
 	</script>
 
@@ -60,7 +59,7 @@
 		<script>
 				<%if @inscene%>
 				$(function(){
-					$('.mui-content').attr("class","mui-content pt44");
+					$('.mui-content').attr("class","mui-content mui-scroll-wrapper pt44");
 				})
 			function show_info(technician_id){
 					window.location.href="technician_info?t_id="+technician_id+"&appid=<%=params[:appid]%>";
@@ -110,7 +109,7 @@
 					scanType: ["qrCode"], // 可以指定扫二维码还是一维码，默认二者都有
 					success: function (res) {
 						var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
-							$('.mui-content').attr("class","mui-content pt44");
+							$('.mui-content').attr("class","mui-content mui-scroll-wrapper pt44");
 							window.location.href=result;
 					}
 				});	
@@ -122,5 +121,5 @@
 		
 	<%end%>
 	<%content_for :body do%>
-	 <%=render partial: "technician" ,locals: {technicians:@technicians,inscene:@inscene,name:@sangna_config.per_user.name,wechat_config:@wechat_config},layout: "tech_layout"%>
+	 <%=render partial: "technician" ,locals: {technicians:@technicians,inscene:@inscene,per_user:@sangna_config.per_user,wechat_config:@wechat_config},layout: "tech_layout"%>
 	<%end%>

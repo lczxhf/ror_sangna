@@ -23,7 +23,6 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def page_technician
-
 			sangna_config=SangnaConfig.includes(:per_user).find_by_appid(params[:appid])
 			technicians=PerUserMasseuse.where(user_id:sangna_config.per_user.id).limit(5).offset(5*(params[:page].to_i-1))
 			arr=[]
@@ -31,13 +30,13 @@ class Wechat::WcFrontController < ApplicationController
 			arr<<%{	<div class="Jishi_infor jishi_color" onclick="show_info('#{technician.id}')">
 					<div class="box_jishi">
 						<div class="box_img jishi_background">
-							<img class="jishi_img" src="#{technician.img.url}" alt="" height="50px" width="50px" />
+							<img class="jishi_img" src="#{technician.img.normal.url}" alt="" height="50px" width="50px" />
 						</div>
 						<span class="jishi_num fs17">#{technician.job_number}</span>
 						<span class="jishi_sex fs11">（#{technician.sex==1 ? "男":"女"}）</span>
 						<span class="jishi_type">#{return_job_class(technician.job_class_status)}</span>
 
-			}+if params[:inscene]
+			}+if params[:inscene]=='true'
 						%{	<span class="jishi_state fs11">
 								#{return_technician_state(technician.work_status)}
 							</span>
@@ -60,13 +59,13 @@ class Wechat::WcFrontController < ApplicationController
 							其它客户觉得TA：
 							<!--			<span class="project"></span>   --!>
 							<span class="jishi_best">#{get_hot_comment(technician.id)}</span>
-					}+	if params[:inscene]
+					}+	if params[:inscene]=='true'
 							'<span class="current_state fs12"> <span class="time">13:00pm</span>有预约</span>'
-						end+"</div></div>"
-				
+							else
+								""
+							end+"</div></div>"
 			end
-
-			render plain: arr.jishi_background
+			render plain: arr.join
 	end
 	def technician_info
 		@technician=PerUserMasseuse.find(params[:t_id])
