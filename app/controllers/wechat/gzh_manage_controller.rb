@@ -89,6 +89,7 @@ class Wechat::GzhManageController < ApplicationController
 			 wechat_config.save
       Sangna.get_oauth2_info(wechat_config.id,APPID)
 			next_url=cookies.signed[:next_url]
+			cookies.delete(:next_url)
       redirect_to next_url
     end
   end
@@ -131,10 +132,9 @@ class Wechat::GzhManageController < ApplicationController
 									else
 												per_user=PerUser.includes(:sangna_config).find(params[:user_id])
 												wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{per_user.sangna_config.appid}_openid"])
-												
 												wechat_config.member.hand_code=qrcode.hand_code
 												wechat_config.member.save
-												redirect_to cookies[:next_url]
+												redirect_to 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid='+per_user.sangna_config.appid
 									end
 							end
 					else

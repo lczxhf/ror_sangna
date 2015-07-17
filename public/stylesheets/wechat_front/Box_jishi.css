@@ -162,30 +162,41 @@ line-height: 30px;
 	width: 60%;
 	height: 35px;
 }
-	/*底部*/
-	.mui-content{
-		padding-top: 54px !important;
-		padding-bottom: 57px;
-	}
-	.mui-bar-tab{
-		height: 50px;
-		line-height: 50px;
-		text-align: center;
-		font-size: 12px;
-		background: white;
-		color: #ADADAD;
-	}
-	.mui-bar{
-		box-shadow: 0 0 1px rgba(208, 188, 188, 0.85);
-	}
-	.mui-bar-tab img{
-		position: absolute;
-		left: 3%;
-		top:4px;
-	}
-	.mui-bar-tab span{
-		padding-left: 14%;
-	}
+	
+/*底部*/
+.mui-content{
+	padding-top: 54px !important;
+	padding-bottom: 57px;
+}
+.mui-bar-tab{
+	height: 50px;
+	text-align: center;
+	font-size: 12px;
+	background: white;
+	color: #ADADAD;
+}
+.mui-bar{
+	box-shadow: 0 0 1px rgba(208, 188, 188, 0.85);
+}
+.box_footer img{
+	position: absolute;		
+	top: 4px;
+	left: 0;
+}
+.footer_span{
+	padding-left: 43px;
+}
+.box_footer{
+	position: relative;
+	text-align: center;
+	height: 50px;
+	line-height: 50px;
+	margin: 0 auto;
+}
+
+
+
+
 
 /*头部--2*/
 .mui-bar-nav{
@@ -259,4 +270,33 @@ line-height: 30px;
 	background-color:#FAF1E9;
 }
 
+.Jishi_infor{	
+	animation:myfirst 2s;
+	-moz-animation:myfirst 2s; /* Firefox */
+	-webkit-animation:myfirst 2s; /* Safari and Chrome */
+	-o-animation:myfirst 2s; /* Opera */
+}
+	@keyframes myfirst
+{
+	from {opacity: 0;margin-top: 30px;}
+	to {opacity: 1;margin-top: 0;}
+}
+	
+@-moz-keyframes myfirst /* Firefox */
+{
+from {opacity: 0;margin-top: 30px;}
+to {opacity: 1;margin-top: 0;}
+}
+
+@-webkit-keyframes myfirst /* Safari and Chrome */
+{
+from {opacity: 0;margin-top: 30px;}
+to {opacity: 1;margin-top: 0;}
+}
+
+@-o-keyframes myfirst /* Opera */
+{
+from {opacity: 0;margin-top: 30px;}
+to {opacity: 1;margin-top: 0;}
+}
 

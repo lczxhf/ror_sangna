@@ -9,7 +9,6 @@ class Wechat::WcFrontController < ApplicationController
 		else
 				page=1
 		end
-		
 		@technicians=PerUserMasseuse.where(user_id:@sangna_config.per_user.id).limit(5).offset(5*(page-1))
 			@inscene=false
 			if @wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])	
@@ -185,7 +184,6 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def phone_bind
-			
 	end
 
 	def card_info
@@ -195,7 +193,6 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def balance
-		
 	end
 
 	def sent_code

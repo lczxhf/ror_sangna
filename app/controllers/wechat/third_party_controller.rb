@@ -24,7 +24,6 @@ class Wechat::ThirdPartyController < ApplicationController
 		#			end
 
 		#	end
-				render plain: Rails.cache.read('lzh').to_json
   end
 	def test1
 					Rails.cache.write('lzh',SangnaConfig.includes(:per_user).first)

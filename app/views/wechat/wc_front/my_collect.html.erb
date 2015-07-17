@@ -78,6 +78,9 @@
 					$('.popup').hide();
 					$('.backdrop').hide();
 				})
+
+				$('.box_footer').css('width',$('.footer_span').width()+42)
+
 			wx.config({
 					debug: false, 
 					appId: '<%=params[:appid]%>',
