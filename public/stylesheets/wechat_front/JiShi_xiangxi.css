@@ -56,7 +56,7 @@
 	height: 30px;
 	padding: 6px 0 0 10px;
 	color: #4D4D4D;
-	border-bottom: 1px solid #E3E2E5;
+	border-bottom: 1px solid #D3D2D2;
 }
 .mui-table-view li{
 	padding: 4px 0 2px 20px;
@@ -171,5 +171,36 @@
 	margin: 40px auto 10px;
 }
 
+/*技师评价*/
+.evaluate{
+	overflow: hidden;
+	background: white;
+	width: 100%;
+	color: #666666;
+	border-bottom: 1px solid #D3D2D2;
+}
+.box_evaluate{
+	width: 50%;
+	height: 30px;
+	line-height: 30px;
+	float: left;
+	font-size: 13px;
+	overflow: hidden;
+}
+.box_evaluate .comment{
+	padding-left: 15px;
+}
+.box_evaluate .icon-zan{
+	float: right;
+	line-height: 30px;
+	padding-right: 5px;
+	color: #F0B181;
+}
+.box_evaluate .num_evaluate{
+	float: right;
+	width: 30px;
+	text-align: center;
+	line-height: 30px;
+}
 
 
