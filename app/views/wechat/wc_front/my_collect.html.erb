@@ -48,7 +48,35 @@
 		})
 	</script>
 		<script>
+			$(function(){
+					 var page=1
+						$.get('page_technician',{appid:'<%=params[:appid]%>',page:page,inscene:<%=@inscene%>,collect:'true'},function(obj){
+						$("#t_data").html(obj);
+						<%if @inscene%>
+						countdown();
+						<%end%>
+				})
+			})
 	<%if @inscene%>
+		function countdown(){
+					$.each($('.jishi_state'),function(a,b){
+									var content=$(b).html();
+									var index=content.indexOf('分钟')
+									if(index!=-1){
+											var time=parseInt(content.substring(0,index));
+											var abc=setInterval(function(){
+													time--;
+													if(time==0){
+														clearInterval(abc);
+													}
+													else{
+													$(b).html(time+'分钟后有空');
+													}
+												},60000)
+										}
+							})
+				}
+
 			function show_info(technician_id){
 					window.location.href="technician_info?t_id="+technician_id+"&appid=<%=params[:appid]%>";
 			}
@@ -73,13 +101,6 @@
 							 })
 			}
 			$(function(){
-				$('.backdrop').show();
-				$('.close_popup').click(function(){
-					$('.popup').hide();
-					$('.backdrop').hide();
-				})
-
-				$('.box_footer').css('width',$('.footer_span').width()+42)
 
 			wx.config({
 					debug: false, 
@@ -97,19 +118,16 @@
 					scanType: ["qrCode"],
 					success: function (res) {
 						var result = res.resultStr;
-							window.location.href=result;
+						window.location.href=result
 					}
 				});	
 			});
 		})
-					$('.cancel').click(function(){
-							wx.closeWindow();
-					})
 
 })
 		<%end%>
 		</script>
 	<%end%>
 	<%content_for :body do%>
-			<%=render partial: "technician" ,locals: {technicians:@technicians,inscene:@inscene,per_user:@sangna_config.per_user,wechat_config:@wechat_config},layout: 'tech_layout'%>
+			<%=render partial: "tech_layout" ,locals: {technicians:@technicians,inscene:@inscene,per_user:@sangna_config.per_user,wechat_config:@wechat_config}%>
 	<%end%>

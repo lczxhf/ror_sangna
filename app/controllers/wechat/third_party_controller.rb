@@ -25,8 +25,10 @@ class Wechat::ThirdPartyController < ApplicationController
 
 		#	end
   end
-	def test1
-					Rails.cache.write('lzh',SangnaConfig.includes(:per_user).first)
+def test1
+				url="https://api.weixin.qq.com/sns/oauth2/component/access_token?appid=wx570bc396a51b8ff8&code=queryauthcode@@@hRuUpo7YlO-6snLI_fLy597lcKMYEzwj7ghR0xHlpHkruobMs8KVtuP18Nv9kUcq&grant_type=authorization_code&component_appid=wxf6a05c0e64bc48e1&component_access_token=sDV1ZNNH7KOg4wR5UY-tD6MMXgNS4JsQPMVmjKpSMGpp7hrIcn_g16WUZXv67OBUeBPoIFQg_6SvzPYLqzllgHdi5OEw4pSDPHpeeovR_Og"
+			   puts ThirdParty.get_to_wechat(url)
+
 	end	
 	 def home 
 		@url="https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=#{APPID}&pre_auth_code=#{Rails.cache.read(:pre_code)}&redirect_uri=http://weixin.linkke.cn/wechat/third_party/auth_code"

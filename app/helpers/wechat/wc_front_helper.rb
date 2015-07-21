@@ -13,7 +13,7 @@ module Wechat::WcFrontHelper
 	end
 
 	def return_technician_state(number)
-		state=[0,"已经下班","空闲","30分钟后有空","上钟"]
+		state=[0,"已经下班","空闲","分钟后有空","上钟"]
 		state[number]
 	end
 
@@ -53,6 +53,11 @@ module Wechat::WcFrontHelper
 			index=reckon_most(arr)
 			TechniqueEvalution.find(arr[index]).name
 		end
+	end
+
+	def get_hand_code_sex(number)
+			arr=[0,'男宾','女宾','锁牌']
+			arr[number]
 	end
 
 	def get_language_name(number)

@@ -99,13 +99,29 @@
 				<a class="mui-navigate-right" >
 					<span class="size loca_1">卡卷</span>
 					<span class="size loca_2"><%=@sangna_config.per_user.coupons_records.where(member_id:@wechat_config.member_id).count%></span>
-				</a>
-			</div>
+						</a>
+					</div>
 	
 		</div>
-		
+		<!--底部-->
+		<div class="footer">
+			<div class="box_footer">
+				<img src="/images/buttom_img.png" width="42px" height="42px"/>
+				<div class="footer_infor">
+					<span class="type_size">领客</span>
+					<span class="linkke">LINKKE.CN</span>
+				</div>
+			</div>
+		</div>
+
 		 <script>
-			
+				$(function(){
+						$('.footer_infor').css('width',$('.linkke').width());
+						$('.box_footer').css('width',$('.linkke').width()+42);
+						if((window.innerHeight-$('.mui-content').height()-100)>0){
+							$('.footer').css('margin-top',window.innerHeight-$('.mui-content').height()-55)
+						}
+					})
 			
 		// 	document.querySelector('.NiCheng').addEventListener('tap', function() {
 		// 	  //打开昵称页面

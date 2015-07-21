@@ -1,25 +1,60 @@
-			<div class="backdrop">
-				<div class="popup">
-					<div class="bold"><%=per_user.name%>会所郑重承诺: </div>
-					<div class="content">本会所严格按照国家有关法律规定，只提供健康休闲水疗、SPA、桑拿等服务；”领客云平台”只提供技术支持，本微信公众账号内所有数据皆由店家或技师自行上传。</div>
-					<div class="box_btn">
-						<button class="cancel" >返回</button>
-						<button class="close close_popup">进入</button>
-					</div>
+	<%if !inscene%>
+	<div id="shareit">
+		<div class="box_tip">
+				<div class="mb20">到场扫描锁牌二维码可获取实时信息</div>
+				<img class="mb20" src="/images/tu.png" alt="" width="70%" />
+				<div class="type_pl">或者您可以</div>
+				<div class="box_shoucang">
+					<span class="mui-icon iconfont icon-xingxingkong"></span>
+					<span>先收藏喜欢的技师</span>
+				</div>
+				<div class="box_yuyue ">
+					<span class="mui-icon mui-icon-phone"></span>
+					<span>立即预约</span>
 				</div>
 			</div>
+			<div class="statement">本会所严格按照国家有关法律规定，只提供健康休闲水疗、SPA、桑拿、足浴服务</div>
+			<button class="close">离开</button>
+			<button class="enter">进入</button>
+		</div>
+	<%end%>
+			<!--弹窗搜索search-->
+			<div class="mask_layer">
+				<div class="box_search">
+					<div class="mui-input-row">
+						<input class="mui-input-clear" type="text" placeholder="请输入技师工号" />
+					</div>
+					<button id="btn" class="mui-btn mui-btn-positive" type="button">搜索</button>
+				</div>
+				<div class="close_box"></div>
+			</div>
 			<header class="mui-bar mui-bar-nav">
+				
 				<%if inscene%>
-				<div class="left_box"><span>您在场内状态！</span></div>
+				<div class="left_box">
+					<span class="mui-icon mui-icon-search"></span>
+					<span class="centain_2">您有一条新的信息！</span>
+				</div>
 				<%else%>
-					<div class="left_box"><span class="centain" id="qrcode">进场扫一扫</span></div>	
+					<div class="left_box">
+						<span class="mui-icon mui-icon-search"></span>
+						<span class="centain" id="qrcode">进场扫描</span>
+					</div>	
 				<%end%>
 				<div class="right_box">
 					<div class="user_img_2" onclick='toperson()'>
 						<img src="<%=wechat_config.wechat_user.headimgurl%>" alt=""  width="36px" height="36px" />
 					</div>
-					<div class="hand">当前锁牌</div>
-					<div class="hand_num"><%=wechat_config.member.hand_code=="" ? "未进场" : wechat_config.member.hand_code%></div>
+					<div class="hand_box">
+					<%if wechat_config.member.hand_code==""%>
+						<div class="hand"></div>
+						<div class="hand_num">未进场</div>
+
+					<%else%>
+						<div class="hand">普通<%=get_hand_code_sex(qr_code.user_qr_code_rule.sex)%></div>
+						<div class="hand_num"><%=wechat_config.member.hand_code%></div>
+					<%end%>
+					</div>
 				</div>
 			</header>
 
@@ -38,4 +73,45 @@
 						<span class="footer_span">到店扫描锁牌上的二维码后可查看技师详细资料</span>
 				</div>
 			</nav>
-<%end%>
+<script>
+	$(function(){
+		$('.mui-icon-search').click(function(){
+			$('.mask_layer').show()
+		})
+		$('.close_box').click(function(){
+			$('.mask_layer').hide()
+		})
+		$('#btn').click(function(){
+			$('.mask_layer').hide()
+		})
+		$('.close_box').css('height',window.innerHeight*0.94-40);
+		$('#shareit').css('height', window.innerHeight);
+		$('#shareit img').css('height',window.innerHeight*0.25);
+		$('.box_footer').css('width',$('.footer_span').width()+42);
+		$('#shareit').show();
+		$('.enter').click(function(){
+				$('#shareit').hide();
+			})
+		$('.close').click(function(){
+				wx.closeWindow();	
+			})	
+		$('#t_data').on('click','.jishi_img',function(){
+				mui.toast('到场扫描锁牌二维码后才可查看');
+		})
+		})
+	<%else%>
+<script>
+	$(function(){
+		$('.mui-icon-search').click(function(){
+			$('.mask_layer').show()
+		})
+		$('.close_box').click(function(){
+			$('.mask_layer').hide()
+		})
+		$('#btn').click(function(){
+			$('.mask_layer').hide()
+		})
+		$('.close_box').css('height',window.innerHeight*0.94-40);
+	})
+	<%end%>
+</script>

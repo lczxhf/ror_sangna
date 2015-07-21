@@ -157,8 +157,8 @@
 <%end%>
 <%content_for :body do%>
 <!--		<header class="mui-bar mui-bar-nav">
-			<a href="javascript:history.go(-1);" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a> 
-			<h1 class="mui-title">详细</h1>
+					<a href="javascript:history.go(-1);" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a> 
+					<h1 class="mui-title">详细</h1>
 		</header>
 --!>
 		
@@ -200,11 +200,12 @@
 		--!>
 			<div class="box_yuyue">
 				<div class="title fs16">项目</div>
-				<ul class="mui-table-view fs12">
-				<%PerUserProject.where("id IN (#{@technician.projects_id})").pluck(:name,:id).each do |arr| %>
+				<ul class="mui-table-view fs14">
+				<%PerUserProject.where("id IN (#{@technician.projects_id})").pluck(:name,:id,:duration,:price).each do |arr| %>
 					<li class="mui-table-view-cell" onclick="project_info('<%=arr[1]%>')">
 						<span class="mui-icon iconfont icon-dian "></span>
 						<span><%=arr[0]%></span>
+						<span class="first_bell">￥<%=arr[3].to_i%>/<%=arr[2]%>分钟</span>
 					</li>
 				<%end%>
 				</ul>	
@@ -220,7 +221,7 @@
 				</div>
 <!--				<div class="jishi_infor">
 					<span class="left fs14">最多人赞的项目</span>
-					<span class="right fs14 jishi_best"><%=get_hot_project(@technician.id)%></span>
+					<span class="right fs14 jishi_best"></span>
 				</div>
 --!>
 				<div class="jishi_infor">
@@ -269,47 +270,14 @@
 			</div>
 --!>	
 				<div class="evaluate">
-				<div class="title fs16">评价</div>
+				<div class="title fs16 pt20">评价</div>
+				<%TechniqueEvalution.where(del:1).each do |evalution|%>
 				<div class="box_evaluate">
-					<span class="comment">头肩高手</span>
-					<span class="num_evaluate">23</span>
+					<span class="comment"><%=evalution.name%></span>
+					<span class="num_evaluate"><%=MasseusesReview.where(masseuses_id:@technician.id,technique_evalution_id:evalution.id).where("created_at>:my_time",{my_time:Time.now-1.month}).count%></span>
 					<span class="mui-icon iconfont icon-zan"></span>
 				</div>
-				<div class="box_evaluate">
-					<span class="comment">服务很好</span>
-					<span class="num_evaluate">23</span>
-					<span class="mui-icon iconfont icon-zan"></span>
-				</div>
-				<div class="box_evaluate">
-					<span class="comment">腰背一流</span>
-					<span class="num_evaluate">23</span>
-					<span class="mui-icon iconfont icon-zan"></span>
-				</div>
-				<div class="box_evaluate">
-					<span class="comment">态度不错</span>
-					<span class="num_evaluate">23</span>
-					<span class="mui-icon iconfont icon-zan"></span>
-				</div>
-				<div class="box_evaluate">
-					<span class="comment">腿脚酸爽</span>
-					<span class="num_evaluate">23</span>
-					<span class="mui-icon iconfont icon-zan"></span>
-				</div>
-				<div class="box_evaluate">
-					<span class="comment">尽心尽力</span>
-					<span class="num_evaluate">23</span>
-					<span class="mui-icon iconfont icon-zan"></span>
-				</div>
-				<div class="box_evaluate">
-					<span class="comment">力度十足</span>
-					<span class="num_evaluate">23</span>
-					<span class="mui-icon iconfont icon-zan"></span>
-				</div>
-				<div class="box_evaluate">
-					<span class="comment">感觉一般</span>
-					<span class="num_evaluate">123</span>
-					<span class="mui-icon iconfont icon-zan"></span>
-				</div>
+				<%end%>
 			</div>
 
 	</div>

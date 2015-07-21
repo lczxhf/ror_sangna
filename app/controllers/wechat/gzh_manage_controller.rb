@@ -122,7 +122,7 @@ class Wechat::GzhManageController < ApplicationController
 									qrcode.save
 									render plain: "激活"
 							else
-									 member=Member.where(hand_code:qrcode.hand_code).first
+									 member=Member.where(user_id:params[:user_id],hand_code:qrcode.hand_code).first
 									if member
 												qrcode.status=1
 												member.hand_code=""
@@ -143,7 +143,7 @@ class Wechat::GzhManageController < ApplicationController
 		end
 
 
-		def sent_consumption_message
+		def sent_consumption_message_test
 							puts params
 								templete_number=TempleteNumber.find_by_topic('优惠券获得提醒')	
 								order=OrderByMasseuse.includes(:member,:per_user_masseuse,:per_user_project,:per_user).where(id:params[:o_id],status:2,del:1,is_reviewed:1).first
@@ -151,7 +151,7 @@ class Wechat::GzhManageController < ApplicationController
 								templete_message=templete_number.templete_messages.where(sangna_config_id:order.per_user.sangna_config.id).first
 								url="http://weixin.linkke.cn/wechat/wc_front/technician_remark?o_id=#{params[:o_id]}&appid=#{order.per_user.sangna_config.appid}"
 								hash={}
-								hash["first"]="您还有一个优惠劵未领取！ \\n #{Time.now.strftime('%Y年%m月%d日')} \\n #{order.per_user.name}#{order.per_user_masseuse.job_number}号技师已经为您完成了#{order.per_user_project.name}服务"
+								hash["first"]="您还有一个优惠劵未领取！\\n#{order.per_user.name}#{order.per_user_masseuse.job_number}号技师已经为您完成了#{order.per_user_project.name}服务"
 								hash["remark"]="点击“详情”获取代金券!"
 								coupon_rule=order.per_user.coupons_rules.where(name:'分享得红包').first
 								array=[coupon_rule.face_value.to_s,coupon_rule.validity_end_time.strftime('%Y年%m月%d日')]
@@ -174,8 +174,8 @@ class Wechat::GzhManageController < ApplicationController
                 sangna_config.token=result['authorizer_access_token']
                 sangna_config.save
           end
-					url="https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token="+sangna_config.token
-					body='{"touser":"'+params[:openid]+'","msgtype":"text","text":{"content":"U+E728"}}'
+					url="https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token="+params[:token]
+					body='{"touser":"'+params[:openid]+'","msgtype":"text","text":{"content":"'+params[:code]+'"_from_api"}}'
 				result=	ThirdParty.sent_to_wechat(url,body)
 				 render plain: result
 		end

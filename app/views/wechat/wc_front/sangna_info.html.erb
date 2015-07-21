@@ -127,7 +127,21 @@
 				</div>
 			</div>
 		</div>
+	 <div class="footer">
+			<div class="box_footer">
+	       <img src="/images/buttom_img.png" width="42px" height="42px"/>
+	       <div class="footer_infor">
+	         <span class="type_size">领客</span>
+	         <span class="linkke">LINKKE.CN</span>
+	       </div>
+	     </div>
+   </div>
+
 		<script type="text/javascript" charset="utf-8">
+			$(function(){
+					$('.footer_infor').css('width',$('.linkke').width());
+					$('.box_footer').css('width',$('.linkke').width()+42);
+				})
 			mui.init({
 				swipeBack:true //启用右滑关闭功能
 			});
