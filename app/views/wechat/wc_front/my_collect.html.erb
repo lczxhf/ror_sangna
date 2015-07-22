@@ -129,5 +129,5 @@
 		</script>
 	<%end%>
 	<%content_for :body do%>
-			<%=render partial: "tech_layout" ,locals: {technicians:@technicians,inscene:@inscene,per_user:@sangna_config.per_user,wechat_config:@wechat_config}%>
+			<%=render partial: "tech_layout" ,locals: {technicians:@technicians,inscene:@inscene,per_user:@sangna_config.per_user,wechat_config:@wechat_config,qr_code:@qr_code||=""}%>
 	<%end%>

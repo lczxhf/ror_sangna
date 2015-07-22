@@ -79,7 +79,7 @@ class Wechat::WcFrontController < ApplicationController
 					@order=OrderByMasseuse.includes(:per_user_masseuse,:per_user,member: [:wechat_config]).find(params[:o_id])
 					if @order.member.wechat_config.openid==cookies.signed["#{params[:appid]}_openid"]
 								@sangna_config=@order.per_user.sangna_config
-								@coupon_rule=@order.per_user.coupons_rules.find_by_name('分享得红包')
+								@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:2).first
 					else
 								render nothing: true
 					end
@@ -116,7 +116,7 @@ class Wechat::WcFrontController < ApplicationController
 				#@technicians=PerUserMasseuse.find(technician_ids)
 				@inscene=false
 				 if @wechat_config.member.hand_code	
-						if PerUserQrCode.where(user_id:@sangna_config.per_user.id,hand_code:@wechat_config.member.hand_code).first
+						if @qr_code=PerUserQrCode.includes(:user_qr_code_rule).where(user_id:@sangna_config.per_user.id,hand_code:@wechat_config.member.hand_code).first
 								@inscene=true
 						else
 								cookies["next_url"]=request.url
@@ -127,8 +127,15 @@ class Wechat::WcFrontController < ApplicationController
 	def redbage
 			#cookies.delete("#{params[:appid]}_openid")
 				@order=OrderByMasseuse.includes(:member,:per_user).find(params[:o_id])				
+				wechat_config=WechatConfig.includes(:wechat_user).find_by_openid(cookies.signed["#{@order.per_user.sangna_config.appid}_openid"])
 				if @order.member_id==params[:id].to_i
-					@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包').first
+						if @order.member_id==wechat_config.member_id
+							@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:2).first
+						elsif wechat_config.wechat_user.subscribe_time.nil?
+							@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:4).first
+						else
+							@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:3).first
+						end
 						render :redbage
 				else
 						render nothing: true
@@ -137,11 +144,18 @@ class Wechat::WcFrontController < ApplicationController
 
 	def get_redbage
 				order=OrderByMasseuse.includes(per_user:[:sangna_config]).find(params[:o_id])
-				member_id=WechatConfig.find_by_openid(cookies.signed["#{order.per_user.sangna_config.appid}_openid"]).member_id
+				wechat_config=WechatConfig.includes(:wechat_user).find_by_openid(cookies.signed["#{order.per_user.sangna_config.appid}_openid"])
+				member_id=wechat_config.member_id
 				if order.coupons_records.find_by_member_id(member_id)
 						render plain: 'err'
 				else
-							coupon_rule=order.per_user.coupons_rules.find_by_name("分享得红包")
+						if order.member_id==member_id
+							coupon_rule=order.per_user.coupons_rules.where(name:'分享得红包',c_type:2).first
+						elsif wechat_config.wechat_user.subscribe_time.nil?
+							coupon_rule=order.per_user.coupons_rules.where(name:'分享得红包',c_type:4).first
+						else
+							coupon_rule=order.per_user.coupons_rules.where(name:'分享得红包',c_type:3).first
+						end
 							coupon_record=coupon_rule.coupons_records.build
 							o = [('a'..'z'),('A'..'Z')].map{|i| i.to_a}.flatten
 							string = (0...4).map{ o[rand(o.length)] }.join

@@ -143,7 +143,7 @@ class Wechat::GzhManageController < ApplicationController
 		end
 
 
-		def sent_consumption_message_test
+		def sent_consumption_message
 							puts params
 								templete_number=TempleteNumber.find_by_topic('优惠券获得提醒')	
 								order=OrderByMasseuse.includes(:member,:per_user_masseuse,:per_user_project,:per_user).where(id:params[:o_id],status:2,del:1,is_reviewed:1).first
@@ -153,7 +153,7 @@ class Wechat::GzhManageController < ApplicationController
 								hash={}
 								hash["first"]="您还有一个优惠劵未领取！\\n#{order.per_user.name}#{order.per_user_masseuse.job_number}号技师已经为您完成了#{order.per_user_project.name}服务"
 								hash["remark"]="点击“详情”获取代金券!"
-								coupon_rule=order.per_user.coupons_rules.where(name:'分享得红包').first
+								coupon_rule=order.per_user.coupons_rules.where(name:'分享得红包',c_type:2).first
 								array=[coupon_rule.face_value.to_s,coupon_rule.validity_end_time.strftime('%Y年%m月%d日')]
 								templete_number.fields.split(',').each_with_index do |a,index|
 										hash[a]=array[index]	

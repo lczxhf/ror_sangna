@@ -31,9 +31,9 @@
 		//    wx.hideOptionMenu();
 		wx.showAllNonBaseMenuItem();
 		wx.onMenuShareTimeline({
-		      title: '送你￥<%=@coupon_rule.face_value%><%=@order.per_user.name%>会所代金券,推荐<%=@order.per_user_masseuse.job_number%>号技师帮你服务!', 
+		      title: '送你<%=@order.per_user.name%>会所代金券,推荐<%=@order.per_user_masseuse.job_number%>号技师帮你服务!', 
 		        link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&o_id=<%=@order.id%>&id=<%=@order.member_id%>',
-		        imgUrl: 'http://weixin.linkke.cn<%=image_path @order.per_user.per_user_imgs.first.url.url%>',
+		        imgUrl: 'http://weixin.linkke.cn/images/forward.png',
 		        success: function(res){
 								var data=$("#my_form").serialize();
 								if (data==''){
@@ -59,10 +59,10 @@
 
 
 			 wx.onMenuShareAppMessage({
-				    title: '送你￥<%=@coupon_rule.face_value%><%=@order.per_user.name%>会所代金券,推荐<%=@order.per_user_masseuse.job_number%>号技师帮你服务!', 
+				    title: '送你<%=@order.per_user.name%>会所代金券,推荐<%=@order.per_user_masseuse.job_number%>号技师帮你服务!', 
 					  desc: '', 
 					  link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&o_id=<%=@order.id%>&id=<%=@order.member_id%>', 
-						imgUrl: 'http://weixin.linkke.cn<%=image_path @order.per_user.per_user_imgs.first.url.url%>',
+						imgUrl: 'http://weixin.linkke.cn/images/forward.png',
 						success: function () { 
 						},
 						cancel: function () { 
