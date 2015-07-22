@@ -3,7 +3,7 @@
 	margin: 10px 2% 0;
 	width: 96%;
 	position: relative;
-	background: url(/images/coupons.png) no-repeat;
+	background: url(../images/coupons.png) no-repeat;
 	background-size: 100% 100%;
 }
 .coupons_num{
@@ -13,7 +13,7 @@
 	text-align: center;
 	background: #785F57;
 	position: absolute;
-	bottom: 12%;
+	bottom: 15%;
 	left: 7%;
 }
 .box{
@@ -26,20 +26,195 @@
 	color: #584846;
 }
 .closing_time{
-	padding: 3px 0 0 3px;
+	padding: 8px 0 0 3px;
 	font-size: 12px;
 	color: #785F57;
+	overflow: hidden;
 }
 .closing_time a{
 	color: #785F57;
+	float: right;
 	text-decoration: underline;
 }
 .status{
 	font-size: 13px;
 	color: #785F57;
 	position: absolute;
-	top: 3%;
+	top: 5%;
 	right: 5%;
+}
+.employ{
+	position: absolute;
+	top: 35%;
+	right: 5%;
+	width: 21%;
+	background: #81CCEB;
+	border: none;
+	color: white;
+	font-size: 0.7em;
+	letter-spacing: 1px;
+}
+/*确认是否使用弹窗*/
+.shareit_1 {
+  -webkit-user-select: none;
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.85);
+  text-align: center;
+  top: 0;
+  left: 0;
+  z-index: 105;
+}
+.box_determine{
+	width: 80%;
+	margin: 25% auto 0;
+	background: white;
+	border-radius: 8px;
+	padding-top: 5%;
+	padding-bottom: 30px;
+}
+.title_determine{
+	color: #584846;
+	font-size: 0.9em;
+	letter-spacing: 1px;
+}
+.btn_box{
+	width: 90%;
+	margin: 8px auto 15px;
+	padding-bottom: 15px;
+	padding-top: 25px;
+	border-bottom: 1px solid #D4C2B5;
+	border-top: 1px solid #D4C2B5;
+}
+.type_btn{
+	width: 46%;
+	height: 38px;
+	margin-left: 2%;
+	font-size: 0.9em;
+	color: #646162;
+	border: 1px solid #A7A5A5;
+	margin-bottom: 15px;
+}
+.sure{
+	width: 82%;
+	height: 38px;
+	background: #1FBAA6;
+	color: white;
+	border: none;
+	font-size: 0.9em;
+	letter-spacing: 1px;
+	margin-bottom: 10px;
+}
+.cancle{
+	width: 82%;
+	height: 38px;
+	background: #B0C2BF;
+	color: white;
+	border: none;
+	font-size: 0.9em;
+	letter-spacing: 1px;
+}
+/*确认使用的弹窗*/
+.shareit_2 {
+  -webkit-user-select: none;
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.85);
+  text-align: center;
+  top: 0;
+  left: 0;
+  z-index: 105;
+}
+.box_useing{
+	width: 80%;
+	margin: 25% auto 0;
+	background: white;
+	border-radius: 8px;
+	padding-top: 7%;
+	padding-bottom: 20px;
+}
+.title_useing{
+	color: #584846;
+	font-size: 1em;
+	letter-spacing: 1px;
+}
+.useing_infor{
+	width: 90%;
+	margin: 8px auto 15px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border-bottom: 1px solid #D4C2B5;
+	border-top: 1px solid #D4C2B5;
+}
+.useing_time{
+	font-size: 0.7em;
+	color: #8E8383;
+}
+.user_handnum{
+	font-size: 30px;
+	color: #584846;
+	padding-top: 40px;
+	padding-bottom: 40px;
+}
+.useing_tip{
+	color: red;
+	font-size: 0.9em;
+}
+.close{
+	width: 82%;
+	height: 38px;
+	background: #1FBAA6;
+	color: white;
+	border: none;
+	font-size: 0.9em;
+	letter-spacing: 1px;
+	margin-bottom: 10px;
+}
+/*代金券使用后*/
+.box_coupons_2{
+	margin: 10px 2% 0;
+	width: 96%;
+	position: relative;
+	background: url(../images/coupons_2.png) no-repeat;
+	background-size: 100% 100%;
+}
+.type_after_use{
+	background: #DED3CA;
+	color: #B8A89D;
+}
+.box_2{
+	color: #8E7B7A;
+	width: 65%;
+	position: absolute;
+	top:30%;
+}
+.project_2{
+	font-size: 22px;
+}
+.closing_time_2{
+	padding: 8px 0 0 3px;
+	font-size: 12px;
+	overflow: hidden;
+}
+
+.btn_after_use{
+	position: absolute;
+	top: 35%;
+	right: 5%;
+	width: 21%;
+	background: #DAD0C7;
+	border: none;
+	color: #A7998B;
+	font-size: 0.7em;
+	letter-spacing: 1px;
+}
+.type_change{
+	background: #85C9EB;
+	color: white;
 }
 
 
