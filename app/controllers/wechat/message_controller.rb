@@ -22,10 +22,11 @@ class Wechat::MessageController < ApplicationController
 			@weixin_message=Message.factory hash
 			if @weixin_message.MsgType=='event'
 			    if @weixin_message.Event=='subscribe'
-							wechat_config=WechatConfig.find_or_create_by(openid:@weixin_message.FromUserName,sangna_config_id: gzh.id)
+							wechat_config=WechatConfig.find_or_initialize_by(openid:@weixin_message.FromUserName,sangna_config_id: gzh.id)
 							wechat_config.del=1
+							wechat_config.save
 							if !wechat_config.member
-									member=Member.create(user_id:gzh.per_user.id,username:wechat_config.openid)
+									member=Member.create(user_id:gzh.per_user.id,username:wechat_config.openid,hand_code:"")
 									wechat_config.member=member
 									wechat_config.save
 							end

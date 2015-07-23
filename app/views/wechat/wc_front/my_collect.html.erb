@@ -47,9 +47,60 @@
 			 });
 		})
 	</script>
+<script>
+	  var page=1
+		mui.init({
+			pullRefresh: {
+				container: '#pullrefresh',
+				down: {
+						callback: pulldownRefresh
+				},
+				up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+				}
+			}
+		});
+		/**
+		* 下拉刷新具体业务实现
+		*/
+		function pulldownRefresh(){
+			page = 1;
+			setTimeout(function(){
+			
+			$.get('page_technician',{appid:'<%=params[:appid]%>',page:page,inscene:<%=@inscene%>,collect:'true'},function(obj){
+						$("#t_data").html(obj);
+							<%if @inscene%>
+									countdown();
+							<%end%>
+				})
+				mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+			}, 1500);
+		}
+	/**
+	* 上拉加载具体业务实现
+	*/
+	function pullupRefresh() {
+				setTimeout(function(){
+					$.get('page_technician',{appid:'<%=params[:appid]%>',page:(page+1),inscene:<%=@inscene%>,collect:'true'},function(obj){
+								if(obj==''){
+								}
+								else{
+									$('#t_data').append(obj);
+									page++;
+									<%if @inscene%>
+											countdown();
+									<%end%>
+								}
+							mui('#pullrefresh').pullRefresh().endPullupToRefresh(); //参数为true代表没有更多数据了。
+						})
+				}, 1500);
+	}
+	</script>
+
 		<script>
+		var page=1
 			$(function(){
-					 var page=1
 						$.get('page_technician',{appid:'<%=params[:appid]%>',page:page,inscene:<%=@inscene%>,collect:'true'},function(obj){
 						$("#t_data").html(obj);
 						<%if @inscene%>
@@ -57,22 +108,46 @@
 						<%end%>
 				})
 			})
+			function search(){
+				 var t_number=$('#t_number').val();
+				 $('#t_number').val('');
+				 $.get('search',{appid:'<%=params[:appid]%>',t_number:t_number,inscene:<%=@inscene%>,is_mine:true},function(obj){
+						if(obj==''){
+								mui.toast('没有此技师')
+						}
+						else if(obj=='uncollect'){
+								mui.toast('您没有收藏此技师');
+						}
+						else{
+								$('#t_data').html(obj);
+								<%if @inscene%>
+											countdown();
+									<%end%>
+						}
+				})	
+			}
 	<%if @inscene%>
 		function countdown(){
-					$.each($('.jishi_state'),function(a,b){
+					$.each($('.surplus_time'),function(a,b){
 									var content=$(b).html();
 									var index=content.indexOf('分钟')
 									if(index!=-1){
 											var time=parseInt(content.substring(0,index));
-											var abc=setInterval(function(){
+											if(time<=0){
+												$(b).parent().parent().html('<span class="waiting">待</span>');
+											}
+											else{
+												var abc=setInterval(function(){
 													time--;
 													if(time==0){
 														clearInterval(abc);
+														$(b).parent().parent().html('<span class="waiting">待</span>');
 													}
 													else{
-													$(b).html(time+'分钟后有空');
+													$(b).html(time+'分钟后空闲');
 													}
 												},60000)
+											}
 										}
 							})
 				}
@@ -118,7 +193,7 @@
 					scanType: ["qrCode"],
 					success: function (res) {
 						var result = res.resultStr;
-						window.location.href=result
+						window.location.replace(result);
 					}
 				});	
 			});

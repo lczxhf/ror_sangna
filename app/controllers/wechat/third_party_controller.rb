@@ -22,7 +22,6 @@ class Wechat::ThirdPartyController < ApplicationController
 							# 	img.save
 							# end
 		#			end
-
 		#	end
   end
 def test1

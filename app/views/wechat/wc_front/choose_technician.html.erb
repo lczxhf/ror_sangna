@@ -63,26 +63,47 @@
 
 
 		<script>
-	function toperson(){
+			function toperson(){
 					window.location.href='my_account?appid=<%=params[:appid]%>';
+			}
+			function search(){
+				 var t_number=$('#t_number').val();
+				 $('#t_number').val('');
+				 $.get('search',{appid:'<%=params[:appid]%>',t_number:t_number,inscene:<%=@inscene%>},function(obj){
+						if(obj==''){
+								mui.toast('没有此技师')
+						}
+						else{
+								$('#t_data').html(obj);
+								<%if @inscene%>
+											countdown();
+								<%end%>
+						}
+				})	
 			}
 				wx.hideAllNonBaseMenuItem();
 				<%if @inscene%>
 				function countdown(){
-					$.each($('.jishi_state'),function(a,b){
+					$.each($('.surplus_time'),function(a,b){
 									var content=$(b).html();
 									var index=content.indexOf('分钟')
 									if(index!=-1){
 											var time=parseInt(content.substring(0,index));
-											var abc=setInterval(function(){
+											if(time<=0){
+													$(b).parent().parent().html('<span class="waiting">待</span>');
+											}
+											else{
+												var abc=setInterval(function(){
 													time--;
 													if(time==0){
 														clearInterval(abc);
+														$(b).parent().parent().html('<span class="waiting">待</span>');
 													}
 													else{
-													$(b).html(time+'分钟后有空');
+													$(b).html(time+'分钟后空闲');
 													}
 												},60000)
+											}
 										}
 							})
 				}
@@ -101,7 +122,7 @@
 					});
 				})
 			function show_info(technician_id){
-					window.location.href="technician_info?t_id="+technician_id+"&appid=<%=params[:appid]%>";
+				window.location.href="technician_info?t_id="+technician_id+"&appid=<%=params[:appid]%>";
 			}
 			<%else%>
 			function collect(technician_id,icon){
@@ -145,7 +166,7 @@
 					scanType: ["qrCode"], // 可以指定扫二维码还是一维码，默认二者都有
 					success: function (res) {
 						var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
-						window.location.href=result
+						window.location.replace(result)
 					}
 				});	
 			});

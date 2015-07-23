@@ -49,6 +49,7 @@ Rails.application.routes.draw do
 		get "wc_front/phone_bind" => "wc_front#phone_bind"
 		post "wc_front/sent_code" => "wc_front#sent_code"
 		post "wc_front/bind_phone" => "wc_front#bind_phone"
+		get "wc_front/search" => "wc_front#search"
     #match "/:name/:controller/:action",:via=>[:get]
   end
   

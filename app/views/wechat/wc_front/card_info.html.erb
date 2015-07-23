@@ -48,30 +48,42 @@
 	</script>
 <%end%>
 <%content_for :body do%>
+	<%@cards.each do |card|%>
+		<%if !card.status.in?([1,2])%>
+		 <div class="box_coupons_2">
+				<div class="coupons_num type_after_use"><%=card.coupons_rule.face_value%></div>
+				<div class="box_2">
+					<div class="project_2">代金券</div>
+					<div class="closing_time_2">截止日期:<%=(card.create_time+card.coupons_rule.due_day.days).strftime('%Y年%m月%d日')%>
+					</div>
+				</div>
+				<%if card.status==3%>
+						<button class="btn_after_use" disabled>已使用</button>
+				<%else%>
+						<button class="btn_after_use" disabled>已过期</button>
+				<%end%>
+			</div>
+		</div>
+		<%else%>
 		<div class="mui-content">
 			<div class="box_coupons">
-				<div class="coupons_num">50</div>
+				<div class="coupons_num"><%=card.coupons_rule.face_value%></div>
 				<div class="box">
 					<div class="project">代金券</div>
-					<div class="closing_time">截止日期:2015年06月20日
-						<a>使用规则</a>
+					<div class="closing_time">截止日期:<%=(card.create_time+card.coupons_rule.due_day.days).strftime('%Y年%m月%d日')%>
+						<a>规则</a>
 					</div>
 				</div>
 				<div class="status">到场自动激活</div>
-				<button class="employ">我要使用</button>
+				<%if @inscene%>
+					<%if card.status==2%>
+						<button class="employ">我要使用</button>
+					<%end%>
+				<%end%>
 			</div>
 		</div>
-		<!--代金券使用后-->
-		<div class="box_coupons_2">
-				<div class="coupons_num type_after_use">50</div>
-				<div class="box_2">
-					<div class="project_2">代金券</div>
-					<div class="closing_time_2">截止日期:2015年06月20日
-					</div>
-				</div>
-				<button class="btn_after_use" disabled>已使用</button>
-			</div>
-		</div>
+		<%end%>
+	<%end%>
 		<!--/*确认是否使用弹窗*/-->
 		<div class="shareit_1">
 			<div class="box_determine">
@@ -103,11 +115,11 @@
 				var Height = window.innerWidth*0.96*180/590;
 				$('.box_coupons').css("height",Height);
 				$('.box_coupons_2').css("height",Height);
-				$('.coupons_num').css('height',Height*0.7);
-				$('.coupons_num').css('width',Height*0.7);
-				$('.coupons_num').css('line-height',Height*0.02);
-				$('.box').css('left',(Height*0.7+window.innerWidth*0.96*0.10));
-				$('.box_2').css('left',(Height*0.7+window.innerWidth*0.96*0.10));
+				$('.coupons_num').css('height',Height*0.65);
+				$('.coupons_num').css('width',Height*0.65);
+				$('.coupons_num').css('line-height',Height*0.0175);
+				$('.box').css('left',(Height*0.65+window.innerWidth*0.96*0.06));
+				$('.box_2').css('left',(Height*0.65+window.innerWidth*0.96*0.06));
 				
 				//判断选择了哪个按钮
 				$('.type_btn').each(function(){

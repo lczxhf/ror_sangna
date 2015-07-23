@@ -125,6 +125,7 @@ class Sangna
 						 wechat_user=WechatUser.new
 						 wechat_user.wechat_config=wechat_config
 				end
+				wechat_user.del=2
 				wechat_user.member=wechat_config.member
 				wechat_user.nickname=info['nickname']
 				wechat_user.sex=info['sex'].to_i

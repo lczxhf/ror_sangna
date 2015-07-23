@@ -3,7 +3,7 @@
 	margin: 10px 2% 0;
 	width: 96%;
 	position: relative;
-	background: url(../images/coupons.png) no-repeat;
+	background: url(/images/coupons.png) no-repeat;
 	background-size: 100% 100%;
 }
 .coupons_num{
@@ -14,10 +14,10 @@
 	background: #785F57;
 	position: absolute;
 	bottom: 15%;
-	left: 7%;
+	left: 5%;
 }
 .box{
-	width: 65%;
+	width: 69%;
 	position: absolute;
 	top:30%;
 }
@@ -45,13 +45,13 @@
 }
 .employ{
 	position: absolute;
-	top: 35%;
+	top: 32%;
 	right: 5%;
-	width: 21%;
+	width: 75px;
 	background: #81CCEB;
 	border: none;
 	color: white;
-	font-size: 0.7em;
+	font-size: 12px;
 	letter-spacing: 1px;
 }
 /*确认是否使用弹窗*/
@@ -69,7 +69,7 @@
 }
 .box_determine{
 	width: 80%;
-	margin: 25% auto 0;
+	margin: 20% auto 0;
 	background: white;
 	border-radius: 8px;
 	padding-top: 5%;
@@ -179,7 +179,7 @@
 	margin: 10px 2% 0;
 	width: 96%;
 	position: relative;
-	background: url(../images/coupons_2.png) no-repeat;
+	background: url(/images/coupons_2.png) no-repeat;
 	background-size: 100% 100%;
 }
 .type_after_use{
@@ -203,9 +203,9 @@
 
 .btn_after_use{
 	position: absolute;
-	top: 35%;
+	top: 32%;
 	right: 5%;
-	width: 21%;
+	width:75px;
 	background: #DAD0C7;
 	border: none;
 	color: #A7998B;
