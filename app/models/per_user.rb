@@ -9,4 +9,5 @@ class PerUser < ActiveRecord::Base
 	has_many :order_by_masseuses,foreign_key: 'user_id'
 	has_many :coupons_rules,foreign_key: 'user_id'
 	has_many :coupons_records,foreign_key: 'user_id'
+	has_many :user_qr_code_rule,foreign_key: 'user_id'
 end

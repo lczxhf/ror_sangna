@@ -7,6 +7,7 @@
           <%=stylesheet_link_tag "wechat_front/common"%>
           <%=stylesheet_link_tag "wechat_front/My_account"%>
        <%=stylesheet_link_tag "wechat_front/iconfont"%>
+       <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 		<title>会员中心</title>
 			<script>
 
@@ -21,6 +22,44 @@
 									
 								}
 			</script>
+				<script type="text/javascript">
+			wx.hideAllNonBaseMenuItem();
+
+		 wx.config({
+			      debug: false, 
+						appId: '<%=params[:appid]%>', 
+						timestamp:'<%=timestamp=Time.now.to_i%>' , 
+						nonceStr: '<%=nonceStr=SecureRandom.uuid.tr('-', '')%>', 
+						signature: '<%=signature(timestamp,nonceStr)%>',
+						jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage'] 
+		});
+		wx.ready(function(){
+		//    wx.hideOptionMenu();
+		wx.showAllNonBaseMenuItem();
+		wx.onMenuShareTimeline({
+		      title: '<%=@sangna_config.per_user.name%>会所!', 
+		        link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>',
+		        imgUrl: 'http://weixin.linkke.cn<%=image_path @sangna_config.per_user.per_user_imgs.first.url.url%>',
+		        success: function(res){
+							
+		        },
+		        cancel: function(res){
+				    }
+			 });
+
+
+			 wx.onMenuShareAppMessage({
+				    title: '<%=@sangna_config.per_user.name%>会所!', 
+					  desc: '', 
+					  link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>', 
+						imgUrl: 'http://weixin.linkke.cn<%=image_path @sangna_config.per_user.per_user_imgs.first.url.url%>',
+						success: function () { 
+						},
+						cancel: function () { 
+						}
+			 });
+		})
+	</script>
 
 <%end%>
 <%content_for :body do%>
@@ -60,13 +99,29 @@
 				<a class="mui-navigate-right" >
 					<span class="size loca_1">卡卷</span>
 					<span class="size loca_2"><%=@sangna_config.per_user.coupons_records.where(member_id:@wechat_config.member_id).count%></span>
-				</a>
-			</div>
+						</a>
+					</div>
 	
 		</div>
-		
+		<!--底部-->
+		<div class="footer">
+			<div class="box_footer">
+				<img src="/images/buttom_img.png" width="42px" height="42px"/>
+				<div class="footer_infor">
+					<span class="type_size">领客</span>
+					<span class="linkke">LINKKE.CN</span>
+				</div>
+			</div>
+		</div>
+
 		 <script>
-			
+				$(function(){
+						$('.footer_infor').css('width',$('.linkke').width());
+						$('.box_footer').css('width',$('.linkke').width()+42);
+						if((window.innerHeight-$('.mui-content').height()-100)>0){
+							$('.footer').css('margin-top',window.innerHeight-$('.mui-content').height()-55)
+						}
+					})
 			
 		// 	document.querySelector('.NiCheng').addEventListener('tap', function() {
 		// 	  //打开昵称页面

@@ -3,7 +3,7 @@
 				<div class="Jishi_infor jishi_color" onclick="show_info('<%=technician.id%>')">
 					<div class="box_jishi">
 						<div class="box_img jishi_background">
-							<img class="jishi_img" src="<%=technician.img.url%>" alt="" height="50px" width="50px" />
+							<img class="jishi_img" src="<%=technician.img.normal.url%>" alt="" height="50px" width="50px" />
 						</div>
 						<span class="jishi_num fs17"><%=technician.job_number%></span>
 						<span class="jishi_sex fs11">（<%= technician.sex==1 ? "男":"女"%>）</span>
@@ -13,10 +13,10 @@
 								<%=return_technician_state(technician.work_status)%>
 							</span>
 						<%else%>
-								<a href="tel:123213">
+								<a href="tel:<%=per_user.phone%>">
 									<div class="yuan_yuyue">
 										<span class="mui-icon mui-icon-phone"></span>
-										<!--<span class="mui-icon iconfont icon-dianhua"></span> --!>
+										<!--<span class="mui-icon iconfont icon-dianhua"></span>  --!>
 									</div>
 								</a>
 								<div class="yuan_shoucang">

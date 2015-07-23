@@ -42,4 +42,32 @@
 	border-bottom: 1px solid #D3D2D2;
 	padding-left: 5%;
 }
-
+/*footer*/
+.footer{
+	width: 100%;
+	height: 55px;
+	margin-top: 20px;
+	text-align: center;
+}
+.box_footer{
+	position: relative;
+	text-align: center;
+	height: 50px;
+	margin: 0 auto;
+	font-size: 0.7em;
+	color: #C2C2C2;
+}
+.box_footer img{
+	position: absolute;
+	top: 4px;
+	left: 0;
+}
+.footer_infor{
+	text-align: left;
+	margin-left: 45px;
+	padding-top: 10px;
+	line-height: 16px;
+}
+.type_size{
+	font-size: 1.4em;
+}

@@ -8,6 +8,56 @@
           <%=stylesheet_link_tag "wechat_front/common"%>
           <%=stylesheet_link_tag "wechat_front/Fuwu_xiangmu"%>
       <%=stylesheet_link_tag "wechat_front/iconfont"%>
+      <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+      	<script type="text/javascript">
+			wx.hideAllNonBaseMenuItem();
+
+		 wx.config({
+			      debug: false, 
+						appId: '<%=params[:appid]%>', 
+						timestamp:'<%=timestamp=Time.now.to_i%>' , 
+						nonceStr: '<%=nonceStr=SecureRandom.uuid.tr('-', '')%>', 
+						signature: '<%=signature(timestamp,nonceStr)%>',
+						jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage'] 
+		});
+		wx.ready(function(){
+		//    wx.hideOptionMenu();
+			wx.showAllNonBaseMenuItem();
+			wx.onMenuShareTimeline({
+		      title: '<%=@sangna_config.per_user.name%>会所!', 
+		        link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>',
+		        imgUrl: 'http://weixin.linkke.cn<%=image_path @sangna_config.per_user.per_user_imgs.first.url.url%>',
+		        success: function(res){
+							
+		        },
+		        cancel: function(res){
+				    }
+			 });
+
+
+			 wx.onMenuShareAppMessage({
+				    title: '<%=@sangna_config.per_user.name%>会所!', 
+					  desc: '', 
+					  link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>', 
+						imgUrl: 'http://weixin.linkke.cn<%=image_path @sangna_config.per_user.per_user_imgs.first.url.url%>',
+						success: function () { 
+						},
+						cancel: function () { 
+						}
+			 });
+		})
+
+		$(function(){
+				$('.footer_infor').css('width',$('.linkke').width());
+				$('.box_footer').css('width',$('.linkke').width()+42);
+				if((window.innerHeight-$('.mui-content').height()-100)>0){
+						$('.footer').css('margin-top',window.innerHeight-$('.mui-content').height()-55)
+					}
+
+			})
+
+
+	</script>
 <%end%>
 <%content_for :body do%>
 <!--		<header class="mui-bar mui-bar-nav">
@@ -37,9 +87,50 @@
 						<!--	<img src="../images/1.jpg" width="87%" height="120px" /> --!>
 							<p class="size_p"><%=project.info%></p>
 						</div>
+<!--						<div class="box_recommend">
+							<p>实时推荐</p>
+							<div class="Jishi_infor ">
+								<div class="box_jishi">
+									<div class="box_img ">
+											<img class="jishi_img" src="../images/6.jpg" alt="" height="50px" width="50px" />
+									</div>
+									<span class="jishi_num fs17">0121</span>
+									<span class="jishi_sex fs11">（女）</span>
+									<span class="jishi_type">大厅技师</span>
+									<span class="jishi_state fs11">
+											<span class="time">13:00pm</span>有预约
+									</span>
+									<div class="yuan_yuyue">
+										<span class="mui-icon mui-icon-phone"></span>
+										<span class="mui-icon iconfont icon-dianhua"></span>
+									</div>
+									<div class="yuan_shoucang ">
+										<span class="mui-icon iconfont icon-xingxingkong"></span>
+									</div>
+								</div>
+								<div class="evaluate fs10">
+										客户评价：
+										<span class="project">日式</span>
+										<span class="jishi_best">头肩一流</span>																										</div>
+								<span class="current_state fs12">当前空闲</span>
+						</div>
+					</div>
+--!>
 					</ul>
 				</li>
 		<%end%>
 			</ul>
 		</div>
+<!--底部-->
+		<div class="footer">
+			<div class="box_footer">
+				<img src="/images/buttom_img.png" width="42px" height="42px"/>
+				<div class="footer_infor">
+					<span class="type_size">领客</span>
+					<span class="linkke">LINKKE.CN</span>
+				</div>
+			</div>
+		</div>
+
 <%end%>
+

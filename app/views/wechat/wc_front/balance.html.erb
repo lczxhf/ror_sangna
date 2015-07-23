@@ -5,6 +5,7 @@
 		<%=javascript_include_tag "mui.min"%>
 		<%=stylesheet_link_tag "wechat_front/mui.min"%>
 		<%=stylesheet_link_tag "wechat_front/YuE"%>
+		<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 	    <title>余额</title>
 			<script>
 					$(function(){
@@ -13,6 +14,44 @@
 								})
 						})
 			</script>
+				<script type="text/javascript">
+			wx.hideAllNonBaseMenuItem();
+
+		 wx.config({
+			      debug: false, 
+						appId: '<%=params[:appid]%>', 
+						timestamp:'<%=timestamp=Time.now.to_i%>' , 
+						nonceStr: '<%=nonceStr=SecureRandom.uuid.tr('-', '')%>', 
+						signature: '<%=signature(timestamp,nonceStr)%>',
+						jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage'] 
+		});
+		wx.ready(function(){
+		//    wx.hideOptionMenu();
+		wx.showAllNonBaseMenuItem();
+		wx.onMenuShareTimeline({
+		      title: '<%=@sangna_config.per_user.name%>会所!', 
+		        link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>',
+		        imgUrl: 'http://weixin.linkke.cn<%=image_path @sangna_config.per_user.per_user_imgs.first.url.url%>',
+		        success: function(res){
+							
+		        },
+		        cancel: function(res){
+				    }
+			 });
+
+
+			 wx.onMenuShareAppMessage({
+				    title: '<%=@sangna_config.per_user.name%>会所!', 
+					  desc: '', 
+					  link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>', 
+						imgUrl: 'http://weixin.linkke.cn<%=image_path @sangna_config.per_user.per_user_imgs.first.url.url%>',
+						success: function () { 
+						},
+						cancel: function () { 
+						}
+			 });
+		})
+	</script>
 	    <%end%>
 <%content_for :body do%>
 		<div class="mui-content">

@@ -7,8 +7,46 @@
              <%=stylesheet_link_tag "wechat_front/common"%>
              <%=stylesheet_link_tag "wechat_front/HuiSuo_infor",:cache=>false%>
         <%=stylesheet_link_tag "wechat_front/iconfont"%>
-	
+	<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 		<title>会所详情</title>
+			<script type="text/javascript">
+			wx.hideAllNonBaseMenuItem();
+
+		 wx.config({
+			      debug: false, 
+						appId: '<%=params[:appid]%>', 
+						timestamp:'<%=timestamp=Time.now.to_i%>' , 
+						nonceStr: '<%=nonceStr=SecureRandom.uuid.tr('-', '')%>', 
+						signature: '<%=signature(timestamp,nonceStr)%>',
+						jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage'] 
+		});
+		wx.ready(function(){
+		//    wx.hideOptionMenu();
+		wx.showAllNonBaseMenuItem();
+		wx.onMenuShareTimeline({
+		      title: '<%=@sangna_config.per_user.name%>会所!', 
+		        link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>',
+		        imgUrl: 'http://weixin.linkke.cn<%=image_path @sangna_config.per_user.per_user_imgs.first.url.url%>',
+		        success: function(res){
+							
+		        },
+		        cancel: function(res){
+				    }
+			 });
+
+
+			 wx.onMenuShareAppMessage({
+				    title: '<%=@sangna_config.per_user.name%>会所!', 
+					  desc: '', 
+					  link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>', 
+						imgUrl: 'http://weixin.linkke.cn<%=image_path @sangna_config.per_user.per_user_imgs.first.url.url%>',
+						success: function () { 
+						},
+						cancel: function () { 
+						}
+			 });
+		})
+	</script>
 <%end%>
 <%content_for :body do%>
 <!--  <header class="mui-bar mui-bar-nav">
@@ -89,7 +127,21 @@
 				</div>
 			</div>
 		</div>
+	 <div class="footer">
+			<div class="box_footer">
+	       <img src="/images/buttom_img.png" width="42px" height="42px"/>
+	       <div class="footer_infor">
+	         <span class="type_size">领客</span>
+	         <span class="linkke">LINKKE.CN</span>
+	       </div>
+	     </div>
+   </div>
+
 		<script type="text/javascript" charset="utf-8">
+			$(function(){
+					$('.footer_infor').css('width',$('.linkke').width());
+					$('.box_footer').css('width',$('.linkke').width()+42);
+				})
 			mui.init({
 				swipeBack:true //启用右滑关闭功能
 			});

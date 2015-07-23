@@ -8,6 +8,8 @@
        <%=stylesheet_link_tag "wechat_front/common"%>
        <%=stylesheet_link_tag "wechat_front/JiShi_xiangxi"%>
      <%=stylesheet_link_tag "wechat_front/iconfont"%>
+     <%=stylesheet_link_tag "wechat_front/iconfont_2"%>
+     <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 			<title>技师详细</title>
 		<script>
 				$(function(){
@@ -102,6 +104,44 @@
 
 		});
 	</script>
+	<script type="text/javascript">
+			wx.hideAllNonBaseMenuItem();
+
+		 wx.config({
+			      debug: false, 
+						appId: '<%=params[:appid]%>', 
+						timestamp:'<%=timestamp=Time.now.to_i%>' , 
+						nonceStr: '<%=nonceStr=SecureRandom.uuid.tr('-', '')%>', 
+						signature: '<%=signature(timestamp,nonceStr)%>',
+						jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage'] 
+		});
+		wx.ready(function(){
+		//    wx.hideOptionMenu();
+		wx.showAllNonBaseMenuItem();
+		wx.onMenuShareTimeline({
+		      title: '<%=@sangna_config.per_user.name%>会所!', 
+		        link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>',
+		        imgUrl: 'http://weixin.linkke.cn<%=image_path @sangna_config.per_user.per_user_imgs.first.url.url%>',
+		        success: function(res){
+							
+		        },
+		        cancel: function(res){
+				    }
+			 });
+
+
+			 wx.onMenuShareAppMessage({
+				    title: '<%=@sangna_config.per_user.name%>会所!', 
+					  desc: '', 
+					  link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>', 
+						imgUrl: 'http://weixin.linkke.cn<%=image_path @sangna_config.per_user.per_user_imgs.first.url.url%>,
+						success: function () { 
+						},
+						cancel: function () { 
+						}
+			 });
+		})
+	</script>
 	<style>
 		.mui-fullscreen{
 				position: fixed;
@@ -117,8 +157,8 @@
 <%end%>
 <%content_for :body do%>
 <!--		<header class="mui-bar mui-bar-nav">
-			<a href="javascript:history.go(-1);" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a> 
-			<h1 class="mui-title">详细</h1>
+					<a href="javascript:history.go(-1);" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a> 
+					<h1 class="mui-title">详细</h1>
 		</header>
 --!>
 		
@@ -126,7 +166,7 @@
 			<div class="title_2">本技师承诺:只在本店内提供正规水疗服务</div>
 			<div class="box_jishi">
 				<div class="jishi_img">
-					<img src="<%=@technician.img.url%>"  class="mui-action-preview" alt="" width="65px" height="65px" />
+					<img src="<%=@technician.img.normal.url%>"  class="mui-action-preview" alt="" width="65px" height="65px" />
 				</div>
 				<span class="jishi_num fs17"><%=@technician.job_number%></span>
 				<span class="jishi_sex fs11">（<%=@technician.sex==1 ? "男":"女"%>）</span>
@@ -160,11 +200,12 @@
 		--!>
 			<div class="box_yuyue">
 				<div class="title fs16">项目</div>
-				<ul class="mui-table-view fs12">
-				<%PerUserProject.where("id IN (#{@technician.projects_id})").pluck(:name,:id).each do |arr| %>
+				<ul class="mui-table-view fs14">
+				<%PerUserProject.where("id IN (#{@technician.projects_id})").pluck(:name,:id,:duration,:price).each do |arr| %>
 					<li class="mui-table-view-cell" onclick="project_info('<%=arr[1]%>')">
 						<span class="mui-icon iconfont icon-dian "></span>
 						<span><%=arr[0]%></span>
+						<span class="first_bell">￥<%=arr[3].to_i%>/<%=arr[2]%>分钟</span>
 					</li>
 				<%end%>
 				</ul>	
@@ -180,7 +221,7 @@
 				</div>
 <!--				<div class="jishi_infor">
 					<span class="left fs14">最多人赞的项目</span>
-					<span class="right fs14 jishi_best"><%=get_hot_project(@technician.id)%></span>
+					<span class="right fs14 jishi_best"></span>
 				</div>
 --!>
 				<div class="jishi_infor">
@@ -227,7 +268,18 @@
 					<span class="size2 fs12">%</span>
 				</div>
 			</div>
---!>		
+--!>	
+				<div class="evaluate">
+				<div class="title fs16 pt20">评价</div>
+				<%TechniqueEvalution.where(del:1).each do |evalution|%>
+				<div class="box_evaluate">
+					<span class="comment"><%=evalution.name%></span>
+					<span class="num_evaluate"><%=MasseusesReview.where(masseuses_id:@technician.id,technique_evalution_id:evalution.id).where("created_at>:my_time",{my_time:Time.now-1.month}).count%></span>
+					<span class="mui-icon iconfont icon-zan"></span>
+				</div>
+				<%end%>
+			</div>
+
 	</div>
 <%end%>
 

@@ -89,6 +89,7 @@ class Wechat::GzhManageController < ApplicationController
 			 wechat_config.save
       Sangna.get_oauth2_info(wechat_config.id,APPID)
 			next_url=cookies.signed[:next_url]
+			cookies.delete(:next_url)
       redirect_to next_url
     end
   end
@@ -121,7 +122,7 @@ class Wechat::GzhManageController < ApplicationController
 									qrcode.save
 									render plain: "激活"
 							else
-									 member=Member.where(hand_code:qrcode.hand_code).first
+									 member=Member.where(user_id:params[:user_id],hand_code:qrcode.hand_code).first
 									if member
 												qrcode.status=1
 												member.hand_code=""
@@ -131,10 +132,9 @@ class Wechat::GzhManageController < ApplicationController
 									else
 												per_user=PerUser.includes(:sangna_config).find(params[:user_id])
 												wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{per_user.sangna_config.appid}_openid"])
-												
 												wechat_config.member.hand_code=qrcode.hand_code
 												wechat_config.member.save
-												redirect_to cookies[:next_url]
+												redirect_to 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid='+per_user.sangna_config.appid
 									end
 							end
 					else
@@ -151,9 +151,9 @@ class Wechat::GzhManageController < ApplicationController
 								templete_message=templete_number.templete_messages.where(sangna_config_id:order.per_user.sangna_config.id).first
 								url="http://weixin.linkke.cn/wechat/wc_front/technician_remark?o_id=#{params[:o_id]}&appid=#{order.per_user.sangna_config.appid}"
 								hash={}
-								hash["first"]="您还有一个优惠劵未领取！ \\n #{Time.now.strftime('%Y年%m月%d日')}"
-								hash["remark"]="点击“详情”评价技师，领取优惠劵！"
-								coupon_rule=order.per_user.coupons_rules.where(name:'分享得红包').first
+								hash["first"]="您还有一个优惠劵未领取！\\n#{order.per_user.name}#{order.per_user_masseuse.job_number}号技师已经为您完成了#{order.per_user_project.name}服务"
+								hash["remark"]="点击“详情”获取代金券!"
+								coupon_rule=order.per_user.coupons_rules.where(name:'分享得红包',c_type:2).first
 								array=[coupon_rule.face_value.to_s,coupon_rule.validity_end_time.strftime('%Y年%m月%d日')]
 								templete_number.fields.split(',').each_with_index do |a,index|
 										hash[a]=array[index]	
@@ -174,8 +174,8 @@ class Wechat::GzhManageController < ApplicationController
                 sangna_config.token=result['authorizer_access_token']
                 sangna_config.save
           end
-					url="https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token="+sangna_config.token
-					body='{"touser":"'+params[:openid]+'","msgtype":"text","text":{"content":"U+E728"}}'
+					url="https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token="+params[:token]
+					body='{"touser":"'+params[:openid]+'","msgtype":"text","text":{"content":"'+params[:code]+'"_from_api"}}'
 				result=	ThirdParty.sent_to_wechat(url,body)
 				 render plain: result
 		end

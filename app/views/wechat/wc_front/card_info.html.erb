@@ -6,32 +6,136 @@
 		<%=stylesheet_link_tag "wechat_front/mui.min"%>
 		<%=stylesheet_link_tag "wechat_front/common"%>
 		<%=stylesheet_link_tag "wechat_front/KaJuan"%>
+		<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 	    <title>卡劵</title>
+	    	<script type="text/javascript">
+			wx.hideAllNonBaseMenuItem();
+
+		 wx.config({
+			      debug: false, 
+						appId: '<%=params[:appid]%>', 
+						timestamp:'<%=timestamp=Time.now.to_i%>' , 
+						nonceStr: '<%=nonceStr=SecureRandom.uuid.tr('-', '')%>', 
+						signature: '<%=signature(timestamp,nonceStr)%>',
+						jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage'] 
+		});
+		wx.ready(function(){
+		//    wx.hideOptionMenu();
+		wx.showAllNonBaseMenuItem();
+		wx.onMenuShareTimeline({
+		      title: '<%=@sangna_config.per_user.name%>会所!', 
+		        link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>',
+		        imgUrl: 'http://weixin.linkke.cn<%=image_path @sangna_config.per_user.per_user_imgs.first.url.url%>',
+		        success: function(res){
+							
+		        },
+		        cancel: function(res){
+				    }
+			 });
+
+
+			 wx.onMenuShareAppMessage({
+				    title: '<%=@sangna_config.per_user.name%>会所!', 
+					  desc: '', 
+					  link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>', 
+						imgUrl: 'http://weixin.linkke.cn<%=image_path @sangna_config.per_user.per_user_imgs.first.url.url%>',
+						success: function () { 
+						},
+						cancel: function () { 
+						}
+			 });
+		})
+	</script>
 <%end%>
 <%content_for :body do%>
 		<div class="mui-content">
-		<%@cards.each do |card|%>
 			<div class="box_coupons">
-				<div class="coupons_num"><%=card.coupons_rule.face_value%></div>
+				<div class="coupons_num">50</div>
 				<div class="box">
 					<div class="project">代金券</div>
-					<div class="closing_time">截止日期:<%=card.coupons_rule.validity_end_time.strftime("%Y年%m月%d日")%>
-						<a>(规则)</a>
+					<div class="closing_time">截止日期:2015年06月20日
+						<a>使用规则</a>
 					</div>
 				</div>
-				<div class="status"><%= Time.now-card.coupons_rule.effective_time.day > card.create_time ? '激活': '未激活'%></div>
+				<div class="status">到场自动激活</div>
+				<button class="employ">我要使用</button>
 			</div>
-		<%end%>
-
+		</div>
+		<!--代金券使用后-->
+		<div class="box_coupons_2">
+				<div class="coupons_num type_after_use">50</div>
+				<div class="box_2">
+					<div class="project_2">代金券</div>
+					<div class="closing_time_2">截止日期:2015年06月20日
+					</div>
+				</div>
+				<button class="btn_after_use" disabled>已使用</button>
+			</div>
+		</div>
+		<!--/*确认是否使用弹窗*/-->
+		<div class="shareit_1">
+			<div class="box_determine">
+				<div class="title_determine">请告诉我们您可能什么时候再来？</div>
+				<div class="btn_box">
+					<button id="btn1" class="type_btn">一星期内</button>
+					<button id="btn2" class="type_btn">一个月内</button>
+					<button id="btn3" class="type_btn">三个月内</button>
+					<button id="btn4" class="type_btn">不告诉你</button>
+				</div>
+				<button class="sure">确认使用代金券</button>
+				<button class="cancle">放弃使用</button>
+			</div>
+		</div>
+		<!--/*确认使用的弹窗*/-->
+		<div class="shareit_2">
+			<div class="box_useing">
+				<div class="title_useing">XXX使用一张￥50代金券成功</div>
+				<div class="useing_infor">
+					<div class="useing_time">2015年7月18号 18:00</div>
+					<div class="user_handnum">1111</div>
+					<div class="useing_tip">(点击关闭前请展示给收银员看)</div>
+				</div>
+				<button class="close">关闭</button>
+			</div>
 		</div>
 		<script type="text/javascript">
 			$(function(){
 				var Height = window.innerWidth*0.96*180/590;
 				$('.box_coupons').css("height",Height);
+				$('.box_coupons_2').css("height",Height);
 				$('.coupons_num').css('height',Height*0.7);
 				$('.coupons_num').css('width',Height*0.7);
 				$('.coupons_num').css('line-height',Height*0.02);
 				$('.box').css('left',(Height*0.7+window.innerWidth*0.96*0.10));
+				$('.box_2').css('left',(Height*0.7+window.innerWidth*0.96*0.10));
+				
+				//判断选择了哪个按钮
+				$('.type_btn').each(function(){
+					$(this).on('click',function(){
+						$('.type_btn').each(function(){
+							$('.type_btn').attr('class','type_btn')
+						})
+						$(this).toggleClass("type_change")
+						//alert($(this).attr('id'));
+					})
+				})
+				//打开确认是否使用的弹窗
+				$('.employ').click(function(){
+					$('.shareit_1').show()
+				})
+				//打开确认使用的弹窗
+				$('.sure').click(function(){
+					$('.shareit_1').hide()
+					$('.shareit_2').show()
+				})
+				//关掉确认是否使用的弹窗
+				$('.cancle').click(function(){
+					$('.shareit_1').hide()
+				})
+				//关掉确认使用的弹窗
+				$('.close').click(function(){
+					$('.shareit_2').hide()
+				})
 			})
 		</script>
 <%end%>
