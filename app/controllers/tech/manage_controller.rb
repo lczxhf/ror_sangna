@@ -117,15 +117,16 @@ class Tech::ManageController < ApplicationController
      orders.user_id = params[:tech_user_id] 
      orders.masseuse_id = params[:tech_id]
      orders.project_id = params[:project_name_num]
-     orders.status = params[:status]
+     orders.status = params[:up]
      orders.start_time = Time.now
-     puts Time.now
      if orders.save
        status = PerUserMasseuse.find(params[:tech_id])
-       status.work_status = 3
-       status.save
-       p 1111
-       p orders.to_json
+       if params[:next]== '1'
+        status.work_status = 1
+       else
+        status.work_status = 3
+       end   
+        status.save
        render plain: "#{orders.id.to_s}"
      else
        render plain: 'no'
@@ -134,12 +135,21 @@ class Tech::ManageController < ApplicationController
 
   def orderdown
      handnum = OrderByMasseuse.find(params[:order_id])
+     tech_status = PerUserMasseuse.find(params[:tech_id]);
+     if params[:next]=='3'
+      tech_status.work_status = 2
+     else
+      tech_status.work_status = 1
+     end
+     tech_status.save
+
      if handnum
        pull = PerUserQrCode.where(hand_code: params[:hand_num],user_id: params[:tech_user_id]).first
        if pull
-         handnum.status = params[:down].to_i
+         handnum.status = 2
          handnum.end_time = Time.now
          handnum.hand_number = params[:hand_num]
+
          member = Member.where(user_id: params[:tech_user_id],hand_code: params[:hand_num]).first
          # tech = PerUserMasseuse.find(params[:tech_id])
          if member
@@ -152,10 +162,8 @@ class Tech::ManageController < ApplicationController
           # elsif params[:objectdown_name] == 2
             
           end
-          p 111
          render plain: 'ok'
        else
-          p  222
          render plain: 'no'
        end
      
