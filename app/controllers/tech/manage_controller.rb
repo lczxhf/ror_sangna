@@ -121,7 +121,7 @@ class Tech::ManageController < ApplicationController
      orders.start_time = Time.now
      if orders.save
        status = PerUserMasseuse.find(params[:tech_id])
-       if params[:next]== '1'
+       if params[:next]== 'out'
         status.work_status = 1
        else
         status.work_status = 3
@@ -136,7 +136,7 @@ class Tech::ManageController < ApplicationController
   def orderdown
      handnum = OrderByMasseuse.find(params[:order_id])
      tech_status = PerUserMasseuse.find(params[:tech_id]);
-     if params[:next]=='3'
+     if params[:next]=='receiving'
       tech_status.work_status = 2
      else
       tech_status.work_status = 1
