@@ -18,16 +18,30 @@
 			<button class="enter">进入</button>
 		</div>
 	<%end%>
-			<!--弹窗搜索search-->
-			<div class="mask_layer">
-				<div class="box_search">
-					<div class="mui-input-row">
-						<input class="mui-input-clear" type="text" placeholder="请输入技师工号" id='t_number'/>
+		<!--弹窗搜索search-->
+				<div class="mask_layer">
+					<span class="mui-icon mui-icon-closeempty"></span>
+					<div class="box_search">
+						<div class="mui-input-row">
+							<input class="mui-input-clear" type="text" placeholder="请输入技师工号" id="t_number"/>
+						</div>
+						<button id="btn" class="mui-btn mui-btn-positive" onclick="search()">搜索</button>
 					</div>
-					<button id="btn" class="mui-btn mui-btn-positive" type="button" onclick="search()">搜索</button>
+					<div id="search_project" class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<div class="search_project">
+									<button class="GongZhong">大厅</button>
+									<button class="XiangMu">按肩</button>
+									<button class="XiangMu">按肩</button>
+									<button class="XiangMu">按肩</button>
+									<button class="XiangMu">按肩</button>
+									<button class="XiangMu">按肩</button>
+							</div>
+						</div>
+					</div>
 				</div>
-				<div class="close_box"></div>
 			</div>
+
 			<header class="mui-bar mui-bar-nav">
 				
 				<%if inscene%>
@@ -78,7 +92,7 @@
 		$('.mui-icon-search').click(function(){
 			$('.mask_layer').show()
 		})
-		$('.close_box').click(function(){
+		$('.mui-icon-close_box').click(function(){
 			$('.mask_layer').hide()
 		})
 		$('#btn').click(function(){
@@ -105,7 +119,7 @@
 		$('.mui-icon-search').click(function(){
 			$('.mask_layer').show()
 		})
-		$('.close_box').click(function(){
+		$('.mui-icon-closeempty').click(function(){
 			$('.mask_layer').hide()
 		})
 		$('#btn').click(function(){
@@ -114,4 +128,11 @@
 		$('.close_box').css('height',window.innerHeight*0.94-40);
 	})
 	<%end%>
+
+	(function($) {
+						$('#search_project').scroll({
+												indicators: true //是否显示滚动条
+						});
+	})(mui);
+
 </script>

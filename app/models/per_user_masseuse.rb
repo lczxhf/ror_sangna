@@ -6,7 +6,7 @@ class PerUserMasseuse < ActiveRecord::Base
 	 mount_uploader :img,TechAvatarUploader
 
 	require 'bcrypt'
-	attr_accessor :pwd
+	attr_accessor:pwd
 	#回调
 	  before_save :encrypt_password, :if => [:password_required]
     
@@ -29,12 +29,21 @@ class PerUserMasseuse < ActiveRecord::Base
 	    private
 	    #加密密码
 	    def encrypt_password
+				if self.pwd.present?
 	       self.password = ::BCrypt::Password.create(self.pwd)
+				end
 		  end
 
 	    def password_required
-	        password.blank? || self.pwd.present?
+					if self.pwd.blank?
+						 if password_changed?
+									self.password=password_was
+									true
+						 else
+								false	
+						 end
+					else
+						 true	
+					end
 	    end  
-
-
 end

@@ -69,10 +69,15 @@
 			setTimeout(function(){
 			
 			$.get('page_technician',{appid:'<%=params[:appid]%>',page:page,inscene:<%=@inscene%>,collect:'true'},function(obj){
-						$("#t_data").html(obj);
+						if(obj==""){
+							$("#t_data").html('<span class="ShouCang_none">暂无收藏</span>');
+						}
+						else{
+							$("#t_data").html(obj);
 							<%if @inscene%>
 									countdown();
 							<%end%>
+						}
 				})
 				mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
 			}, 1500);
@@ -84,6 +89,7 @@
 				setTimeout(function(){
 					$.get('page_technician',{appid:'<%=params[:appid]%>',page:(page+1),inscene:<%=@inscene%>,collect:'true'},function(obj){
 								if(obj==''){
+									$("#t_data").html('<span class="ShouCang_none">暂无收藏</span>');
 								}
 								else{
 									$('#t_data').append(obj);
@@ -102,10 +108,15 @@
 		var page=1
 			$(function(){
 						$.get('page_technician',{appid:'<%=params[:appid]%>',page:page,inscene:<%=@inscene%>,collect:'true'},function(obj){
-						$("#t_data").html(obj);
-						<%if @inscene%>
-						countdown();
-						<%end%>
+						   if(obj==""){
+									$("#t_data").html('<span class="ShouCang_none">暂无收藏</span>');
+								}
+								else{
+									$("#t_data").html(obj);
+									<%if @inscene%>
+									countdown();
+									<%end%>
+								}
 				})
 			})
 			function search(){

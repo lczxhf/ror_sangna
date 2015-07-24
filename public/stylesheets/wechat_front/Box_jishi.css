@@ -338,69 +338,6 @@ to {opacity: 1;margin-top: 0;}
 	background: #eeeeee;
 }
 
-/*<!--弹窗搜索search-->*/
-.mask_layer{
-	  -webkit-user-select: none;
-		 display: none;
-		 position: absolute;
-	 	 width: 100%;
-			height: 100%;
-		background: rgba(0,0,0,0.85);
-			top: 0;
-			left: 0;
-			z-index: 105;
-			padding-top: 15%;
-}
-.box_search{
-	height: 40px;
-	width: 90%;
-	margin: 0 5%;
-	border: none;
-	background: white;
-	border-radius: 3px;
-	position: relative;
-}
-.close_box{
-	width: 100%;
-}
-.box_search input{
-	border: none;
-	display: inline;
-	width: 100%;
-	line-height: 20px;
-	border-radius: 3px;
-	border-top-right-radius: 0;
-	border-bottom-right-radius: 0;
-	border: 1px solid #E6D3C3;
-}
-.mui-input-row{
-	width: 75%;
-	display: inline-block;
-}
-.mui-input-row .mui-input-clear~.mui-icon-clear{
-
-	color: #CCCCCC;
-}
- .box_search .mui-btn-positive{
-	 width: 25%;
-	 font-size: 0.7em;
-	 letter-spacing: 2px;
-	 height: 40px;
-	 position: absolute;
-	 right: 0;
-	 top: 0
-	 border-radius: 0;
-	 border-top-left-radius: 0;
-	 border-bottom-left-radius: 0;
-	 background: #00A64F;
- }
- input:focus{
-	 border: 1px solid #41D7B0;
- }
- input::-webkit-input-placeholder {
-	 color: #A1A1A1 !important; 
-	 font-size: 14px;
- }
 
 /*技师状态*/
 .spare{
@@ -456,4 +393,109 @@ to {opacity: 1;margin-top: 0;}
 	right: 10px;
 }
 
+ /*<!--弹窗搜索search-->*/
+ .mask_layer{
+	 -webkit-user-select: none;
+		display: none;
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		background: rgba(0,0,0,0.85);
+		top: 0;
+		left: 0;
+		z-index: 105;
+		padding-top: 60px;
+ }
+ .mask_layer .mui-icon-closeempty{
+		color: white;
+		position: absolute;
+		top: 12px;
+		left: 5%;
+		font-size: 36px;
+ }
+ .box_search{
+		height: 40px;
+		width: 90%;
+		margin: 0 5%;
+		border: none;
+		background: white;
+		border-radius: 3px;
+		position: relative;
+ }
 
+ .box_search input{
+		border: none;
+		display: inline;
+		width: 100%;
+		line-height: 20px;
+		border-radius: 3px;
+		border-top-right-radius: 0;
+		border-bottom-right-radius: 0;
+		border: 1px solid #E6D3C3;
+ }
+ .mui-input-row{
+		width: 75%;
+		display: inline-block;
+ }
+ .mui-input-row .mui-input-clear~.mui-icon-clear{
+		color: #CCCCCC;
+ }
+  .box_search .mui-btn-positive{
+			width: 25%;
+			font-size: 0.9em;
+			letter-spacing: 2px;
+			height: 40px;
+			position: absolute;
+			right: 0;
+			top: 0
+			border-radius: 0;
+			border-top-left-radius: 0;
+			border-bottom-left-radius: 0;
+			background: #81C262;
+	}
+	input:focus{
+			border: 1px solid #41D7B0;
+	}
+	input::-webkit-input-placeholder {
+			color: #A1A1A1 !important; 
+			font-size: 14px;
+	}
+
+#search_project{
+	margin-top: 110px;
+	width: 94%;
+	left: 3%;
+	height: 75% !important;
+	overflow: hidden;
+}
+.search_project{
+		padding: 20px 5%;
+}
+.box_project{
+		width: 100%;
+		margin-bottom: 25px;
+}
+.GongZhong{
+		display: block;
+		border: none;
+		width: 35%;
+		height: 33px;
+		padding: 3px;
+		color: #1C6466;
+		background: #37D2ED;
+		font-size: 17px;
+}
+.XiangMu{
+		margin: 15px 2% 0 0;
+		width: 30%;
+		color: #20393D;
+}
+/*暂无收藏*/
+.ShouCang_none{
+		position: fixed;
+		top: 45%;
+		left: 40%;
+		z-index: 2;
+		opacity: 0.2;
+		font-size: 1.3em;
+}

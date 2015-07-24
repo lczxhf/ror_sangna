@@ -116,7 +116,7 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def redbage
-			#cookies.delete("#{params[:appid]}_openid")
+				#cookies.delete("#{params[:appid]}_openid")
 				@order=OrderByMasseuse.includes(:member,:per_user).find(params[:o_id])				
 				wechat_config=WechatConfig.includes(:wechat_user).find_by_openid(cookies.signed["#{@order.per_user.sangna_config.appid}_openid"])
 				if @order.member_id==params[:id].to_i
@@ -206,6 +206,22 @@ class Wechat::WcFrontController < ApplicationController
 				 end
 
 				@cards=@sangna_config.per_user.coupons_records.includes(:coupons_rule).where(member_id:wechat_config.member_id).order(:status)
+	end
+
+	def use_card
+			card=CouponsRecord.includes(:coupons_rule,:member).find(params[:c_id])
+			puts card.to_json
+			if card.status==2
+				  if card.create_time+card.coupons_rule.due_day.days<Time.now
+							render plain: '代金券已过期'
+					else
+							card.status=3
+							card.save
+							render plain: card.to_json(:include=>[:member,:coupons_rule])
+					end
+			else
+					render plain: '代金券不可用'
+			end
 	end
 
 	def balance
@@ -303,7 +319,7 @@ class Wechat::WcFrontController < ApplicationController
 					}+	if inscene=='true'
 							'<span class="current_state fs12"> <span class="time">13:00pm</span>有预约</span>'
 							else
-								""
+								"<span class='current_state fs12'>在场时间#{technician.work_time_start.try(:localtime).try(:strftime,"%H:%M")}-#{technician.work_time_end.try(:localtime).try(:strftime,"%H:%M")}</span>"
 							end+"</div></div>"
 			
 	end

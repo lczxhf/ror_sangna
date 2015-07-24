@@ -45,6 +45,13 @@
 						}
 			 });
 		})
+
+		$(function(){
+				$("#use_card").click(function(){
+					
+				})	
+		
+		})
 	</script>
 <%end%>
 <%content_for :body do%>
@@ -77,7 +84,7 @@
 				<div class="status">到场自动激活</div>
 				<%if @inscene%>
 					<%if card.status==2%>
-						<button class="employ">我要使用</button>
+						<button class="employ" onclick="want_to_use('<%=card.id%>')">我要使用</button>
 					<%end%>
 				<%end%>
 			</div>
@@ -94,7 +101,7 @@
 					<button id="btn3" class="type_btn">三个月内</button>
 					<button id="btn4" class="type_btn">不告诉你</button>
 				</div>
-				<button class="sure">确认使用代金券</button>
+				<button class="sure" id="use_card">确认使用代金券</button>
 				<button class="cancle">放弃使用</button>
 			</div>
 		</div>
@@ -111,6 +118,7 @@
 			</div>
 		</div>
 		<script type="text/javascript">
+		 var c_id;
 			$(function(){
 				var Height = window.innerWidth*0.96*180/590;
 				$('.box_coupons').css("height",Height);
@@ -132,16 +140,32 @@
 					})
 				})
 				//打开确认是否使用的弹窗
-				$('.employ').click(function(){
-					$('.shareit_1').show()
-				})
+				//$('.employ').click(function(){
+				//	$('.shareit_1').show()
+				//})
 				//打开确认使用的弹窗
 				$('.sure').click(function(){
-					$('.shareit_1').hide()
-					$('.shareit_2').show()
+					if ($('.type_change').length==0){
+							mui.toast('请选择选项');
+					}
+					else{
+							$.post('use_card',{appid:'<%=params[:appid]%>',c_id:c_id,questionary:$('.type_change').eq(0).html()},function(obj){
+									if(obj.id==c_id){
+											$('.title_useing').eq(0).html('您使用了一张￥'+obj.coupons_rule.face_value+"元代金券成功");
+											$('.useing_time').eq(0).html(new Date().toLocaleString());
+											$('.user_handnum').eq(0).html(obj.member.hand_code);
+											$('.shareit_1').hide()
+											$('.shareit_2').show()	
+									}	
+									else{
+												mui.toast(obj);	
+									}
+							},'json')
+					}
 				})
 				//关掉确认是否使用的弹窗
 				$('.cancle').click(function(){
+					$('.type_change').attr('class','type_btn');
 					$('.shareit_1').hide()
 				})
 				//关掉确认使用的弹窗
@@ -149,5 +173,10 @@
 					$('.shareit_2').hide()
 				})
 			})
+
+			function want_to_use(card_id){
+				$('.shareit_1').show();
+				c_id=card_id;
+			}
 		</script>
 <%end%>

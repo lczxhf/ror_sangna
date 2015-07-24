@@ -77,7 +77,7 @@ class Wechat::GzhManageController < ApplicationController
       end
 			cookies.signed["#{params[:appid]}_openid"]=result["openid"]
       wechat_config.sangna_config=gzh
-			wechat_cfonig.del=2
+			wechat_config.del=2
       wechat_config.code=params[:code]
       wechat_config.token=result['access_token']
       wechat_config.refresh_token=result['refresh_token']
@@ -121,6 +121,7 @@ class Wechat::GzhManageController < ApplicationController
 							if qrcode.status==1
 									qrcode.status=2
 									qrcode.save
+									puts 'jihuo'
 									render plain: "激活"
 							else
 									 member=Member.where(user_id:params[:user_id],hand_code:qrcode.hand_code).first
@@ -129,6 +130,7 @@ class Wechat::GzhManageController < ApplicationController
 												member.hand_code=""
 												member.save
 												qrcode.save
+												puts 'jieban'
 										render plain: "解绑"
 									else
 												per_user=PerUser.includes(:sangna_config).find(params[:user_id])
@@ -139,6 +141,7 @@ class Wechat::GzhManageController < ApplicationController
 														a.status=2
 														a.save
 												end
+												puts 'jinchang'
 												redirect_to 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid='+per_user.sangna_config.appid
 									end
 							end
