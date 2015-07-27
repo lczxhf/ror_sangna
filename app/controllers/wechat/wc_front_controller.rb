@@ -212,7 +212,7 @@ class Wechat::WcFrontController < ApplicationController
 			card=CouponsRecord.includes(:coupons_rule,:member).find(params[:c_id])
 			puts card.to_json
 			if card.status==2
-				  if card.create_time+card.coupons_rule.due_day.days<Time.now
+				  if card.created_at+card.coupons_rule.due_day.days<Time.now
 							render plain: '代金券已过期'
 					else
 							card.status=3
@@ -313,13 +313,13 @@ class Wechat::WcFrontController < ApplicationController
 			  end+ %{
 						</div>
 						<div class="evaluate fs12">
-							多数客户觉得：
+							最多人评价：
 							<!--			<span class="project"></span>   --!>
 							<span class="jishi_best">#{get_hot_comment(technician.id)}</span>
 					}+	if inscene=='true'
-							'<span class="current_state fs12"> <span class="time">13:00pm</span>有预约</span>'
+							'<span class="current_state fs12"> <span class="time">在13:00</span>有约</span>'
 							else
-								"<span class='current_state fs12'>在场时间#{technician.work_time_start.try(:localtime).try(:strftime,"%H:%M")}-#{technician.work_time_end.try(:localtime).try(:strftime,"%H:%M")}</span>"
+								"<span class='current_state fs12'>在场时间:#{technician.work_time_start.try(:localtime).try(:strftime,"%H:%M")}-#{technician.work_time_end.try(:localtime).try(:strftime,"%H:%M")}</span>"
 							end+"</div></div>"
 			
 	end

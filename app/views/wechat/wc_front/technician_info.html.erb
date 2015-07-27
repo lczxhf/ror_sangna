@@ -175,6 +175,7 @@
 					<span class=""><%=return_job_class(@technician.job_class_status)%></span>
 				</div>
 				<span id='collect' class="mui-icon iconfont icon-xingxing<%=is_collect(params[:appid],@technician.id)%>"></span>
+				<span class="on_site fs11">在场时间:<%=@technician.work_time_start.try(:localtime).try(:strftime,"%H:%M")%>-<%=@technician.work_time_end.try(:localtime).try(:strftime,"%H:%M")%></span>
 			</div>
 		<!--	<div class="box_yuyue">
 				<div class="title fs16">预约</div>

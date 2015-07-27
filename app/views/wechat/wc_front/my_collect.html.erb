@@ -89,7 +89,7 @@
 				setTimeout(function(){
 					$.get('page_technician',{appid:'<%=params[:appid]%>',page:(page+1),inscene:<%=@inscene%>,collect:'true'},function(obj){
 								if(obj==''){
-									$("#t_data").html('<span class="ShouCang_none">暂无收藏</span>');
+										mui.toast('无更多技师');
 								}
 								else{
 									$('#t_data').append(obj);

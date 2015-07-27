@@ -23,9 +23,8 @@ class Wechat::ThirdPartyController < ApplicationController
 							# end
 		#			end
 		#	end
-		 a=PerUserMasseuse.find_by_username('15012995898')
-		 a.pwd='123456'
-		 a.save
+		 
+		 render plain: Region.where(regions_name: '罗湖区').first.to_json
   end
 def test1
 				url="https://api.weixin.qq.com/sns/oauth2/component/access_token?appid=wx570bc396a51b8ff8&code=queryauthcode@@@hRuUpo7YlO-6snLI_fLy597lcKMYEzwj7ghR0xHlpHkruobMs8KVtuP18Nv9kUcq&grant_type=authorization_code&component_appid=wxf6a05c0e64bc48e1&component_access_token=sDV1ZNNH7KOg4wR5UY-tD6MMXgNS4JsQPMVmjKpSMGpp7hrIcn_g16WUZXv67OBUeBPoIFQg_6SvzPYLqzllgHdi5OEw4pSDPHpeeovR_Og"
@@ -58,7 +57,7 @@ def test1
 			   Rails.cache.write(:pre_code,pre_auth_code["pre_auth_code"])
 			else
 			   appid=xml.xml.AuthorizerAppid.content.to_s
-			   SangnaConfig.where(appid:appid).first.delete
+			   SangnaConfig.where(appid:appid).first.update_attribute(:del,2)
 			end
 		else
 			puts 'error'
@@ -69,24 +68,14 @@ def test1
 
  def auth_code 
 	puts params
-	
-	#url='https://api.weixin.qq.com/cgi-bin/component/api_query_auth?component_access_token='+Rails.cache.read(:access_token)
-	#body='{"component_appid":"'+APPID+'","authorization_code":"'+params[:auth_code]+'"}'
-	#result=ThirdParty.sent_to_wechat(url,body)
-	auth_code=SangnaConfig.create(code:params[:auth_code])
-	Group.create(sangna_config_id:auth_code.id,wcgroup_id:'0',name:'默认组')
-	redirect_to :action=>'gzh_paramter',:id=>auth_code.id
- end
-
- def gzh_paramter 
-	auth_code=SangnaConfig.find(params[:id])
 	url='https://api.weixin.qq.com/cgi-bin/component/api_query_auth?component_access_token='+Rails.cache.read(:access_token)
-        body='{"component_appid":"'+APPID+'","authorization_code":"'+auth_code.code+'"}'
-        result=ThirdParty.sent_to_wechat(url,body)
+  body='{"component_appid":"'+APPID+'","authorization_code":"'+params[:auth_code]+'"}'
+  result=ThirdParty.sent_to_wechat(url,body)
 	puts result.to_json
 	json=JSON.parse(result)
+	auth_code.find_or_initialize_by(appid:json['authorization_info']['authorizer_appid'])
+	auth_code.code=params[:auth_code]
 	auth_code.token=json['authorization_info']['authorizer_access_token']
-	auth_code.appid=json['authorization_info']['authorizer_appid']
 	auth_code.refresh_token=json['authorization_info']['authorizer_refresh_token']
 	arr=[]
 	json['authorization_info']['func_info'].each do |a|
@@ -94,6 +83,7 @@ def test1
 	end
 	auth_code.func_info=arr.join(',')
 	auth_code.save
+	Group.find_or_create_by(sangna_config_id:auth_code.id,wcgroup_id:'0',name:'默认组')
 	redirect_to :action=>'gzh_info',id:auth_code.id
  end
 

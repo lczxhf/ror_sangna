@@ -47,6 +47,7 @@
 				setTimeout(function(){
 					$.get('page_technician',{appid:'<%=params[:appid]%>',page:(page+1),inscene:<%=@inscene%>},function(obj){
 								if(obj==''){
+										mui.toast('无更多技师')
 								}
 								else{
 									$('#t_data').append(obj);
@@ -166,7 +167,7 @@
 					scanType: ["qrCode"], // 可以指定扫二维码还是一维码，默认二者都有
 					success: function (res) {
 						var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
-						window.location.replace(result)
+						window.location.replace(result);
 					}
 				});	
 			});
