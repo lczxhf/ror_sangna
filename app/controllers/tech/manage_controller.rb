@@ -119,6 +119,7 @@ class Tech::ManageController < ApplicationController
      orders.project_id = params[:project_name_num]
      orders.status = params[:up]
      orders.start_time = Time.now
+     orders.room_number = params[:room_number]
      if orders.save
        status = PerUserMasseuse.find(params[:tech_id])
        if params[:next]== 'out'
@@ -281,4 +282,15 @@ class Tech::ManageController < ApplicationController
       render plain: jobstatus.work_status
     end  
   end  
+
+  def work_time
+    work = PerUserMasseuse.find(params[:tech_id])
+    work.work_time_start = params[:work_start]
+    work.work_time_end = params[:work_end]
+    if work.save
+      render plain: 'ok'
+    else
+      render plain: 'no'
+    end  
+  end
 end

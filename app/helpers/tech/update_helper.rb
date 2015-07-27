@@ -1,0 +1,2 @@
+module Tech::UpdateHelper
+end

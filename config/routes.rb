@@ -84,6 +84,9 @@ Rails.application.routes.draw do
     get 'modifyaddress' => 'manage#modifyaddress' #修改技师地址
     get 'jobstatus' => 'manage#jobstatus' #获取技师状态
     get 'modifystatus' => 'manage#modifystatus' #改变技师状态
+    get 'work_time' => 'manage#work_time' #技师工作时间
+
+    get 'update' => 'update#update' #更新app
   end
 
 	namespace :staff do 
