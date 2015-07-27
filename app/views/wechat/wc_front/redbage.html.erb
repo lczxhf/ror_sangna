@@ -23,7 +23,7 @@
 				//    wx.hideOptionMenu();
 					wx.showAllNonBaseMenuItem();
 					wx.onMenuShareTimeline({
-					title: '送你<%=@order.per_user.name%>会所代金券,推荐<%=@order.per_user_masseuse.job_number%>号技师帮你服务!', 
+					title: '送你<%=Region.where(regions_code:@order.per_user.district_id).first.regions_NAME%><%=@order.per_user.name%>会所代金券,一定要找<%=@order.per_user_masseuse.job_number%>服务啊!', 
 					ink: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&o_id=<%=@order.id%>&id=<%=@order.member_id%>',
 					imgUrl: 'http://weixin.linkke.cn/images/forward.png',
 					success: function(res){
@@ -34,7 +34,7 @@
 
 
 					 wx.onMenuShareAppMessage({
-						  title: '送你<%=@order.per_user.name%>会所代金券,推荐<%=@order.per_user_masseuse.job_number%>号技师帮你服务!', 
+						  title: '送你<%=Region.where(regions_code:@order.per_user.district_id).first.regions_NAME%><%=@order.per_user.name%>会所代金券,一定要找<%=@order.per_user_masseuse.job_number%>服务啊!', 
 							desc: '', 
 							link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&o_id=<%=@order.id%>&id=<%=@order.member_id%>', 
 							imgUrl: 'http://weixin.linkke.cn/images/forward.png',
@@ -58,6 +58,7 @@
 									$.post('get_redbage',{o_id:'<%=params[:o_id]%>'},function(obj){
 													if(obj=='ok'){
 															mui.toast('领取成功！');	
+															window.location.replace("my_accont?appid=<%=params[:appid]%>")
 													}
 													else{
 														 mui.toast('已经领取过！');
@@ -91,7 +92,7 @@
 				
 			</div>
 			<div class="content">
-				<button class="mui-btn  mui-btn-outlined" id='redbage'>领取红包</button>
+				<button class="mui-btn  mui-btn-outlined" id='redbage'>领取代金券</button>
 				<div class="box_title">
 					<img src="/images/label.png" alt="" />
 					<span class="title">会所</span>

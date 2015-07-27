@@ -12,7 +12,7 @@
 		<script>
 				function collect(technician_id,o){
 						$.get("change_collect",{technician_id:technician_id,status:"add",appid:'<%=params[:appid]%>'},function(obj){
-									$(o).remove();
+									$(o).html("已收藏");
 									mui.toast('收藏成功');
 							})		
 				}
@@ -31,23 +31,26 @@
 		//    wx.hideOptionMenu();
 		wx.showAllNonBaseMenuItem();
 		wx.onMenuShareTimeline({
-		      title: '送你<%=@order.per_user.name%>会所代金券,推荐<%=@order.per_user_masseuse.job_number%>号技师帮你服务!', 
+		      title: '送你<%=Region.where(regions_code:@order.per_user.district_id).first.regions_NAME%><%=@order.per_user.name%>会所代金券,记得一定要找<%=@order.per_user_masseuse.job_number%>服务啊!', 
 		        link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&o_id=<%=@order.id%>&id=<%=@order.member_id%>',
 		        imgUrl: 'http://weixin.linkke.cn/images/forward.png',
 		        success: function(res){
 								var data=$("#my_form").serialize();
 								if (data==''){
 										mui.toast('请选择评论后,重新分享');
+										$("#shareit").hide(); 
 								}
 								else{
 										data=data+"&o_id=<%=params[:o_id]%>";
 										 $.post('remark',data,function(obj){
 													$.post('get_redbage',{o_id:'<%=params[:o_id]%>'},function(r_obj){
 													   if(r_obj=='ok'){
-																	mui.toast('领取红包成功!');
+																	mui.toast('分享成功!代金券已放入您的卡券中');
+																	window.location.replace('card_info?appid=<%=params[:appid]%>');
 															}
 															else{
-																	mui.toast('您已领取过红包!');
+																	mui.toast('您已领取过代金券!');
+																	$("#shareit").hide(); 
 															}
 													 })
 								     })
@@ -59,11 +62,31 @@
 
 
 			 wx.onMenuShareAppMessage({
-				    title: '送你<%=@order.per_user.name%>会所代金券,推荐<%=@order.per_user_masseuse.job_number%>号技师帮你服务!', 
+				    title: '送你<%=Region.where(regions_code:@order.per_user.district_id).first.regions_NAME%><%=@order.per_user.name%>会所代金券,一定要找<%=@order.per_user_masseuse.job_number%>服务啊!', 
 					  desc: '', 
 					  link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&o_id=<%=@order.id%>&id=<%=@order.member_id%>', 
 						imgUrl: 'http://weixin.linkke.cn/images/forward.png',
 						success: function () { 
+								var data=$("#my_form").serialize();
+								if (data==''){
+										mui.toast('请选择评论后,重新分享');
+										$("#shareit").hide(); 
+								}
+								else{
+										data=data+"&o_id=<%=params[:o_id]%>";
+										 $.post('remark',data,function(obj){
+													$.post('get_redbage',{o_id:'<%=params[:o_id]%>'},function(r_obj){
+													   if(r_obj=='ok'){
+																	mui.toast('分享成功!代金券已放入您的卡券中');
+																	window.location.replace('card_info?appid=<%=params[:appid]%>');
+															}
+															else{
+																	mui.toast('您已领取过代金券!');
+																	$("#shareit").hide(); 
+															}
+													 })
+								     })
+								}
 						},
 						cancel: function () { 
 						}
@@ -118,7 +141,7 @@
 					<div class="bg_img">
 						<div class="title">评价技师</div>
 							<div class="img_box">
-								<img src="<%=@order.per_user_masseuse.img.normal.url%>" alt="" width="78px" height="78px" />
+								<img src="<%=@order.per_user_masseuse.img.url%>" alt="" width="78px" height="78px" />
 							</div>
 							<div class="JiShi_num">NO.<%=@order.per_user_masseuse.job_number%></div>
 							<div class="tip">分享朋友圈获取￥<%=@coupon_rule.face_value%>元现金券</div>
@@ -138,6 +161,8 @@
 					</div>
 					<%if is_collect(params[:appid],@order.per_user_masseuse.id)=='kong'%>
 					<a href="javascript:void(0)" class="collect" onclick="collect('<%=@order.per_user_masseuse.id%>',this)">收藏技师</a>
+					<%else%>
+					<a href="javascripe:void(0)" class="collect">已收藏</a>
 					<%end%>
 					<div class="propaganda">领客·水疗行业的微信营销利器</div>
 					<div class="website">www.linkke.cn</div>
@@ -145,7 +170,7 @@
 	</div>
 	<div id="shareit">
 			<img class="arrow" src="<%=image_path 'share-it.png'%>">
-			<div href="#" id="follow" >点击右上角分享即可得到红包</div>
+			<div href="#" id="follow" >点击右上角分享即可得到代金券</div>
 	</div>
 
 <%end%>

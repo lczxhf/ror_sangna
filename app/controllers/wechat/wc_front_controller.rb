@@ -10,8 +10,6 @@ class Wechat::WcFrontController < ApplicationController
 				 if @wechat_config.member.hand_code	
 						if @qr_code=PerUserQrCode.includes(:user_qr_code_rule).where(user_id:@sangna_config.per_user.id,hand_code:@wechat_config.member.hand_code).first
 								@inscene=true
-						else
-								cookies["next_url"]=request.url
 						end
 				 end
 			end
@@ -20,59 +18,52 @@ class Wechat::WcFrontController < ApplicationController
 	def page_technician
 		 if params[:collect]=='true'	
 				@wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
-				technician_ids=@sangna_config.per_user.masseuses_collects.where(member_id:@wechat_config.member.id,del:1).pluck(:per_user_masseuse_id)
+				technician_ids=@sangna_config.per_user.masseuses_collects.where(member_id:@wechat_config.member.id,del:1).limit(6).offset(6*(params[:page].to_i-1)).pluck(:per_user_masseuse_id)
 				technicians=PerUserMasseuse.find(technician_ids)
 		 else
 			technicians=PerUserMasseuse.where(user_id:@sangna_config.per_user.id).limit(6).offset(6*(params[:page].to_i-1))
 			end
 			arr=[]
 			technicians.each do |technician|
+			time=""
 			if params[:inscene]=='true'
 					if technician.work_status==3
 							order=technician.order_by_masseuses.order(start_time: :desc).first	
 							time=((order.start_time+order.per_user_project.duration.minutes).to_i-Time.now.to_i)/60
 					end
 			end
-			arr<<%{	<div class="Jishi_infor jishi_color" onclick="show_info('#{technician.id}')">
-					<div class="box_jishi">
-						<div class="box_img jishi_background">
-							<img class="jishi_img" src="#{technician.img.normal.url}" alt="" height="50px" width="50px" />
-						</div>
-						<span class="jishi_num fs17">#{technician.job_number}</span>
-						<span class="jishi_sex fs11">（#{technician.sex==1 ? "男":"女"}）</span>
-						<span class="jishi_type">#{return_job_class(technician.job_class_status)}</span>
-
-			}+if params[:inscene]=='true'
-						%{	<span class="jishi_state fs11">#{time}#{return_technician_state(technician.work_status)}</span>
-						}	
-			  else
-						%{		<a href="tel:#{@sangna_config.per_user.phone}">
-									<div class="yuan_yuyue">
-										<span class="mui-icon mui-icon-phone"></span>
-										<!--<span class="mui-icon iconfont icon-dianhua"></span>  --!>
-									</div>
-								</a>
-								<div class="yuan_shoucang">
-									<!--	<span class="mui-icon iconfont icon-xingxingman"> </span>  --!>
-									<span class="mui-icon iconfont icon-xingxing#{is_collect(params[:appid],technician.id)}" onclick="collect('#{technician.id}',this)"></span> 
-								</div>
-						}		
-			  end+ %{
-						</div>
-						<div class="evaluate fs12">
-							其它客户觉得TA：
-							<!--			<span class="project"></span>   --!>
-							<span class="jishi_best">#{get_hot_comment(technician.id)}</span>
-					}+	if params[:inscene]=='true'
-							'<span class="current_state fs12"> <span class="time">13:00pm</span>有预约</span>'
-							else
-								""
-							end+"</div></div>"
+					arr<<generate_technician_html(technician,params[:inscene],@sangna_config,time)
 			end
 			render plain: arr.join
 	end
 	def technician_info
 		@technician=PerUserMasseuse.find(params[:t_id])
+	end
+
+	def search
+			technician=@sangna_config.per_user.per_user_masseuses.find_by_job_number(params[:t_number])	
+				if technician
+					time=''
+						if params[:inscene]=='true'
+							if technician.work_status==3
+								order=technician.order_by_masseuses.order(start_time: :desc).first	
+								time=((order.start_time+order.per_user_project.duration.minutes).to_i-Time.now.to_i)/60
+							end
+						end
+					if params[:is_mine]=='true'
+						wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
+						collect=@sangna_config.per_user.masseuses_collects.includes(:per_user_masseuse).where(member_id:wechat_config.member_id,del:1,per_user_masseuse_id:technician.id).first
+						if collect
+								render plain: generate_technician_html(technician,params[:inscene],@sangna_config,time)
+						else
+								render plain: 'uncollect'
+						end
+					else
+						render plain: generate_technician_html(technician,params[:inscene],@sangna_config,time)
+					end
+				else
+					 render plain: ''
+				end
 	end
 
 	def technician_remark
@@ -125,7 +116,7 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def redbage
-			#cookies.delete("#{params[:appid]}_openid")
+				#cookies.delete("#{params[:appid]}_openid")
 				@order=OrderByMasseuse.includes(:member,:per_user).find(params[:o_id])				
 				wechat_config=WechatConfig.includes(:wechat_user).find_by_openid(cookies.signed["#{@order.per_user.sangna_config.appid}_openid"])
 				if @order.member_id==params[:id].to_i
@@ -207,8 +198,30 @@ class Wechat::WcFrontController < ApplicationController
 
 	def card_info
 				
-				wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
-				@cards=@sangna_config.per_user.coupons_records.includes(:coupons_rule).where(member_id:wechat_config.member.id)
+				wechat_config=WechatConfig.find_by_openid(cookies.signed["#{params[:appid]}_openid"])
+				if wechat_config.member.hand_code	
+						if qr_code=PerUserQrCode.includes(:user_qr_code_rule).where(user_id:@sangna_config.per_user.id,hand_code:wechat_config.member.hand_code).first
+								@inscene=true
+						end
+				 end
+
+				@cards=@sangna_config.per_user.coupons_records.includes(:coupons_rule).where(member_id:wechat_config.member_id).order(:status)
+	end
+
+	def use_card
+			card=CouponsRecord.includes(:coupons_rule,:member).find(params[:c_id])
+			puts card.to_json
+			if card.status==2
+				  if card.created_at+card.coupons_rule.due_day.days<Time.now
+							render plain: '代金券已过期'
+					else
+							card.status=3
+							card.save
+							render plain: card.to_json(:include=>[:member,:coupons_rule])
+					end
+			else
+					render plain: '代金券不可用'
+			end
 	end
 
 	def balance
@@ -265,5 +278,49 @@ class Wechat::WcFrontController < ApplicationController
 							SangnaConfig.includes(per_user:[:per_user_imgs]).find_by_appid(params[:appid])
 					end
 			end
+	end
+
+	def generate_technician_html(technician,inscene,sangna_config,time)
+			%{	<div class="Jishi_infor jishi_color" onclick="show_info('#{technician.id}')">
+					<div class="box_jishi">
+						<div class="box_img jishi_background">
+							<img class="jishi_img" src="#{technician.img.normal.url}" alt="" height="50px" width="50px" />
+						</div>
+						<span class="jishi_num fs17">#{technician.job_number}</span>
+						<span class="jishi_sex fs11">（#{technician.sex==1 ? "男":"女"}）</span>
+						<span class="jishi_type">#{return_job_class(technician.job_class_status)}</span>
+
+			}+if inscene=='true'
+						if technician.work_status==1
+							"<span class='waiting'>待</span>"
+						elsif technician.work_status==2
+							"<div><span class='spare'>闲</span></div>"
+						elsif technician.work_status==3
+							"<div><div class='box_busy'><span class='busy'>忙</span><div class='surplus_time'>#{time}分钟后空闲</div></div></div>"
+						end
+			  else
+						%{		<a href="tel:#{sangna_config.per_user.phone}">
+									<div class="yuan_yuyue">
+										<span class="mui-icon mui-icon-phone"></span>
+										<!--<span class="mui-icon iconfont icon-dianhua"></span>  --!>
+									</div>
+								</a>
+								<div class="yuan_shoucang">
+									<!--	<span class="mui-icon iconfont icon-xingxingman"> </span>  --!>
+									<span class="mui-icon iconfont icon-xingxing#{is_collect(sangna_config.appid,technician.id)}" onclick="collect('#{technician.id}',this)"></span> 
+								</div>
+						}		
+			  end+ %{
+						</div>
+						<div class="evaluate fs12">
+							最多人评价：
+							<!--			<span class="project"></span>   --!>
+							<span class="jishi_best">#{get_hot_comment(technician.id)}</span>
+					}+	if inscene=='true'
+							'<span class="current_state fs12"> <span class="time">在13:00</span>有约</span>'
+							else
+								"<span class='current_state fs12'>在场时间:#{technician.work_time_start.try(:localtime).try(:strftime,"%H:%M")}-#{technician.work_time_end.try(:localtime).try(:strftime,"%H:%M")}</span>"
+							end+"</div></div>"
+			
 	end
 end

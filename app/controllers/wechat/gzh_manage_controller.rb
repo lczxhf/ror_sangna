@@ -77,13 +77,14 @@ class Wechat::GzhManageController < ApplicationController
       end
 			cookies.signed["#{params[:appid]}_openid"]=result["openid"]
       wechat_config.sangna_config=gzh
+			wechat_config.del=2
       wechat_config.code=params[:code]
       wechat_config.token=result['access_token']
       wechat_config.refresh_token=result['refresh_token']
       wechat_config.openid=result['openid']
       wechat_config.scope=result['scope']
 			 if !wechat_config.member
-				   member=Member.create(user_id:gzh.per_user.id,username:wechat_config.openid)
+				   member=Member.create(user_id:gzh.per_user.id,username:wechat_config.openid,hand_code:"")
 					 wechat_config.member=member
 			 end
 			 wechat_config.save
@@ -120,6 +121,7 @@ class Wechat::GzhManageController < ApplicationController
 							if qrcode.status==1
 									qrcode.status=2
 									qrcode.save
+									puts 'jihuo'
 									render plain: "激活"
 							else
 									 member=Member.where(user_id:params[:user_id],hand_code:qrcode.hand_code).first
@@ -128,12 +130,18 @@ class Wechat::GzhManageController < ApplicationController
 												member.hand_code=""
 												member.save
 												qrcode.save
+												puts 'jieban'
 										render plain: "解绑"
 									else
 												per_user=PerUser.includes(:sangna_config).find(params[:user_id])
 												wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{per_user.sangna_config.appid}_openid"])
 												wechat_config.member.hand_code=qrcode.hand_code
 												wechat_config.member.save
+												wechat_config.member.coupons_records.where(status:1).each do |a|
+														a.status=2
+														a.save
+												end
+												puts 'jinchang'
 												redirect_to 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid='+per_user.sangna_config.appid
 									end
 							end
@@ -143,7 +151,7 @@ class Wechat::GzhManageController < ApplicationController
 		end
 
 
-		def sent_consumption_message
+		def sent_consumption_message_test
 							puts params
 								templete_number=TempleteNumber.find_by_topic('优惠券获得提醒')	
 								order=OrderByMasseuse.includes(:member,:per_user_masseuse,:per_user_project,:per_user).where(id:params[:o_id],status:2,del:1,is_reviewed:1).first
@@ -154,7 +162,7 @@ class Wechat::GzhManageController < ApplicationController
 								hash["first"]="您还有一个优惠劵未领取！\\n#{order.per_user.name}#{order.per_user_masseuse.job_number}号技师已经为您完成了#{order.per_user_project.name}服务"
 								hash["remark"]="点击“详情”获取代金券!"
 								coupon_rule=order.per_user.coupons_rules.where(name:'分享得红包',c_type:2).first
-								array=[coupon_rule.face_value.to_s,coupon_rule.validity_end_time.strftime('%Y年%m月%d日')]
+								array=[coupon_rule.face_value.to_s,coupon_rule.due_day.to_s+"天"]
 								templete_number.fields.split(',').each_with_index do |a,index|
 										hash[a]=array[index]	
 								end
