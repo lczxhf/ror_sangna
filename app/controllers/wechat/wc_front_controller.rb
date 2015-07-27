@@ -153,7 +153,7 @@ class Wechat::WcFrontController < ApplicationController
 							coupon_record.number=Time.now.to_i.to_s+string
 							coupon_record.user_id=coupon_rule.user_id
 							coupon_record.member_id=member_id 
-							coupon_record.create_time=Time.now
+							coupon_record.created_at=Time.now
 							coupon_record.order_id=params[:o_id]
 							coupon_record.save
 							render plain: 'ok'

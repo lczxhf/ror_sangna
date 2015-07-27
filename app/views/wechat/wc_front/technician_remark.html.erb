@@ -17,19 +17,18 @@
 							})		
 				}
 				
-	wx.hideAllNonBaseMenuItem();
-
 		 wx.config({
 			      debug: false, 
 						appId: '<%=params[:appid]%>', 
 						timestamp:'<%=timestamp=Time.now.to_i%>' , 
 						nonceStr: '<%=nonceStr=SecureRandom.uuid.tr('-', '')%>', 
 						signature: '<%=signature(timestamp,nonceStr)%>',
-						jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage'] 
+						jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','showMenuItems'] 
 		});
 		wx.ready(function(){
-		//    wx.hideOptionMenu();
-		wx.showAllNonBaseMenuItem();
+			wx.showMenuItems({
+				    menuList: ['menuItem:profile','menuItem:addContact'] // 要显示的菜单项，所有menu项见附录3
+			});
 		wx.onMenuShareTimeline({
 		      title: '送你<%=Region.where(regions_code:@order.per_user.district_id).first.regions_NAME%><%=@order.per_user.name%>会所代金券,记得一定要找<%=@order.per_user_masseuse.job_number%>服务啊!', 
 		        link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&o_id=<%=@order.id%>&id=<%=@order.member_id%>',
@@ -157,13 +156,16 @@
 					</div>
 			    <div class="btn_box">
 							<button class="mui-btn mui-btn-outlined left btn_cancel" id="remark">有钱也不要？</button>
-							<button class="mui-btn mui-btn-outlined mui-btn-positive left share_btn">分享得红包</button>
+							<button class="mui-btn mui-btn-outlined mui-btn-positive left share_btn">分享得代金券</button>
 					</div>
-					<%if is_collect(params[:appid],@order.per_user_masseuse.id)=='kong'%>
-					<a href="javascript:void(0)" class="collect" onclick="collect('<%=@order.per_user_masseuse.id%>',this)">收藏技师</a>
-					<%else%>
-					<a href="javascripe:void(0)" class="collect">已收藏</a>
-					<%end%>
+				
+					<div class="div_block">
+							<div class="mui-input-row mui-checkbox mui-left">
+								<label>收藏技师</label>
+								<input name="checkbox" type="checkbox" checked>
+							</div>
+					</div>
+				
 					<div class="propaganda">领客·水疗行业的微信营销利器</div>
 					<div class="website">www.linkke.cn</div>
 			</div>

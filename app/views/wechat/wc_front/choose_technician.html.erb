@@ -119,7 +119,7 @@
 				    timestamp:'<%=timestamp=Time.now.to_i%>' , // 必填，生成签名的时间戳
 				    nonceStr: '<%=nonceStr=SecureRandom.uuid.tr('-', '')%>', // 必填，生成签名的随机串
 				    signature: '<%=signature(timestamp,nonceStr)%>',// 必填，签名，见附录1
-				    jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+				    jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','showMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
 					});
 				})
 			function show_info(technician_id){
@@ -157,7 +157,7 @@
 		    timestamp:'<%=timestamp=Time.now.to_i%>' , // 必填，生成签名的时间戳
 		    nonceStr: '<%=nonceStr=SecureRandom.uuid.tr('-', '')%>', // 必填，生成签名的随机串
 		    signature: '<%=signature(timestamp,nonceStr)%>',// 必填，签名，见附录1
-		    jsApiList: ["scanQRCode",'onMenuShareTimeline','onMenuShareAppMessage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+		    jsApiList: ["scanQRCode",'onMenuShareTimeline','onMenuShareAppMessage','showMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
 				});
 		<%end%>
 		wx.ready(function(){
@@ -171,7 +171,10 @@
 					}
 				});	
 			});
-			wx.showAllNonBaseMenuItem();
+
+			wx.showMenuItems({
+				    menuList: ['menuItem:profile','menuItem:addContact'] // 要显示的菜单项，所有menu项见附录3
+			});
 		wx.onMenuShareTimeline({
 		      title: '<%=@sangna_config.per_user.name%>会所!', 
 		        link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>',

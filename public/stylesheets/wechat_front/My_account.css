@@ -58,6 +58,12 @@
 	left: 10px;
 
 }
+.tip_new{
+		color: red;
+		font-size: 11px;
+		font-weight: 800;
+		padding-right: 5px;
+}
 
 /*footer*/
 .footer{
