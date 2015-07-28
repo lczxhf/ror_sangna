@@ -261,83 +261,113 @@ to {opacity: 1;margin-top: 0;}
 
 #shareit {
   -webkit-user-select: none;
-	display: none;
-	position: absolute;
-	width: 100%;
-	background: rgba(0,0,0,0.85);
-	text-align: center;
-	top: 0;
-	left: 0;
-	
-	z-index: 105;
-	padding-top: 6%;
-}
-.box_tip{
-	color: white;
-	width: 94%;
-	margin: 0 auto;
-	font-size: 0.9em;
-	padding-bottom: 4%;
-	border-bottom: 1px solid white;
-}
-.mb20{
-	margin-bottom: 4%;
-}
-.type_pl{
-	text-align: left;
-	padding-left: 15%;
-	margin-bottom: 2%;
-}
-.box_shoucang{
-	text-align: left;
-	margin-left: 23%;
-	margin-bottom: 3%;
-}
-.box_shoucang .icon-xingxingkong{
-	width: 30px;
-	height: 30px;
-	line-height: 27px;
-	padding-left: 2px;
-	border: 1px solid #897870;
-	color: #897870;
-	border-radius: 50%;
-	margin-right: 5px;
-}
-.box_yuyue{
-	text-align: left;
-	margin-left: 23%;
-	margin-bottom: 3%;
-}
-.box_yuyue .mui-icon-phone{
-	width: 30px;
-	height: 30px;
-	line-height: 27px;
-	padding-left: 3px;
-	border: 1px solid #897870;
-	color: #897870;
-	border-radius: 50%;
-	margin-right: 5px;
-}
-.statement{
-	width: 85%;
-	letter-spacing: 1px;
-	margin: 0 auto;
-	padding-top: 5%;
-	color: white;
-	font-size: 0.7em;
-	margin-bottom: 3%;
-}
-.close{
-	width: 20%;
-	background: none;
-	border: none;
-	color: white;
-}
-.enter{
-	width: 70%;
-	background: #eeeeee;
+	  display: none;
+		position: absolute;
+		width: 100%;
+		background: white;
+		text-align: center;
+		top: 0;
+		left: 0;
+		z-index: 105;
+		font-size: 0.75rem;
+		color: #66554C;
 }
 
+.box_saomiao{
+		background: #FBF1EB;
+		padding-bottom: 2.5%;
+}
+.box_saomiao img{
+		margin-top: 4%;
+		width: 37%;
+}
+.box_icon{
+		text-align: center;
+		width: 80%;
+		height: 21%;
+		margin: 0 auto;
+		padding-top: 5%;
+		padding-bottom: 3%;
+		border-bottom: 1px solid #BCAFA8;
+}
+.box_yuyue{
+		display: inline-block;
+		width: 37%;
+		height: 98%;
+		text-align: center;
+		border-right: 1px solid #BCAFA8;
+}
+.box_yuyue .icon-dianhua{
+		width: 30px;
+		height: 30px;
+		line-height: 27px;
+		padding-top: 2px;
+		border: 1px solid #897870;
+		color: #897870;
+		font-size: 19px !important;
+		border-radius: 50%;
+		margin-bottom: 16%;
+		margin-top: 2px;
+		/*font-size: 1.5em;*/
+}
+.box_shoucang{
+		display: inline-block;
+		width: 37%;
+		height: 95%;
+		text-align: center;
+}
+.box_shoucang .icon-xingxingman{
+		width: 30px;
+		height: 30px;
+		line-height: 27px;
+		border: 1px solid #897870;
+		color: #897870;
+		border-radius: 50%;
+		margin-right: 5px;
+		margin-bottom: 16%;
+		margin-top: 2px;
+		font-size: 1.6em;
+}
+.box_shoucang div{
+		font-size: 1.3em;
+}
+.box_yuyue div{
+		font-size: 1.3em;
+}
+.statement{
+		width: 85%;
+		letter-spacing: 1px;
+		margin: 0 auto;
+		padding-top: 3%;
+		color: #918077;
+}
+
+.close{
+		width: 20%;
+		height: 6.5%;
+		margin: 3% auto;
+		font-size: 14px;
+		letter-spacing: 2px;
+		text-decoration: underline;
+		font-size: 1.25em;
+}
+.enter{
+		margin-top: 4%;
+		letter-spacing: 2px;
+		width: 80%;
+		height: 35px;
+		background: #897870;
+		font-size: 1.25em;
+		color: white;
+}
+.saomiao{
+		margin-top: 4%;
+		letter-spacing: 2px;
+		width: 80%;
+		height: 35px;
+		background: #5EB968;
+		font-size: 1.25em;
+}
 
 /*技师状态*/
 .spare{

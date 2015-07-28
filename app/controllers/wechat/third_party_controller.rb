@@ -23,8 +23,12 @@ class Wechat::ThirdPartyController < ApplicationController
 							# end
 		#			end
 		#	end
-		 
-		 render plain: Region.where(regions_name: '罗湖区').first.to_json
+		 sangna=SangnaConfig.first
+		 a=Sangna.get_qrcode(sangna.token,'QR_LIMIT_SCENE',"","321")['ticket']
+		ab=Sangna.fetch_qrcode(a)
+		img=MiniMagick::Image.read ab
+		img.write Rails.root.join('public','abc.png')
+		render text: ab
   end
 def test1
 				url="https://api.weixin.qq.com/sns/oauth2/component/access_token?appid=wx570bc396a51b8ff8&code=queryauthcode@@@hRuUpo7YlO-6snLI_fLy597lcKMYEzwj7ghR0xHlpHkruobMs8KVtuP18Nv9kUcq&grant_type=authorization_code&component_appid=wxf6a05c0e64bc48e1&component_access_token=sDV1ZNNH7KOg4wR5UY-tD6MMXgNS4JsQPMVmjKpSMGpp7hrIcn_g16WUZXv67OBUeBPoIFQg_6SvzPYLqzllgHdi5OEw4pSDPHpeeovR_Og"

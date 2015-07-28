@@ -116,6 +116,7 @@ class Wechat::GzhManageController < ApplicationController
 		end
 
 		def change_qrcode
+					puts params
 					qrcode=PerUserQrCode.where(user_id:params[:user_id],hand_code:params[:hand_code],id_code:params[:id_code]).first
 					if qrcode
 							if qrcode.status==1
@@ -151,11 +152,18 @@ class Wechat::GzhManageController < ApplicationController
 		end
 
 
-		def sent_consumption_message_test
+		def sent_consumption_message
 							puts params
 								templete_number=TempleteNumber.find_by_topic('优惠券获得提醒')	
 								order=OrderByMasseuse.includes(:member,:per_user_masseuse,:per_user_project,:per_user).where(id:params[:o_id],status:2,del:1,is_reviewed:1).first
 						if order.hand_number==params[:h]
+							  gzh=order.per_user.sangna_config
+								if Time.now-gzh.updated_at>=7200
+									result=JSON.parse(ThirdParty.refresh_gzh_token(Rails.cache.read(:access_token),APPID,gzh.appid,gzh.refresh_token))
+									gzh.refresh_token=result['authorizer_refresh_token']
+									gzh.token=result['authorizer_access_token']
+									gzh.save
+								end
 								templete_message=templete_number.templete_messages.where(sangna_config_id:order.per_user.sangna_config.id).first
 								url="http://weixin.linkke.cn/wechat/wc_front/technician_remark?o_id=#{params[:o_id]}&appid=#{order.per_user.sangna_config.appid}"
 								hash={}

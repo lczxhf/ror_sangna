@@ -1,7 +1,7 @@
 class Wechat::WcFrontController < ApplicationController
 			require "rexml/document" 
 	before_action :check_openid,:except=>[:remark,:get_redbage,:page_technician]
-	before_action :set_sangna_config,:except=>[:remark,:get_redbage]
+	before_action :set_sangna_config,:except=>[:remark,:get_redbage,:change_collect]
 	include Wechat::WcFrontHelper
 	def choose_technician
 		#@technicians=PerUserMasseuse.where(user_id:@sangna_config.per_user.id).limit(5).offset(5*(page-1))
@@ -21,17 +21,17 @@ class Wechat::WcFrontController < ApplicationController
 				technician_ids=@sangna_config.per_user.masseuses_collects.where(member_id:@wechat_config.member.id,del:1).limit(6).offset(6*(params[:page].to_i-1)).pluck(:per_user_masseuse_id)
 				technicians=PerUserMasseuse.find(technician_ids)
 		 else
-			technicians=PerUserMasseuse.where(user_id:@sangna_config.per_user.id).limit(6).offset(6*(params[:page].to_i-1))
+			technicians=PerUserMasseuse.where(user_id:@sangna_config.per_user.id).limit(8).offset(6*(params[:page].to_i-1))
 			end
 			arr=[]
 			technicians.each do |technician|
-			time=""
-			if params[:inscene]=='true'
+				time=""
+				if params[:inscene]=='true'
 					if technician.work_status==3
 							order=technician.order_by_masseuses.order(start_time: :desc).first	
 							time=((order.start_time+order.per_user_project.duration.minutes).to_i-Time.now.to_i)/60
 					end
-			end
+				end
 					arr<<generate_technician_html(technician,params[:inscene],@sangna_config,time)
 			end
 			render plain: arr.join
@@ -116,7 +116,6 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def redbage
-				#cookies.delete("#{params[:appid]}_openid")
 				@order=OrderByMasseuse.includes(:member,:per_user).find(params[:o_id])				
 				wechat_config=WechatConfig.includes(:wechat_user).find_by_openid(cookies.signed["#{@order.per_user.sangna_config.appid}_openid"])
 				if @order.member_id==params[:id].to_i
@@ -127,16 +126,16 @@ class Wechat::WcFrontController < ApplicationController
 						else
 							@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:3).first
 						end
-						render :redbage
 				else
 						render nothing: true
 				end
 	end
 
 	def get_redbage
-				order=OrderByMasseuse.includes(per_user:[:sangna_config]).find(params[:o_id])
-				wechat_config=WechatConfig.includes(:wechat_user).find_by_openid(cookies.signed["#{order.per_user.sangna_config.appid}_openid"])
+				order=OrderByMasseuse.includes(:per_user_masseuse,per_user:[:sangna_config]).find(params[:o_id])
+				wechat_config=WechatConfig.includes(:wechat_user,:member).find_by_openid(cookies.signed["#{order.per_user.sangna_config.appid}_openid"])
 				member_id=wechat_config.member_id
+				collect(order.per_user_masseuse.id,wechat_config)
 				if order.coupons_records.find_by_member_id(member_id)
 						render plain: 'err'
 				else
@@ -179,17 +178,8 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def change_collect
-				puts params
-				technician=PerUserMasseuse.find(params[:technician_id])
 				wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
-				
-			  collect=MasseusesCollect.find_or_initialize_by(per_user_masseuse_id:technician.id,member_id:wechat_config.member.id,per_user_id:@sangna_config.per_user.id)
-				if params[:status]=="add"
-						collect.del=1
-				else
-					  collect.del=2	
-				end
-				collect.save
+				collect(params[:technician_id],wechat_config,params[:status])
 				render plain: "success"	
 	end
 
@@ -210,7 +200,6 @@ class Wechat::WcFrontController < ApplicationController
 
 	def use_card
 			card=CouponsRecord.includes(:coupons_rule,:member).find(params[:c_id])
-			puts card.to_json
 			if card.status==2
 				  if card.created_at+card.coupons_rule.due_day.days<Time.now
 							render plain: '代金券已过期'
@@ -238,7 +227,6 @@ class Wechat::WcFrontController < ApplicationController
 					  request.set_form_data({"account"=>"cf_zxy0506","password"=>"zxy0506","mobile"=>"#{params[:phone]}","content"=>"您的验证码是：#{code}。请不要把验证码泄露给其他人。如非本人操作，可不用理会！"})
 						response=http.request request
 						a=response.body.dup
-						puts a
 						 result= REXML::Document.new a
 						 render plain:  result.root.get_elements('msg')[0][0].to_s
 				end
@@ -322,5 +310,15 @@ class Wechat::WcFrontController < ApplicationController
 								"<span class='current_state fs12'>在场时间:#{technician.work_time_start.try(:localtime).try(:strftime,"%H:%M")}-#{technician.work_time_end.try(:localtime).try(:strftime,"%H:%M")}</span>"
 							end+"</div></div>"
 			
+	end
+	def collect(t_id,wechat_config,status='add')
+	technician=PerUserMasseuse.find(t_id)
+			  collect=MasseusesCollect.find_or_initialize_by(per_user_masseuse_id:technician.id,member_id:wechat_config.member.id,per_user_id:wechat_config.member.user_id)
+				if status=="add"
+						collect.del=1
+				else
+					  collect.del=2	
+				end
+				collect.save
 	end
 end

@@ -1,8 +1,7 @@
 class PerUserMasseuse < ActiveRecord::Base
 	has_many :masseuses_imgs,foreign_key: "masseuses_id"
-	has_many :order_by_masseuses,foreign_key: 'masseuse_id'
+	has_many :order_by_masseuses,foreign_key: 'masseuse_id',dependent: :delete_all
 	belongs_to :per_user,foreign_key: "user_id"	
-	 default_scope {where(del:1)}
 	 mount_uploader :img,TechAvatarUploader
 
 	require 'bcrypt'
