@@ -80,6 +80,9 @@ class Wechat::WcFrontController < ApplicationController
 			@projects=PerUserProject.where(user_id:@sangna_config.per_user.id)
 	end
 
+	def tip
+	end
+
 	def project_detail
 			@project=PerUserProject.find(params[:p_id])
 	end

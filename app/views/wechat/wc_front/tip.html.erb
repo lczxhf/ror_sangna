@@ -1,0 +1,53 @@
+<%content_for :head do%>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<%=javascript_include_tag "jquery-2.1.0"%>
+		<%=javascript_include_tag "mui.min"%>
+		<%=stylesheet_link_tag "wechat_front/mui.min"%>
+		<%=stylesheet_link_tag "wechat_front/common"%>
+		<%=stylesheet_link_tag "wechat_front/TiShi_page"%>
+		<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	    <title>提示页</title>
+<%end%>
+<%content_for :body do%>
+		<div class="mui-content">
+			<div class="box_club">
+				<div class="box_img">
+					<img src="" alt="" />
+				</div>
+				<div class="club_name">仟岁堂</div>
+				<div class="welcome">欢迎您使用XXXX水疗微信客服系统</div>
+			</div>
+			<div class="box_code">
+				<img src="" alt="" />
+				<div class="tips">关注公众号后即可查看</div>
+				<ul>
+					<li>技师真实照片 </li>
+					<li>其它客户真实的评价</li>
+					<li>技师是否空闲</li>
+				</ul>
+			</div>
+		</div>
+		<!--底部-->
+		<div class="footer">
+			<div class="box_footer">
+				<img src="../images/logo.png" width="42px" height="42px"/>
+				<div class="footer_infor">
+					<span class="type_size">领客</span>
+					<span class="linkke">LINKKE.CN</span>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			$(function(){
+				$('.box_img').css('width',window.innerWidth*0.3);
+				$('.box_img').css('height',$('.box_img').width());
+				$('.box_img>img').css('width',window.innerWidth*0.30-6);
+				$('.box_img>img').css('height',$('.box_img>img').width());
+				$('.box_code img').css('width',window.innerWidth*0.35);
+				$('.box_code img').css('height',$('.box_code img').width());
+				$('.footer_infor').css('width',$('.linkke').width());
+				$('.box_footer').css('width',$('.linkke').width()+42);
+			})
+		</script>
+<%end%>
