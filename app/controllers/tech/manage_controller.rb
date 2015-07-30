@@ -22,6 +22,24 @@ class Tech::ManageController < ApplicationController
 
   def appointment
     appoint = Appointment.new
+    appoint.appointment_number = (Time.now.to_i).to_s + rand(1...9999).to_s
+    appoint.project_id = params[:pro]
+    appoint.user_id = params[:tech_user_id]
+    appoint.project_name = params[:pro_name]
+    appoint.masseuses_job_number = params[:job_number]
+    appoint.a_type = params[:a_type]
+    appoint.member_tel = params[:tel]
+    appoint.member_username = params[:client_name]
+    appoint.status = 1
+    appoint.service_time = params[:client_time]
+    appoint.create_time = Time.now
+    if appoint.save
+      arr = []
+      appoint = arr.push(appoint) 
+      render json: appoint
+    else
+      render plain: 'no'
+    end
   end
 
   def gettime
@@ -188,15 +206,18 @@ class Tech::ManageController < ApplicationController
      if enter.save
        render plain: "#{enter.entry_time.to_s}"
      else
-       render  'no'
+       render  plain: 'no'
      end 
   end
 
-  def modifycraft   
-    craft = PerUserMasseuse.find(params[:tech_id])
-    craft.job_class_status = params[:craft]
-    if craft.save
-      render plain: "#{craft.job_class_status.to_i}"
+  def modifycraft
+    tech = PerUserMasseuse.find(params[:tech_id])
+    tech.job_class_status = params[:craft]
+    tech.projects_id = params[:pro]
+    if tech.save
+      render plain: ''
+    else
+      render nothing:true
     end
   end
 
@@ -292,5 +313,42 @@ class Tech::ManageController < ApplicationController
     else
       render plain: 'no'
     end  
+  end
+
+  # 获取工种
+  def get_craft
+    id = params[:tech_user_id]
+    pros = PerUserProject.where(user_id:params[:tech_user_id],p_type: 1,del: 1);
+    render json: pros
+  end
+
+  # 获取该工种的项目
+  def get_pro
+    pros = PerUserProject.where(parent_id: params[:id])
+    render json: pros
+  end
+
+  #获取技师所属工种
+  def get_tech_craft
+    craft = PerUserMasseuse.find(params[:tech_id])
+    name = PerUserProject.select('id,name').where(id: craft.job_class_status,user_id: params[:tech_user_id])
+    render json: name
+  end
+
+  #获取预约清单
+  def subscribe
+    appoints = Appointment.where(masseuses_job_number: params[:job_number],status: 1,user_id: params[:tech_user_id])
+    render json: appoints
+  end
+
+  #删除预约
+  def subscribe_de
+    subde = Appointment.find(params[:id])
+    subde.status = 2
+    if subde.save
+      render plain: 'ok'
+    else
+      render plain: 'no'
+    end
   end
 end

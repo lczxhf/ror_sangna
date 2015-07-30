@@ -52,9 +52,7 @@ class Tech::RegisterController < ApplicationController
 
   def project
     projects = PerUserProject.select('id,name').where(user_id: params[:user_id])
-
     render json: projects
-    # render nothing:true
   end
 
 
@@ -68,20 +66,18 @@ class Tech::RegisterController < ApplicationController
     upload.job_class_status = params[:craft]
     upload.projects_id = params[:ck_string]
     upload.job_number = params[:job_number]
-#    upload.img = params[:uploadkey1]
-#    upload.province_id = params[:ad_pr]
-#    upload.city_id = params[:ad_city]
-#    upload.district_id = params[:ad_area]
-#    upload.identification_numbers = params[:ident]
-#    upload.address = params[:address]
-#    upload.native_province_id = params[:na_pr]
-#    upload.native_city_id = params[:na_city]
-    if upload.save
-      rs = "#{upload.id.to_s},#{upload.user_id.to_s}"
-      render plain: rs
+    job_number = PerUserMasseuse.where(job_number: params[:job_number],user_id: params[:tech_user_id]).first
+    if job_number
+      render plain: '此工号已被占用'
     else
-      render nothing:true
+       if upload.save
+          rs = "#{upload.id.to_s},#{upload.user_id.to_s}"
+          render plain: rs
+        else
+          render nothing:true
+        end
     end
+   
   end
 
 

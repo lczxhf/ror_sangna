@@ -55,40 +55,46 @@ Rails.application.routes.draw do
   end
   
   namespace :tech do 
-    post 'register' => 'register#register' #注册
-    post 'verify' => 'register#verify'  #验证码
-    get 'project' => 'register#project' #获取项目
-    get 'upload' => 'register#upload' #完善用户资料
-    post 'login' => 'register#login' #登陆
-    get 'job' => 'manage#project' #技师所属项目
-    get 'job_number' =>'manage#job_number' #技师工号
-    get 'appointment' => 'manage#appointment' #上报预约
-    get 'projecttime' => 'manage#gettime' #项目时长
-    get 'details' => 'manage#details' #个人详细资料
-		get 'modifyname' => 'manage#modifyname' #修改技师姓名
-    get 'modifynumber' => 'manage#modifynumber' #修改技师工种
-    get 'findpwd' => 'manage#findpwd' #技师找回密码之验证码
-    get 'modifypwd' => 'manage#modifypwd' #找回密码提交验证码
-    post 'ensurepwd' => 'manage#ensurepwd' #修改密码
-    get 'modifysex' => 'manage#modifysex' #技师修改性别
-    get 'orderup' => 'manage#orderup' #订单上钟
-    get 'orderdown' => 'manage#orderdown' #订单下钟
-    get 'modifyident' => 'manage#modifyident' #技师修改身份证
-    get 'modifysex' => 'manage#modifysex' #技师修改性别
-    get 'modifyentry' => 'manage#modifyentry' #技师修改入职时间
-    get 'modifycraft' => 'manage#modifycraft' #技师修改工种
-    get 'modifylanguage' => 'manage#modifylanguage' #技师修改语言
-    get 'modifyproject' => 'manage#modifyproject' #技师修改项目
-    post 'changepwd' => 'manage#changepwd' #技师修改密码
-    get 'getaddress' => 'manage#getaddress' #技师修改三级联动
-    get 'nativeplace' => 'manage#nativeplace' #获取技师籍贯
-    get 'modifynativaplace' => 'manage#modifynativaplace' #修改技师籍贯
-    get 'modifyaddress' => 'manage#modifyaddress' #修改技师地址
-    get 'jobstatus' => 'manage#jobstatus' #获取技师状态
-    get 'modifystatus' => 'manage#modifystatus' #改变技师状态
-    get 'work_time' => 'manage#work_time' #技师工作时间
+    post 'register'         => 'register#register' #注册
+    post 'verify'           => 'register#verify'  #验证码
+    get 'project'           => 'register#project' #获取项目
+    get 'upload'            => 'register#upload' #完善用户资料
+    post 'login'            => 'register#login' #登陆
 
-    get 'update' => 'update#update' #更新app
+
+    get 'job'               => 'manage#project' #技师所属项目
+    get 'job_number'        => 'manage#job_number' #技师工号
+    get 'appointment'       => 'manage#appointment' #上报预约
+    get 'projecttime'       => 'manage#gettime' #项目时长
+    get 'details'           => 'manage#details' #个人详细资料
+		get 'modifyname'        => 'manage#modifyname' #修改技师姓名
+    get 'modifynumber'      => 'manage#modifynumber' #修改技师工种
+    get 'findpwd'           => 'manage#findpwd' #技师找回密码之验证码
+    get 'modifypwd'         => 'manage#modifypwd' #找回密码提交验证码
+    post 'ensurepwd'        => 'manage#ensurepwd' #修改密码
+    get 'modifysex'         => 'manage#modifysex' #技师修改性别
+    get 'orderup'           => 'manage#orderup' #订单上钟
+    get 'orderdown'         => 'manage#orderdown' #订单下钟
+    get 'modifyident'       => 'manage#modifyident' #技师修改身份证
+    get 'modifysex'         => 'manage#modifysex' #技师修改性别
+    get 'modifyentry'       => 'manage#modifyentry' #技师修改入职时间
+    get 'modifycraft'       => 'manage#modifycraft' #技师修改工种
+    get 'modifylanguage'    => 'manage#modifylanguage' #技师修改语言
+    get 'modifyproject'     => 'manage#modifyproject' #技师修改项目
+    post 'changepwd'        => 'manage#changepwd' #技师修改密码
+    get 'getaddress'        => 'manage#getaddress' #技师修改三级联动
+    get 'nativeplace'       => 'manage#nativeplace' #获取技师籍贯
+    get 'modifynativaplace' => 'manage#modifynativaplace' #修改技师籍贯
+    get 'modifyaddress'     => 'manage#modifyaddress' #修改技师地址
+    get 'jobstatus'         => 'manage#jobstatus' #获取技师状态
+    get 'modifystatus'      => 'manage#modifystatus' #改变技师状态
+    get 'work_time'         => 'manage#work_time' #技师工作时间
+    get 'get_craft'         => 'manage#get_craft' #获取工种
+    get 'get_pro'           => 'manage#get_pro' #获取该工种的项目
+    get 'get_tech_craft'    => 'manage#get_tech_craft' #获取技师所属工种
+    get 'subscribe'         => 'manage#subscribe' #获取预约清单
+    get 'subscribe_de'      => 'manage#subscribe_de' #删除预约
+    get 'update'            => 'update#update' #更新app
   end
 
 	namespace :staff do 
@@ -103,7 +109,7 @@ Rails.application.routes.draw do
 		post   'password_resets/create' => 'password_resets#create'
 		get    'password_resets/edit'   => 'password_resets#edit'
 	end
-  # Example of regular route:
+  # Example of regular route:pa
   #   get 'products/:id' => 'catalog#view'
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
