@@ -9,19 +9,18 @@
 					<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 		<title>代金券</title>
 		<script>
-			wx.hideAllNonBaseMenuItem();
-
 				 wx.config({
 					  debug: false, 
 					  appId: '<%=params[:appid]%>', 
 					  timestamp:'<%=timestamp=Time.now.to_i%>' , 
 					  nonceStr: '<%=nonceStr=SecureRandom.uuid.tr('-', '')%>', 
 					  signature: '<%=signature(timestamp,nonceStr)%>',
-					  jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage'] 
+					  jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','showMenuItems'] 
 				});
 				wx.ready(function(){
-				//    wx.hideOptionMenu();
-					wx.showAllNonBaseMenuItem();
+					wx.showMenuItems({
+						menuList: ['menuItem:profile','menuItem:addContact','menuItem:nightMode'],
+						});
 					wx.onMenuShareTimeline({
 					title: '送你<%=Region.where(regions_code:@order.per_user.district_id).first.regions_NAME%><%=@order.per_user.name%>会所代金券,一定要找<%=@order.per_user_masseuse.job_number%>服务啊!', 
 					ink: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&o_id=<%=@order.id%>&id=<%=@order.member_id%>',
@@ -58,7 +57,7 @@
 									$.post('get_redbage',{o_id:'<%=params[:o_id]%>'},function(obj){
 													if(obj=='ok'){
 															mui.toast('领取成功！');	
-															window.location.replace("my_accont?appid=<%=params[:appid]%>")
+															window.location.replace("my_account?appid=<%=params[:appid]%>")
 													}
 													else{
 														 mui.toast('已经领取过！');

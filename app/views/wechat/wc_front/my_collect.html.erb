@@ -186,7 +186,6 @@
 								  }
 							 })
 			}
-			$(function(){
 
 			wx.config({
 					debug: false, 
@@ -196,9 +195,7 @@
 					signature: '<%=signature(timestamp,nonceStr)%>',
 					jsApiList: ["scanQRCode"]
 			});
-
-		wx.ready(function(){
-			$("#qrcode").click(function(){
+			function qrcode(){
 				wx.scanQRCode({
 					needResult: 1, 
 					scanType: ["qrCode"],
@@ -207,10 +204,12 @@
 						window.location.replace(result);
 					}
 				});	
-			});
+			}
+
+
+		wx.ready(function(){
 		})
 
-})
 		<%end%>
 		</script>
 	<%end%>

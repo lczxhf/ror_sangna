@@ -85,26 +85,28 @@ class Sangna
  		   url="https://api.weixin.qq.com/cgi-bin/user/info?access_token=#{sangna_config.token}&openid=#{wechat_config.openid}&lang=zh_CN"
  		   info=JSON.parse(ThirdParty.get_to_wechat(url))
  		   puts info
-			if wechat_config.wechat_user
-				wechat_user=wechat_config.wechat_user
-			else
- 		   wechat_user=WechatUser.new
+			 if info['subscribe_time']	
+					if wechat_config.wechat_user
+						wechat_user=wechat_config.wechat_user
+					else
+						 wechat_user=WechatUser.new
+					end
+					wechat_user.del=1
+					wechat_user.member=wechat_config.member
+					wechat_user.nickname=info['nickname']
+					wechat_user.sex=info['sex'].to_i
+					wechat_user.province=info['province']
+					wechat_user.city=info['city']
+					wechat_user.country=info['country']
+					wechat_user.headimgurl=info['headimgurl']
+					wechat_user.language=info['language']
+					#wechat_user.unionid=info['unionid']
+					wechat_user.subscribe_time=info['subscribe_time']
+					wechat_user.remark=info['remark']
+					wechat_user.group=Group.where(wcgroup_id:info["groupid"],sangna_config_id:sangna_config.id).first
+					wechat_user.wechat_config=wechat_config
+					wechat_user.save
 			end
-				wechat_user.del=1
-				wechat_user.member=wechat_config.member
-		    wechat_user.nickname=info['nickname']
-		    wechat_user.sex=info['sex'].to_i
- 		   wechat_user.province=info['province']
- 		   wechat_user.city=info['city']
- 		   wechat_user.country=info['country']
-		    wechat_user.headimgurl=info['headimgurl']
-				wechat_user.language=info['language']
- 		   #wechat_user.unionid=info['unionid']
-		    wechat_user.subscribe_time=info['subscribe_time']
- 		   wechat_user.remark=info['remark']
- 		   wechat_user.group=Group.where(wcgroup_id:info["groupid"],sangna_config_id:sangna_config.id).first
- 		   wechat_user.wechat_config=wechat_config
- 		   wechat_user.save
 	end
 
 	def self.get_oauth2_info(wechat_config_id,appid)

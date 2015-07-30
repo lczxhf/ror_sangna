@@ -1,21 +1,23 @@
 	<%if !inscene%>
-	<div id="shareit">
-		<div class="box_tip">
-				<div class="mb20">到场扫描锁牌二维码可获取实时信息</div>
-				<img class="mb20" src="/images/tu.png" alt="" width="70%" />
-				<div class="type_pl">或者您可以</div>
-				<div class="box_shoucang">
-					<span class="mui-icon iconfont icon-xingxingkong"></span>
-					<span>先收藏喜欢的技师</span>
-				</div>
+		<div id="shareit">
+			<div class="box_saomiao">
+					<img class="" src="/images/saomiao.png" alt="" width="35%" />
+					<div >到场扫描锁牌二维码可获取实时信息</div>
+			</div>
+			<div class="box_icon">
 				<div class="box_yuyue ">
-					<span class="mui-icon mui-icon-phone"></span>
-					<span>立即预约</span>
+					<span class="mui-icon iconfont icon-dianhua"></span>
+					<div>立即预约</div>
+				</div>
+				<div class="box_shoucang">
+					<span class="mui-icon iconfont icon-xingxingman"></span>
+					<div>收藏技师</div>
 				</div>
 			</div>
-			<div class="statement">本会所严格按照国家有关法律规定，只提供健康休闲水疗、SPA、桑拿、足浴服务</div>
-			<button class="close">离开</button>
-			<button class="enter">进入</button>
+			<div class="statement">本会所严格按照国家有关法律规定，只提供健康休闲水疗、SPA、桑拿、足浴服务!</div>
+			<button class="mui-btn mui-btn-positive saomiao" onclick='qrcode()'>入场扫描</button>
+			<button class="mui-btn enter">场外浏览</button>
+			<div class="close">离开</div>
 		</div>
 	<%end%>
 		<!--弹窗搜索search-->
@@ -47,12 +49,12 @@
 				<%if inscene%>
 				<div class="left_box">
 					<span class="mui-icon mui-icon-search"></span>
-					<span class="centain_2">您有一条新的信息！</span>
+					<span class="centain_2"><%=@sangna_config.per_user.name%></span>
 				</div>
 				<%else%>
 					<div class="left_box">
 						<span class="mui-icon mui-icon-search"></span>
-						<span class="centain" id="qrcode">进场扫描</span>
+						<span class="centain"  onclick='qrcode()'>进场扫描</span>
 					</div>	
 				<%end%>
 				<div class="right_box">
@@ -100,7 +102,7 @@
 		})
 		$('.close_box').css('height',window.innerHeight*0.94-40);
 		$('#shareit').css('height', window.innerHeight);
-		$('#shareit img').css('height',window.innerHeight*0.25);
+	
 		$('.box_footer').css('width',$('.footer_span').width()+42);
 		$('#shareit').show();
 		$('.enter').click(function(){

@@ -10,26 +10,19 @@
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 	<title>评价技师</title>
 		<script>
-				function collect(technician_id,o){
-						$.get("change_collect",{technician_id:technician_id,status:"add",appid:'<%=params[:appid]%>'},function(obj){
-									$(o).html("已收藏");
-									mui.toast('收藏成功');
-							})		
-				}
-				
-	wx.hideAllNonBaseMenuItem();
-
 		 wx.config({
 			      debug: false, 
 						appId: '<%=params[:appid]%>', 
 						timestamp:'<%=timestamp=Time.now.to_i%>' , 
 						nonceStr: '<%=nonceStr=SecureRandom.uuid.tr('-', '')%>', 
 						signature: '<%=signature(timestamp,nonceStr)%>',
-						jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage'] 
+						jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','showMenuItems'] 
 		});
+		 <%if @open_redbage%>
 		wx.ready(function(){
-		//    wx.hideOptionMenu();
-		wx.showAllNonBaseMenuItem();
+			wx.showMenuItems({
+				    menuList: ['menuItem:profile','menuItem:addContact'] // 要显示的菜单项，所有menu项见附录3
+			});
 		wx.onMenuShareTimeline({
 		      title: '送你<%=Region.where(regions_code:@order.per_user.district_id).first.regions_NAME%><%=@order.per_user.name%>会所代金券,记得一定要找<%=@order.per_user_masseuse.job_number%>服务啊!', 
 		        link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&o_id=<%=@order.id%>&id=<%=@order.member_id%>',
@@ -41,12 +34,13 @@
 										$("#shareit").hide(); 
 								}
 								else{
+										var collect=$('collect').attr('checked');
 										data=data+"&o_id=<%=params[:o_id]%>";
 										 $.post('remark',data,function(obj){
-													$.post('get_redbage',{o_id:'<%=params[:o_id]%>'},function(r_obj){
+													$.post('get_redbage',{o_id:'<%=params[:o_id]%>',collect:collect},function(r_obj){
 													   if(r_obj=='ok'){
 																	mui.toast('分享成功!代金券已放入您的卡券中');
-																	window.location.replace('card_info?appid=<%=params[:appid]%>');
+																	window.location.replace('my_account?appid=<%=params[:appid]%>');
 															}
 															else{
 																	mui.toast('您已领取过代金券!');
@@ -73,12 +67,13 @@
 										$("#shareit").hide(); 
 								}
 								else{
+										var collect=$('collect').attr('checked');
 										data=data+"&o_id=<%=params[:o_id]%>";
 										 $.post('remark',data,function(obj){
-													$.post('get_redbage',{o_id:'<%=params[:o_id]%>'},function(r_obj){
+													$.post('get_redbage',{o_id:'<%=params[:o_id]%>',collect:collect},function(r_obj){
 													   if(r_obj=='ok'){
 																	mui.toast('分享成功!代金券已放入您的卡券中');
-																	window.location.replace('card_info?appid=<%=params[:appid]%>');
+																	window.location.replace('my_account?appid=<%=params[:appid]%>');
 															}
 															else{
 																	mui.toast('您已领取过代金券!');
@@ -92,27 +87,8 @@
 						}
 			 });
 		})
-
-						$(function(){
-								$("#remark").click(function(){
-										var data=$('#my_form').serialize();
-										if(data==''){
-												mui.toast('请选择评论!');
-										}
-										else{
-												data=data+"&o_id=<%=params[:o_id]%>"
-												$.post('/wechat/wc_front/remark',data,function(obj){
-														if(obj=='ok'){
-																mui.toast('评论成功');
-															 wx.closeWindow();
-															}
-														else{
-																mui.toast('已经评论过了!')	
-															}
-												})
-										}
-									})
-								 //立即分享到微信朋友圈点击事件
+							$(function(){
+									//立即分享到微信朋友圈点击事件
 										var avail=window.screen.availHeight	
 										var client=document.body.clientHeight
 										if(avail>client){
@@ -131,8 +107,40 @@
 										$("#shareit").on("click", function(){
 												$("#shareit").hide(); 
 										})
+								})
+				<%else%>
+								wx.ready(function(){
+											wx.hideOptionMenu();	
+								})
 
-							})
+								$(function(){
+									$("#leave").click(function(){
+										wx.closeWindow();
+									})	
+								})
+			
+				<%end%>
+
+						$(function(){
+								$("#remark").click(function(){
+										var data=$('#my_form').serialize();
+										if(data==''){
+												mui.toast('请选择评论!');
+										}
+										else{
+												data=data+"&o_id=<%=params[:o_id]%>"
+												$.post('/wechat/wc_front/remark',data,function(obj){
+														if(obj=='ok'){
+																mui.toast('评论成功');
+															}
+														else{
+																mui.toast('已经评论过了!')	
+															}
+												})
+										}
+								})
+
+						})
 
 		</script>
 <%end%>
@@ -144,7 +152,7 @@
 								<img src="<%=@order.per_user_masseuse.img.url%>" alt="" width="78px" height="78px" />
 							</div>
 							<div class="JiShi_num">NO.<%=@order.per_user_masseuse.job_number%></div>
-							<div class="tip">分享朋友圈获取￥<%=@coupon_rule.face_value%>元现金券</div>
+							<div class="tip"><%= @open_redbage ? "分享朋友圈获取<span>￥#{@coupon_rule.face_value}</span>元代金券" : "请为技师评价"%></div>
 							<div class="PingJia_box">
 								<form class="" id='my_form'>
 									<%TechniqueEvalution.where(del:1).each do |evalution|%>
@@ -156,14 +164,22 @@
 							</form>
 					</div>
 			    <div class="btn_box">
+						<%if @open_redbage%>
 							<button class="mui-btn mui-btn-outlined left btn_cancel" id="remark">有钱也不要？</button>
-							<button class="mui-btn mui-btn-outlined mui-btn-positive left share_btn">分享得红包</button>
+							<button class="mui-btn mui-btn-outlined mui-btn-positive left share_btn">分享得代金券</button>
+						<%else%>
+							<button class="mui-btn mui-btn-outlined left btn_cancel" id="leave" >放弃评价</button>
+							<button class="mui-btn mui-btn-outlined mui-btn-positive left share_btn" id='remark' >评价</button>
+						<%end%>
 					</div>
-					<%if is_collect(params[:appid],@order.per_user_masseuse.id)=='kong'%>
-					<a href="javascript:void(0)" class="collect" onclick="collect('<%=@order.per_user_masseuse.id%>',this)">收藏技师</a>
-					<%else%>
-					<a href="javascripe:void(0)" class="collect">已收藏</a>
-					<%end%>
+					<div class="div_block">
+						<%if @open_redbage%>	
+							<div class="mui-input-row mui-checkbox mui-left">
+								<label>收藏技师</label>
+								<input name="collect" id='collect' type="checkbox" checked>
+							</div>
+							<%end%>
+					</div>
 					<div class="propaganda">领客·水疗行业的微信营销利器</div>
 					<div class="website">www.linkke.cn</div>
 			</div>

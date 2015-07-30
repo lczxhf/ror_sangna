@@ -23,13 +23,21 @@ class Wechat::ThirdPartyController < ApplicationController
 							# end
 		#			end
 		#	end
-		 
-		 render plain: Region.where(regions_name: '罗湖区').first.to_json
+		 sangna=SangnaConfig.first
+		 a=Sangna.get_qrcode(sangna.token,'QR_SCENE',"6000","123")['ticket']
+		ab=Sangna.fetch_qrcode(a)
+		img=MiniMagick::Image.read ab
+		img.format 'png'
+		PerUserImg.create!(user_id:1,status:1,i_type:1,url:img)
+		render text: ab
   end
 def test1
-				url="https://api.weixin.qq.com/sns/oauth2/component/access_token?appid=wx570bc396a51b8ff8&code=queryauthcode@@@hRuUpo7YlO-6snLI_fLy597lcKMYEzwj7ghR0xHlpHkruobMs8KVtuP18Nv9kUcq&grant_type=authorization_code&component_appid=wxf6a05c0e64bc48e1&component_access_token=sDV1ZNNH7KOg4wR5UY-tD6MMXgNS4JsQPMVmjKpSMGpp7hrIcn_g16WUZXv67OBUeBPoIFQg_6SvzPYLqzllgHdi5OEw4pSDPHpeeovR_Og"
-			   puts ThirdParty.get_to_wechat(url)
-
+				b=1
+				WechatConfig.all.each do |a|
+						Sangna.get_user_info(a.id,APPID)
+						puts b
+						b=b+1
+				end
 	end	
 	 def home 
 		@url="https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=#{APPID}&pre_auth_code=#{Rails.cache.read(:pre_code)}&redirect_uri=http://weixin.linkke.cn/wechat/third_party/auth_code"
@@ -73,10 +81,15 @@ def test1
   result=ThirdParty.sent_to_wechat(url,body)
 	puts result.to_json
 	json=JSON.parse(result)
-	auth_code.find_or_initialize_by(appid:json['authorization_info']['authorizer_appid'])
+	auth_code=SangnaConfig.find_or_initialize_by(appid:json['authorization_info']['authorizer_appid'])
 	auth_code.code=params[:auth_code]
 	auth_code.token=json['authorization_info']['authorizer_access_token']
 	auth_code.refresh_token=json['authorization_info']['authorizer_refresh_token']
+		ticket=Sangna.get_qrcode(auth_code.token,'QR_LIMIT_SCENE',"","1")['ticket']
+		qrcode=Sangna.fetch_qrcode(ticket)
+		img=MiniMagick::Image.read qrcode
+		img.format 'png'
+	auth_code.qr_code=img
 	arr=[]
 	json['authorization_info']['func_info'].each do |a|
 		arr<<a['funcscope_category']['id']
@@ -140,6 +153,6 @@ def test1
       		t_message.templete_number=templete
       		t_message.save
       end
-   	  redirect_to :controller=>"gzh_manage",:action=>'set_menu',id:sangna_config.id
+   	  redirect_to :controller=>"gzh_manage",:action=>'set_menu',id:sangna_config.id,:authorize=>true
    end
 end

@@ -46,7 +46,7 @@ class Wechat::GzhManageController < ApplicationController
       result=ThirdParty.sent_to_wechat(url,body)
 		  puts result
       if params[:authorize]
-          redirect_to("www.linkke.cn/wx_weixin/index?appid="+gzh._id)
+          redirect_to("http://linkke.cn/weixin_set?appid="+gzh.appid)
       else
          render nothing: true
       end
@@ -77,7 +77,6 @@ class Wechat::GzhManageController < ApplicationController
       end
 			cookies.signed["#{params[:appid]}_openid"]=result["openid"]
       wechat_config.sangna_config=gzh
-			wechat_config.del=2
       wechat_config.code=params[:code]
       wechat_config.token=result['access_token']
       wechat_config.refresh_token=result['refresh_token']
@@ -106,16 +105,26 @@ class Wechat::GzhManageController < ApplicationController
 							else
 									cookies.signed["#{params[:appid]}_openid"]=result["openid"]
 							end
+					else
+						 sangna_config=SangnaConfig.find_by_appid(params[:appid])
+						 wechat_config=WechatConfig.new
+						 wechat_config.openid=result['openid']
+						 wechat_config.sangna_config_id=sangna_config.id
+						 wechat_config.del=2
+						 wechat_config.save
+						 wechat_config.create_wechat_user(nickname:'未关注',del:2)
+						 wechat_config.create_member(username:'未关注',user_id:sangna_config.per_user_id,hand_code: "")
+						#	url2="https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{params[:appid]}&redirect_uri=http://weixin.linkke.cn/wechat/gzh_manage/authorize&response_type=code&scope=snsapi_userinfo&state=200&component_appid=#{APPID}#wechat_redirect'"
+						#	redirect_to url2
+					end
 							next_url=cookies.signed[:next_url]
 							cookies.delete(:next_url)
 							redirect_to next_url
-					else
-							url2="https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{params[:appid]}&redirect_uri=http://weixin.linkke.cn/wechat/gzh_manage/authorize&response_type=code&scope=snsapi_userinfo&state=200&component_appid=#{APPID}#wechat_redirect'"
-							redirect_to url2
-					end
+
 		end
 
 		def change_qrcode
+					puts params
 					qrcode=PerUserQrCode.where(user_id:params[:user_id],hand_code:params[:hand_code],id_code:params[:id_code]).first
 					if qrcode
 							if qrcode.status==1
@@ -151,23 +160,41 @@ class Wechat::GzhManageController < ApplicationController
 		end
 
 
-		def sent_consumption_message_test
+		def sent_consumption_message
 							puts params
-								templete_number=TempleteNumber.find_by_topic('优惠券获得提醒')	
 								order=OrderByMasseuse.includes(:member,:per_user_masseuse,:per_user_project,:per_user).where(id:params[:o_id],status:2,del:1,is_reviewed:1).first
 						if order.hand_number==params[:h]
-								templete_message=templete_number.templete_messages.where(sangna_config_id:order.per_user.sangna_config.id).first
-								url="http://weixin.linkke.cn/wechat/wc_front/technician_remark?o_id=#{params[:o_id]}&appid=#{order.per_user.sangna_config.appid}"
-								hash={}
-								hash["first"]="您还有一个优惠劵未领取！\\n#{order.per_user.name}#{order.per_user_masseuse.job_number}号技师已经为您完成了#{order.per_user_project.name}服务"
-								hash["remark"]="点击“详情”获取代金券!"
-								coupon_rule=order.per_user.coupons_rules.where(name:'分享得红包',c_type:2).first
-								array=[coupon_rule.face_value.to_s,coupon_rule.due_day.to_s+"天"]
-								templete_number.fields.split(',').each_with_index do |a,index|
-										hash[a]=array[index]	
+							  gzh=order.per_user.sangna_config
+								if Time.now-gzh.updated_at>=7200
+									result=JSON.parse(ThirdParty.refresh_gzh_token(Rails.cache.read(:access_token),APPID,gzh.appid,gzh.refresh_token))
+									gzh.refresh_token=result['authorizer_refresh_token']
+									gzh.token=result['authorizer_access_token']
+									gzh.save
 								end
+								hash={}
+								url="http://weixin.linkke.cn/wechat/wc_front/technician_remark?o_id=#{params[:o_id]}&appid=#{order.per_user.sangna_config.appid}"
+								if order.per_user.coupons_rules.where(name:'分享得红包',status:1).first
+										templete_number=TempleteNumber.find_by_topic('优惠券获得提醒')	
+										url=url+"&l=z"
+										hash["first"]="您还有一个优惠劵未领取！\\n#{order.per_user.name}#{order.per_user_masseuse.job_number}号技师已经为您完成了#{order.per_user_project.name}服务"
+										hash["remark"]="点击“详情”获取代金券!"
+										coupon_rule=order.per_user.coupons_rules.where(name:'分享得红包',c_type:2).first
+										array=[coupon_rule.face_value.to_s,coupon_rule.due_day.to_s+"天"]
+								else
+										templete_number=TempleteNumber.find_by_topic('计次项目消费提醒')
+										url=url+'&l=h'
+										hash['first']='aa'
+										hash['remark']='bb'
+										array=[order.per_user_project.name,((order.end_time.to_i-order.start_time.to_i)/60).to_s]
+								end	
+								templete_message=templete_number.templete_messages.where(sangna_config_id:order.per_user.sangna_config.id).first
+								templete_number.fields.split(',').each_with_index do |a,index|
+												hash[a]=array[index]	
+								end
+
 								puts hash.to_json
 								Sangna.sent_template_message(order.per_user.sangna_config.token,order.member.wechat_config.openid,templete_message.templete_id,url,hash)
+
 						end
 								render nothing: true
 		end
