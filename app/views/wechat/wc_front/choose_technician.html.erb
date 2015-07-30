@@ -64,9 +64,14 @@
 
 
 		<script>
-			function toperson(){
-					window.location.href='my_account?appid=<%=params[:appid]%>';
-			}
+			wx.config({
+				    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+				    appId: '<%=params[:appid]%>', // 必填，公众号的唯一标识
+				    timestamp:'<%=timestamp=Time.now.to_i%>' , // 必填，生成签名的时间戳
+				    nonceStr: '<%=nonceStr=SecureRandom.uuid.tr('-', '')%>', // 必填，生成签名的随机串
+				    signature: '<%=signature(timestamp,nonceStr)%>',// 必填，签名，见附录1
+				    jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','scanQRCode'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+					});
 			function search(){
 				 var t_number=$('#t_number').val();
 				 $('#t_number').val('');
@@ -80,6 +85,20 @@
 											countdown();
 								<%end%>
 						}
+				})	
+			}
+			function search_by_project(id,p_type){
+					$.get('search',{id:id,p_type:p_type,appid:'<%=params[:appid]%>',inscene:<%=@inscene%>},function(obj){
+					if(obj==""){
+						mui.toast('找不到技师');
+					}
+					else{
+						$('#t_data').html(obj);
+						<%if @inscene%>
+							countdown();
+						<%end%>
+						$('.mask_layer').hide()
+					}
 				})	
 			}
 				wx.hideAllNonBaseMenuItem();
@@ -112,36 +131,9 @@
 						$.get('page_technician',{appid:'<%=params[:appid]%>',page:page,inscene:<%=@inscene%>},function(obj){
 						$("#t_data").html(obj);
 						countdown();
+						})
 				})
-					wx.config({
-				    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-				    appId: '<%=params[:appid]%>', // 必填，公众号的唯一标识
-				    timestamp:'<%=timestamp=Time.now.to_i%>' , // 必填，生成签名的时间戳
-				    nonceStr: '<%=nonceStr=SecureRandom.uuid.tr('-', '')%>', // 必填，生成签名的随机串
-				    signature: '<%=signature(timestamp,nonceStr)%>',// 必填，签名，见附录1
-				    jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','showMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-					});
-				})
-			function show_info(technician_id){
-				window.location.href="technician_info?t_id="+technician_id+"&appid=<%=params[:appid]%>";
-			}
 			<%else%>
-			function collect(technician_id,icon){
-						   var status="add";
-							 if($(icon).attr("class").substr(-1)=="n"){
-							 status="rm";
-							 }
-							 $.get("change_collect",{technician_id:technician_id,status:status,appid:"<%=params[:appid]%>"},function(obj){
-									if(status=="add"){
-										 $(icon).attr("class","mui-icon iconfont icon-xingxingman");
-										 mui.toast('收藏成功');
-									}   
-								  else{
-								     $(icon).attr("class","mui-icon iconfont icon-xingxingkong");
-										 mui.toast('取消收藏成功');
-								  }
-							 })
-			}
 		
 		$(function(){
 			$(".enter").click(function(){
@@ -151,30 +143,9 @@
 			})
 		})
 
-			wx.config({
-		    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-		    appId: '<%=params[:appid]%>', // 必填，公众号的唯一标识
-		    timestamp:'<%=timestamp=Time.now.to_i%>' , // 必填，生成签名的时间戳
-		    nonceStr: '<%=nonceStr=SecureRandom.uuid.tr('-', '')%>', // 必填，生成签名的随机串
-		    signature: '<%=signature(timestamp,nonceStr)%>',// 必填，签名，见附录1
-		    jsApiList: ["scanQRCode",'onMenuShareTimeline','onMenuShareAppMessage','showMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-				});
-		function qrcode(){
-				wx.scanQRCode({
-					needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
-					scanType: ["qrCode"], // 可以指定扫二维码还是一维码，默认二者都有
-					success: function (res) {
-						var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
-						window.location.replace(result);
-					}
-				});	
-			}
 		<%end%>
-		wx.ready(function(){
+				wx.ready(function(){
 
-			wx.showMenuItems({
-				    menuList: ['menuItem:profile','menuItem:addContact'] // 要显示的菜单项，所有menu项见附录3
-			});
 		wx.onMenuShareTimeline({
 		      title: '<%=@sangna_config.per_user.name%>会所!', 
 		        link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>',

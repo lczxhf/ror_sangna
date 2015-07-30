@@ -1,6 +1,6 @@
 class Wechat::WcFrontController < ApplicationController
 			require "rexml/document" 
-	before_action :check_openid,:except=>[:remark,:get_redbage,:page_technician,:tip]
+	before_action :check_openid,:except=>[:remark,:get_redbage,:page_technician,:tip,:project_class]
 	before_action :set_sangna_config,:except=>[:remark,:get_redbage,:change_collect]
 	include Wechat::WcFrontHelper
 	def choose_technician
@@ -24,8 +24,8 @@ class Wechat::WcFrontController < ApplicationController
 				technician_ids=@sangna_config.per_user.masseuses_collects.where(member_id:@wechat_config.member.id,del:1).limit(6).offset(6*(params[:page].to_i-1)).pluck(:per_user_masseuse_id)
 				technicians=PerUserMasseuse.find(technician_ids)
 		 else
-			technicians=PerUserMasseuse.where(user_id:@sangna_config.per_user.id).limit(8).offset(6*(params[:page].to_i-1))
-			end
+			technicians=PerUserMasseuse.where(user_id:@sangna_config.per_user.id).limit(6).offset(6*(params[:page].to_i-1))
+		end
 			arr=[]
 			technicians.each do |technician|
 				time=""
@@ -44,30 +44,45 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def search
-			technician=@sangna_config.per_user.per_user_masseuses.find_by_job_number(params[:t_number])	
-				if technician
-					time=''
-						if params[:inscene]=='true'
-							if technician.work_status==3
-								order=technician.order_by_masseuses.order(start_time: :desc).first	
-								time=((order.start_time+order.per_user_project.duration.minutes).to_i-Time.now.to_i)/60
-							end
-						end
-					if params[:is_mine]=='true'
-						wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
-						collect=@sangna_config.per_user.masseuses_collects.includes(:per_user_masseuse).where(member_id:wechat_config.member_id,del:1,per_user_masseuse_id:technician.id).first
-						if collect
-								render plain: generate_technician_html(technician,params[:inscene],@sangna_config,time)
-						else
-								render plain: 'uncollect'
-						end
+	  if params[:is_mine]!='true'
+			if params[:p_type]
+					if params[:p_type]=='true'
+							technicians=@sangna_config.per_user.per_user_masseuses.where(job_class_status:params[:id])		
 					else
-						render plain: generate_technician_html(technician,params[:inscene],@sangna_config,time)
 					end
+			else
+					technicians=@sangna_config.per_user.per_user_masseuses.where(job_number:params[:t_number])	
+			end
+		else
+			wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
+			collect=@sangna_config.per_user.masseuses_collects.where(member_id:wechat_config.member_id,del:1).pluck(:per_user_masseuse_id)
+			if params[:p_type]
+					if params[:p_type]=='true'
+							technicians=@sangna_config.per_user.per_user_masseuses.where(job_class_status:params[:id]).where("id IN (#{collect.join(',')})")		
+					else
+					end
+			else
+					technicians=@sangna_config.per_user.per_user_masseuses.where(job_number:params[:t_number]).where("id IN (#{collect.join(',')})")
+			end
+		end
+				if !technicians.empty?
+						string=technicians.collect do |technician|
+								if params[:inscene]=='true'
+									if technician.work_status==3
+											order=technician.order_by_masseuses.order(start_time: :desc).first	
+											time=((order.start_time+order.per_user_project.duration.minutes).to_i-Time.now.to_i)/60
+									else
+											time=""	
+									end
+								end
+										generate_technician_html(technician,params[:inscene],@sangna_config,time)
+								end.join
+						render plain: string 
 				else
 					 render plain: ''
 				end
 	end
+
 
 	def technician_remark
 					@order=OrderByMasseuse.includes(:per_user_masseuse,:per_user,member: [:wechat_config]).find(params[:o_id])
@@ -85,11 +100,20 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def project_info
-			@projects=PerUserProject.where(user_id:@sangna_config.per_user.id)
+			@projects=PerUserProject.where(user_id:@sangna_config.per_user.id,p_type:2).open
 	end
 
 	def tip
 				
+	end
+
+	def project_class
+				projects=@sangna_config.per_user.per_user_projects.where(p_type:1).joins("left join per_user_projects as sub on sub.parent_id=per_user_projects.id").uniq
+				string=projects.collect do |a|
+							"<div class='search_project'><button class='GongZhong' onclick=\"search_by_project('#{a.id}',true)\">#{a.name}</button>"+
+							a.per_user_projects.collect {|b| "<button class='XiangMu' onclick=\"search_by_project('#{b.id}',false)\">#{b.name}</button>"}.join+"</div>"
+				end.join
+			render plain: string
 	end
 
 	def project_detail
@@ -269,7 +293,6 @@ class Wechat::WcFrontController < ApplicationController
 	
 	def check_openid
 			if !cookies["#{params[:appid]}_openid"]							
-				puts 'not cookies'
 			cookies.signed[:next_url]=request.url
 			auth_url="https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{params[:appid]}&redirect_uri=http://weixin.linkke.cn/wechat/gzh_manage/oauth&response_type=code&scope=snsapi_base&state=123&component_appid=wxf6a05c0e64bc48e1#wechat_redirect"                    
 		   redirect_to auth_url
@@ -292,7 +315,7 @@ class Wechat::WcFrontController < ApplicationController
 						</div>
 						<span class="jishi_num fs17">#{technician.job_number}</span>
 						<span class="jishi_sex fs11">（#{technician.sex==1 ? "男":"女"}）</span>
-						<span class="jishi_type">#{return_job_class(technician.job_class_status)}</span>
+						<span class="jishi_type">#{technician.per_user_project.name.to(1)}</span>
 
 			}+if inscene=='true'
 						if technician.work_status==1

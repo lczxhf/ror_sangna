@@ -18,7 +18,7 @@
 						timestamp:'<%=timestamp=Time.now.to_i%>' , 
 						nonceStr: '<%=nonceStr=SecureRandom.uuid.tr('-', '')%>', 
 						signature: '<%=signature(timestamp,nonceStr)%>',
-						jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage'] 
+						jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','scanQRCode'] 
 		});
 		wx.ready(function(){
 		//    wx.hideOptionMenu();
@@ -137,6 +137,20 @@
 						}
 				})	
 			}
+			function search_by_project(id,p_type){
+					$.get('search',{id:id,p_type:p_type,appid:'<%=params[:appid]%>',inscene:<%=@inscene%>,is_mine:'true'},function(obj){
+					if(obj==""){
+						mui.toast('找不到技师');
+					}
+					else{
+						$('#t_data').html(obj);
+						<%if @inscene%>
+							countdown();
+						<%end%>
+						$('.mask_layer').hide()
+					}
+				})	
+			}
 	<%if @inscene%>
 		function countdown(){
 					$.each($('.surplus_time'),function(a,b){
@@ -162,54 +176,6 @@
 										}
 							})
 				}
-
-			function show_info(technician_id){
-					window.location.href="technician_info?t_id="+technician_id+"&appid=<%=params[:appid]%>";
-			}
-			function toperson(){
-					window.location.href='my_account?appid=<%=params[:appid]%>';
-			}
-			<%else%>
-			function collect(technician_id,icon){
-						   var status="add";
-							 if($(icon).attr("class").substr(-1)=="n"){
-							 status="rm";
-							 }
-							 $.get("change_collect",{technician_id:technician_id,status:status,appid:"<%=params[:appid]%>"},function(obj){
-									if(status=="add"){
-										 $(icon).attr("class","mui-icon iconfont icon-xingxingman");
-										 mui.toast('收藏成功');
-									}   
-								  else{
-								     $(icon).attr("class","mui-icon iconfont icon-xingxingkong");
-										 mui.toast('取消收藏成功');
-								  }
-							 })
-			}
-
-			wx.config({
-					debug: false, 
-					appId: '<%=params[:appid]%>',
-					timestamp:'<%=timestamp=Time.now.to_i%>',
-					nonceStr: '<%=nonceStr=SecureRandom.uuid.tr('-', '')%>',
-					signature: '<%=signature(timestamp,nonceStr)%>',
-					jsApiList: ["scanQRCode"]
-			});
-			function qrcode(){
-				wx.scanQRCode({
-					needResult: 1, 
-					scanType: ["qrCode"],
-					success: function (res) {
-						var result = res.resultStr;
-						window.location.replace(result);
-					}
-				});	
-			}
-
-
-		wx.ready(function(){
-		})
-
 		<%end%>
 		</script>
 	<%end%>

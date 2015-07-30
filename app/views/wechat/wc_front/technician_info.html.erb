@@ -172,7 +172,7 @@
 				<span class="jishi_sex fs11">（<%=@technician.sex==1 ? "男":"女"%>）</span>
 				<div class="jishi_type fs11">
 					<span class="mui-icon iconfont icon-lianxiren "></span>
-					<span class=""><%=return_job_class(@technician.job_class_status)%></span>
+					<span class=""><%=@technician.per_user_project.name%></span>
 				</div>
 				<span id='collect' class="mui-icon iconfont icon-xingxing<%=is_collect(params[:appid],@technician.id)%>"></span>
 				<span class="on_site fs11">在场时间:<%=@technician.work_time_start.try(:localtime).try(:strftime,"%H:%M")%>-<%=@technician.work_time_end.try(:localtime).try(:strftime,"%H:%M")%></span>

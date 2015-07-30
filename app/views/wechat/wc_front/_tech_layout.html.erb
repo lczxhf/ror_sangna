@@ -30,15 +30,7 @@
 						<button id="btn" class="mui-btn mui-btn-positive" onclick="search()">搜索</button>
 					</div>
 					<div id="search_project" class="mui-scroll-wrapper">
-						<div class="mui-scroll">
-							<div class="search_project">
-									<button class="GongZhong">大厅</button>
-									<button class="XiangMu">按肩</button>
-									<button class="XiangMu">按肩</button>
-									<button class="XiangMu">按肩</button>
-									<button class="XiangMu">按肩</button>
-									<button class="XiangMu">按肩</button>
-							</div>
+						<div class="mui-scroll" id='project'>
 						</div>
 					</div>
 				</div>
@@ -91,16 +83,6 @@
 			</nav>
 <script>
 	$(function(){
-		$('.mui-icon-search').click(function(){
-			$('.mask_layer').show()
-		})
-		$('.mui-icon-close_box').click(function(){
-			$('.mask_layer').hide()
-		})
-		$('#btn').click(function(){
-			$('.mask_layer').hide()
-		})
-		$('.close_box').css('height',window.innerHeight*0.94-40);
 		$('#shareit').css('height', window.innerHeight);
 	
 		$('.box_footer').css('width',$('.footer_span').width()+42);
@@ -114,11 +96,58 @@
 		$('#t_data').on('click','.jishi_img',function(){
 				mui.toast('到场扫描锁牌二维码后才可查看');
 		})
-		})
+	})
+		function collect(technician_id,icon){
+						   var status="add";
+							 if($(icon).attr("class").substr(-1)=="n"){
+							 status="rm";
+							 }
+							 $.get("change_collect",{technician_id:technician_id,status:status,appid:"<%=params[:appid]%>"},function(obj){
+									if(status=="add"){
+										 $(icon).attr("class","mui-icon iconfont icon-xingxingman");
+										 mui.toast('收藏成功');
+									}   
+								  else{
+								     $(icon).attr("class","mui-icon iconfont icon-xingxingkong");
+										 mui.toast('取消收藏成功');
+								  }
+							 })
+			}
+			function qrcode(){
+				wx.scanQRCode({
+					needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+					scanType: ["qrCode"], // 可以指定扫二维码还是一维码，默认二者都有
+					success: function (res) {
+						var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+						window.location.replace(result);
+					}
+				});	
+			}
+
 	<%else%>
-<script>
+		<script>
+			function show_info(technician_id){
+					window.location.href="technician_info?t_id="+technician_id+"&appid=<%=per_user.sangna_config.appid%>";
+			}
+			function toperson(){
+					window.location.href='my_account?appid=<%=per_user.sangna_config.appid%>';
+			}
+	<%end%>
+	var first=true;
 	$(function(){
-		$('.mui-icon-search').click(function(){
+			(function($) {
+						$('#search_project').scroll({
+									indicators: true //是否显示滚动条
+						});
+			})(mui);
+
+	$('.mui-icon-search').click(function(){
+			if(first==true){
+					$.get("project_class",{appid:"<%=per_user.sangna_config.appid%>"},function(obj){
+							$("#project").html(obj);
+							first=false;
+					})
+			}
 			$('.mask_layer').show()
 		})
 		$('.mui-icon-closeempty').click(function(){
@@ -127,14 +156,6 @@
 		$('#btn').click(function(){
 			$('.mask_layer').hide()
 		})
-		$('.close_box').css('height',window.innerHeight*0.94-40);
-	})
-	<%end%>
-
-	(function($) {
-						$('#search_project').scroll({
-												indicators: true //是否显示滚动条
-						});
-	})(mui);
+})
 
 </script>
