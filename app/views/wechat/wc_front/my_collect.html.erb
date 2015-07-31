@@ -48,7 +48,9 @@
 		})
 	</script>
 <script>
-	  var page=1
+	  var page=1;
+		var $p_type="";
+		var id=0;
 		mui.init({
 			pullRefresh: {
 				container: '#pullrefresh',
@@ -87,7 +89,11 @@
 	*/
 	function pullupRefresh() {
 				setTimeout(function(){
-					$.get('page_technician',{appid:'<%=params[:appid]%>',page:(page+1),inscene:<%=@inscene%>,collect:'true'},function(obj){
+					var str="&appid=<%=params[:appid]%>&page="+(page+1)+"&inscene=<%=@inscene%>&collect=true";
+					if($p_type!=""){
+							str+="&p_type="+$p_type+"&id="+$id;	
+					}
+					$.get('page_technician',str,function(obj){
 								if(obj==''){
 										mui.toast('无更多技师');
 								}
@@ -148,6 +154,9 @@
 							countdown();
 						<%end%>
 						$('.mask_layer').hide()
+						$p_type=p_type;
+						$id=id;
+						page=1;
 					}
 				})	
 			}

@@ -40,7 +40,7 @@
 													$.post('get_redbage',{o_id:'<%=params[:o_id]%>',collect:collect},function(r_obj){
 													   if(r_obj=='ok'){
 																	mui.toast('分享成功!代金券已放入您的卡券中');
-																	window.location.replace('my_account?appid=<%=params[:appid]%>');
+																	window.location.replace('my_account?appid=<%=params[:appid]%>&new=true');
 															}
 															else{
 																	mui.toast('您已领取过代金券!');
@@ -73,7 +73,7 @@
 													$.post('get_redbage',{o_id:'<%=params[:o_id]%>',collect:collect},function(r_obj){
 													   if(r_obj=='ok'){
 																	mui.toast('分享成功!代金券已放入您的卡券中');
-																	window.location.replace('my_account?appid=<%=params[:appid]%>');
+																	window.location.replace('my_account?appid=<%=params[:appid]%>&new=true');
 															}
 															else{
 																	mui.toast('您已领取过代金券!');
@@ -152,7 +152,11 @@
 								<img src="<%=@order.per_user_masseuse.img.url%>" alt="" width="78px" height="78px" />
 							</div>
 							<div class="JiShi_num">NO.<%=@order.per_user_masseuse.job_number%></div>
-							<div class="tip"><%= @open_redbage ? "分享朋友圈获取<span>￥#{@coupon_rule.face_value}</span>元代金券" : "请为技师评价"%></div>
+							<%if @open_redbage%>
+										<div class="tip">分享朋友圈获取<span>￥<%=@coupon_rule.face_value%></span>元代金券</div>
+							<%else%>
+										<div class="tip">请为技师评价</div>
+							<%end%>
 							<div class="PingJia_box">
 								<form class="" id='my_form'>
 									<%TechniqueEvalution.where(del:1).each do |evalution|%>

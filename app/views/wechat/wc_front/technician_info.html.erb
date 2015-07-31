@@ -35,9 +35,11 @@
 								$.get("change_collect",{technician_id:<%=@technician.id%>,status:status,appid:"<%=params[:appid]%>"},function(obj){
 									if(status=="add"){
 										$("#collect").attr("class","mui-icon iconfont icon-xingxingman");
+										mui.toast('收藏成功!');
 									}		
 									else{
 										$("#collect").attr("class","mui-icon iconfont icon-xingxingkong");
+										mui.toast("取消收藏!");
 									}
 								})
 						})
@@ -213,7 +215,7 @@
 			</div>
 			<div class="jishi_state">
 				<div class="jishi_infor">
-					<span class="left fs14">这个月收藏</span>
+					<span class="left fs14">这个月被收藏</span>
 					<span class="right fs14"><%=@technician.collect_count%>次</span>
 				</div>
 				<div class="jishi_infor">

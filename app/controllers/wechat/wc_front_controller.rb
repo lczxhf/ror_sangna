@@ -19,25 +19,51 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def page_technician
+			puts params
 		 if params[:collect]=='true'	
 				@wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
 				technician_ids=@sangna_config.per_user.masseuses_collects.where(member_id:@wechat_config.member.id,del:1).limit(6).offset(6*(params[:page].to_i-1)).pluck(:per_user_masseuse_id)
-				technicians=PerUserMasseuse.find(technician_ids)
-		 else
-			technicians=PerUserMasseuse.where(user_id:@sangna_config.per_user.id).limit(6).offset(6*(params[:page].to_i-1))
-		end
-			arr=[]
-			technicians.each do |technician|
-				time=""
-				if params[:inscene]=='true'
-					if technician.work_status==3
-							order=technician.order_by_masseuses.order(start_time: :desc).first	
-							time=((order.start_time+order.per_user_project.duration.minutes).to_i-Time.now.to_i)/60
+				if technician_ids.empty?
+						technicins=[]
+				else
+					if params[:p_type]
+							if params[:p_type]=='true'
+								technicians=@sangna_config.per_user.per_user_masseuses.where(job_class_status:params[:id]).where("id IN (#{technician_ids.join(',')})").limit(6).offset(6*(params[:page].to_i-1))		
+							else
+								technicians=@sangna_config.per_user.per_user_masseuses.where("projects_id regexp '(^|[^0-9])#{params[:id]}([^0-9]|$)'").where("id IN (#{technician_ids.join(',')})").limit(6).offset(6*(params[:page].to_i-1))
+							end
+					else
+								technicians=PerUserMasseuse.where("id in (#{technician_ids.join(',')})").limit(6).offset(6*(params[:page].to_i-1))
 					end
 				end
-					arr<<generate_technician_html(technician,params[:inscene],@sangna_config,time)
+		 else
+			  if params[:p_type]
+							if params[:p_type]=='true'
+									technicians=@sangna_config.per_user.per_user_masseuses.where(job_class_status:params[:id]).limit(6).offset(6*(params[:page].to_i-1))			
+							else
+									technicians=@sangna_config.per_user.per_user_masseuses.where("projects_id regexp '(^|[^0-9])#{params[:id]}([^0-9]|$)'").limit(6).offset(6*(params[:page].to_i-1))
+
+							end
+				else
+							technicians=PerUserMasseuse.where(user_id:@sangna_config.per_user.id).limit(6).offset(6*(params[:page].to_i-1))
+				end
+		end
+		  if technicians
+					arr=[]
+					technicians.each do |technician|
+							time=""
+							if params[:inscene]=='true'
+									if technician.work_status==3
+											order=technician.order_by_masseuses.order(start_time: :desc).first	
+											time=((order.start_time+order.per_user_project.duration.minutes).to_i-Time.now.to_i)/60
+									end
+							end
+							arr<<generate_technician_html(technician,params[:inscene],@sangna_config,time)
+					end
+					render plain: arr.join
+			else
+				 render plain: ''
 			end
-			render plain: arr.join
 	end
 	def technician_info
 		@technician=PerUserMasseuse.find(params[:t_id])
@@ -47,8 +73,9 @@ class Wechat::WcFrontController < ApplicationController
 	  if params[:is_mine]!='true'
 			if params[:p_type]
 					if params[:p_type]=='true'
-							technicians=@sangna_config.per_user.per_user_masseuses.where(job_class_status:params[:id])		
+							technicians=@sangna_config.per_user.per_user_masseuses.where(job_class_status:params[:id]).limit(6)		
 					else
+							technicians=@sangna_config.per_user.per_user_masseuses.where("projects_id regexp '(^|[^0-9])#{params[:id]}([^0-9]|$)'").limit(6)
 					end
 			else
 					technicians=@sangna_config.per_user.per_user_masseuses.where(job_number:params[:t_number])	
@@ -56,14 +83,19 @@ class Wechat::WcFrontController < ApplicationController
 		else
 			wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
 			collect=@sangna_config.per_user.masseuses_collects.where(member_id:wechat_config.member_id,del:1).pluck(:per_user_masseuse_id)
-			if params[:p_type]
-					if params[:p_type]=='true'
-							technicians=@sangna_config.per_user.per_user_masseuses.where(job_class_status:params[:id]).where("id IN (#{collect.join(',')})")		
-					else
-					end
+			if collect.empty?
+					technicians=[]
 			else
-					technicians=@sangna_config.per_user.per_user_masseuses.where(job_number:params[:t_number]).where("id IN (#{collect.join(',')})")
-			end
+					if params[:p_type]
+							if params[:p_type]=='true'
+									technicians=@sangna_config.per_user.per_user_masseuses.where(job_class_status:params[:id]).where("id IN (#{collect.join(',')})").limit(6)		
+							else
+									technicians=@sangna_config.per_user.per_user_masseuses.where("projects_id regexp '(^|[^0-9])#{params[:id]}([^0-9]|$)'").where("id IN (#{collect.join(',')})").limit(6)
+							end
+					else
+							technicians=@sangna_config.per_user.per_user_masseuses.where(job_number:params[:t_number]).where("id IN (#{collect.join(',')})")
+					end
+			end	
 		end
 				if !technicians.empty?
 						string=technicians.collect do |technician|
@@ -192,7 +224,7 @@ class Wechat::WcFrontController < ApplicationController
 							coupon_record.user_id=coupon_rule.user_id
 							coupon_record.member_id=member_id 
 							coupon_record.created_at=Time.now
-							coupon_record.order_id=params[:o_id]
+							coupon_record.from_order_id=params[:o_id]
 							coupon_record.save
 							render plain: 'ok'
 				end		
@@ -259,12 +291,12 @@ class Wechat::WcFrontController < ApplicationController
 	 if params[:phone].length==11 && params[:phone].to_i.to_s.length==11
 		 if !Member.find_by_username(params[:phone])
 				 code=rand(1000..9999).to_s
-				 Rails.cache.write(params[:phone],code,:expire_in=>1.hour)
 				 uri = URI("http://106.ihuyi.cn/webservice/sms.php?method=Submit")
 				 Net::HTTP.start(uri.host, uri.port,:use_ssl => uri.scheme == 'https') do |http|
 				    request= Net::HTTP::Post.new(uri,{'Content-Type'=>'application/json'})
 					  request.set_form_data({"account"=>"cf_zxy0506","password"=>"zxy0506","mobile"=>"#{params[:phone]}","content"=>"您的验证码是：#{code}。请不要把验证码泄露给其他人。如非本人操作，可不用理会！"})
 						response=http.request request
+						Rails.cache.write(params[:phone],code,:expire_in=>1.hour)
 						a=response.body.dup
 						 result= REXML::Document.new a
 						 render plain:  result.root.get_elements('msg')[0][0].to_s
@@ -283,6 +315,7 @@ class Wechat::WcFrontController < ApplicationController
 					 wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
 					 wechat_config.member.username=params[:phone]
 					 wechat_config.member.save
+					 Rails.cache.delete(params[:phone])
 					 render plain: 'ok'
 			else
 						render plain: 'err'

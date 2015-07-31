@@ -12,7 +12,9 @@
 		<title>挑选技师</title>
 	<script>
 	  var page=1
-		mui.init({
+		var $id=0;
+		var $p_type=""
+		var abc=mui.init({
 			pullRefresh: {
 				container: '#pullrefresh',
 				down: {
@@ -45,7 +47,11 @@
 	*/
 	function pullupRefresh() {
 				setTimeout(function(){
-					$.get('page_technician',{appid:'<%=params[:appid]%>',page:(page+1),inscene:<%=@inscene%>},function(obj){
+					var str="&appid=<%=params[:appid]%>&page="+(page+1)+"&inscene=<%=@inscene%>";
+					if($p_type!=""){
+						str+="&p_type="+$p_type+"&id="+$id;
+					}
+					$.get('page_technician',str,function(obj){
 								if(obj==''){
 										mui.toast('无更多技师')
 								}
@@ -98,6 +104,9 @@
 							countdown();
 						<%end%>
 						$('.mask_layer').hide()
+						page=1;
+						$p_type=p_type;
+						$id=id;
 					}
 				})	
 			}

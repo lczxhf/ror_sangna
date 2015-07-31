@@ -120,7 +120,6 @@ class Wechat::GzhManageController < ApplicationController
 							next_url=cookies.signed[:next_url]
 							cookies.delete(:next_url)
 							redirect_to next_url
-
 		end
 
 		def change_qrcode
@@ -179,7 +178,7 @@ class Wechat::GzhManageController < ApplicationController
 										hash["first"]="您还有一个优惠劵未领取！\\n#{order.per_user.name}#{order.per_user_masseuse.job_number}号技师已经为您完成了#{order.per_user_project.name}服务"
 										hash["remark"]="点击“详情”获取代金券!"
 										coupon_rule=order.per_user.coupons_rules.where(name:'分享得红包',c_type:2).first
-										array=[coupon_rule.face_value.to_s+'代金券','所有项目',coupon_rule.due_day.to_s+"天"]
+										array=[coupon_rule.face_value.to_s+'元代金券','所有项目',coupon_rule.due_day.to_s+"天"]
 								else
 										templete_number=TempleteNumber.find_by_topic('会员消费通知')
 										url=url+'&l=h'

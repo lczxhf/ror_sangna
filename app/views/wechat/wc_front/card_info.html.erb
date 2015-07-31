@@ -55,6 +55,9 @@
 	</script>
 <%end%>
 <%content_for :body do%>
+	<%if @cards.empty?%>
+			<span class="ShouCang_none">暂无卡券</span>
+	<%else%>
 	<%@cards.each do |card|%>
 		<%if !card.status.in?([1,2])%>
 		 <div class="box_coupons_2">
@@ -91,6 +94,7 @@
 		</div>
 		<%end%>
 	<%end%>
+<%end%>
 		<!--/*确认是否使用弹窗*/-->
 		<div class="shareit_1">
 			<div class="box_determine">
