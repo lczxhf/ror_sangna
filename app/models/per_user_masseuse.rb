@@ -1,7 +1,10 @@
 class PerUserMasseuse < ActiveRecord::Base
 	has_many :masseuses_imgs,foreign_key: "masseuses_id"
 	has_many :order_by_masseuses,foreign_key: 'masseuse_id',dependent: :delete_all
-	has_many :per_user_masseuses,foreign_key: 'job_class_status'
+	#has_many :per_user_masseuses,foreign_key: 'job_class_status'
+	has_many :appointments,foreign_key: 'masseuses_id',dependent: :delete_all
+	has_many :masseuses_reviews,foreign_key: 'masseuses_id',dependent: :delete_all
+	has_many :masseuses_collects
 	belongs_to :per_user,foreign_key: "user_id"	
 	belongs_to :per_user_project,foreign_key: 'job_class_status'
 	 mount_uploader :img,TechAvatarUploader

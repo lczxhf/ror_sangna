@@ -334,7 +334,7 @@ class Wechat::WcFrontController < ApplicationController
 
 	def set_sangna_config
 			if params[:appid]
-					@sangna_config=Rails.cache.fetch(params[:appid],expire_in: 4.hours) do 
+					@sangna_config=Rails.cache.fetch(params[:appid],expire_in: 2.hours) do 
 							SangnaConfig.includes(per_user:[:per_user_imgs]).find_by_appid(params[:appid])
 					end
 			end
@@ -377,7 +377,11 @@ class Wechat::WcFrontController < ApplicationController
 							<!--			<span class="project"></span>   --!>
 							<span class="jishi_best">#{get_hot_comment(technician.id)}</span>
 					}+	if inscene=='true'
-							'<span class="current_state fs12"> <span class="time">在13:00</span>有约</span>'
+									if appointment=technician.appointments.where("status=1 and service_time> now()").order(service_time: :asc).limit(1).first
+											'<span class="current_state fs12"> <span class="time">在'+appointment.service_time.strftime("%H:%M")+'</span>有约</span>'
+									else
+											'<span class="current_state fs12"> <span class="time">暂无</span>预约</span>'
+									end
 							else
 								"<span class='current_state fs12'>在场时间:#{technician.work_time_start.try(:localtime).try(:strftime,"%H:%M")}-#{technician.work_time_end.try(:localtime).try(:strftime,"%H:%M")}</span>"
 							end+"</div></div>"

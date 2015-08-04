@@ -113,7 +113,7 @@ class Wechat::GzhManageController < ApplicationController
 						 wechat_config.del=2
 						 wechat_config.save
 						 wechat_config.create_wechat_user(nickname:'未关注',del:2)
-						 wechat_config.create_member(username:'未关注',user_id:sangna_config.per_user_id,hand_code: "")
+						 wechat_config.create_member(username:result['openid'],user_id:sangna_config.per_user_id,hand_code: "")
 						#	url2="https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{params[:appid]}&redirect_uri=http://weixin.linkke.cn/wechat/gzh_manage/authorize&response_type=code&scope=snsapi_userinfo&state=200&component_appid=#{APPID}#wechat_redirect'"
 						#	redirect_to url2
 					end

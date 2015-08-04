@@ -32,7 +32,7 @@ class Wechat::ThirdPartyController < ApplicationController
 		render text: ab
   end
 def test1
-				render plain: Rails.cache.read(:access_token)
+				render plain: SangnaConfig.first.per_user.per_user_imgs.first.url.url 
 	end	
 	 def home 
 		@url="https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=#{APPID}&pre_auth_code=#{Rails.cache.read(:pre_code)}&redirect_uri=http://weixin.linkke.cn/wechat/third_party/auth_code"
