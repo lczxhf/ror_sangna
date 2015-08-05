@@ -6,9 +6,11 @@ class Wechat::GzhManageController < ApplicationController
         gzh=SangnaConfig.find(params[:id])
         if Time.now-gzh.updated_at>=7200
               result=JSON.parse(ThirdParty.refresh_gzh_token(Rails.cache.read(:access_token),APPID,gzh.appid,gzh.refresh_token))
-              gzh.refresh_token=result['authorizer_refresh_token']
-              gzh.token=result['authorizer_access_token']
-              gzh.save
+							if result['authorizer_refresh_token']
+								gzh.refresh_token=result['authorizer_refresh_token']
+								gzh.token=result['authorizer_access_token']
+								gzh.save
+							end
         end
         url='https://api.weixin.qq.com/cgi-bin/menu/create?access_token='+gzh.token
 		#body='{"button":[{"name":"扫码","sub_button":[{"type":"scancode_waitmsg","name":"扫码带提示","key":"rselfmenu_0_0","sub_button":[]},{"type":"scancode_push","name":"扫码推事件","key":"rselfmenu_0_1","sub_button":[]}]},{"name":"发图","sub_button":[{"type":"pic_sysphoto","name":"系统拍照发图","key":"rselfmenu_1_0","sub_button":[]},{"type":"pic_photo_or_album","name":"拍照或者相册发图","key":"rselfmenu_1_1","sub_button":[]},{"type":"pic_weixin","name":"微信相册发图","key":"rselfmenu_1_2","sub_button":[]}]},{"name":"发送位置","type":"location_select","key":"rselfmenu_2_0"}]}'
@@ -61,9 +63,11 @@ class Wechat::GzhManageController < ApplicationController
       gzh=SangnaConfig.where(appid:params[:appid]).first
 			 if Time.now-gzh.updated_at>=7200
 				     result=JSON.parse(ThirdParty.refresh_gzh_token(Rails.cache.read(:access_token),appid,gzh.appid,gzh.refresh_token))
-						gzh.refresh_token=result['authorizer_refresh_token']
-						gzh.token=result['authorizer_access_token']
-						gzh.save
+						 if result['authorizer_refresh_token']
+								gzh.refresh_token=result['authorizer_refresh_token']
+								gzh.token=result['authorizer_access_token']
+								gzh.save
+						 end
 			end
       url="https://api.weixin.qq.com/sns/oauth2/component/access_token?appid=#{gzh.appid}&code=#{params[:code]}&grant_type=authorization_code&component_appid=#{APPID}&component_access_token="+Rails.cache.read(:access_token)
 			puts url
@@ -122,7 +126,7 @@ class Wechat::GzhManageController < ApplicationController
 							redirect_to next_url
 		end
 
-		def change_qrcode
+		def change_qrcode_test
 					puts params
 					qrcode=PerUserQrCode.where(user_id:params[:user_id],hand_code:params[:hand_code],id_code:params[:id_code]).first
 					if qrcode
@@ -158,6 +162,39 @@ class Wechat::GzhManageController < ApplicationController
 					end
 		end
 
+		def change_qrcode
+				qrcode=PerUserQrCode.where(user_id:params[:user_id],hand_code:params[:hand_cde],id_code:params[:id_code]).first
+				if qrcode.status=1
+							render plain: '请让服务员激活'
+				else
+					per_user=PerUser.includes(:sangna_config).find(params[:user_id])
+					if !per_user.member.where(hand_code:qrcode.hand_code).first
+							wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{per_user.sangna_config.appid}_openid"])
+							if wechat_config
+									log=qrcode.qrcode_logs.last
+									log.member=wechat_config.member
+									log.member_bind_time=Time.now
+									rule_ids=wechat_config.member.coupons_records.where("status in (1,2)").pluck(:coupons_rule_id)
+									log.entrance_card_count=rule_ids.size
+									log.entrance_card_sum=CouponsRule.where("id in (#{rule_ids.join(',')})").sum(:face_value)
+									log.save
+									wechat_config.member.hand_code=qrcode.hand_code
+									wechat_config.member.save
+									wechat_config.member.coupons_records.where(status:1).each do |a|
+											a.status=2
+											a.save
+									end
+									puts 'jinchang'
+									redirect_to 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid='+per_user.sangna_config.appid
+							else
+									render plain: '请使用页面内的扫一扫扫码'
+							end
+					else
+								render plain: '锁牌已被用户绑定'
+					end
+				end
+		end
+
 
 		def sent_consumption_message
 							puts params
@@ -166,9 +203,11 @@ class Wechat::GzhManageController < ApplicationController
 							  gzh=order.per_user.sangna_config
 								if Time.now-gzh.updated_at>=7200
 									result=JSON.parse(ThirdParty.refresh_gzh_token(Rails.cache.read(:access_token),APPID,gzh.appid,gzh.refresh_token))
-									gzh.refresh_token=result['authorizer_refresh_token']
-									gzh.token=result['authorizer_access_token']
-									gzh.save
+									if result['authorizer_refresh_token']
+											gzh.refresh_token=result['authorizer_refresh_token']
+											gzh.token=result['authorizer_access_token']
+											gzh.save
+									end
 								end
 								hash={}
 								url="http://weixin.linkke.cn/wechat/wc_front/technician_remark?o_id=#{params[:o_id]}&appid=#{order.per_user.sangna_config.appid}"
@@ -204,9 +243,11 @@ class Wechat::GzhManageController < ApplicationController
 					sangna_config=SangnaConfig.find(params[:id])
 					 if Time.now-sangna_config.updated_at>=7200
                 result=JSON.parse(ThirdParty.refresh_gzh_token(Rails.cache.read(:access_token),APPID,sangna_config.appid,sangna_config.refresh_token))
-                sangna_config.refresh_token=result['authorizer_refresh_token']
-                sangna_config.token=result['authorizer_access_token']
-                sangna_config.save
+								if result['authorizer_refresh_token']
+										sangna_config.refresh_token=result['authorizer_refresh_token']
+										sangna_config.token=result['authorizer_access_token']
+										sangna_config.save
+								end
           end
 					url="https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token="+params[:token]
 					body='{"touser":"'+params[:openid]+'","msgtype":"text","text":{"content":"'+params[:code]+'"_from_api"}}'

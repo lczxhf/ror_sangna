@@ -23,17 +23,21 @@ class Wechat::ThirdPartyController < ApplicationController
 							# end
 		#			end
 		#	end
-		 sangna=SangnaConfig.first
-		 a=Sangna.get_qrcode(sangna.token,'QR_SCENE',"6000","123")['ticket']
-		ab=Sangna.fetch_qrcode(a)
-		img=MiniMagick::Image.read ab
-		img.format 'png'
-		PerUserImg.create!(user_id:1,status:1,i_type:1,url:img)
-		render text: ab
+		# sangna=SangnaConfig.first
+		# a=Sangna.get_qrcode(sangna.token,'QR_SCENE',"6000","123")['ticket']
+		#ab=Sangna.fetch_qrcode(a)
+		#img=MiniMagick::Image.read ab
+		#img.format 'png'
+		#PerUserImg.create!(user_id:1,status:1,i_type:1,url:img)
   end
 def test1
-				render plain: SangnaConfig.first.per_user.per_user_imgs.first.url.url 
-	end	
+				render plain: 'a'
+end	
+
+def authorize
+		cookies.signed[:admin]=params[:my_name]
+		redirect_to '/admin'
+end
 	 def home 
 		@url="https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=#{APPID}&pre_auth_code=#{Rails.cache.read(:pre_code)}&redirect_uri=http://weixin.linkke.cn/wechat/third_party/auth_code"
  	 	render :home,:layout=>false
@@ -137,7 +141,8 @@ def test1
       two='24'
       url="https://api.weixin.qq.com/cgi-bin/template/api_set_industry?access_token="+sangna_config.token
       body='{"industry_id1":"'+one+'","industry_id2":"'+two+'"}'
-      ThirdParty.sent_to_wechat(url,body)
+       ThirdParty.sent_to_wechat(url,body)
+			 sleep 1000
       url2="https://api.weixin.qq.com/cgi-bin/template/api_add_template?access_token="+sangna_config.token
       TempleteNumber.find_each do |templete|
       		body2='{"template_id_short":"'+templete.number+'"}'

@@ -28,34 +28,38 @@ class Wechat::WcFrontController < ApplicationController
 				else
 					if params[:p_type]
 							if params[:p_type]=='true'
-								technicians=@sangna_config.per_user.per_user_masseuses.where(job_class_status:params[:id]).where("id IN (#{technician_ids.join(',')})").limit(6).offset(6*(params[:page].to_i-1))		
+								technicians=@sangna_config.per_user.per_user_masseuses.where(job_class_status:params[:id]).active.where("id IN (#{technician_ids.join(',')})").limit(6).offset(6*(params[:page].to_i-1))		
 							else
-								technicians=@sangna_config.per_user.per_user_masseuses.where("projects_id regexp '(^|[^0-9])#{params[:id]}([^0-9]|$)'").where("id IN (#{technician_ids.join(',')})").limit(6).offset(6*(params[:page].to_i-1))
+								technicians=@sangna_config.per_user.per_user_masseuses.where("projects_id regexp '(^|[^0-9])#{params[:id]}([^0-9]|$)'").active.where("id IN (#{technician_ids.join(',')})").limit(6).offset(6*(params[:page].to_i-1))
 							end
 					else
-								technicians=PerUserMasseuse.where("id in (#{technician_ids.join(',')})").limit(6).offset(6*(params[:page].to_i-1))
+								technicians=PerUserMasseuse.where("id in (#{technician_ids.join(',')})").active.limit(6).offset(6*(params[:page].to_i-1))
 					end
 				end
 		 else
 			  if params[:p_type]
 							if params[:p_type]=='true'
-									technicians=@sangna_config.per_user.per_user_masseuses.where(job_class_status:params[:id]).limit(6).offset(6*(params[:page].to_i-1))			
+									technicians=@sangna_config.per_user.per_user_masseuses.where(job_class_status:params[:id]).active.limit(6).offset(6*(params[:page].to_i-1))			
 							else
-									technicians=@sangna_config.per_user.per_user_masseuses.where("projects_id regexp '(^|[^0-9])#{params[:id]}([^0-9]|$)'").limit(6).offset(6*(params[:page].to_i-1))
+									technicians=@sangna_config.per_user.per_user_masseuses.where("projects_id regexp '(^|[^0-9])#{params[:id]}([^0-9]|$)'").active.limit(6).offset(6*(params[:page].to_i-1))
 
 							end
 				else
-							technicians=PerUserMasseuse.where(user_id:@sangna_config.per_user.id).limit(6).offset(6*(params[:page].to_i-1))
+							technicians=PerUserMasseuse.where(user_id:@sangna_config.per_user.id).active.limit(6).offset(6*(params[:page].to_i-1))
 				end
 		end
-		  if technicians
+		  if !technicians.empty?
 					arr=[]
 					technicians.each do |technician|
 							time=""
 							if params[:inscene]=='true'
 									if technician.work_status==3
 											order=technician.order_by_masseuses.order(start_time: :desc).first	
-											time=((order.start_time+order.per_user_project.duration.minutes).to_i-Time.now.to_i)/60
+											if order
+													time=((order.start_time+order.per_user_project.duration.minutes).to_i-Time.now.to_i)/60
+											else
+													time=0
+											end
 									end
 							end
 							arr<<generate_technician_html(technician,params[:inscene],@sangna_config,time)
@@ -73,12 +77,12 @@ class Wechat::WcFrontController < ApplicationController
 	  if params[:is_mine]!='true'
 			if params[:p_type]
 					if params[:p_type]=='true'
-							technicians=@sangna_config.per_user.per_user_masseuses.where(job_class_status:params[:id]).limit(6)		
+							technicians=@sangna_config.per_user.per_user_masseuses.where(job_class_status:params[:id]).active.limit(6)		
 					else
-							technicians=@sangna_config.per_user.per_user_masseuses.where("projects_id regexp '(^|[^0-9])#{params[:id]}([^0-9]|$)'").limit(6)
+							technicians=@sangna_config.per_user.per_user_masseuses.where("projects_id regexp '(^|[^0-9])#{params[:id]}([^0-9]|$)'").active.limit(6)
 					end
 			else
-					technicians=@sangna_config.per_user.per_user_masseuses.where(job_number:params[:t_number])	
+					technicians=@sangna_config.per_user.per_user_masseuses.where(job_number:params[:t_number]).active	
 			end
 		else
 			wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
@@ -88,12 +92,12 @@ class Wechat::WcFrontController < ApplicationController
 			else
 					if params[:p_type]
 							if params[:p_type]=='true'
-									technicians=@sangna_config.per_user.per_user_masseuses.where(job_class_status:params[:id]).where("id IN (#{collect.join(',')})").limit(6)		
+									technicians=@sangna_config.per_user.per_user_masseuses.where(job_class_status:params[:id]).active.where("id IN (#{collect.join(',')})").limit(6)		
 							else
-									technicians=@sangna_config.per_user.per_user_masseuses.where("projects_id regexp '(^|[^0-9])#{params[:id]}([^0-9]|$)'").where("id IN (#{collect.join(',')})").limit(6)
+									technicians=@sangna_config.per_user.per_user_masseuses.where("projects_id regexp '(^|[^0-9])#{params[:id]}([^0-9]|$)'").where("id IN (#{collect.join(',')})").active.limit(6)
 							end
 					else
-							technicians=@sangna_config.per_user.per_user_masseuses.where(job_number:params[:t_number]).where("id IN (#{collect.join(',')})")
+							technicians=@sangna_config.per_user.per_user_masseuses.where(job_number:params[:t_number]).where("id IN (#{collect.join(',')})").active
 					end
 			end	
 		end
@@ -102,7 +106,11 @@ class Wechat::WcFrontController < ApplicationController
 								if params[:inscene]=='true'
 									if technician.work_status==3
 											order=technician.order_by_masseuses.order(start_time: :desc).first	
-											time=((order.start_time+order.per_user_project.duration.minutes).to_i-Time.now.to_i)/60
+											if order
+												time=((order.start_time+order.per_user_project.duration.minutes).to_i-Time.now.to_i)/60
+											else
+												time=0
+											end
 									else
 											time=""	
 									end
@@ -276,7 +284,11 @@ class Wechat::WcFrontController < ApplicationController
 							render plain: '代金券已过期'
 					else
 							card.status=3
-							card.save
+							if card.save
+								 	log=card.member.qrcode_logs.last	
+									log.coupons_record=card
+									log.save
+							end
 							render plain: card.to_json(:include=>[:member,:coupons_rule])
 					end
 			else
@@ -334,6 +346,7 @@ class Wechat::WcFrontController < ApplicationController
 
 	def set_sangna_config
 			if params[:appid]
+					#Rails.cache.delete(params[:appid])
 					@sangna_config=Rails.cache.fetch(params[:appid],expire_in: 2.hours) do 
 							SangnaConfig.includes(per_user:[:per_user_imgs]).find_by_appid(params[:appid])
 					end
@@ -377,10 +390,10 @@ class Wechat::WcFrontController < ApplicationController
 							<!--			<span class="project"></span>   --!>
 							<span class="jishi_best">#{get_hot_comment(technician.id)}</span>
 					}+	if inscene=='true'
-									if appointment=technician.appointments.where("status=1 and service_time> now()").order(service_time: :asc).limit(1).first
+									if appointment=technician.appointments.where(status:1).order(service_time: :asc).limit(1).first
 											'<span class="current_state fs12"> <span class="time">在'+appointment.service_time.strftime("%H:%M")+'</span>有约</span>'
 									else
-											'<span class="current_state fs12"> <span class="time">暂无</span>预约</span>'
+											'<span class="current_state fs12"> <span class="time"></span></span>'
 									end
 							else
 								"<span class='current_state fs12'>在场时间:#{technician.work_time_start.try(:localtime).try(:strftime,"%H:%M")}-#{technician.work_time_end.try(:localtime).try(:strftime,"%H:%M")}</span>"
