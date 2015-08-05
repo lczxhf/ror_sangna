@@ -35,9 +35,11 @@
 								$.get("change_collect",{technician_id:<%=@technician.id%>,status:status,appid:"<%=params[:appid]%>"},function(obj){
 									if(status=="add"){
 										$("#collect").attr("class","mui-icon iconfont icon-xingxingman");
+										mui.toast('收藏成功!');
 									}		
 									else{
 										$("#collect").attr("class","mui-icon iconfont icon-xingxingkong");
+										mui.toast("取消收藏!");
 									}
 								})
 						})
@@ -121,7 +123,7 @@
 		wx.onMenuShareTimeline({
 		      title: '<%=@sangna_config.per_user.name%>会所!', 
 		        link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>',
-		        imgUrl: 'http://weixin.linkke.cn<%=image_path @sangna_config.per_user.per_user_imgs.first.url.url%>',
+		        imgUrl: 'http://linkke.cn<%=@sangna_config.per_user.per_user_imgs.first.url.url%>',
 		        success: function(res){
 							
 		        },
@@ -134,7 +136,7 @@
 				    title: '<%=@sangna_config.per_user.name%>会所!', 
 					  desc: '', 
 					  link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>', 
-						imgUrl: 'http://weixin.linkke.cn<%=image_path @sangna_config.per_user.per_user_imgs.first.url.url%>,
+						imgUrl: 'http://linkke.cn<%=@sangna_config.per_user.per_user_imgs.first.url.url%>,
 						success: function () { 
 						},
 						cancel: function () { 
@@ -172,7 +174,7 @@
 				<span class="jishi_sex fs11">（<%=@technician.sex==1 ? "男":"女"%>）</span>
 				<div class="jishi_type fs11">
 					<span class="mui-icon iconfont icon-lianxiren "></span>
-					<span class=""><%=return_job_class(@technician.job_class_status)%></span>
+					<span class=""><%=@technician.per_user_project.name%></span>
 				</div>
 				<span id='collect' class="mui-icon iconfont icon-xingxing<%=is_collect(params[:appid],@technician.id)%>"></span>
 				<span class="on_site fs11">在场时间:<%=@technician.work_time_start.try(:localtime).try(:strftime,"%H:%M")%>-<%=@technician.work_time_end.try(:localtime).try(:strftime,"%H:%M")%></span>
@@ -213,7 +215,7 @@
 			</div>
 			<div class="jishi_state">
 				<div class="jishi_infor">
-					<span class="left fs14">这个月收藏</span>
+					<span class="left fs14">这个月被收藏</span>
 					<span class="right fs14"><%=@technician.collect_count%>次</span>
 				</div>
 				<div class="jishi_infor">

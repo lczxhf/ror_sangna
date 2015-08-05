@@ -52,6 +52,7 @@ Rails.application.routes.draw do
 		get "wc_front/search" => "wc_front#search"
 		post 'wc_front/use_card' => "wc_front#use_card"
     get 'wc_front/tip' => 'wc_front#tip'
+		get "wc_front/project_class" => "wc_front#project_class"
     #match "/:name/:controller/:action",:via=>[:get]
   end
   

@@ -32,12 +32,7 @@ class Wechat::ThirdPartyController < ApplicationController
 		render text: ab
   end
 def test1
-				b=1
-				WechatConfig.all.each do |a|
-						Sangna.get_user_info(a.id,APPID)
-						puts b
-						b=b+1
-				end
+				render plain: SangnaConfig.first.per_user.per_user_imgs.first.url.url 
 	end	
 	 def home 
 		@url="https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=#{APPID}&pre_auth_code=#{Rails.cache.read(:pre_code)}&redirect_uri=http://weixin.linkke.cn/wechat/third_party/auth_code"
@@ -146,12 +141,14 @@ def test1
       url2="https://api.weixin.qq.com/cgi-bin/template/api_add_template?access_token="+sangna_config.token
       TempleteNumber.find_each do |templete|
       		body2='{"template_id_short":"'+templete.number+'"}'
-      		templete_id=JSON.parse(ThirdParty.sent_to_wechat(url2,body2))["template_id"]
+					result=ThirdParty.sent_to_wechat(url2,body2)
+					puts result
+      		templete_id=JSON.parse(result)["template_id"]
       		t_message=TempleteMessage.new
       		t_message.templete_id=templete_id
       		t_message.sangna_config=sangna_config
       		t_message.templete_number=templete
-      		t_message.save
+      		t_message.save!
       end
    	  redirect_to :controller=>"gzh_manage",:action=>'set_menu',id:sangna_config.id,:authorize=>true
    end

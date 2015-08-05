@@ -113,14 +113,13 @@ class Wechat::GzhManageController < ApplicationController
 						 wechat_config.del=2
 						 wechat_config.save
 						 wechat_config.create_wechat_user(nickname:'未关注',del:2)
-						 wechat_config.create_member(username:'未关注',user_id:sangna_config.per_user_id,hand_code: "")
+						 wechat_config.create_member(username:result['openid'],user_id:sangna_config.per_user_id,hand_code: "")
 						#	url2="https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{params[:appid]}&redirect_uri=http://weixin.linkke.cn/wechat/gzh_manage/authorize&response_type=code&scope=snsapi_userinfo&state=200&component_appid=#{APPID}#wechat_redirect'"
 						#	redirect_to url2
 					end
 							next_url=cookies.signed[:next_url]
 							cookies.delete(:next_url)
 							redirect_to next_url
-
 		end
 
 		def change_qrcode
@@ -174,18 +173,18 @@ class Wechat::GzhManageController < ApplicationController
 								hash={}
 								url="http://weixin.linkke.cn/wechat/wc_front/technician_remark?o_id=#{params[:o_id]}&appid=#{order.per_user.sangna_config.appid}"
 								if order.per_user.coupons_rules.where(name:'分享得红包',status:1).first
-										templete_number=TempleteNumber.find_by_topic('优惠券获得提醒')	
+										templete_number=TempleteNumber.find_by_topic('获得优惠券通知')	
 										url=url+"&l=z"
 										hash["first"]="您还有一个优惠劵未领取！\\n#{order.per_user.name}#{order.per_user_masseuse.job_number}号技师已经为您完成了#{order.per_user_project.name}服务"
 										hash["remark"]="点击“详情”获取代金券!"
 										coupon_rule=order.per_user.coupons_rules.where(name:'分享得红包',c_type:2).first
-										array=[coupon_rule.face_value.to_s,coupon_rule.due_day.to_s+"天"]
+										array=[coupon_rule.face_value.to_s+'元代金券','所有项目',coupon_rule.due_day.to_s+"天"]
 								else
-										templete_number=TempleteNumber.find_by_topic('计次项目消费提醒')
+										templete_number=TempleteNumber.find_by_topic('会员消费通知')
 										url=url+'&l=h'
-										hash['first']='aa'
-										hash['remark']='bb'
-										array=[order.per_user_project.name,((order.end_time.to_i-order.start_time.to_i)/60).to_s]
+										hash['first']='您好!您已成功消费'
+										hash['remark']='点击\"详情\"评价技师'
+										array=['消费门店',order.per_user.name,'消费项目',order.per_user_project.name,((order.end_time.to_i-order.start_time.to_i)/60).to_s]
 								end	
 								templete_message=templete_number.templete_messages.where(sangna_config_id:order.per_user.sangna_config.id).first
 								templete_number.fields.split(',').each_with_index do |a,index|

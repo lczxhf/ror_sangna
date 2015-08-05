@@ -18,7 +18,7 @@
 						timestamp:'<%=timestamp=Time.now.to_i%>' , 
 						nonceStr: '<%=nonceStr=SecureRandom.uuid.tr('-', '')%>', 
 						signature: '<%=signature(timestamp,nonceStr)%>',
-						jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage'] 
+						jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','scanQRCode'] 
 		});
 		wx.ready(function(){
 		//    wx.hideOptionMenu();
@@ -26,7 +26,7 @@
 		wx.onMenuShareTimeline({
 		      title: '<%=@sangna_config.per_user.name%>会所!', 
 		        link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>',
-		        imgUrl: 'http://weixin.linkke.cn<%=image_path @sangna_config.per_user.per_user_imgs.first.url.url%>',
+		        imgUrl: 'http://linkke.cn<%=@sangna_config.per_user.per_user_imgs.first.url.url%>',
 		        success: function(res){
 							
 		        },
@@ -39,7 +39,7 @@
 				    title: '<%=@sangna_config.per_user.name%>会所!', 
 					  desc: '', 
 					  link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>', 
-						imgUrl: 'http://weixin.linkke.cn<%=image_path @sangna_config.per_user.per_user_imgs.first.url.url%>',
+						imgUrl: 'http://linkke.cn<%=@sangna_config.per_user.per_user_imgs.first.url.url%>',
 						success: function () { 
 						},
 						cancel: function () { 
@@ -48,7 +48,9 @@
 		})
 	</script>
 <script>
-	  var page=1
+	  var page=1;
+		var $p_type="";
+		var id=0;
 		mui.init({
 			pullRefresh: {
 				container: '#pullrefresh',
@@ -87,7 +89,11 @@
 	*/
 	function pullupRefresh() {
 				setTimeout(function(){
-					$.get('page_technician',{appid:'<%=params[:appid]%>',page:(page+1),inscene:<%=@inscene%>,collect:'true'},function(obj){
+					var str="&appid=<%=params[:appid]%>&page="+(page+1)+"&inscene=<%=@inscene%>&collect=true";
+					if($p_type!=""){
+							str+="&p_type="+$p_type+"&id="+$id;	
+					}
+					$.get('page_technician',str,function(obj){
 								if(obj==''){
 										mui.toast('无更多技师');
 								}
@@ -137,6 +143,23 @@
 						}
 				})	
 			}
+			function search_by_project(id,p_type){
+					$.get('search',{id:id,p_type:p_type,appid:'<%=params[:appid]%>',inscene:<%=@inscene%>,is_mine:'true'},function(obj){
+					if(obj==""){
+						mui.toast('找不到技师');
+					}
+					else{
+						$('#t_data').html(obj);
+						<%if @inscene%>
+							countdown();
+						<%end%>
+						$('.mask_layer').hide()
+						$p_type=p_type;
+						$id=id;
+						page=1;
+					}
+				})	
+			}
 	<%if @inscene%>
 		function countdown(){
 					$.each($('.surplus_time'),function(a,b){
@@ -162,54 +185,6 @@
 										}
 							})
 				}
-
-			function show_info(technician_id){
-					window.location.href="technician_info?t_id="+technician_id+"&appid=<%=params[:appid]%>";
-			}
-			function toperson(){
-					window.location.href='my_account?appid=<%=params[:appid]%>';
-			}
-			<%else%>
-			function collect(technician_id,icon){
-						   var status="add";
-							 if($(icon).attr("class").substr(-1)=="n"){
-							 status="rm";
-							 }
-							 $.get("change_collect",{technician_id:technician_id,status:status,appid:"<%=params[:appid]%>"},function(obj){
-									if(status=="add"){
-										 $(icon).attr("class","mui-icon iconfont icon-xingxingman");
-										 mui.toast('收藏成功');
-									}   
-								  else{
-								     $(icon).attr("class","mui-icon iconfont icon-xingxingkong");
-										 mui.toast('取消收藏成功');
-								  }
-							 })
-			}
-
-			wx.config({
-					debug: false, 
-					appId: '<%=params[:appid]%>',
-					timestamp:'<%=timestamp=Time.now.to_i%>',
-					nonceStr: '<%=nonceStr=SecureRandom.uuid.tr('-', '')%>',
-					signature: '<%=signature(timestamp,nonceStr)%>',
-					jsApiList: ["scanQRCode"]
-			});
-			function qrcode(){
-				wx.scanQRCode({
-					needResult: 1, 
-					scanType: ["qrCode"],
-					success: function (res) {
-						var result = res.resultStr;
-						window.location.replace(result);
-					}
-				});	
-			}
-
-
-		wx.ready(function(){
-		})
-
 		<%end%>
 		</script>
 	<%end%>

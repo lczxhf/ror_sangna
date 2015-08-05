@@ -90,20 +90,22 @@ input:focus{
 	font-size: 12px;
 	letter-spacing: 2px;
 	height: 40px;
+	line-height: 40px;
+	padding: 0;
 	position: absolute;
 	right: 0;
 	top: 0
 	border-radius: 0;
 	border-top-left-radius: 0;
 	border-bottom-left-radius: 0;
-	background: #00A64F;
+	background: #BDA28F;
 }
 
 .public_btn{
 	display: block;
 	border: none;
 	width: 90%;
-	background: #BDA28F;
+	background: #00A64F;
 	margin: 10px auto;
 	letter-spacing: 5px;
 	padding: 10px 20px;

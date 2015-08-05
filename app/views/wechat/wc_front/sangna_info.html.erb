@@ -26,7 +26,7 @@
 		wx.onMenuShareTimeline({
 		      title: '<%=@sangna_config.per_user.name%>会所!', 
 		        link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>',
-		        imgUrl: 'http://weixin.linkke.cn<%=image_path @sangna_config.per_user.per_user_imgs.first.url.url%>',
+		        imgUrl: 'http://linkke.cn<%=@sangna_config.per_user.per_user_imgs.first.url.url%>',
 		        success: function(res){
 							
 		        },
@@ -39,7 +39,7 @@
 				    title: '<%=@sangna_config.per_user.name%>会所!', 
 					  desc: '', 
 					  link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>', 
-						imgUrl: 'http://weixin.linkke.cn<%=image_path @sangna_config.per_user.per_user_imgs.first.url.url%>',
+						imgUrl: 'http://linkke.cn<%=@sangna_config.per_user.per_user_imgs.first.url.url%>',
 						success: function () { 
 						},
 						cancel: function () { 
@@ -62,7 +62,7 @@
 						<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
 						<div class="mui-slider-item mui-slider-item-duplicate">
 							<a href="#">
-								<img src="<%=@per_user_imgs.first.url.url%>" width="100%" height="200px">
+								<img src="http://linkke.cn<%=@per_user_imgs.first.url.url%>" width="100%" height="200px">
 							</a>
 						</div>
 			
@@ -70,14 +70,14 @@
 						<%@per_user_imgs.each_with_index do |per_user_img,index|%>
 						<div class="mui-slider-item">
 							<a href="#">
-								<img src="<%=per_user_img.url.url%>" width="100%" height="200px">
+								<img src="http://linkke.cn<%=per_user_img.url.url%>" width="100%" height="200px">
 							</a>
 						</div>
 						<%end%>
 						<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
 					<div class="mui-slider-item mui-slider-item-duplicate">
 							<a href="#">
-								<img src="<%=@per_user_imgs.first.url.url%>" width="100%" height="200px">
+								<img src="http://linkke.cn<%=@per_user_imgs.first.url.url%>" width="100%" height="200px">
 							</a>
 						</div>
 		
@@ -93,11 +93,11 @@
 			<div class="box_infor fs14">
 				<div class="huisuo_infor">
 					<span class="left">平均消费</span>
-					<span class="right fs12">200元</span>
+					<span class="right fs12">￥200元</span>
 				</div>
 				<div class="huisuo_infor">
 					<span class="left">净桑</span>
-					<span class="right fs12">200元</span>
+					<span class="right fs12">￥200元</span>
 				</div>
 			</div>
 			<div class="box_infor fs14">
