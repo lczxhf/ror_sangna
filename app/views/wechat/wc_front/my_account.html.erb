@@ -82,7 +82,7 @@
 			<div class="infor Zhenshi_Xingming" onclick="tophonebind()">
 				<a class="mui-navigate-right" >
 					<span class="size loca_1">手机</span>
-					<%if @wechat_config.member.username!=@wechat_config.openid %>
+					<%if @wechat_config.member.username!=@wechat_config.openid && @wechat_config.member.username!='未关注' %>
 					<span class="size loca_2"><%=@wechat_config.member.username%></span>
 					<%else%>
 					<span class="size loca_2">未绑定</span>

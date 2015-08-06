@@ -83,6 +83,7 @@ end
 	auth_code=SangnaConfig.find_or_initialize_by(appid:json['authorization_info']['authorizer_appid'])
 	auth_code.code=params[:auth_code]
 	auth_code.token=json['authorization_info']['authorizer_access_token']
+	auth_code.del=1
 	auth_code.refresh_token=json['authorization_info']['authorizer_refresh_token']
 		ticket=Sangna.get_qrcode(auth_code.token,'QR_LIMIT_SCENE',"","1")['ticket']
 		qrcode=Sangna.fetch_qrcode(ticket)

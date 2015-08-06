@@ -163,8 +163,10 @@ class Wechat::GzhManageController < ApplicationController
 		end
 
 		def change_qrcode
-				qrcode=PerUserQrCode.where(user_id:params[:user_id],hand_code:params[:hand_cde],id_code:params[:id_code]).first
-				if qrcode.status=1
+				puts params
+				qrcode=PerUserQrCode.where(user_id:params[:user_id],hand_code:params[:hand_code],id_code:params[:id_code]).first
+			  #	debugger
+				if qrcode.status==1
 							render plain: '请让服务员激活'
 				else
 					per_user=PerUser.includes(:sangna_config).find(params[:user_id])
@@ -174,9 +176,9 @@ class Wechat::GzhManageController < ApplicationController
 									log=qrcode.qrcode_logs.last
 									log.member=wechat_config.member
 									log.member_bind_time=Time.now
-									rule_ids=wechat_config.member.coupons_records.where("status in (1,2)").pluck(:coupons_rule_id)
+									rule_ids=wechat_config.member.coupons_records.where("status in (1,2)").pluck(:coupons_rules_id)
 									log.entrance_card_count=rule_ids.size
-									log.entrance_card_sum=CouponsRule.where("id in (#{rule_ids.join(',')})").sum(:face_value)
+									log.entrance_card_sum= rule_ids.empty? ? 0 : CouponsRule.where("id in (#{rule_ids.join(',')})").sum(:face_value)
 									log.save
 									wechat_config.member.hand_code=qrcode.hand_code
 									wechat_config.member.save
