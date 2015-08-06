@@ -164,23 +164,19 @@ class Tech::ManageController < ApplicationController
 
      if handnum
        pull = PerUserQrCode.where(hand_code: params[:hand_num],user_id: params[:tech_user_id]).first
-       if pull
-         handnum.status = 2
+       if pull && pull.status==2
          handnum.end_time = Time.now
          handnum.hand_number = params[:hand_num]
 
          member = Member.where(user_id: params[:tech_user_id],hand_code: params[:hand_num]).first
-         # tech = PerUserMasseuse.find(params[:tech_id])
+         
          if member
             handnum.member=member
             handnum.save
             uri = URI('http://weixin.linkke.cn/wechat/gzh_manage/sent_consumption_message')
             res = Net::HTTP.post_form(uri, 'h' => pull.hand_code, 'o_id' => handnum.id)
-          # elsif params[:objectdown_name] == 1
-          #   tech.
-          # elsif params[:objectdown_name] == 2
-            
           end
+          
          render plain: 'ok'
        else
          render plain: 'no'
@@ -356,7 +352,7 @@ class Tech::ManageController < ApplicationController
   def get_atwork_time
     work = PerUserMasseuse.find(params[:tech_id])
     if work.work_time_start && work.work_time_end
-      render plain: "#{work.work_time_start},#{work.work_time_end}"
+      render plain: "#{work.work_time_start.strftime("%H:%M")},#{work.work_time_end.strftime("%H:%M")}"
     else
       render plain: 'no'
     end
