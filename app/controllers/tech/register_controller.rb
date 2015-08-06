@@ -5,6 +5,7 @@ class Tech::RegisterController < ApplicationController
     register = PerUserMasseuse.new
     register.username = tel
     register.pwd = params[:pwd]
+    register.del = 2
     club = PerUser.find_by(poll_code: params[:club_code])
     
     verify = params[:verify]
@@ -66,6 +67,7 @@ class Tech::RegisterController < ApplicationController
     upload.job_class_status = params[:craft]
     upload.projects_id = params[:ck_string]
     upload.job_number = params[:job_number]
+    upload.del = 1
     job_number = PerUserMasseuse.where(job_number: params[:job_number],user_id: params[:tech_user_id]).first
     if job_number
       render plain: '此工号已被占用'

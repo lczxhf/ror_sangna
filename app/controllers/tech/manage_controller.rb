@@ -351,4 +351,15 @@ class Tech::ManageController < ApplicationController
       render plain: 'no'
     end
   end
+
+  #获取技师上班时间
+  def get_atwork_time
+    work = PerUserMasseuse.find(params[:tech_id])
+    if work.work_time_start && work.work_time_end
+      render plain: "#{work.work_time_start},#{work.work_time_end}"
+    else
+      render plain: 'no'
+    end
+  end
+
 end

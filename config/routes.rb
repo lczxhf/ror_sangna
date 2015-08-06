@@ -96,6 +96,7 @@ Rails.application.routes.draw do
     get 'get_tech_craft'    => 'manage#get_tech_craft' #获取技师所属工种
     get 'subscribe'         => 'manage#subscribe' #获取预约清单
     get 'subscribe_de'      => 'manage#subscribe_de' #删除预约
+    get 'get_atwork_time'   => 'manage#get_atwork_time' #获取上班时间
     get 'update'            => 'update#update' #更新app
   end
 
