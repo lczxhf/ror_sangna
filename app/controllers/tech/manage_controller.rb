@@ -165,11 +165,14 @@ class Tech::ManageController < ApplicationController
      if handnum
        pull = PerUserQrCode.where(hand_code: params[:hand_num],user_id: params[:tech_user_id]).first
        if pull && pull.status==2
+				 handnum.status=2
          handnum.end_time = Time.now
          handnum.hand_number = params[:hand_num]
 
-         member = Member.where(user_id: params[:tech_user_id],hand_code: params[:hand_num]).first
-         
+         member = Member.where(user_id: params[:tech_user_id],hand_code: pull.id).first
+					puts member.to_json
+					puts pull.id
+					
          if member
             handnum.member=member
             handnum.save

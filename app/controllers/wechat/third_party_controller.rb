@@ -29,6 +29,7 @@ class Wechat::ThirdPartyController < ApplicationController
 		#img=MiniMagick::Image.read ab
 		#img.format 'png'
 		#PerUserImg.create!(user_id:1,status:1,i_type:1,url:img)
+		render plain: CouponsRecord.first.to_json(:include=>[:coupons_rule,:member=>{:include=>:per_user_qr_code}])
   end
 def test1
 				render plain: 'a'

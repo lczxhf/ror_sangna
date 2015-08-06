@@ -54,13 +54,13 @@
 						<img src="<%=wechat_config.wechat_user.headimgurl%>" alt=""  width="36px" height="36px" />
 					</div>
 					<div class="hand_box">
-					<%if wechat_config.member.hand_code==""%>
+					<%if !wechat_config.member.per_user_qr_code%>
 						<div class="hand"></div>
 						<div class="hand_num">未进场</div>
 
 					<%else%>
 						<div class="hand">普通<%=get_hand_code_sex(qr_code.user_qr_code_rule.sex)%></div>
-						<div class="hand_num"><%=wechat_config.member.hand_code%></div>
+						<div class="hand_num"><%=wechat_config.member.per_user_qr_code.hand_code%></div>
 					<%end%>
 					</div>
 				</div>

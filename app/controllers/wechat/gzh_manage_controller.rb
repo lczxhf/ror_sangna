@@ -87,7 +87,7 @@ class Wechat::GzhManageController < ApplicationController
       wechat_config.openid=result['openid']
       wechat_config.scope=result['scope']
 			 if !wechat_config.member
-				   member=Member.create(user_id:gzh.per_user.id,username:wechat_config.openid,hand_code:"")
+				   member=Member.create(user_id:gzh.per_user.id,username:wechat_config.openid)
 					 wechat_config.member=member
 			 end
 			 wechat_config.save
@@ -117,7 +117,7 @@ class Wechat::GzhManageController < ApplicationController
 						 wechat_config.del=2
 						 wechat_config.save
 						 wechat_config.create_wechat_user(nickname:'未关注',del:2)
-						 wechat_config.create_member(username:result['openid'],user_id:sangna_config.per_user_id,hand_code: "")
+						 wechat_config.create_member(username:result['openid'],user_id:sangna_config.per_user_id)
 						#	url2="https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{params[:appid]}&redirect_uri=http://weixin.linkke.cn/wechat/gzh_manage/authorize&response_type=code&scope=snsapi_userinfo&state=200&component_appid=#{APPID}#wechat_redirect'"
 						#	redirect_to url2
 					end
@@ -170,7 +170,7 @@ class Wechat::GzhManageController < ApplicationController
 							render plain: '请让服务员激活'
 				else
 					per_user=PerUser.includes(:sangna_config).find(params[:user_id])
-					if !per_user.member.where(hand_code:qrcode.hand_code).first
+					if !per_user.member.where(hand_code:qrcode.id).first
 							wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{per_user.sangna_config.appid}_openid"])
 							if wechat_config
 									log=qrcode.qrcode_logs.last
@@ -180,7 +180,7 @@ class Wechat::GzhManageController < ApplicationController
 									log.entrance_card_count=rule_ids.size
 									log.entrance_card_sum= rule_ids.empty? ? 0 : CouponsRule.where("id in (#{rule_ids.join(',')})").sum(:face_value)
 									log.save
-									wechat_config.member.hand_code=qrcode.hand_code
+									wechat_config.member.hand_code=qrcode.id
 									wechat_config.member.save
 									wechat_config.member.coupons_records.where(status:1).each do |a|
 											a.status=2

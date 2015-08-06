@@ -7,10 +7,8 @@ class Wechat::WcFrontController < ApplicationController
 			@inscene=false
 			if @wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])	
 				if @wechat_config.del==1
-						if @wechat_config.member.hand_code	
-								if @qr_code=PerUserQrCode.includes(:user_qr_code_rule).where(user_id:@sangna_config.per_user.id,hand_code:@wechat_config.member.hand_code).first
+						if @qr_code=@wechat_config.member.per_user_qr_code
 											@inscene=true
-								end
 						end
 				else
 						redirect_to action: :tip,:appid=>params[:appid]
@@ -184,13 +182,11 @@ class Wechat::WcFrontController < ApplicationController
 				#technician_ids=@sangna_config.per_user.masseuses_collects.where(member_id:@wechat_config.member.id,del:1).pluck(:per_user_masseuse_id)
 				#@technicians=PerUserMasseuse.find(technician_ids)
 				@inscene=false
-				 if @wechat_config.member.hand_code	
-						if @qr_code=PerUserQrCode.includes(:user_qr_code_rule).where(user_id:@sangna_config.per_user.id,hand_code:@wechat_config.member.hand_code).first
+				if @qr_code=@wechat_config.member.per_user_qr_code
 								@inscene=true
-						else
+				else
 								cookies["next_url"]=request.url
-						end
-			 end
+				end
 	end
 
 	def redbage
@@ -268,11 +264,9 @@ class Wechat::WcFrontController < ApplicationController
 	def card_info
 				
 				wechat_config=WechatConfig.find_by_openid(cookies.signed["#{params[:appid]}_openid"])
-				if wechat_config.member.hand_code	
-						if qr_code=PerUserQrCode.includes(:user_qr_code_rule).where(user_id:@sangna_config.per_user.id,hand_code:wechat_config.member.hand_code).first
+				if wechat_config.member.per_user_qr_code
 								@inscene=true
-						end
-				 end
+				end
 
 				@cards=@sangna_config.per_user.coupons_records.includes(:coupons_rule).where(member_id:wechat_config.member_id).order(:status)
 	end
@@ -289,7 +283,7 @@ class Wechat::WcFrontController < ApplicationController
 									log.coupons_record=card
 									log.save
 							end
-							render plain: card.to_json(:include=>[:member,:coupons_rule])
+							render plain: card.to_json(:include=>[:coupons_rule,:member=>{:include=>:per_user_qr_code}])
 					end
 			else
 					render plain: '代金券不可用'
