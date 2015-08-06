@@ -7,7 +7,9 @@ RailsAdmin.config do |config|
   #   warden.authenticate! scope: :user
   # end
   # config.current_user_method(&:current_user)
-
+	config.authorize_with do
+	    redirect_to "/wechat/third_party/test" unless cookies.signed[:admin]=='lzh'
+	end
   ## == Cancan ==
   # config.authorize_with :cancan
 

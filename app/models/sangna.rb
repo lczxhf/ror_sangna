@@ -78,9 +78,11 @@ class Sangna
  	   sangna_config=wechat_config.sangna_config
  	   if Time.now-sangna_config.updated_at>=7200
               result=JSON.parse(ThirdParty.refresh_gzh_token(Rails.cache.read(:access_token),appid,sangna_config.appid,sangna_config.refresh_token))
-              sangna_config.refresh_token=result['authorizer_refresh_token']
-              sangna_config.token=result['authorizer_access_token']
-              sangna_config.save
+							if result['authorizer_refresh_token']
+									sangna_config.refresh_token=result['authorizer_refresh_token']
+									sangna_config.token=result['authorizer_access_token']
+									sangna_config.save
+							end
   	 end
  		   url="https://api.weixin.qq.com/cgi-bin/user/info?access_token=#{sangna_config.token}&openid=#{wechat_config.openid}&lang=zh_CN"
  		   info=JSON.parse(ThirdParty.get_to_wechat(url))
@@ -114,9 +116,11 @@ class Sangna
 				sangna_config=wechat_config.sangna_config
 				 if Time.now-sangna_config.updated_at>=7200
 					  result=JSON.parse(ThirdParty.refresh_gzh_token(Rails.cache.read(:access_token),appid,sangna_config.appid,sangna_config.refresh_token))
-						sangna_config.refresh_token=result['authorizer_refresh_token']
-						sangna_config.token=result['authorizer_access_token']
-						sangna_config.save
+						if result['authorizer_refresh_token']
+								sangna_config.refresh_token=result['authorizer_refresh_token']
+								sangna_config.token=result['authorizer_access_token']
+								sangna_config.save
+						end
 				 end
 				url="https://api.weixin.qq.com/sns/userinfo?access_token=#{wechat_config.token}&openid=#{wechat_config.openid}&lang=zh_CN"
 				info=JSON.parse(ThirdParty.get_to_wechat(url)) 

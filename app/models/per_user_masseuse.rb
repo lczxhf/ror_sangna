@@ -8,7 +8,7 @@ class PerUserMasseuse < ActiveRecord::Base
 	belongs_to :per_user,foreign_key: "user_id"	
 	belongs_to :per_user_project,foreign_key: 'job_class_status'
 	 mount_uploader :img,TechAvatarUploader
-
+	scope :active,->{where(del:1,status:1)}
 	require 'bcrypt'
 	attr_accessor:pwd
 	#回调

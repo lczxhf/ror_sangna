@@ -11,4 +11,5 @@ class PerUser < ActiveRecord::Base
 	has_many :coupons_records,foreign_key: 'user_id'
 	has_many :user_qr_code_rule,foreign_key: 'user_id'
 	has_many :per_user_projects,foreign_key: "user_id"
+	has_many :member,foreign_key: 'user_id'
 end
