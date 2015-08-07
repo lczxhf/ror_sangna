@@ -7,10 +7,8 @@ class Wechat::WcFrontController < ApplicationController
 			@inscene=false
 			if @wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])	
 				if @wechat_config.del==1
-						if @wechat_config.member.hand_code	
-								if @qr_code=PerUserQrCode.includes(:user_qr_code_rule).where(user_id:@sangna_config.per_user.id,hand_code:@wechat_config.member.hand_code).first
+						if @qr_code=@wechat_config.member.per_user_qr_code
 											@inscene=true
-								end
 						end
 				else
 						redirect_to action: :tip,:appid=>params[:appid]
@@ -20,8 +18,8 @@ class Wechat::WcFrontController < ApplicationController
 
 	def page_technician
 			puts params
+			@wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
 		 if params[:collect]=='true'	
-				@wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
 				technician_ids=@sangna_config.per_user.masseuses_collects.where(member_id:@wechat_config.member.id,del:1).limit(6).offset(6*(params[:page].to_i-1)).pluck(:per_user_masseuse_id)
 				if technician_ids.empty?
 						technicins=[]
@@ -62,7 +60,7 @@ class Wechat::WcFrontController < ApplicationController
 											end
 									end
 							end
-							arr<<generate_technician_html(technician,params[:inscene],@sangna_config,time)
+							arr<<generate_technician_html(technician,params[:inscene],@sangna_config,time,@wechat_config.member_id)
 					end
 					render plain: arr.join
 			else
@@ -74,6 +72,7 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def search
+	wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
 	  if params[:is_mine]!='true'
 			if params[:p_type]
 					if params[:p_type]=='true'
@@ -85,7 +84,6 @@ class Wechat::WcFrontController < ApplicationController
 					technicians=@sangna_config.per_user.per_user_masseuses.where(job_number:params[:t_number]).active	
 			end
 		else
-			wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
 			collect=@sangna_config.per_user.masseuses_collects.where(member_id:wechat_config.member_id,del:1).pluck(:per_user_masseuse_id)
 			if collect.empty?
 					technicians=[]
@@ -115,7 +113,7 @@ class Wechat::WcFrontController < ApplicationController
 											time=""	
 									end
 								end
-										generate_technician_html(technician,params[:inscene],@sangna_config,time)
+										generate_technician_html(technician,params[:inscene],@sangna_config,time,wechat_config.member_id)
 								end.join
 						render plain: string 
 				else
@@ -184,13 +182,11 @@ class Wechat::WcFrontController < ApplicationController
 				#technician_ids=@sangna_config.per_user.masseuses_collects.where(member_id:@wechat_config.member.id,del:1).pluck(:per_user_masseuse_id)
 				#@technicians=PerUserMasseuse.find(technician_ids)
 				@inscene=false
-				 if @wechat_config.member.hand_code	
-						if @qr_code=PerUserQrCode.includes(:user_qr_code_rule).where(user_id:@sangna_config.per_user.id,hand_code:@wechat_config.member.hand_code).first
+				if @qr_code=@wechat_config.member.per_user_qr_code
 								@inscene=true
-						else
+				else
 								cookies["next_url"]=request.url
-						end
-			 end
+				end
 	end
 
 	def redbage
@@ -268,11 +264,9 @@ class Wechat::WcFrontController < ApplicationController
 	def card_info
 				
 				wechat_config=WechatConfig.find_by_openid(cookies.signed["#{params[:appid]}_openid"])
-				if wechat_config.member.hand_code	
-						if qr_code=PerUserQrCode.includes(:user_qr_code_rule).where(user_id:@sangna_config.per_user.id,hand_code:wechat_config.member.hand_code).first
+				if wechat_config.member.per_user_qr_code
 								@inscene=true
-						end
-				 end
+				end
 
 				@cards=@sangna_config.per_user.coupons_records.includes(:coupons_rule).where(member_id:wechat_config.member_id).order(:status)
 	end
@@ -289,7 +283,7 @@ class Wechat::WcFrontController < ApplicationController
 									log.coupons_record=card
 									log.save
 							end
-							render plain: card.to_json(:include=>[:member,:coupons_rule])
+							render plain: card.to_json(:include=>[:coupons_rule,:member=>{:include=>:per_user_qr_code}])
 					end
 			else
 					render plain: '代金券不可用'
@@ -346,18 +340,18 @@ class Wechat::WcFrontController < ApplicationController
 
 	def set_sangna_config
 			if params[:appid]
-					#Rails.cache.delete(params[:appid])
+					Rails.cache.delete(params[:appid])
 					@sangna_config=Rails.cache.fetch(params[:appid],expire_in: 2.hours) do 
 							SangnaConfig.includes(per_user:[:per_user_imgs]).find_by_appid(params[:appid])
 					end
 			end
 	end
 
-	def generate_technician_html(technician,inscene,sangna_config,time)
+	def generate_technician_html(technician,inscene,sangna_config,time,member_id)
 			%{	<div class="Jishi_infor jishi_color" onclick="show_info('#{technician.id}')">
 					<div class="box_jishi">
 						<div class="box_img jishi_background">
-							<img class="jishi_img" src="#{technician.img.normal.url}" alt="" height="50px" width="50px" />
+							<img class="jishi_img" src="#{technician.get_image(member_id)}" alt="" height="50px" width="50px" />
 						</div>
 						<span class="jishi_num fs17">#{technician.job_number}</span>
 						<span class="jishi_sex fs11">（#{technician.sex==1 ? "男":"女"}）</span>

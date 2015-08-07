@@ -26,7 +26,7 @@ class Wechat::MessageController < ApplicationController
 							wechat_config.del=1
 							wechat_config.save
 							if !wechat_config.member
-									member=Member.create(user_id:gzh.per_user.id,username:wechat_config.openid,hand_code:"")
+									member=Member.create(user_id:gzh.per_user.id,username:wechat_config.openid)
 									wechat_config.member=member
 									wechat_config.save
 							end

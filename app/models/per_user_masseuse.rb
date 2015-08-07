@@ -30,6 +30,20 @@ class PerUserMasseuse < ActiveRecord::Base
 	    def has_password?(pwd)
 	        ::BCrypt::Password.new(password) == pwd
 	    end
+
+
+			def get_image(member_id)
+						case img_permission
+						when 1 then
+							 img.normal.url
+						when 2 then
+							 "/images/buttom_img.png"
+						when 3 then
+							 Member.where.not(hand_code:"").where(id:member_id).first	? img.normal.url : "/images/buttom_img.png"
+						when 4 then
+							OrderByMasseuse.where(masseuse_id:id,member_id:member_id).first ? img.normal.url : "/images/buttom_img.png"
+						end
+			end
 	    private
 	    #加密密码
 	    def encrypt_password

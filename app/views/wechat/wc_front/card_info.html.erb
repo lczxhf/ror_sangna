@@ -157,7 +157,7 @@
 									if(obj.id==c_id){
 											$('.title_useing').eq(0).html('您使用了一张￥'+obj.coupons_rule.face_value+"元代金券成功");
 											$('.useing_time').eq(0).html(new Date().toLocaleString());
-											$('.user_handnum').eq(0).html(obj.member.hand_code);
+											$('.user_handnum').eq(0).html(obj.member.per_user_qr_code.hand_code);
 											$('.shareit_1').hide()
 											$('.shareit_2').show()	
 									}	
