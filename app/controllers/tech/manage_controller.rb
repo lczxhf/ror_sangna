@@ -35,7 +35,7 @@ class Tech::ManageController < ApplicationController
     appoint.create_time = Time.now
     if appoint.save
       arr = []
-      appoint = arr.push(appoint) 
+      appoint = arr.push(appoint)
       render json: appoint
     else
       render plain: 'no'
@@ -74,11 +74,11 @@ class Tech::ManageController < ApplicationController
   end
 
   def findpwd
-    verify = rand(1000..9999).to_s   
+    verify = rand(1000..9999).to_s
     puts verify
     tel =  params[:user]
     puts tel
-    user = PerUserMasseuse.where(username: tel).first   
+    user = PerUserMasseuse.where(username: tel,del: 1)
     if user
       Rails.cache.write(tel,verify)
       uri = URI("http://106.ihuyi.cn/webservice/sms.php?method=Submit")
@@ -98,7 +98,7 @@ class Tech::ManageController < ApplicationController
     changepwd = PerUserMasseuse.new
     changepwd.username = tel
     verify = params[:code]
-    user = PerUserMasseuse.where(username: tel).first
+    user = PerUserMasseuse.where(username: tel,del: 1)
     if user  &&  verify == tel_code
       render plain: "#{user.id}"
     else
@@ -117,7 +117,7 @@ class Tech::ManageController < ApplicationController
        else
           render plain: '密码不一致'
        end
-       
+
   end
 
   def modifysex
@@ -129,29 +129,37 @@ class Tech::ManageController < ApplicationController
       render plain: "no"
     end
   end
-
+#订单上钟
   def orderup
      orders = OrderByMasseuse.new
-     orders.user_id = params[:tech_user_id] 
+     orders.user_id = params[:tech_user_id]
      orders.masseuse_id = params[:tech_id]
      orders.project_id = params[:project_name_num]
      orders.status = params[:up]
      orders.start_time = Time.now
      orders.room_number = params[:room_number]
-     if orders.save
-       status = PerUserMasseuse.find(params[:tech_id])
-       if params[:next]== 'out'
-        status.work_status = 1
+
+     pull = PerUserQrCode.where(hand_code: params[:hand_num],user_id: params[:tech_user_id]).first
+     if pull
+       orders.hand_number = pull.hand_code
+       if orders.save
+         status = PerUserMasseuse.find(params[:tech_id])
+         if params[:next]== 'out'
+          status.work_status = 1
+         else
+          status.work_status = 3
+         end
+          status.save
+         render plain: "#{orders.id.to_s}"
        else
-        status.work_status = 3
-       end   
-        status.save
-       render plain: "#{orders.id.to_s}"
+         render plain: 'no'
+       end
      else
        render plain: 'no'
-     end  
-  end
+     end
 
+  end
+#订单下钟
   def orderdown
      handnum = OrderByMasseuse.find(params[:order_id])
      tech_status = PerUserMasseuse.find(params[:tech_id]);
@@ -169,19 +177,19 @@ class Tech::ManageController < ApplicationController
          handnum.hand_number = params[:hand_num]
 
          member = Member.where(user_id: params[:tech_user_id],hand_code: params[:hand_num]).first
-         
+
          if member
             handnum.member=member
             handnum.save
             uri = URI('http://weixin.linkke.cn/wechat/gzh_manage/sent_consumption_message')
             res = Net::HTTP.post_form(uri, 'h' => pull.hand_code, 'o_id' => handnum.id)
           end
-          
+
          render plain: 'ok'
        else
          render plain: 'no'
        end
-     
+
 
      end
   end
@@ -203,7 +211,7 @@ class Tech::ManageController < ApplicationController
        render plain: "#{enter.entry_time.to_s}"
      else
        render  plain: 'no'
-     end 
+     end
   end
 
   def modifycraft
@@ -250,8 +258,8 @@ class Tech::ManageController < ApplicationController
         render plain: '密码不一致'
       end
     else
-      render plain: '密码错误'  
-    end  
+      render plain: '密码错误'
+    end
   end
 
   def getaddress
@@ -297,8 +305,8 @@ class Tech::ManageController < ApplicationController
     jobstatus.work_status = params[:status]
     if jobstatus.save
       render plain: jobstatus.work_status
-    end  
-  end  
+    end
+  end
 
   def work_time
     work = PerUserMasseuse.find(params[:tech_id])
@@ -308,7 +316,7 @@ class Tech::ManageController < ApplicationController
       render plain: 'ok'
     else
       render plain: 'no'
-    end  
+    end
   end
 
   # 获取工种
@@ -355,6 +363,23 @@ class Tech::ManageController < ApplicationController
       render plain: "#{work.work_time_start.strftime("%H:%M")},#{work.work_time_end.strftime("%H:%M")}"
     else
       render plain: 'no'
+    end
+  end
+
+  #更改技师状态
+  def get_atwork_status
+    tech = PerUserMasseuse.find(params[:tech_id])
+    status = params[:start_work]
+    if status == 'start_work'
+      tech.work_status = 2
+      if tech.save
+        render plain: 'start_work'
+      end
+    elsif  status == 'at_work'
+      tech.work_status = 1
+      if tech.save
+        render plain: 'at_work'
+      end
     end
   end
 

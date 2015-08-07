@@ -7,9 +7,9 @@ class Tech::RegisterController < ApplicationController
     register.pwd = params[:pwd]
     register.del = 2
     club = PerUser.find_by(poll_code: params[:club_code])
-    
+
     verify = params[:verify]
-    user = PerUserMasseuse.where(username: tel).first
+    user = PerUserMasseuse.where(username: tel,del: 1)
     if club
       register.user_id = club.id
       if user
@@ -19,11 +19,11 @@ class Tech::RegisterController < ApplicationController
           render plain: '验证码错误'
         else
           register.save
-          registers = PerUserMasseuse.select('id','user_id').where(username: tel)
-          render json: registers 
+          registers = PerUserMasseuse.select('id','user_id').where(username: tel,del: 1)
+          render json: registers
         end
       end
-    else  
+    else
       render plain: '注册码输入错误'
     end
 
@@ -32,7 +32,7 @@ class Tech::RegisterController < ApplicationController
   def verify
     verify = rand(1000..9999).to_s
     tel =  params[:user]
-    user = PerUserMasseuse.where(username: tel).first
+    user = PerUserMasseuse.where(username: tel,del: 1)
     if user
       render plain: '用户名已经存在'
     else
@@ -45,7 +45,7 @@ class Tech::RegisterController < ApplicationController
         puts  response.body
       end
       render nothing:true
-    end	
+    end
 
 
 
@@ -79,7 +79,7 @@ class Tech::RegisterController < ApplicationController
           render nothing:true
         end
     end
-   
+
   end
 
 

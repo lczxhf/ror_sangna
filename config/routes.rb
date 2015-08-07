@@ -3,11 +3,11 @@ Rails.application.routes.draw do
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
-   
+
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
   namespace :wechat do
-    get "third_party/test" => "third_party#test" 
+    get "third_party/test" => "third_party#test"
 		get "third_party/test1" => "third_party#test1"
 		get "third_party/home" => "third_party#home"
 		post "third_party/receive" => "third_party#receive"
@@ -56,8 +56,8 @@ Rails.application.routes.draw do
 		get "wc_front/project_class" => "wc_front#project_class"
     #match "/:name/:controller/:action",:via=>[:get]
   end
-  
-  namespace :tech do 
+
+  namespace :tech do
     post 'register'         => 'register#register' #注册
     post 'verify'           => 'register#verify'  #验证码
     get 'project'           => 'register#project' #获取项目
@@ -98,10 +98,11 @@ Rails.application.routes.draw do
     get 'subscribe'         => 'manage#subscribe' #获取预约清单
     get 'subscribe_de'      => 'manage#subscribe_de' #删除预约
     get 'get_atwork_time'   => 'manage#get_atwork_time' #获取上班时间
+    get 'get_atwork_status' => 'manage#get_atwork_status' #更改上班状态      
     get 'update'            => 'update#update' #更新app
   end
 
-	namespace :staff do 
+	namespace :staff do
 		get    'per_user_staffs/all'    => 'per_user_staffs#index'
 		get    'per_user_staffs/:id'    => 'per_user_staffs#show'
 		get    'per_user_staffs/edit'   => 'per_user_staffs#edit'
