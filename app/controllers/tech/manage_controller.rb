@@ -137,6 +137,7 @@ class Tech::ManageController < ApplicationController
      orders.project_id = params[:project_name_num]
      orders.status = params[:up]
      orders.start_time = Time.now
+		 puts Time.now
      orders.room_number = params[:room_number]
      if orders.save
        status = PerUserMasseuse.find(params[:tech_id])

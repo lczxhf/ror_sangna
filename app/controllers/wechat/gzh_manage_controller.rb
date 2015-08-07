@@ -164,12 +164,16 @@ class Wechat::GzhManageController < ApplicationController
 
 		def change_qrcode
 				puts params
-				qrcode=PerUserQrCode.where(user_id:params[:user_id],hand_code:params[:hand_code],id_code:params[:id_code]).first
-			  #	debugger
+				if params[:sex].nil?
+						qrcode=PerUserQrCode.where(user_id:params[:user_id],hand_code:params[:hand_code],id_code:params[:id_code]).first
+				else 
+						qrcode=PerUserQrCode.where(user_id:params[:user_id],hand_code:params[:hand_code],id_code:params[:id_code],sex:params[:sex]).first
+				end
 				if qrcode.status==1
 							render plain: '请让服务员激活'
 				else
 					per_user=PerUser.includes(:sangna_config).find(params[:user_id])
+					puts per_user.member.where(hand_code:qrcode.id).first.to_json
 					if !per_user.member.where(hand_code:qrcode.id).first
 							wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{per_user.sangna_config.appid}_openid"])
 							if wechat_config

@@ -31,7 +31,7 @@ class Sangna
 		      body='{"action_name": "QR_LIMIT_SCENE", "action_info": {"scene": {"scene_str":'+scene_str+'}}}'
 		   end
 		end
-                result=JSON.parse(ThirdParty.sent_to_wechat(url,body))
+     result=JSON.parse(ThirdParty.sent_to_wechat(url,body))
 		result
 	end
 	
