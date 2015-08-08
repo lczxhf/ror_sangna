@@ -10,9 +10,9 @@ class Tech::RegisterController < ApplicationController
 
     verify = params[:verify]
     user = PerUserMasseuse.where(username: tel,del: 1)
-    if club.empty?
+    if club
       register.user_id = club.id
-      if user
+      if user.empty?
         render plain: '用户名已经存在'
       else
         if verify != tel_code
