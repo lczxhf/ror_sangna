@@ -12,7 +12,7 @@ class Tech::RegisterController < ApplicationController
     user = PerUserMasseuse.where(username: tel,del: 1)
     if club
       register.user_id = club.id
-      if user.empty?
+      if !user.empty?
         render plain: '用户名已经存在'
       else
         if verify != tel_code
@@ -33,7 +33,7 @@ class Tech::RegisterController < ApplicationController
     verify = rand(1000..9999).to_s
     tel =  params[:user]
     user = PerUserMasseuse.where(username: tel,del: 1)
-    if user.empty?
+    if !user.empty?
       render plain: '用户名已经存在'
     else
       Rails.cache.write(tel,verify)
