@@ -118,7 +118,7 @@ end
 	sangna_info.user_name=result['user_name']
 	sangna_info.alias=result['alias']
 	sangna_info.qrcode_url=result['qrcode_url']
-	sangna_info.save
+	sangna_info.save!
 	redirect_to :action=>'option_info',id:auth_code.id
  end
 
