@@ -5,5 +5,4 @@ class SangnaConfig < ActiveRecord::Base
 	has_many :groups
 	has_many :templete_messages
 	self.primary_key = :id
-	mount_uploader :qr_code,QrcodeUploader
 end

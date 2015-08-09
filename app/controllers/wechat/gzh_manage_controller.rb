@@ -170,20 +170,24 @@ class Wechat::GzhManageController < ApplicationController
 						qrcode=PerUserQrCode.where(user_id:params[:user_id],hand_code:params[:hand_code],id_code:params[:id_code],sex:params[:sex]).first
 				end
 				if qrcode.status==1
+							puts 'status was 1'
 							render plain: '请让服务员激活'
 				else
 					per_user=PerUser.includes(:sangna_config).find(params[:user_id])
-					puts per_user.member.where(hand_code:qrcode.id).first.to_json
 					if !per_user.member.where(hand_code:qrcode.id).first
 							wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{per_user.sangna_config.appid}_openid"])
 							if wechat_config
-									log=qrcode.qrcode_logs.last
-									log.member=wechat_config.member
-									log.member_bind_time=Time.now
-									rule_ids=wechat_config.member.coupons_records.where("status in (1,2)").pluck(:coupons_rules_id)
-									log.entrance_card_count=rule_ids.size
-									log.entrance_card_sum= rule_ids.empty? ? 0 : CouponsRule.where("id in (#{rule_ids.join(',')})").sum(:face_value)
-									log.save
+									log=qrcode.qrcode_logs.last 
+									if log.nil? || log.member
+											log=qrcode.qrcode_logs.build
+											log.created_at=Time.new('2000-01-01')
+									end
+										log.member=wechat_config.member
+										log.member_bind_time=Time.now
+										rule_ids=wechat_config.member.coupons_records.where("status in (1,2)").pluck(:coupons_rules_id)
+										log.entrance_card_count=rule_ids.size
+										log.entrance_card_sum= rule_ids.empty? ? 0 : CouponsRule.where("id in (#{rule_ids.join(',')})").sum(:face_value)
+										log.save
 									wechat_config.member.hand_code=qrcode.id
 									wechat_config.member.save
 									wechat_config.member.coupons_records.where(status:1).each do |a|
@@ -193,9 +197,11 @@ class Wechat::GzhManageController < ApplicationController
 									puts 'jinchang'
 									redirect_to 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid='+per_user.sangna_config.appid
 							else
+									puts 'must use scan by page'
 									render plain: '请使用页面内的扫一扫扫码'
 							end
 					else
+								puts 'hand_code had been bind'
 								render plain: '锁牌已被用户绑定'
 					end
 				end

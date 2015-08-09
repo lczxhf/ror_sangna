@@ -22,7 +22,7 @@ class Wechat::WcFrontController < ApplicationController
 		 if params[:collect]=='true'	
 				technician_ids=@sangna_config.per_user.masseuses_collects.where(member_id:@wechat_config.member.id,del:1).limit(6).offset(6*(params[:page].to_i-1)).pluck(:per_user_masseuse_id)
 				if technician_ids.empty?
-						technicins=[]
+						technicians=[]
 				else
 					if params[:p_type]
 							if params[:p_type]=='true'
