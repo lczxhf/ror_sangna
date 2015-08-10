@@ -1,4 +1,4 @@
-<%content_for :head%>
+<%content_for :head do%>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 	    <%=javascript_include_tag "jquery-2.1.0"%>
@@ -6,12 +6,17 @@
 		<%=stylesheet_link_tag "wechat_front/BaoCuo_Page"%>
 		<title>报错</title>
 <%end%>
-<%content_for :body%>
+<%content_for :body do%>
 		<div class="mui-content">
 			<div class="box_img">
 				<img src="/images/BaoCuo_Page.png" width="140px" height="140px"/>
 			</div>
-			<p>此二维码已被其它客户使用</p>
-			<p>请向服务员查证</p>
+			<%if @error_status==1%>
+				<p>此二维码已被其它客户使用</p>
+				<p>请向服务员查证</p>
+			<%else%>
+				<p>此二维码尚未激活</p>
+				<p>请向服务员查证</p>
+			<%end%>
 		</div>
 <%end%>

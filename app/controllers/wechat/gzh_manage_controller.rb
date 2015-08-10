@@ -174,7 +174,8 @@ class Wechat::GzhManageController < ApplicationController
 				end
 				if qrcode.status==1
 							puts 'status was 1'
-							render controller: :wc_front,action: :wechat_error
+							@error_status=2
+							render "/wechat/wc_front/wechat_error"
 				else
 					if !per_user.member.where(hand_code:qrcode.id).first
 							wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{per_user.sangna_config.appid}_openid"])
@@ -199,7 +200,8 @@ class Wechat::GzhManageController < ApplicationController
 									redirect_to 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid='+per_user.sangna_config.appid
 					else
 								puts 'hand_code had been bind'
-								render plain: '锁牌已被用户绑定'
+								@error_status=1
+								render template: '/wechat/wc_front/wechat_error'
 					end
 				end
 			else
