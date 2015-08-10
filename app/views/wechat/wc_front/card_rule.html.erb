@@ -1,0 +1,32 @@
+<%content_for :head do%>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<%=javascript_include_tag "jquery-2.1.0"%>
+		<%=javascript_include_tag "mui.min"%>
+		<%=stylesheet_link_tag "wechat_front/mui.min"%>
+		<title>使用规则</title>
+		<style type="text/css">
+			body,.mui-content{
+				background: white;
+			}
+			.title{
+				width: 96%;
+				margin: 0 2%;
+				padding:  20px 0 5px 5%;
+				color: #333333;
+				font-size: 1.2em;
+				border-bottom: 1px solid #cccccc;
+			}
+			.box_text{
+				padding-top: 20px;
+				text-indent: 2em;
+				font-size: 0.8em;
+			}
+		</style>
+<%end%>
+<%content_for :body do%>
+		<div class="mui-content">
+			<div class="title">使用规则</div>
+			<div class="box_text"></div>
+		</div>
+<%end%>

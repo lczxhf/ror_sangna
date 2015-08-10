@@ -77,19 +77,20 @@
 		<%else%>
 		<div class="mui-content">
 			<div class="box_coupons">
-				<div class="coupons_num"><%=card.coupons_rule.face_value%></div>
-				<div class="box">
-					<div class="project">代金券</div>
-					<div class="closing_time">截止日期:<%=(card.created_at+card.coupons_rule.due_day.days).strftime('%Y年%m月%d日')%>
-						<a>规则</a>
+				<div class="box_infor">
+					<div class="coupons_num"><%=card.coupons_rule.face_value%></div>
+					<div class="box">
+						<div class="project">代金券</div>
+						<div class="closing_time">截止日期:<%=(card.created_at+card.coupons_rule.due_day.days).strftime('%Y年%m月%d日')%></div>
+						<div class="status">到场自动激活</div>
 					</div>
 				</div>
-				<div class="status">到场自动激活</div>
 				<%if @inscene%>
 					<%if card.status==2%>
-						<button class="employ" onclick="want_to_use('<%=card.id%>')">我要使用</button>
+						<button class="employ">我要使用<tton>
 					<%end%>
 				<%end%>
+				<div class="guize">使用规则</div>
 			</div>
 		</div>
 		<%end%>
@@ -124,14 +125,21 @@
 		<script type="text/javascript">
 		 var c_id;
 			$(function(){
-				var Height = window.innerWidth*0.96*180/590;
+				var Height = window.innerWidth*0.96*200/520;
+				var Height_2 = window.innerWidth*0.96*180/590;
 				$('.box_coupons').css("height",Height);
-				$('.box_coupons_2').css("height",Height);
-				$('.coupons_num').css('height',Height*0.65);
-				$('.coupons_num').css('width',Height*0.65);
-				$('.coupons_num').css('line-height',Height*0.0175);
-				$('.box').css('left',(Height*0.65+window.innerWidth*0.96*0.06));
-				$('.box_2').css('left',(Height*0.65+window.innerWidth*0.96*0.06));
+				$('.box_coupons_2').css("height",Height_2);
+				$('.coupons_num').css('height',Height*0.6);
+				$('.coupons_num').css('width',Height*0.6);
+				$('.coupons_num').css('line-height',Height*0.017);
+				$('.coupons_num_2').css('height',Height_2*0.7);
+				$('.coupons_num_2').css('width',Height_2*0.7);
+				$('.coupons_num_2').css('line-height',Height_2*0.02);
+				$('.box').css('padding-left',(Height*0.25+window.innerWidth*0.96*0.10));
+				$('.box').css('padding-top',Height*0.25);
+				$('.box').css('height',Height*0.81);
+				$('.box_2').css('left',(Height_2*0.7+window.innerWidth*0.96*0.10));
+
 				
 				//判断选择了哪个按钮
 				$('.type_btn').each(function(){
