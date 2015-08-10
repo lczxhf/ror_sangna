@@ -174,7 +174,7 @@ class Wechat::GzhManageController < ApplicationController
 				end
 				if qrcode.status==1
 							puts 'status was 1'
-							render plain: '请让服务员激活'
+							render controller: :wc_front,action: :wechat_error
 				else
 					if !per_user.member.where(hand_code:qrcode.id).first
 							wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{per_user.sangna_config.appid}_openid"])
