@@ -1,6 +1,6 @@
 class Wechat::WcFrontController < ApplicationController
 			require "rexml/document" 
-	before_action :check_openid,:except=>[:remark,:get_redbage,:page_technician,:tip,:project_class]
+	before_action :check_openid,:except=>[:remark,:get_redbage,:page_technician,:project_class,:tip]
 	before_action :set_sangna_config,:except=>[:remark,:get_redbage,:change_collect]
 	include Wechat::WcFrontHelper
 	def choose_technician
@@ -142,7 +142,15 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def tip
-				
+			puts params
+			if params[:user_id]
+					check_openid
+			else
+			end
+			@wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])	
+			params.delete(:controller)
+			params.delete(:action)
+			
 	end
 
 	def project_class

@@ -163,7 +163,10 @@ class Wechat::GzhManageController < ApplicationController
 		end
 
 		def change_qrcode
-				puts params
+			puts params
+			per_user=PerUser.includes(:sangna_config).find(params[:user_id])
+			wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{per_user.sangna_config.appid}_openid"])
+			if wechat_config && wechat_config.try(:del)==1	
 				if params[:sex].nil?
 						qrcode=PerUserQrCode.where(user_id:params[:user_id],hand_code:params[:hand_code],id_code:params[:id_code]).first
 				else 
@@ -173,10 +176,8 @@ class Wechat::GzhManageController < ApplicationController
 							puts 'status was 1'
 							render plain: '请让服务员激活'
 				else
-					per_user=PerUser.includes(:sangna_config).find(params[:user_id])
 					if !per_user.member.where(hand_code:qrcode.id).first
 							wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{per_user.sangna_config.appid}_openid"])
-							if wechat_config
 									log=qrcode.qrcode_logs.last 
 									if log.nil? || log.member
 											log=qrcode.qrcode_logs.build
@@ -196,15 +197,17 @@ class Wechat::GzhManageController < ApplicationController
 									end
 									puts 'jinchang'
 									redirect_to 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid='+per_user.sangna_config.appid
-							else
-									puts 'must use scan by page'
-									render plain: '请使用页面内的扫一扫扫码'
-							end
 					else
 								puts 'hand_code had been bind'
 								render plain: '锁牌已被用户绑定'
 					end
 				end
+			else
+						puts 'must use scan by page'
+						params.delete(:controller)
+						params.delete(:action)
+						redirect_to '/wechat/wc_front/tip?appid='+per_user.sangna_config.appid+"&#{params.to_param}"
+			end
 		end
 
 

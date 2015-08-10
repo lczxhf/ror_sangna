@@ -29,6 +29,7 @@ class Wechat::ThirdPartyController < ApplicationController
 		#img=MiniMagick::Image.read ab
 		#img.format 'png'
 		#PerUserImg.create!(user_id:1,status:1,i_type:1,url:img)
+		render plain: params.delete(:controller)
   end
 def test1
 				render plain: 'a'
@@ -85,11 +86,11 @@ end
 	auth_code.token=json['authorization_info']['authorizer_access_token']
 	auth_code.del=1
 	auth_code.refresh_token=json['authorization_info']['authorizer_refresh_token']
-		#ticket=Sangna.get_qrcode(auth_code.token,'QR_LIMIT_SCENE',"","1")['ticket']
-		#qrcode=Sangna.fetch_qrcode(ticket)
-		#img=MiniMagick::Image.read qrcode
-		#img.format 'png'
-		#auth_code.qr_code=img
+		ticket=Sangna.get_qrcode(auth_code.token,'QR_LIMIT_SCENE',"","1")['ticket']
+		qrcode=Sangna.fetch_qrcode(ticket)
+		img=MiniMagick::Image.read qrcode
+		img.format 'png'
+		auth_code.qr_code=img
 	arr=[]
 	json['authorization_info']['func_info'].each do |a|
 		arr<<a['funcscope_category']['id']

@@ -17,7 +17,7 @@ class PerUserMasseuse < ActiveRecord::Base
 	
 	#  #验证手机、密码是否正确的方法
 	    def self.authenticate_mobile(mobile, pwd)
-	        account = where(:username=> mobile).first 
+	        account = where(:username=> mobile,del:1,status:1).first 
          	account && account.has_password?(pwd)  ? account : nil
 	    end
 
