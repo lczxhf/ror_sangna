@@ -29,7 +29,6 @@ class Wechat::ThirdPartyController < ApplicationController
 		#img=MiniMagick::Image.read ab
 		#img.format 'png'
 		#PerUserImg.create!(user_id:1,status:1,i_type:1,url:img)
-		render plain: params.delete(:controller)
   end
 def test1
 				render plain: 'a'
@@ -142,7 +141,7 @@ end
       one='39'
       two='24'
       url="https://api.weixin.qq.com/cgi-bin/template/api_set_industry?access_token="+sangna_config.token
-      body='{"industry_id1":"'+one+'","industry_id2":"'+two+'"}'
+		   body='{"industry_id1":"'+one+'","industry_id2":"'+two+'"}'
        ThirdParty.sent_to_wechat(url,body)
 			 sleep 1000
       url2="https://api.weixin.qq.com/cgi-bin/template/api_add_template?access_token="+sangna_config.token

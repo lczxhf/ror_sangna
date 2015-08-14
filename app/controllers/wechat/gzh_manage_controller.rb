@@ -216,7 +216,7 @@ class Wechat::GzhManageController < ApplicationController
 		def sent_consumption_message
 							puts params
 								order=OrderByMasseuse.includes(:member,:per_user_masseuse,:per_user_project,:per_user).where(id:params[:o_id],status:2,del:1,is_reviewed:1).first
-						if order.hand_number==params[:h]
+					#	if order.per_user_qr_code.hand_code==params[:h]
 							  gzh=order.per_user.sangna_config
 								if Time.now-gzh.updated_at>=7200
 									result=JSON.parse(ThirdParty.refresh_gzh_token(Rails.cache.read(:access_token),APPID,gzh.appid,gzh.refresh_token))
@@ -229,19 +229,19 @@ class Wechat::GzhManageController < ApplicationController
 								hash={}
 								url="http://weixin.linkke.cn/wechat/wc_front/technician_remark?o_id=#{params[:o_id]}&appid=#{order.per_user.sangna_config.appid}"
 								if order.per_user.coupons_rules.where(name:'分享得红包',status:1).first
-										templete_number=TempleteNumber.find_by_topic('获得优惠券通知')	
-										url=url+"&l=z"
-										hash["first"]="您还有一个优惠劵未领取！\\n#{order.per_user.name}#{order.per_user_masseuse.job_number}号技师已经为您完成了#{order.per_user_project.name}服务"
-										hash["remark"]="点击“详情”获取代金券!"
-										coupon_rule=order.per_user.coupons_rules.where(name:'分享得红包',c_type:2).first
-										array=[coupon_rule.face_value.to_s+'元代金券','所有项目',coupon_rule.due_day.to_s+"天"]
+										#templete_number=TempleteNumber.find_by_topic('获得优惠券通知')	
+										#url=url+"&l=z"
+										#hash["first"]="您还有一个优惠劵未领取！\\n#{order.per_user.name}#{order.per_user_masseuse.job_number}号技师已经为您完成了#{order.per_user_project.name}服务"
+										#hash["remark"]="点击“详情”获取代金券!"
+										#coupon_rule=order.per_user.coupons_rules.where(name:'分享得红包',c_type:2).first
+										#array=[coupon_rule.face_value.to_s+'元代金券','所有项目',coupon_rule.due_day.to_s+"天"]
 								else
-										templete_number=TempleteNumber.find_by_topic('会员消费通知')
-										url=url+'&l=h'
-										hash['first']='您好!您已成功消费'
-										hash['remark']='点击\"详情\"评价技师'
-										array=['消费门店',order.per_user.name,'消费项目',order.per_user_project.name,((order.end_time.to_i-order.start_time.to_i)/60).to_s]
-								end	
+									url=url+'&l=h'
+								end
+										templete_number=TempleteNumber.find_by_topic('服务完成通知')
+										hash['first']="#{order.per_user.name}#{order.per_user_masseuse.job_number}号技师为您的服务已经完成"
+										hash['remark']='您可以点击\“详情\”为'+order.per_user_masseuse.job_number+'号技师评价并分享体验给朋友（跳转技师评价页面）'
+										array=[order.per_user_project.name,order.end_time.strftime("%Y年%m月%d日 %H:%M")]
 								templete_message=templete_number.templete_messages.where(sangna_config_id:order.per_user.sangna_config.id).first
 								templete_number.fields.split(',').each_with_index do |a,index|
 												hash[a]=array[index]	
@@ -250,7 +250,7 @@ class Wechat::GzhManageController < ApplicationController
 								puts hash.to_json
 								Sangna.sent_template_message(order.per_user.sangna_config.token,order.member.wechat_config.openid,templete_message.templete_id,url,hash)
 
-						end
+					#	end
 								render nothing: true
 		end
 

@@ -226,5 +226,12 @@
 	color: white;
 }
 
-
+.ShouCang_none{
+		position: fixed;
+		top: 45%;
+		left: 40%;
+		z-index: 2;
+		opacity: 0.2;
+		font-size: 1.3em;
+}
 

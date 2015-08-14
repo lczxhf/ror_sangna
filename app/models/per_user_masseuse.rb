@@ -7,6 +7,7 @@ class PerUserMasseuse < ActiveRecord::Base
 	has_many :masseuses_collects
 	belongs_to :per_user,foreign_key: "user_id"	
 	belongs_to :per_user_project,foreign_key: 'job_class_status'
+	belongs_to :masseuses_work_shift,foreign_key: "work_shift_id"
 	 mount_uploader :img,TechAvatarUploader
 	scope :active,->{where(del:1,status:1)}
 	require 'bcrypt'
@@ -39,7 +40,7 @@ class PerUserMasseuse < ActiveRecord::Base
 						when 2 then
 							 "/images/buttom_img.png"
 						when 3 then
-							 Member.where.not(hand_code:"").where(id:member_id).first	? img.normal.url : "/images/buttom_img.png"
+							 Member.where("hand_code != ''").where(id:member_id).first	? img.normal.url : "/images/buttom_img.png"
 						when 4 then
 							OrderByMasseuse.where(masseuse_id:id,member_id:member_id).first ? img.normal.url : "/images/buttom_img.png"
 						end

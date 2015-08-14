@@ -142,7 +142,7 @@ class Tech::ManageController < ApplicationController
 
      pull = PerUserQrCode.where(hand_code: params[:hand_num],user_id: params[:tech_user_id]).first
      if pull
-       orders.hand_number = pull.hand_code
+       orders.hand_number = pull.id
        if orders.save
          status = PerUserMasseuse.find(params[:tech_id])
          if params[:next]== 'out'
@@ -176,7 +176,7 @@ class Tech::ManageController < ApplicationController
        if pull && pull.status==2
 				 handnum.status=2
          handnum.end_time = Time.now
-         handnum.hand_number = params[:hand_num]
+         #handnum.hand_number = params[:hand_num]
 
 
          member = Member.where(user_id: params[:tech_user_id],hand_code: pull.id).first

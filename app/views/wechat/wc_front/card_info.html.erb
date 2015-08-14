@@ -87,10 +87,10 @@
 				</div>
 				<%if @inscene%>
 					<%if card.status==2%>
-						<button class="employ">我要使用<tton>
+						<button class="employ" onclick="want_to_use('<%=card.id%>')">我要使用</button>
 					<%end%>
 				<%end%>
-				<div class="guize">使用规则</div>
+<div class="guize" onclick='rule(<%=card.id%>)'>使用规则</div>
 			</div>
 		</div>
 		<%end%>
@@ -185,11 +185,17 @@
 					$('.shareit_2').hide()
 					window.location.reload();
 				})
+
+
 			})
 
 			function want_to_use(card_id){
 				$('.shareit_1').show();
 				c_id=card_id;
+			}
+
+			function rule(id){
+				window.location.href='card_rule?id='+id+"&appid=<%=params[:appid]%>";	
 			}
 		</script>
 <%end%>

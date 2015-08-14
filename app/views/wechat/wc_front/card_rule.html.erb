@@ -27,6 +27,10 @@
 <%content_for :body do%>
 		<div class="mui-content">
 			<div class="title">使用规则</div>
-			<div class="box_text"></div>
+			<div class="box_text">
+			<% @card.coupons_rule.rule_info.each_line do |a|%>
+				<p><%=a%></p>
+			<%end%>
+			</div>
 		</div>
 <%end%>

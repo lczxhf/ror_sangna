@@ -1,7 +1,7 @@
 class Wechat::WcFrontController < ApplicationController
 			require "rexml/document" 
-	before_action :check_openid,:except=>[:remark,:get_redbage,:page_technician,:project_class,:tip]
-	before_action :set_sangna_config,:except=>[:remark,:get_redbage,:change_collect]
+	before_action :check_openid,:except=>[:remark,:get_redbage,:page_technician,:project_class,:tip,:card_rule]
+	before_action :set_sangna_config,:except=>[:remark,:get_redbage,:change_collect,:card_rule]
 	include Wechat::WcFrontHelper
 	def choose_technician
 			@inscene=false
@@ -69,6 +69,7 @@ class Wechat::WcFrontController < ApplicationController
 	end
 	def technician_info
 		@technician=PerUserMasseuse.find(params[:t_id])
+		@wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])	
 	end
 
 	def search
@@ -279,6 +280,10 @@ class Wechat::WcFrontController < ApplicationController
 				@cards=@sangna_config.per_user.coupons_records.includes(:coupons_rule).where(member_id:wechat_config.member_id).order(:status)
 	end
 
+	def card_rule
+				@card=CouponsRecord.includes(:coupons_rule).find(params[:id])
+	end
+
 	def use_card
 			card=CouponsRecord.includes(:coupons_rule,:member).find(params[:c_id])
 			if card.status==2
@@ -398,7 +403,11 @@ class Wechat::WcFrontController < ApplicationController
 											'<span class="current_state fs12"> <span class="time"></span></span>'
 									end
 							else
-								"<span class='current_state fs12'>在场时间:#{technician.work_time_start.try(:localtime).try(:strftime,"%H:%M")}-#{technician.work_time_end.try(:localtime).try(:strftime,"%H:%M")}</span>"
+								if technician.masseuses_work_shift
+								"<span class='current_state fs12'>在场时间:#{technician.masseuses_work_shift.start_time.try(:strftime,"%H:%M")}-#{technician.masseuses_work_shift.end_time.try(:strftime,"%H:%M")}</span>"		
+								else
+										" "
+								end
 							end+"</div></div>"
 			
 	end
