@@ -227,7 +227,7 @@ class Wechat::GzhManageController < ApplicationController
 									end
 								end
 								hash={}
-								url="http://weixin.linkke.cn/wechat/wc_front/technician_remark?o_id=#{params[:o_id]}&appid=#{order.per_user.sangna_config.appid}"
+								url="http://weixin.linkke.cn/wechat/wc_front/technician_remark_level?o_id=#{params[:o_id]}&appid=#{order.per_user.sangna_config.appid}"
 								if order.per_user.coupons_rules.where(name:'分享得红包',status:1).first
 										#templete_number=TempleteNumber.find_by_topic('获得优惠券通知')	
 										#url=url+"&l=z"

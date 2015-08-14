@@ -1,0 +1,196 @@
+<%content_for :head do%>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	  <%=javascript_include_tag "jquery-2.1.0"%>
+	  <%=javascript_include_tag "mui.min"%>
+    <%=stylesheet_link_tag "wechat_front/mui.min"%>
+    <%=stylesheet_link_tag "wechat_front/common"%>
+    <%=stylesheet_link_tag "wechat_front/PingJiaJiShi"%>
+    <%=stylesheet_link_tag "wechat_front/iconfont"%>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<title>评价技师</title>
+		<script>
+		 wx.config({
+			      debug: false, 
+						appId: '<%=params[:appid]%>', 
+						timestamp:'<%=timestamp=Time.now.to_i%>' , 
+						nonceStr: '<%=nonceStr=SecureRandom.uuid.tr('-', '')%>', 
+						signature: '<%=signature(timestamp,nonceStr)%>',
+						jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','showMenuItems'] 
+		});
+		 <%if @open_redbage%>
+		wx.ready(function(){
+			wx.showMenuItems({
+				    menuList: ['menuItem:profile','menuItem:addContact'] // 要显示的菜单项，所有menu项见附录3
+			});
+		wx.onMenuShareTimeline({
+		      title: '送你<%=Region.where(regions_code:@order.per_user.district_id).first.regions_NAME%><%=@order.per_user.name%>会所代金券,记得一定要找<%=@order.per_user_masseuse.job_number%>服务啊!', 
+		        link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&o_id=<%=@order.id%>&id=<%=@order.member_id%>',
+		        imgUrl: 'http://weixin.linkke.cn/images/forward.png',
+		        success: function(res){
+								var data=$("#my_form").serialize();
+								if (data==''){
+										mui.toast('请选择评论后,重新分享');
+										$("#shareit").hide(); 
+								}
+								else{
+										var collect=$('collect').attr('checked');
+										data=data+"&o_id=<%=params[:o_id]%>";
+										 $.post('remark',data,function(obj){
+													$.post('get_redbage',{o_id:'<%=params[:o_id]%>',collect:collect},function(r_obj){
+													   if(r_obj=='ok'){
+																	mui.toast('分享成功!代金券已放入您的卡券中');
+																	window.location.replace('my_account?appid=<%=params[:appid]%>&new=true');
+															}
+															else{
+																	mui.toast('您已领取过代金券!');
+																	$("#shareit").hide(); 
+															}
+													 })
+								     })
+								}
+		        },
+		        cancel: function(res){
+				    }
+			 });
+
+
+			 wx.onMenuShareAppMessage({
+				    title: '送你<%=Region.where(regions_code:@order.per_user.district_id).first.regions_NAME%><%=@order.per_user.name%>会所代金券,一定要找<%=@order.per_user_masseuse.job_number%>服务啊!', 
+					  desc: '', 
+					  link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&o_id=<%=@order.id%>&id=<%=@order.member_id%>', 
+						imgUrl: 'http://weixin.linkke.cn/images/forward.png',
+						success: function () { 
+								var data=$("#my_form").serialize();
+								if (data==''){
+										mui.toast('请选择评论后,重新分享');
+										$("#shareit").hide(); 
+								}
+								else{
+										var collect=$('collect').attr('checked');
+										data=data+"&o_id=<%=params[:o_id]%>";
+										 $.post('remark',data,function(obj){
+													$.post('get_redbage',{o_id:'<%=params[:o_id]%>',collect:collect},function(r_obj){
+													   if(r_obj=='ok'){
+																	mui.toast('分享成功!代金券已放入您的卡券中');
+																	window.location.replace('my_account?appid=<%=params[:appid]%>&new=true');
+															}
+															else{
+																	mui.toast('您已领取过代金券!');
+																	$("#shareit").hide(); 
+															}
+													 })
+								     })
+								}
+						},
+						cancel: function () { 
+						}
+			 });
+		})
+							$(function(){
+									//立即分享到微信朋友圈点击事件
+										var avail=window.screen.availHeight	
+										var client=document.body.clientHeight
+										if(avail>client){
+												client=avail
+											}
+									  $('#shareit').css('height',client);
+								  	  $(".share_btn").on("click", function() {
+											var data=$("#my_form").serialize();
+											if (data==''){
+											     mui.toast('请选择评论');
+											 }
+										  	else{
+												 $("#shareit").show();
+									    	}
+										});
+										$("#shareit").on("click", function(){
+												$("#shareit").hide(); 
+										})
+								})
+				<%else%>
+								wx.ready(function(){
+											wx.hideOptionMenu();	
+								})
+
+								$(function(){
+									$("#leave").click(function(){
+										wx.closeWindow();
+									})	
+								})
+			
+				<%end%>
+
+						$(function(){
+								$("#remark").click(function(){
+										var data=$('#my_form').serialize();
+										if(data==''){
+												mui.toast('请选择评论!');
+										}
+										else{
+												data=data+"&o_id=<%=params[:o_id]%>"
+												$.post('/wechat/wc_front/remark',data,function(obj){
+														if(obj=='ok'){
+																mui.toast('评论成功');
+															}
+														else{
+																mui.toast('已经评论过了!')	
+															}
+												})
+										}
+								})
+
+						})
+
+		</script>
+<%end%>
+<%content_for :body do%>
+		<div class="mui-content">
+					<div class="bg_img">
+						<div class="title">评价技师</div>
+							<div class="img_box">
+								<img src="<%=@order.per_user_masseuse.get_image(@order.member_id)%>" alt="" width="78px" height="78px" />
+							</div>
+							<div class="JiShi_num">NO.<%=@order.per_user_masseuse.job_number%></div>
+							<%if @open_redbage%>
+										<div class="tip">分享朋友圈获取<span>￥<%=@coupon_rule.face_value%></span>元代金券</div>
+							<%else%>
+										<div class="tip">请为技师评价</div>
+							<%end%>
+							<div class="PingJia_box">
+								<form class="" id='my_form'>
+									<%TechniqueEvalution.where(del:1).each do |evalution|%>
+									 <div class="mui-input-row mui-radio mui-left">
+										 <label><%=evalution.name%></label>
+										 <input name="remark" type="radio" value='<%=evalution.id%>'>
+								   </div>
+									 <%end%>
+							</form>
+					</div>
+			    <div class="btn_box">
+						<%if @open_redbage%>
+							<button class="mui-btn mui-btn-outlined left btn_cancel" id="remark">有钱也不要？</button>
+							<button class="mui-btn mui-btn-outlined mui-btn-positive left share_btn">分享得代金券</button>
+						<%else%>
+							<button class="mui-btn mui-btn-outlined left btn_cancel" id="leave" >放弃评价</button>
+							<button class="mui-btn mui-btn-outlined mui-btn-positive left share_btn" id='remark' >评价</button>
+						<%end%>
+					</div>
+					<div class="div_block">
+						<%if @open_redbage%>	
+							<div class="mui-input-row mui-checkbox mui-left">
+								<label>收藏技师</label>
+								<input name="collect" id='collect' type="checkbox" checked>
+							</div>
+							<%end%>
+					</div>
+					<div class="propaganda">领客·水疗行业的微信营销利器</div>
+					<div class="website">www.linkke.cn</div>
+			</div>
+	</div>
+	<div id="shareit">
+			<img class="arrow" src="<%=image_path 'share-it.png'%>">
+			<div href="#" id="follow" >点击右上角分享即可得到代金券</div>
+	</div>
+
+<%end%>

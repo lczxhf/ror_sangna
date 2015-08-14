@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+  <%=javascript_include_tag "jquery-2.1.0"%>
+	  <%=javascript_include_tag "mui.min"%>
+    <%=stylesheet_link_tag "wechat_front/mui.min"%>
+    <%=stylesheet_link_tag "wechat_front/common"%>
+    <%=stylesheet_link_tag "wechat_front/PingJiaJiShi_2"%>
+    <%=stylesheet_link_tag "wechat_front/iconfont"%>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+		<title>评价技师</title>
+		<script type="text/javascript">
+			 wx.config({
+			      debug: false, 
+						appId: '<%=params[:appid]%>', 
+						timestamp:'<%=timestamp=Time.now.to_i%>' , 
+						nonceStr: '<%=nonceStr=SecureRandom.uuid.tr('-', '')%>', 
+						signature: '<%=signature(timestamp,nonceStr)%>',
+						jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','showMenuItems'] 
+			 });
+			 wx.ready(function(){
+				wx.showMenuItems({
+				    menuList: ['menuItem:profile','menuItem:addContact'] // 要显示的菜单项，所有menu项见附录3
+				});
+			})
+			 $(function(){
+					$("#leave").click(function(){
+						wx.closeWindow();
+					})	
+			 })
+			 function collect(){
+				 $.get("change_collect",{technician_id:<%=@order.per_user_masseuse.id%>,status:'add',appid:"<%=params[:appid]%>"},function(obj){
+					 mui.toast('收藏成功');		
+				 })
+			}
+		</script>
+	</head>
+	<body>
+		<div class="mui-content">
+			<div class="Club_title"><%=@order.per_user.name%>会所</div>
+			<div class="box_infor">
+				<div class="img_box">
+					<img src="<%=@order.per_user_masseuse.get_image(@order.member_id)%>" alt="" width="75px" height="75px" />
+				</div>
+				<div class="jishi_num"><%=@order.per_user_masseuse.job_number%></div>
+			</div>
+			<div class="box_content">
+				<div class="project">本次服务：<%=@order.per_user_project.name%>￥<%=@order.per_user_project.price%>/<%=@order.per_user_project.duration%>分钟</div>
+				<div class="box_xingxing">
+					<%TechnicianLevel.where(status:1,del:1).each_with_index do |level,index|%>
+					<span class="title_option">level.name</span>
+					<div class="starts">
+					    <ul id="pingStar<%=index+1%>">
+					    	<%level.most_level.times do |a|%>
+					        <li rel="<%=a+1%>" title="<%=a+1%>分"><span class="mui-icon iconfont icon-xingxingman"></span></li>
+					        <%end%>
+					    </ul>
+					</div>
+				</div>
+				<%end%>
+				<div class="spacing"></div>
+				<div class="box_btn">
+					<button class="mui-btn mui-btn-outlined" id='level'>残忍拒绝评价</button>
+					<button class="mui-btn mui-btn-positive" id='remark_level'>尽责完成评价</button>
+				</div>
+				<div class="Line"></div>
+				<%if is_collect(params[:appid],@order.per_user_masseuse.id)=='kong'%>
+					<button class="type_btn" onclick="collect()">收藏技师</button>
+				<%end%>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+		window.onload = function () {
+			var hash=new Array();
+			<%TechnicianLevel.where(status:1,del:1).each_with_index do |level,index|%>
+				hash[<%=level.id%>]=0
+				var s<%=index+1%> = document.getElementById("pingStar<%=index+1%>")
+				var n<%=index+1%> = s<%=index+1%>.getElementsByTagName("li")
+				clearAll<%=index+1%> = function () {
+		        for (var i = 0; i < n<%=index+1%>.length; i++) {
+		            n<%=index+1%>[i].className = '';
+		        }
+		        for (var i = 0; i < n<%=index+1%>.length; i++) {
+		        n<%=index+1%>[i].onclick = function () {
+		            var q = this.getAttribute("rel");
+		            hash[<%=level.id%>]=q;
+		            clearAll<%=index+1%>();
+		            for (var i = 0; i < q; i++) {
+		                n<%=index+1%>[i].className = 'on';
+		            }
+//			            m.innerHTML = this.getAttribute("title");
+		        }
+		     }  
+		    }
+			<%end%>
+		    $("#remark_level").click(function(){
+		    	var data="";
+		    	for(var key in hash){  
+        			data+="&"+key+"="+hash[key];   
+    			} 
+    			data=data.substring(1)+"o_id="+<%=params[o_id]%>;
+    			$.post("remark_level",data,function(obj){
+    				if(obj!="err"){
+    					window.location.replace="technician_remark?appid=<%=params[:appid]%>&o_id=<%=params[:o_id]%>"
+    				}
+    				else{
+    					mui.toast('您已评价');
+    				}
+    			})
+		    })
+		}
+	</script>
+	</body>
+</html>

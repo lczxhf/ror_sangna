@@ -126,13 +126,28 @@ class Wechat::WcFrontController < ApplicationController
 	def technician_remark
 					@order=OrderByMasseuse.includes(:per_user_masseuse,:per_user,member: [:wechat_config]).find(params[:o_id])
 					if @order.member.wechat_config.openid==cookies.signed["#{params[:appid]}_openid"]
-							if params[:l]=='z'
-								@sangna_config=@order.per_user.sangna_config
-								@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:2).first
-								@open_redbage=true
-							elsif params[:l]=="h"
-									@open_redbage=false
-							end
+							#if params[:l]=='z'
+							#	@sangna_config=@order.per_user.sangna_config
+							#	@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:2).first
+							#	@open_redbage=true
+							#elsif params[:l]=="h"
+							#		@open_redbage=false
+							#end
+					else
+								render nothing: true
+					end
+	end
+
+	def technician_remark_level
+				@order=OrderByMasseuse.includes(:per_user_masseuse,:per_user,member: [:wechat_config]).find(params[:o_id])
+					if @order.member.wechat_config.openid==cookies.signed["#{params[:appid]}_openid"]
+							#if params[:l]=='z'
+							#	@sangna_config=@order.per_user.sangna_config
+							#	@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:2).first
+							#	@open_redbage=true
+							#elsif params[:l]=="h"
+							#		@open_redbage=false
+							#end
 					else
 								render nothing: true
 					end
@@ -219,7 +234,6 @@ class Wechat::WcFrontController < ApplicationController
 				order=OrderByMasseuse.includes(:per_user_masseuse,per_user:[:sangna_config]).find(params[:o_id])
 				wechat_config=WechatConfig.includes(:wechat_user,:member).find_by_openid(cookies.signed["#{order.per_user.sangna_config.appid}_openid"])
 				member_id=wechat_config.member_id
-				collect(order.per_user_masseuse.id,wechat_config)
 				if order.coupons_records.find_by_member_id(member_id)
 						render plain: 'err'
 				else
@@ -259,6 +273,17 @@ class Wechat::WcFrontController < ApplicationController
 					else
 						render plain: 'err'
 					end
+	end
+
+	def remark_level
+		puts params
+		order=OrderByMasseuse.where(id:params[:o_id],del:1,status:2,is_reviewed:1).first
+			if order
+				level=TechnicianLevelRemark.new
+				render plain: 'ok'
+			else
+				render plain: 'err'
+			end
 	end
 
 	def change_collect

@@ -1,0 +1,212 @@
+/*星星*/
+.starts{
+	line-height: 30px;
+	margin: 0 auto;
+	padding-left:30% ;
+}
+
+.starts ul{
+	margin: 0;
+	padding: 0;
+	height: 25px;
+	overflow: hidden;
+}
+.starts ul li{
+	margin: 0;
+	padding: 0;
+	float:left;
+	padding-right:3px;
+	color: #E8E3D4;
+	list-style: none;
+}
+.starts ul li.on{
+	color:#FBC728;
+}
+.starts ul li .iconfont{
+	font-size: 20px;
+}
+.starts ul li .iconfont:target{
+	border: none;
+}
+.box_xingxing{
+	height: 30px;
+	width: 70%;
+	margin: 0 auto;
+	position: relative;
+}
+.box_xingxing .title_option{
+	font-size: 0.9em;
+	color: #908E8F;
+	position: absolute;
+	bottom: 4px;
+	left: 0;
+}
+
+/*星星*/
+
+.mui-content{
+	text-align: center;
+	padding-top: 30px;
+	position: relative;
+}
+.Club_title{
+	color: #8B6E6E;
+	margin-bottom: 5%;
+}
+.box_infor{
+	width: 50%;
+	position: absolute;
+	left: 25%;
+	top: 70px;
+}
+.img_box{
+	margin: 0 auto;
+	width: 79px;
+	height: 79px;
+	background: #DAB997;
+	border-radius: 50%;
+}
+.img_box img{
+	border-radius: 50%;
+	margin: 2px;
+}
+.jishi_num{
+	margin-top: 8px;
+	color: #656570;
+}
+.box_content{
+	background: white;
+	width: 90%;
+	margin: 60px auto 15px;
+	padding: 80px 0 15px 0;
+	border-radius: 10px;
+	border-left: 1px solid #F1D5B8;
+	box-shadow: 0px 3px 2px #F1D5B8;
+}
+
+.project{
+	width: 80%;
+	height: 30px;
+	line-height: 30px;
+	margin: 0 auto 20px;
+	background: #F5EBE3;
+	font-size: 0.66em;
+	color: #808080;
+}
+.spacing{
+	height: 30px;
+}
+.box_btn .mui-btn-outlined{
+	width: 46%;
+	background: #E6E6E6;
+	color: #867B7B;
+	border: none;
+}
+.box_btn .mui-btn-positive{
+	width: 46%;
+	padding: 6px 15px;
+	background: #58D47C;
+	color: white;
+	border: none;
+}
+.Line{
+	width: 80%;
+	height: 1px;
+	background: #F5E7DE;
+	margin: 15px auto 10px;
+}
+.type_btn{
+	font-size: 0.75em;
+	letter-spacing: 1px;
+	color: #807D7D;
+	border: none;
+	text-decoration: underline;
+}
+
+/*下一个页面的css*/
+
+.title{
+	margin-top: 8%;
+	font-size: 1.1em;
+	color: #8B6E6E;
+	letter-spacing: 1px;
+}
+.mar_top{
+	margin-top: 15px;
+	padding-top: 20px;
+}
+/*单选按钮*/
+.PingJia_box{
+	width: 90%;
+	margin: 0 auto;
+	overflow: hidden;
+	font-size: 14px;
+	padding-top: 3px;
+	margin-bottom: 20px;
+}
+.mui-left{
+	width: 49%;
+	float: left !important;
+}
+.mui-input-row{
+	clear: none;
+}
+ .mui-radio.mui-left input[type=radio] {
+ 	float: right;
+  	left: 10%;
+  	text-align: center;
+  	line-height: 28px;
+}
+.mui-radio.mui-left label {
+	float: right;
+	text-align: left;
+	color: #666666;
+	padding: 10px 0 5px 34%;
+}
+.mui-radio input[type=radio]:before{
+	font-size: 20px;
+	line-height: 5px;
+}
+
+.type_a{
+	font-size: 0.75em;
+	letter-spacing: 1px;
+	color: #8B6E6E;
+	text-decoration: underline;
+	display: block;
+	margin-bottom: 15px;
+}
+
+/*弹窗---分享*/
+#shareit {
+  -webkit-user-select: none;
+  display: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.85);
+  text-align: center;
+  top: 0;
+  left: 0;
+  z-index: 105;
+}
+#shareit img {
+  max-width: 100%;
+}
+.arrow {
+  position: absolute;
+  right: 10%;
+  top: 5%;
+}
+#follow {
+	display: block;
+  	margin-top: 310px;
+  	color: white;
+  	font-size: 24px;
+}
+
+
+
+
+
+
