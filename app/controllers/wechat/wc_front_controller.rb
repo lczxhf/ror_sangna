@@ -124,15 +124,16 @@ class Wechat::WcFrontController < ApplicationController
 
 
 	def technician_remark
+					puts params
 					@order=OrderByMasseuse.includes(:per_user_masseuse,:per_user,member: [:wechat_config]).find(params[:o_id])
 					if @order.member.wechat_config.openid==cookies.signed["#{params[:appid]}_openid"]
-							#if params[:l]=='z'
-							#	@sangna_config=@order.per_user.sangna_config
-							#	@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:2).first
-							#	@open_redbage=true
-							#elsif params[:l]=="h"
-							#		@open_redbage=false
-							#end
+							if params[:l]=='z'
+								@sangna_config=@order.per_user.sangna_config
+								@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:2).first
+								@open_redbage=true
+							elsif params[:l]=="h"
+								@open_redbage=false
+							end
 					else
 								render nothing: true
 					end
@@ -221,9 +222,9 @@ class Wechat::WcFrontController < ApplicationController
 							if @order.member_id==wechat_config.member_id
 									@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:2).first
 							elsif wechat_config.try(:wechat_user).try(:subscribe_time)
-									@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:4).first
-							else
 									@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:3).first
+							else
+									@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:4).first
 							end
 				else
 					render nothing: true
@@ -258,6 +259,7 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def remark
+					puts params
 					order=OrderByMasseuse.where(id:params[:o_id],del:1,status:2,is_reviewed:1).first
 					if order
 						masseuse_review=MasseusesReview.new
@@ -278,8 +280,24 @@ class Wechat::WcFrontController < ApplicationController
 	def remark_level
 		puts params
 		order=OrderByMasseuse.where(id:params[:o_id],del:1,status:2,is_reviewed:1).first
-			if order
-				level=TechnicianLevelRemark.new
+			if order && order.technician_level_remarks.empty?
+						new_params=params.deep_dup
+						new_params.delete(:appid)
+						new_params.delete(:controller)
+						new_params.delete(:action)
+						new_params.delete(:o_id)
+						new_params.each do |a|
+						technician_level=TechnicianLevel.find(a[0])
+						if technician_level
+							level=TechnicianLevelRemark.new
+							level.technician_level=technician_level
+							level.level=a[1].to_i
+							level.order_by_masseuse=order
+							level.per_user_masseuse=order.per_user_masseuse
+							level.member_id=order.member_id
+							level.save
+						end
+				end
 				render plain: 'ok'
 			else
 				render plain: 'err'
@@ -320,6 +338,7 @@ class Wechat::WcFrontController < ApplicationController
 								 	log=card.member.qrcode_logs.last	
 									log.coupons_record=card
 									log.save
+									card.sent_message(@sangna_config,card.member.wechat_config,log.per_user_qr_code.hand_code)
 							end
 							render plain: card.to_json(:include=>[:coupons_rule,:member=>{:include=>:per_user_qr_code}])
 					end
