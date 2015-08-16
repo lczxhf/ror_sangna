@@ -1,0 +1,276 @@
+
+.header{
+	margin: 10px 0 20px;
+	height: 57px;
+	overflow: hidden;
+}
+.header .box_img{
+	display: inline-block;
+	width: 57px;
+	height: 57px;
+	margin-left: 4%;
+	background: #DAB997;
+	border-radius: 100%;
+}
+.header .box_img img{
+	margin: 1px;
+	border-radius: 100%;
+}
+.header .header_tip{
+	float: right;
+	margin-right: 2%;
+	padding: 10px 5% 0;
+	line-height: 16px;
+	height: 57px;
+	font-size: 0.65em;
+	color: #AC9898;
+	background: #FAF5F0;
+}
+
+.HuiSuo_infor{
+	padding: 10px 0 20px;
+	width: 92%;
+	margin: 0 auto;
+	background: white;
+	border-radius: 8px;
+	text-align: center;
+}
+.HuiSuo_title{
+	margin: 15px 0;
+	color: #8B6E6E;
+}
+.HuiSuo_img{
+	margin: 0 auto;
+	height: 133px;
+	background: #ECD1B4;
+}
+.HuiSuo_img img{
+	margin: 3px 3px 0;
+}
+
+.HuiSuo_contact{
+	width: 85%;
+	margin: 0 auto 30px;
+	border: 1px solid #ECD1B4;
+	text-align: left;
+	padding: 10px 0 7px 8%;
+	color: #666666;
+	font-size: 0.7em;
+}
+.box_btn{
+	margin-bottom: 15px;
+}
+.box_btn .mui-btn-outlined{
+	width: 41%;
+	background: #E6E6E6;
+	color: #867B7B;
+	border: none;
+	font-size: 0.75em;
+	letter-spacing: 1px;
+}
+.box_btn .mui-btn-positive{
+	width: 41%;
+	padding: 6px 15px;
+	background: #58D47C;
+	color: white;
+	border: none;
+	font-size: 0.75em;
+	letter-spacing: 1px;
+	padding: 6px;
+}
+.type_a{
+	color: #807D7D;
+	font-size: 0.75em;
+	letter-spacing: 1px;
+	text-decoration: underline;
+	display: block;
+	margin-bottom: 20px;
+}
+.Line{
+	width: 80%;
+	height: 1px;
+	background: #F5E7DE;
+	margin: 15px auto 10px;
+}
+.Linkke{
+	color: #A28260;
+	font-size: 0.75em;
+	line-height: 18px;
+	padding-top: 5px;
+}
+
+/*弹窗---手机绑定*/
+#shareit_BangDing {
+  -webkit-user-select: none;
+  display: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.85);
+  text-align: center;
+  top: 0;
+  left: 0;
+  z-index: 105;
+}
+#BangDing{
+	width: 76%;
+	margin: 20% auto 0;
+	background: white;
+	border-radius: 5px;
+	position: relative;
+	padding: 30px 0 20px;
+}
+.box_icon{
+	width: 30px;
+	height: 30px;
+	background: white;
+	border-radius: 50%;
+	position: absolute;
+	top: -15px;
+	right: -15px;
+	border: 1px solid #C2AB94;
+}
+.box_icon .mui-icon-closeempty{
+	color: #A1896D;
+	font-size: 30px !important;
+}
+#BangDing .BangDing_tip{
+	font-size: 0.75em;
+	color: #8B6E6E;
+}
+#BangDing .box_img{
+	margin: 5px auto 5px;
+	width: 85%;
+	position: relative;
+	background: url(../images/Vouchers.png) no-repeat;
+	background-size: 100% 100%;
+}
+#BangDing .box_img .Num{
+	font-size: 1.4em;
+	color: #69543D;
+	position: absolute;
+	top:33%;
+	left: 8%;
+}
+#BangDing .box_img .voucher{
+	font-size: 0.95em;
+	color: #8B6E6E;
+	position: absolute;
+	top:33%;
+	right: 20%;
+}
+#BangDing .huisuo_addr{
+	color: #7D6F6F;
+	font-size: 0.7em;
+	margin-bottom: 5px;
+}
+
+/*输入框*/
+.infor_input{
+	display: block;
+	width: 85%;
+	height: 35px;
+	margin: 4px auto 0;
+	background: white;
+	position: relative;
+	border-radius: 3px;
+	
+}
+
+.infor_input input{
+	border-color: white;
+	height: 35px;
+	display: inline-block;
+	line-height: 20px;
+	border-radius: 3px;
+	border: 1px solid #ECD1B4;
+}
+input::-webkit-input-placeholder {
+	color: #A18F79 !important; 
+	opacity: 0.8;
+	font-size: 13px;
+}
+.infor_input_2{
+	margin-top: 15px;
+	width: 85%;
+	margin: 0 auto;
+	height: 35px;
+	background: white;
+	position: relative;
+	border-radius: 3px;
+	text-align: left;
+}
+.infor_input_2 input{
+	width: 65%;
+	height: 35px;
+	border-color: white;
+	display: inline-block;
+	line-height: 20px;
+	border-radius: 3px;
+	border: 1px solid #ECD1B4;
+	-webkit-border-top-right-radius: 0;
+	-webkit-border-bottom-right-radius: 0;
+}
+.infor_input_2 .mui-btn-outlined{
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 36%;
+	height: 35px;
+	padding: 0;
+	font-size: 12px;
+	background: #ECD1B4;
+	border: none;
+	color: #69543D;
+	-webkit-border-top-left-radius: 0;
+	-webkit-border-bottom-left-radius: 0;
+}
+input:focus{
+	border: 1px solid #41D7B0;
+	/*border-radius: 0;*/
+}
+
+#BangDing .mui-btn-positive{
+	width: 85%;
+	margin: 15px auto 0;
+	letter-spacing: 1px;
+}
+
+/*弹窗---二维码*/
+#shareit_ErWeiMa {
+  -webkit-user-select: none;
+  display: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.85);
+  text-align: center;
+  top: 0;
+  left: 0;
+  z-index: 105;
+}
+#ErWeiMa{
+	width: 76%;
+	margin: 20% auto 0;
+	background: white;
+	border-radius: 5px;
+	position: relative;
+	padding: 30px 0 20px;
+}
+#ErWeiMa .type_div{
+	color: #8B6E6E;
+	font-size: 0.75em;
+}
+#ErWeiMa .type_div_2{
+	color: #7D6F6F;
+	font-size: 0.7em;
+	line-height: 15px;
+}
+
+
+
+
+
+
+
+

@@ -217,7 +217,7 @@ class Wechat::WcFrontController < ApplicationController
 	def redbage
 				#cookies.delete("#{params[:appid]}_openid")
 				@order=OrderByMasseuse.includes(:member,:per_user).find(params[:o_id])				
-				wechat_config=WechatConfig.includes(:wechat_user).find_by_openid(cookies.signed["#{@order.per_user.sangna_config.appid}_openid"])
+				wechat_config=WechatConfig.includes(:wechat_user,:member).find_by_openid(cookies.signed["#{@order.per_user.sangna_config.appid}_openid"])
 				if @order.member_id==params[:id].to_i
 							if @order.member_id==wechat_config.member_id
 									@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:2).first
@@ -225,6 +225,11 @@ class Wechat::WcFrontController < ApplicationController
 									@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:3).first
 							else
 									@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:4).first
+							end
+							if wechat_config.member.username!=wechat_config.openid && wechat_config.member.username!='未关注'
+								@bind=true
+							else
+								@bind=false
 							end
 				else
 					render nothing: true
