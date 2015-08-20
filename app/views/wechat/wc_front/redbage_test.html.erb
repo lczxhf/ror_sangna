@@ -1,0 +1,137 @@
+<%content_for :head do%>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	     <%=javascript_include_tag "jquery-2.1.0"%>
+          <%=javascript_include_tag "mui.min"%>
+          <%=stylesheet_link_tag "wechat_front/mui.min"%>
+          <%=stylesheet_link_tag "wechat_front/common"%>
+          <%=stylesheet_link_tag "wechat_front/HongBao"%>
+					<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+		<title>代金券</title>
+		<script>
+				 wx.config({
+					  debug: false, 
+					  appId: '<%=params[:appid]%>', 
+					  timestamp:'<%=timestamp=Time.now.to_i%>' , 
+					  nonceStr: '<%=nonceStr=SecureRandom.uuid.tr('-', '')%>', 
+					  signature: '<%=signature(timestamp,nonceStr)%>',
+					  jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','showMenuItems'] 
+				});
+				wx.ready(function(){
+					wx.showMenuItems({
+						menuList: ['menuItem:profile','menuItem:addContact','menuItem:nightMode'],
+						});
+					wx.onMenuShareTimeline({
+					title: '送你<%=Region.where(regions_code:@order.per_user.district_id).first.regions_NAME%><%=@order.per_user.name%>会所代金券,一定要找<%=@order.per_user_masseuse.job_number%>服务啊!', 
+					ink: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&o_id=<%=@order.id%>&id=<%=@order.member_id%>',
+					imgUrl: 'http://weixin.linkke.cn/images/forward.png',
+					success: function(res){
+					},
+					cancel: function(res){
+					}
+				  });
+
+
+					 wx.onMenuShareAppMessage({
+						  title: '送你<%=Region.where(regions_code:@order.per_user.district_id).first.regions_NAME%><%=@order.per_user.name%>会所代金券,一定要找<%=@order.per_user_masseuse.job_number%>服务啊!', 
+							desc: '', 
+							link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&o_id=<%=@order.id%>&id=<%=@order.member_id%>', 
+							imgUrl: 'http://weixin.linkke.cn/images/forward.png',
+							success: function () { 
+							},
+							cancel: function () { 
+							}
+					});
+
+			})
+
+
+
+
+			$(function(){
+						$('#technician').click(function(){
+									window.location.href='choose_technician?appid=<%=params[:appid]%>';
+							})	
+
+						$('#redbage').click(function(){
+									$.post('get_redbage',{o_id:'<%=params[:o_id]%>'},function(obj){
+													if(obj=='ok'){
+															mui.toast('领取成功！');	
+															window.location.replace("my_account?appid=<%=params[:appid]%>&new=true")
+													}
+													else{
+														 mui.toast('已经领取过！');
+													}
+										})
+							})
+				})
+		</script>
+<%end%>
+	<%content_for :body do%>
+		<div class="mui-content">
+			<div class="head">
+				<div class="img_box">
+					<img src="<%=@order.member.wechat_user.headimgurl%>" alt="" width="40px" height="40px" />
+				</div>
+				<div class="tip_hongbao">
+					<span class="user_name"><%=@order.member.wechat_user.nickname%></span>
+					送您一张
+					<span class="money"><%=@coupon_rule.face_value%></span>
+					元代金券
+					<span class="addr"><%=@order.per_user.name%>会所</span>
+					
+				</div>
+				<div class="box_voucher">
+					<img class="ground" src="/images/round.png" alt="" />
+					<img class="cloud_1" src="/images//cloud_1.png" alt="" width="95.6%" height="110px" />
+					<img class="cloud_2" src="/images/cloud_2.png" alt="" width="95.6%" height="100px"/>
+					<span class="money_num"><%=@coupon_rule.face_value%></span>
+					<span class="company">元</span>
+				</div>
+				
+			</div>
+			<div class="content">
+				<button class="mui-btn  mui-btn-outlined" id='redbage'>领取代金券</button>
+				<div class="box_title">
+					<img src="/images/label.png" alt="" />
+					<span class="title">会所</span>
+				</div>
+				<div class="box_huisuo">
+					<div class="huisuo_img">
+						<img src="http://linkke.cn<%=@order.per_user.per_user_imgs.first.url.url%>" alt="" width="84%" height="120px" />
+					</div>
+					<div class="huisuo_info">
+						<%=@order.per_user.per_user_info.info%>
+					</div>
+					<button class="mui-btn mui-btn-positive" id='technician'>技师风采</button>
+				</div>
+				<div class="box_title">
+					<img src="/images/label.png" alt="" />
+					<span class="title">联系我们</span>
+				</div>
+				<div class="box_contact">
+					<div class="size huisuo_addr">
+						地址：<%=@order.per_user.address%>
+					</div>
+					<div class="size huisuo_phone">
+						电话：<%=@order.per_user.phone%>
+					</div>
+				</div>
+			</div>
+			<div class="box_linkke">
+				<div class="propaganda">领客 · 水疗行业的微信营销利器</div>
+				<div class="website">www.linkke.cn</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			$(function(){
+				var width = window.innerWidth;
+				$('.ground').css("width",width*0.8);
+				$('.ground').css("height",width*0.8*274/363);
+				$('.box_voucher').css("height",width*0.8*274/363+10);
+				$('.head').css("height",width*0.8*274/363+80);
+				$('.money_num').css("bottom",width*0.8*274/363*0.36)
+				$('.company').css("bottom",width*0.8*274/363*0.35)
+			})
+		</script>
+<%end%>

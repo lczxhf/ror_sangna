@@ -216,6 +216,65 @@
 	line-height: 45px;
 }
 
+.box_pingjia_xingxing{
+		background: white;
+		padding: 20px 0;
+}
+.starts{
+		line-height: 30px;
+		margin: 0 auto;
+		padding-left:25% ;
+}
+
+.starts ul{
+		margin: 0;
+		padding: 0;
+		height: 25px;
+		overflow: hidden;
+}
+.starts ul li{
+		margin: 0;
+		padding: 0;
+		float:left;
+		padding-right:3px;
+		color: #E8E3D4;
+		list-style: none;
+}
+.starts ul li.on{
+		color:#FBC728;
+}
+.starts ul li .iconfont{
+		font-size: 20px;
+}
+.starts ul li .iconfont:target{
+		border: none;
+}
+.box_xingxing{
+		height: 30px;
+		width: 70%;
+		margin: 0 auto;
+		position: relative;
+}
+.box_xingxing .title_option{
+		font-size: 0.9em;
+		color: #908E8F;
+		position: absolute;
+		bottom: 4px;
+		left: 0;
+}
+.box_xingxing .option_score{
+		font-size: 0.9em;
+		color: #908E8F;
+		position: absolute;
+		bottom: 4px;
+		right: 5%;
+}
+.JianGe{
+		height: 10px;
+}
+
+/*星星*/
+
 
 
 

@@ -105,18 +105,18 @@ Rails.application.routes.draw do
     get 'update'            => 'update#update' #更新app
   end
 
-	namespace :staff do
-		get    'per_user_staffs/all'    => 'per_user_staffs#index'
-		get    'per_user_staffs/:id'    => 'per_user_staffs#show'
-		get    'per_user_staffs/edit'   => 'per_user_staffs#edit'
-		post   'per_user_staffs/create' => 'per_user_staffs#create'
-		get    'sessions/login'         => 'sessions#new'
-		post   'sessions/login'         => 'sessions#create'
-		delete 'sessionslogout'         => 'sessions#destroy'
-		get    'password_resets/new'    => 'password_resets#new'
-		post   'password_resets/create' => 'password_resets#create'
-		get    'password_resets/edit'   => 'password_resets#edit'
-	end
+#	namespace :staff do
+#		get    'per_user_staffs/all'    => 'per_user_staffs#index'
+#		get    'per_user_staffs/:id'    => 'per_user_staffs#show'
+#		get    'per_user_staffs/edit'   => 'per_user_staffs#edit'
+#		post   'per_user_staffs/create' => 'per_user_staffs#create'
+#		get    'sessions/login'         => 'sessions#new'
+#		post   'sessions/login'         => 'sessions#create'
+#		delete 'sessionslogout'         => 'sessions#destroy'
+#		get    'password_resets/new'    => 'password_resets#new'
+#		post   'password_resets/create' => 'password_resets#create'
+#		get    'password_resets/edit'   => 'password_resets#edit'
+#	end
   # Example of regular route:pa
   #   get 'products/:id' => 'catalog#view'
 

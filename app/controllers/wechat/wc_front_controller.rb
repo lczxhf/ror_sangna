@@ -6,7 +6,7 @@ class Wechat::WcFrontController < ApplicationController
 	def choose_technician
 			@inscene=false
 			if @wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])	
-				if @wechat_config.del==1
+				if @wechat_config.del==1 || params[:skip]='h'
 						if @qr_code=@wechat_config.member.per_user_qr_code
 											@inscene=true
 						end
@@ -126,10 +126,10 @@ class Wechat::WcFrontController < ApplicationController
 	def technician_remark
 					puts params
 					@order=OrderByMasseuse.includes(:per_user_masseuse,:per_user,member: [:wechat_config]).find(params[:o_id])
-					if @order.member.wechat_config.openid==cookies.signed["#{params[:appid]}_openid"]
+					if @order && @order.member.wechat_config.openid==cookies.signed["#{params[:appid]}_openid"]
+							@sangna_config=@order.per_user.sangna_config
 							if params[:l]=='z'
-								@sangna_config=@order.per_user.sangna_config
-								@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:2).first
+								@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:2,del:1,status:1).first
 								@open_redbage=true
 							elsif params[:l]=="h"
 								@open_redbage=false
@@ -141,14 +141,21 @@ class Wechat::WcFrontController < ApplicationController
 
 	def technician_remark_level
 				@order=OrderByMasseuse.includes(:per_user_masseuse,:per_user,member: [:wechat_config]).find(params[:o_id])
-					if @order.member.wechat_config.openid==cookies.signed["#{params[:appid]}_openid"]
-							#if params[:l]=='z'
-							#	@sangna_config=@order.per_user.sangna_config
-							#	@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:2).first
-							#	@open_redbage=true
-							#elsif params[:l]=="h"
-							#		@open_redbage=false
-							#end
+					if @order &&  @order.member.wechat_config.openid==cookies.signed["#{params[:appid]}_openid"]
+							@sangna_config=@order.per_user.sangna_config
+
+							if @order.technician_level_remarks.empty?
+									@remark=false
+							else
+									@technician_level_remarks=@order.technician_level_remarks
+									@remark=true
+							end
+							if params[:l]=='z'
+								@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:2).first
+								@open_redbage=true
+							elsif params[:l]=="h"
+								@open_redbage=false
+							end
 					else
 								render nothing: true
 					end
@@ -220,11 +227,11 @@ class Wechat::WcFrontController < ApplicationController
 				wechat_config=WechatConfig.includes(:wechat_user,:member).find_by_openid(cookies.signed["#{@order.per_user.sangna_config.appid}_openid"])
 				if @order.member_id==params[:id].to_i
 							if @order.member_id==wechat_config.member_id
-									@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:2).first
+									@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:2,del:1,status:1).first
 							elsif wechat_config.try(:wechat_user).try(:subscribe_time)
-									@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:3).first
+									@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:3,del:1,status:1).first
 							else
-									@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:4).first
+									@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:4,del:1,status:1).first
 							end
 							if wechat_config.member.username!=wechat_config.openid && wechat_config.member.username!='未关注'
 								@bind=true
@@ -244,11 +251,11 @@ class Wechat::WcFrontController < ApplicationController
 						render plain: 'err'
 				else
 						if order.member_id==member_id
-							coupon_rule=order.per_user.coupons_rules.where(name:'分享得红包',c_type:2).first
+							coupon_rule=order.per_user.coupons_rules.where(name:'分享得红包',c_type:2,del:1,status:1).first
 						elsif wechat_config.wechat_user.subscribe_time.nil?
-							coupon_rule=order.per_user.coupons_rules.where(name:'分享得红包',c_type:4).first
+							coupon_rule=order.per_user.coupons_rules.where(name:'分享得红包',c_type:4,del:1,status:1).first
 						else
-							coupon_rule=order.per_user.coupons_rules.where(name:'分享得红包',c_type:3).first
+							coupon_rule=order.per_user.coupons_rules.where(name:'分享得红包',c_type:3,del:1,status:1).first
 						end
 							coupon_record=coupon_rule.coupons_records.build
 							o = [('a'..'z'),('A'..'Z')].map{|i| i.to_a}.flatten
@@ -357,7 +364,7 @@ class Wechat::WcFrontController < ApplicationController
 
 	def sent_code
 	 if params[:phone].length==11 && params[:phone].to_i.to_s.length==11
-		 if !Member.find_by_username(params[:phone])
+		 if !Member.where(username:params[:phone],user_id:@sangna_config.per_user_id).first
 				 code=rand(1000..9999).to_s
 				 uri = URI("http://106.ihuyi.cn/webservice/sms.php?method=Submit")
 				 Net::HTTP.start(uri.host, uri.port,:use_ssl => uri.scheme == 'https') do |http|
@@ -366,8 +373,8 @@ class Wechat::WcFrontController < ApplicationController
 						response=http.request request
 						Rails.cache.write(params[:phone],code,:expire_in=>1.hour)
 						a=response.body.dup
-						 result= REXML::Document.new a
-						 render plain:  result.root.get_elements('msg')[0][0].to_s
+						result= REXML::Document.new a
+						render plain:  result.root.get_elements('msg')[0][0].to_s
 				end
 	   else
 					render plain: 'exist'
@@ -382,6 +389,7 @@ class Wechat::WcFrontController < ApplicationController
 		  if params[:code]==Rails.cache.read(params[:phone])
 					 wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
 					 wechat_config.member.username=params[:phone]
+					 puts wechat_config.member.to_json
 					 wechat_config.member.save
 					 Rails.cache.delete(params[:phone])
 					 render plain: 'ok'

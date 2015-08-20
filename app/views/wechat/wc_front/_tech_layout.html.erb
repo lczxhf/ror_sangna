@@ -78,7 +78,7 @@
 			<nav class="mui-bar mui-bar-tab">
 				<div class="box_footer">
 						<img src="/images/buttom_img.png" alt="" width="42px" height="42px" />
-						<span class="footer_span">到店扫描锁牌上的二维码后可查看技师详细资料</span>
+						<span class="footer_span">技师实时状态更新中，最终状态请以服务员查询为准</span>
 				</div>
 			</nav>
 <script>
@@ -129,10 +129,10 @@
 			function show_info(technician_id){
 					window.location.href="technician_info?t_id="+technician_id+"&appid=<%=per_user.sangna_config.appid%>";
 			}
-			function toperson(){
+	<%end%>
+	function toperson(){
 					window.location.href='my_account?appid=<%=per_user.sangna_config.appid%>';
 			}
-	<%end%>
 	var first=true;
 	$(function(){
 			(function($) {

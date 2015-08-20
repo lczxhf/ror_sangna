@@ -99,7 +99,6 @@ class Wechat::GzhManageController < ApplicationController
   end
 
 	  def oauth
-          puts params
           url="https://api.weixin.qq.com/sns/oauth2/component/access_token?appid=#{params[:appid]}&code=#{params[:code]}&grant_type=authorization_code&component_appid=wxf6a05c0e64bc48e1&component_access_token="+Rails.cache.read(:access_token) 
           result=JSON.parse(ThirdParty.get_to_wechat(url))
 					puts result
@@ -116,8 +115,8 @@ class Wechat::GzhManageController < ApplicationController
 						 wechat_config.sangna_config_id=sangna_config.id
 						 wechat_config.del=2
 						 wechat_config.save
-						 wechat_config.create_wechat_user(nickname:'未关注',del:2)
 						 wechat_config.create_member(username:result['openid'],user_id:sangna_config.per_user_id)
+						 wechat_config.create_wechat_user(nickname:'未关注',del:2,member_id:wechat_config.member_id)
 						#	url2="https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{params[:appid]}&redirect_uri=http://weixin.linkke.cn/wechat/gzh_manage/authorize&response_type=code&scope=snsapi_userinfo&state=200&component_appid=#{APPID}#wechat_redirect'"
 						#	redirect_to url2
 					end
@@ -168,9 +167,9 @@ class Wechat::GzhManageController < ApplicationController
 			wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{per_user.sangna_config.appid}_openid"])
 			if wechat_config && wechat_config.try(:del)==1	
 				if params[:sex].nil?
-						qrcode=PerUserQrCode.where(user_id:params[:user_id],hand_code:params[:hand_code],id_code:params[:id_code]).first
+						qrcode=PerUserQrCode.where(user_id:params[:user_id],hand_code:params[:hand_code],id_code:params[:id_code],del:1).first
 				else 
-						qrcode=PerUserQrCode.where(user_id:params[:user_id],hand_code:params[:hand_code],id_code:params[:id_code],sex:params[:sex]).first
+						qrcode=PerUserQrCode.where(user_id:params[:user_id],hand_code:params[:hand_code],id_code:params[:id_code],sex:params[:sex],del:1).first
 				end
 				if qrcode.status==1
 							puts 'status was 1'

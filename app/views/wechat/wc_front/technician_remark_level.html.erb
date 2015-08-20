@@ -22,7 +22,93 @@
 				wx.showMenuItems({
 				    menuList: ['menuItem:profile','menuItem:addContact'] // 要显示的菜单项，所有menu项见附录3
 				});
-			})
+			<%if @open_redbage%>
+			wx.onMenuShareTimeline({
+		      title: '送你<%=Region.where(regions_code:@order.per_user.district_id).first.regions_NAME%><%=@order.per_user.name%>会所代金券,记得一定要找<%=@order.per_user_masseuse.job_number%>服务啊!', 
+		        link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&o_id=<%=@order.id%>&id=<%=@order.member_id%>',
+		        imgUrl: 'http://weixin.linkke.cn/images/forward.png',
+		        success: function(res){
+													$.post('get_redbage',{o_id:'<%=params[:o_id]%>'},function(r_obj){
+													   if(r_obj=='ok'){
+																	mui.toast('分享成功!代金券已放入您的卡券中');
+																	window.location.replace('my_account?appid=<%=params[:appid]%>&new=true');
+															}
+															else{
+																	mui.toast('您已领取过代金券!');
+																	$("#shareit").hide(); 
+															}
+													 })
+		        },
+		        cancel: function(res){
+				    }
+			 });
+
+
+			 wx.onMenuShareAppMessage({
+				    title: '送你<%=Region.where(regions_code:@order.per_user.district_id).first.regions_NAME%><%=@order.per_user.name%>会所代金券,一定要找<%=@order.per_user_masseuse.job_number%>服务啊!', 
+					  desc: '', 
+					  link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&o_id=<%=@order.id%>&id=<%=@order.member_id%>', 
+						imgUrl: 'http://weixin.linkke.cn/images/forward.png',
+						success: function () { 
+													$.post('get_redbage',{o_id:'<%=params[:o_id]%>'},function(r_obj){
+													   if(r_obj=='ok'){
+																	mui.toast('分享成功!代金券已放入您的卡券中');
+																	window.location.replace('my_account?appid=<%=params[:appid]%>&new=true');
+															}
+															else{
+																	mui.toast('您已领取过代金券!');
+																	$("#shareit").hide(); 
+															}
+													 })
+						},
+						cancel: function () { 
+						}
+			 });
+			 <%else%>
+				wx.onMenuShareTimeline({
+		      title: '欢迎', 
+		        link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>&skip=h',
+		        imgUrl: 'http://weixin.linkke.cn/images/buttom_img.png',
+		        success: function(res){
+													$.post('get_redbage',{o_id:'<%=params[:o_id]%>'},function(r_obj){
+													   if(r_obj=='ok'){
+																	mui.toast('分享成功!代金券已放入您的卡券中');
+																	window.location.replace('my_account?appid=<%=params[:appid]%>&new=true');
+															}
+															else{
+																	mui.toast('您已领取过代金券!');
+																	$("#shareit").hide(); 
+															}
+													 })
+		        },
+		        cancel: function(res){
+				    }
+			 });
+
+
+			 wx.onMenuShareAppMessage({
+				    title: '欢迎', 
+					  desc: '', 
+					  link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>&skip=h', 
+						imgUrl: 'http://weixin.linkke.cn/images/buttom_img.png',
+						success: function () { 
+													$.post('get_redbage',{o_id:'<%=params[:o_id]%>'},function(r_obj){
+													   if(r_obj=='ok'){
+																	mui.toast('分享成功!代金券已放入您的卡券中');
+																	window.location.replace('my_account?appid=<%=params[:appid]%>&new=true');
+															}
+															else{
+																	mui.toast('您已领取过代金券!');
+																	$("#shareit").hide(); 
+															}
+													 })
+						},
+						cancel: function () { 
+						}
+			 });
+			 <%end%>
+		})
+
 			 function collect(x){
 				 $.get("change_collect",{technician_id:<%=@order.per_user_masseuse.id%>,status:'add',appid:"<%=params[:appid]%>"},function(obj){
 					 mui.toast('收藏成功');		
@@ -36,7 +122,7 @@
 			<div class="Club_title"><%=@order.per_user.name%>会所</div>
 			<div class="box_infor">
 				<div class="img_box">
-					<img src="<%=@order.per_user_masseuse.img.url%>" alt="" width="75px" height="75px" />
+					<img src="<%=@order.per_user_masseuse.get_image(@order.member_id)%>" alt="" width="75px" height="75px" />
 				</div>
 				<div class="jishi_num"><%=@order.per_user_masseuse.job_number%></div>
 			</div>
@@ -55,9 +141,16 @@
 				</div>
 				<%end%>
 				<div class="spacing"></div>
+				<%if @remark%>
+				<div class='remark_info'>技师印象:<%=@order.masseuses_review.try(:technique_evalution).try(:name) || "无"%></div>
 				<div class="box_btn">
+					<button class="mui-btn mui-btn-outlined" >投诉建议</button>
+					<button class="mui-btn mui-btn-positive" id='share'>分享这次体验</button>
+					<%else%>
+					<div class="box_btn">
 					<button class="mui-btn mui-btn-outlined" id='leave'>残忍拒绝评价</button>
 					<button class="mui-btn mui-btn-positive" id='remark_level'>尽责完成评价</button>
+					<%end%>
 				</div>
 				<div class="Line"></div>
 				<%if is_collect(params[:appid],@order.per_user_masseuse.id)=='kong'%>
@@ -68,6 +161,20 @@
 		</div>
 		<script type="text/javascript">
 		window.onload = function () {
+			<%if @remark%>
+			var hash=new Array();
+			<%@technician_level_remarks.each_with_index do |level,index|%>
+				var s<%=index+1%> = document.getElementById("pingStar<%=index+1%>")
+				var n<%=index+1%> = s<%=index+1%>.getElementsByTagName("li")
+		        for (var i = 0; i < n<%=index+1%>.length; i++) {
+		            var q = <%=level.level%>
+		            for (var i = 0; i < q; i++) {
+		                n<%=index+1%>[i].className = 'on';
+		            }
+		     }  
+			
+			<%end%>
+			<%else%>
 			var hash=new Array();
 			<%TechnicianLevel.where(status:1,del:1).each_with_index do |level,index|%>
 				hash[<%=level.id%>]=0
@@ -88,9 +195,8 @@
 		            }
 //			            m.innerHTML = this.getAttribute("title");
 		        }
-		     }  
-			
-			<%end%>
+		     } 
+				<%end%>
 		    $("#remark_level").click(function(){
 		    	var data="";
 		    	for(var key in hash){  
@@ -109,6 +215,7 @@
 					$("#leave").click(function(){
 						wx.closeWindow();
 					})
+			<%end%>
 		}
 	</script>
 	<%end%>

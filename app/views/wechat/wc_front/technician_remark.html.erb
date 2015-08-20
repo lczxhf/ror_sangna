@@ -110,6 +110,13 @@
 									}	
 								})
 						})
+			function collect(x){
+				 $.get("change_collect",{technician_id:<%=@order.per_user_masseuse.id%>,status:'add',appid:"<%=params[:appid]%>"},function(obj){
+					 mui.toast('收藏成功');		
+					 x.remove(x.selectedIndex);
+				 })
+			}
+
 				<%end%>
 		</script>
 <%end%>

@@ -1,137 +1,182 @@
 <%content_for :head do%>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-	     <%=javascript_include_tag "jquery-2.1.0"%>
+		 <%=javascript_include_tag "jquery-2.1.0"%>
           <%=javascript_include_tag "mui.min"%>
           <%=stylesheet_link_tag "wechat_front/mui.min"%>
           <%=stylesheet_link_tag "wechat_front/common"%>
-          <%=stylesheet_link_tag "wechat_front/HongBao"%>
+          <%=stylesheet_link_tag "wechat_front/HongBao_2"%>
 					<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-		<title>代金券</title>
-		<script>
-				 wx.config({
-					  debug: false, 
-					  appId: '<%=params[:appid]%>', 
-					  timestamp:'<%=timestamp=Time.now.to_i%>' , 
-					  nonceStr: '<%=nonceStr=SecureRandom.uuid.tr('-', '')%>', 
-					  signature: '<%=signature(timestamp,nonceStr)%>',
-					  jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','showMenuItems'] 
-				});
-				wx.ready(function(){
-					wx.showMenuItems({
-						menuList: ['menuItem:profile','menuItem:addContact','menuItem:nightMode'],
-						});
-					wx.onMenuShareTimeline({
-					title: '送你<%=Region.where(regions_code:@order.per_user.district_id).first.regions_NAME%><%=@order.per_user.name%>会所代金券,一定要找<%=@order.per_user_masseuse.job_number%>服务啊!', 
-					ink: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&o_id=<%=@order.id%>&id=<%=@order.member_id%>',
-					imgUrl: 'http://weixin.linkke.cn/images/forward.png',
-					success: function(res){
-					},
-					cancel: function(res){
-					}
-				  });
-
-
-					 wx.onMenuShareAppMessage({
-						  title: '送你<%=Region.where(regions_code:@order.per_user.district_id).first.regions_NAME%><%=@order.per_user.name%>会所代金券,一定要找<%=@order.per_user_masseuse.job_number%>服务啊!', 
-							desc: '', 
-							link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&o_id=<%=@order.id%>&id=<%=@order.member_id%>', 
-							imgUrl: 'http://weixin.linkke.cn/images/forward.png',
-							success: function () { 
-							},
-							cancel: function () { 
-							}
-					});
-
-			})
-
-
-
-
-			$(function(){
-						$('#technician').click(function(){
-									window.location.href='choose_technician?appid=<%=params[:appid]%>';
-							})	
-
-						$('#redbage').click(function(){
-									$.post('get_redbage',{o_id:'<%=params[:o_id]%>'},function(obj){
-													if(obj=='ok'){
-															mui.toast('领取成功！');	
-															window.location.replace("my_account?appid=<%=params[:appid]%>&new=true")
-													}
-													else{
-														 mui.toast('已经领取过！');
-													}
-										})
-							})
+		<title>红包</title>
+		<script type="text/javascript">
+		$(function(){
+				$("#go_technician").click(function(){
+					window.location.replace("choose_technician?appid=<%=@sangna_config.appid%>&skip=h")
 				})
+		})
 		</script>
 <%end%>
-	<%content_for :body do%>
+	<%content_for :body do%>		
 		<div class="mui-content">
-			<div class="head">
-				<div class="img_box">
-					<img src="<%=@order.member.wechat_user.headimgurl%>" alt="" width="40px" height="40px" />
+			<div class="header">
+				<div class="box_img">
+					<img src="<%=@order.member.wechat_user.headimgurl%>" alt="" width="55px" height="55px" />
 				</div>
-				<div class="tip_hongbao">
-					<span class="user_name"><%=@order.member.wechat_user.nickname%></span>
-					送您一张
-					<span class="money"><%=@coupon_rule.face_value%></span>
-					元代金券
-					<span class="addr"><%=@order.per_user.name%>会所</span>
-					
-				</div>
-				<div class="box_voucher">
-					<img class="ground" src="/images/round.png" alt="" />
-					<img class="cloud_1" src="/images//cloud_1.png" alt="" width="95.6%" height="110px" />
-					<img class="cloud_2" src="/images/cloud_2.png" alt="" width="95.6%" height="100px"/>
-					<span class="money_num"><%=@coupon_rule.face_value%></span>
-					<span class="company">元</span>
-				</div>
-				
+				<div class="header_tip">我刚去完<%=@order.per_user.name%>会所，推荐你找<%=@order.per_user_masseuse.job_number%>技师为你服务，顺便送你一张代金券！</div>
 			</div>
-			<div class="content">
-				<button class="mui-btn  mui-btn-outlined" id='redbage'>领取代金券</button>
-				<div class="box_title">
-					<img src="/images/label.png" alt="" />
-					<span class="title">会所</span>
+			<div class="HuiSuo_infor">
+				<div class="HuiSuo_title"><%=@order.per_user.name%>会所</div>
+				<div class="HuiSuo_img">
+					<img src="http://linkke.cn<%=@order.per_user.per_user_imgs.first.url.url%>" alt="" height="130px" />
 				</div>
-				<div class="box_huisuo">
-					<div class="huisuo_img">
-						<img src="http://linkke.cn<%=@order.per_user.per_user_imgs.first.url.url%>" alt="" width="84%" height="120px" />
-					</div>
-					<div class="huisuo_info">
-						<%=@order.per_user.per_user_info.info%>
-					</div>
-					<button class="mui-btn mui-btn-positive" id='technician'>技师风采</button>
+				<div class="HuiSuo_contact">
+					<div class="HuiSuo_addr">地址：<%=@order.per_user.address%></div>
+					<div class="HuiSuo_phone">电话：<%=@order.per_user.phone%></div>
 				</div>
-				<div class="box_title">
-					<img src="/images/label.png" alt="" />
-					<span class="title">联系我们</span>
+				<div class="box_btn">
+					<button class="mui-btn mui-btn-outlined" id="go_technician">先去看看技师</button>
+					<button id="share_btn" class="mui-btn mui-btn-positive comfirm_BD">领取￥<%=@coupon_rule.face_value%>代金券</button>
 				</div>
-				<div class="box_contact">
-					<div class="size huisuo_addr">
-						地址：<%=@order.per_user.address%>
-					</div>
-					<div class="size huisuo_phone">
-						电话：<%=@order.per_user.phone%>
-					</div>
+				<a class="type_a" href="">使用规则</a>
+				<div class="Line"></div>
+				<div class="Linkke">
+					<div>领客·水疗行业的微信营销利器</div>
+					<div>www.linkke.com</div>
 				</div>
 			</div>
-			<div class="box_linkke">
-				<div class="propaganda">领客 · 水疗行业的微信营销利器</div>
-				<div class="website">www.linkke.cn</div>
+		</div>
+		<div id="shareit_BangDing">
+			<div id="BangDing">
+				<div class="box_icon close_BD">
+					<span class="mui-icon mui-icon-closeempty"></span>
+				</div>
+				<div class="BangDing_tip">送你一张<%=@order.per_user.name%>会所的代金券</div>
+				<div class="box_img">
+					<div class="Num">￥<%=@coupon_rule.face_value%></div>
+					<div class="voucher">代金券</div>
+				</div>
+				<div class="huisuo_addr"><%=@order.per_user.address%></div>
+				<div class="infor_input_2">
+					<button id="btn" class="mui-btn mui-btn-outlined">获取验证码</button>
+					<input type="tel" placeholder="请输入手机号码！" required="" id='phone' />
+				</div>
+				<div class="infor_input">
+					<input  type="text" placeholder="请输入验证码！" required=""  id="login_user" name = "Formtest[login]" />
+				</div>
+				<button class="mui-btn mui-btn-positive comfirm_ER">领取代金券</button>
+			</div>
+		</div>
+		<div id="shareit_ErWeiMa">
+			<div id="ErWeiMa">
+				<div class="box_icon close_ER">
+					<span class="mui-icon mui-icon-closeempty"></span>
+				</div>
+				<div class="type_div">￥<%=@coupon_rule.face_value%>元现金卷已经放入您的账号</div>
+				<div class="type_div">有效期<%=@coupon_rule.due_day%>天</div>
+				<div class="box_erweima">
+					<img src="<%=@sangna_config.qr_code.url%>" alt="" width="140px" height="140px" />
+				</div>
+				<div class="type_div_2">长按二维码查看技师照片和评价</div>
+				<div class="Line"></div>
+				<div class="type_div_2"><%=@order.per_user.address%></div>
+				<div class="type_div_2">电话： <%=@order.per_user.phone%></div>
 			</div>
 		</div>
 		<script type="text/javascript">
-			$(function(){
-				var width = window.innerWidth;
-				$('.ground').css("width",width*0.8);
-				$('.ground').css("height",width*0.8*274/363);
-				$('.box_voucher').css("height",width*0.8*274/363+10);
-				$('.head').css("height",width*0.8*274/363+80);
-				$('.money_num').css("bottom",width*0.8*274/363*0.36)
-				$('.company').css("bottom",width*0.8*274/363*0.35)
+			$(function() {
+				$('.header_tip').css( 'width',window.innerWidth*0.92-60 );
+				$('.HuiSuo_img').css( 'width',window.innerWidth*0.92*0.85 );
+				$('.HuiSuo_contact').css( 'width',window.innerWidth*0.92*0.85 );
+				$('#BangDing>.box_img').css( 'height',$('.box_img').width()*1.3 );
+				$('.HuiSuo_img>img').css( 'width',window.innerWidth*0.92*0.85-6 );
+			<%if @bind%>
+				$('.comfirm_BD').click(function(){
+					$.post('get_redbage',{o_id:'<%=params[:o_id]%>'},function(obj){
+							if(obj=='ok'){
+								mui.toast('领取成功！');	
+								window.location.replace("my_account?appid=<%=params[:appid]%>&new=true")
+							}
+							else{
+								mui.toast('已经领取过！');
+							}
+					})
+				})
 			})
+			<%else%>
+				//打开手机绑定的弹窗
+				$('.comfirm_BD').click(function(){
+					$('#shareit_BangDing').show();
+				})
+				$('.close_BD').click(function(){
+					$('#shareit_BangDing').hide();
+				})
+				
+				$('.comfirm_ER').click(function(){
+					$.post('bind_phone',{appid:'<%=params[:appid]%>',phone:$("#phone").val(),code:$("#login_user").val()},function(obj){
+						  if(obj=='err'){
+									mui.toast("验证码错误!");
+							}
+							else{
+									mui.toast('绑定成功!'); 
+									$('#shareit_ErWeiMa').show();
+									$('#shareit_BangDing').hide();
+
+									$.post('get_redbage',{o_id:'<%=params[:o_id]%>'},function(obj){
+											if(obj=='ok'){
+													mui.toast('领取成功！');	
+											}
+											else{
+													mui.toast('已经领取过！');
+											}
+									})
+							}
+					}) 
+				})
+				$('.close_ER').click(function(){
+					$('#shareit_ErWeiMa').hide();
+				})
+				//$('.box_erweima>img').css( 'height',$('.box_erweima>img').width );
+			})
+			//倒计时
+			document.getElementById("btn").addEventListener("click",function(){
+				var count = 60;
+                var countdown = setInterval(CountDown, 1000)   
+                function CountDown() {
+                		if(count>0){
+												$('#btn').attr('disabled','disabled');
+										}else{
+												$('#btn').removeAttr('disabled');
+										}
+	    			 	
+                    $("#btn").html( count + " 秒");
+                    if (count == 0) {
+                    		$("#btn").html('获取验证码');
+                        clearInterval(countdown);
+                    }
+                    count--;
+                }
+						var user_val=$('#phone').val();
+						$.post('sent_code',{phone:user_val,appid:'<%=params[:appid]%>'},function(data){
+								if(data=='exist'){
+										mui.toast('该用户名已存在');
+										$("#btn").html('获取验证码');
+										clearInterval(countdown);
+								}
+								else if(data=='err'){
+										mui.toast('请输入正确的手机号码!'); 
+										$("#btn").html('获取验证码');
+										clearInterval(countdown);
+								}
+								else if (data=='提交成功'){
+								}
+								else{
+										mui.toast(data);
+										$("#btn").html('获取验证码');
+										clearInterval(countdown);
+								}
+						})
+		   	})
+		   	<%end%>
+			//倒计时
 		</script>
 <%end%>

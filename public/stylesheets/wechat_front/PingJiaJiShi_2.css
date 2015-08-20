@@ -204,7 +204,11 @@
   	color: white;
   	font-size: 24px;
 }
-
+.remark_info {
+	margin-bottom: 15px;
+	color:  #8B6E6E;
+	font-size: 0.66em;
+}
 
 
 

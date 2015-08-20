@@ -13,20 +13,14 @@
 			<title>技师详细</title>
 		<script>
 				$(function(){
-				   $.each($(".option1"),function(){
-						if($(this).html()!="未评价"){
-							var value=$(this).children(":last").html();
-							value=(value.substr(0,value.length-1))/100*5;
-							for(var i=0;i< parseInt(value);i++){
-								$(this).children().eq(i+1).attr("class","mui-icon iconfont icon-xingxingman")
+				   $.each($(".option_score"),function(a,b){
+						 if (value!="no evalution"){
+							var value=$(this).html();
+							for(var i=0;i< Math.round(value);i++){
+								$(this).prev().children().children().eq(i).attr("class","on")
 							}
-							var o_value=value-parseInt(value);
-							if(o_value>0.3&&o_value<0.7){
-									$(this).children().eq(parseInt(value)+1).attr("class","mui-icon iconfont icon-xingxingbanke")
-							}
-						}
-					 })
-				 
+						 }
+					 })  
 						$("#collect").click(function(){
 								var status="add";
 								if($(this).attr("class").substr(-1)=="n"){
@@ -275,6 +269,23 @@
 --!>	
 				<div class="evaluate">
 				<div class="title fs16 pt20">评价</div>
+					<div class="box_pingjia_xingxing">
+              <%TechnicianLevel.where(status:1,del:1).each_with_index do |level,index|%>
+								<div class="box_xingxing">
+									<span class="title_option"><%=level.name%></span>
+									<div class="starts">
+										<ul id="pingStar1">
+											<%level.most_level.times do |a|%>
+											<li rel="<%=a%>" title="<%=a%>分" ><span class="mui-icon iconfont icon-xingxingman"></span></li>
+											<%end%>
+										</ul>
+									</div>
+									<span class="option_score"><%=get_review_rate(@technician.id,level.id)%></span>
+							</div>
+						<%end%>
+						</div>
+						<div class="JianGe"></div>
+
 				<%TechniqueEvalution.where(del:1).each do |evalution|%>
 				<div class="box_evaluate">
 					<span class="comment"><%=evalution.name%></span>

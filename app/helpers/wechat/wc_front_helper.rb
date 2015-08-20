@@ -69,12 +69,14 @@ module Wechat::WcFrontHelper
 		language.join(',')
 	end
 
-	def get_review_rate(technician_id)
-		level_arr=MasseusesReview.where(masseuses_id:technician_id).pluck(:star_level)
+	def get_review_rate(technician_id,level_id)
+		level_arr=TechnicianLevelRemark.where(per_user_masseuse_id:technician_id,technician_level_id:level_id,del:1).pluck(:level)
 		if level_arr.empty?
-			false 	
+		"no evalution"	
 		else
-		  @level_rate=((level_arr.inject{|a,b| a+b}).to_f/(level_arr.size*5).to_f)*100
+			a=level_arr.sum.to_f
+			b=level_arr.size.to_f
+			(a/b).to_s(:rounded,precision:1)
 		end
 	end
 
