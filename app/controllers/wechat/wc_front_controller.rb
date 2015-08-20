@@ -161,6 +161,11 @@ class Wechat::WcFrontController < ApplicationController
 					end
 	end
 
+	def recommend_technician
+			@technicians=PerUserMasseuse.take(3)
+			@wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
+	end
+
 	def project_info
 			@projects=PerUserProject.where(user_id:@sangna_config.per_user.id,p_type:2).open
 	end

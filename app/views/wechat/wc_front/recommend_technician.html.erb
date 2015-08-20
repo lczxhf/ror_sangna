@@ -1,0 +1,45 @@
+<%content_for :head do%>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+			<%=javascript_include_tag "jquery-2.1.0"%>
+       <%=javascript_include_tag "mui.min"%>
+       <%=stylesheet_link_tag "wechat_front/mui.min"%>
+       <%=stylesheet_link_tag "wechat_front/common"%>
+       <%=stylesheet_link_tag "wechat_front/JiShi_TuiJian"%>
+     <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>	
+		<title>技师推荐</title>
+		<script type="text/javascript">
+
+		</script>
+<%end%>
+<%content_for :body do%>
+		<div class="mui-content">
+			<div class="title">热门技师推荐</div>
+			<div class="box_contact">
+				<%@technicians.each_with_index do |technician,index|%>
+				<%if index==@technicians.size-1%>
+				<div class="Jishi_infor border_bottpm">
+				<%else%>
+				<div class="Jishi_infor">
+				<%end%>
+					<div class="box_jishi">
+						<div class="box_img">
+							<img class="jishi_img" src="<%=technician.get_image(@wechat_config.member_id)%>" alt="" height="50px" width="50px" />
+						</div>
+						<div class="box_infor_number">
+							<span class="jishi_num fs17"><%=technician.job_number%></span>
+							<span class="jishi_sex fs11">（<%=technician.sex==1 ? '男' : '女'%>）</span>
+						</div>
+						<span class="jishi_type"><%=technician.per_user_project.name.to(1)%></span>
+					</div>
+					<div class="evaluate fs10">
+						客户评价：
+						<span class="jishi_best"><%=get_hot_comment(technician.id)%></span>
+					</div>
+				</div>
+				<%end%>
+			</div>
+		</div>
+<%end%>

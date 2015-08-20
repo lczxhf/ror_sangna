@@ -57,6 +57,7 @@ Rails.application.routes.draw do
 		get "wc_front/card_rule" => "wc_front#card_rule"
     get "wc_front/technician_remark_level" => "wc_front#technician_remark_level"
     post "wc_front/remark_level" => "wc_front#remark_level"
+    get  "wc_front/recommend_technician" => "wc_front#recommend_technician"
     #match "/:name/:controller/:action",:via=>[:get]
   end
 
