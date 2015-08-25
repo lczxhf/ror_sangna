@@ -137,25 +137,25 @@ end
   end
 
    def set_industry
-      sangna_config=SangnaConfig.find(params[:id])
-      one='39'
-      two='24'
-      url="https://api.weixin.qq.com/cgi-bin/template/api_set_industry?access_token="+sangna_config.token
-		   body='{"industry_id1":"'+one+'","industry_id2":"'+two+'"}'
-       ThirdParty.sent_to_wechat(url,body)
-			 sleep 1000
-      url2="https://api.weixin.qq.com/cgi-bin/template/api_add_template?access_token="+sangna_config.token
-      TempleteNumber.find_each do |templete|
-      		body2='{"template_id_short":"'+templete.number+'"}'
-					result=ThirdParty.sent_to_wechat(url2,body2)
-					puts result
-      		templete_id=JSON.parse(result)["template_id"]
-      		t_message=TempleteMessage.new
-      		t_message.templete_id=templete_id
-      		t_message.sangna_config=sangna_config
-      		t_message.templete_number=templete
-      		t_message.save!
-      end
+     sangna_config=SangnaConfig.find(params[:id])
+   #   one='39'
+    #  two='24'
+     # url="https://api.weixin.qq.com/cgi-bin/template/api_set_industry?access_token="+sangna_config.token
+		  # body='{"industry_id1":"'+one+'","industry_id2":"'+two+'"}'
+      # ThirdParty.sent_to_wechat(url,body)
+			 #sleep 1000
+      #url2="https://api.weixin.qq.com/cgi-bin/template/api_add_template?access_token="+sangna_config.token
+      #TempleteNumber.find_each do |templete|
+      #		body2='{"template_id_short":"'+templete.number+'"}'
+			#		result=ThirdParty.sent_to_wechat(url2,body2)
+			#		puts result
+      #		templete_id=JSON.parse(result)["template_id"]
+      #		t_message=TempleteMessage.new
+      #		t_message.templete_id=templete_id
+      #		t_message.sangna_config=sangna_config
+      #		t_message.templete_number=templete
+      #		t_message.save!
+      #end
    	  redirect_to :controller=>"gzh_manage",:action=>'set_menu',id:sangna_config.id,:authorize=>true
    end
 end

@@ -72,7 +72,7 @@ module Wechat::WcFrontHelper
 	def get_review_rate(technician_id,level_id)
 		level_arr=TechnicianLevelRemark.where(per_user_masseuse_id:technician_id,technician_level_id:level_id,del:1).pluck(:level)
 		if level_arr.empty?
-		"no evalution"	
+		"暂无评论"	
 		else
 			a=level_arr.sum.to_f
 			b=level_arr.size.to_f
@@ -95,9 +95,11 @@ module Wechat::WcFrontHelper
 			if !Rails.cache.read("#{params[:appid]}_ticket")
 						if Time.now-@sangna_config.updated_at>=7200
               result=JSON.parse(ThirdParty.refresh_gzh_token(Rails.cache.read(:access_token),'wxf6a05c0e64bc48e1',@sangna_config.appid,@sangna_config.refresh_token))
+							if result['authorizer_refresh_token']
               @sangna_config.refresh_token=result['authorizer_refresh_token']
               @sangna_config.token=result['authorizer_access_token']
               @sangna_config.save
+							end
 						end					
 						url="https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=#{@sangna_config.token}&type=jsapi"
 						ticket=JSON.parse(ThirdParty.get_to_wechat(url))["ticket"]

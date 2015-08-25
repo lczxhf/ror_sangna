@@ -20,32 +20,46 @@ class Wechat::WcFrontController < ApplicationController
 			puts params
 			@wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
 		 if params[:collect]=='true'	
-				technician_ids=@sangna_config.per_user.masseuses_collects.where(member_id:@wechat_config.member.id,del:1).limit(6).offset(6*(params[:page].to_i-1)).pluck(:per_user_masseuse_id)
+				technician_ids=@sangna_config.per_user.masseuses_collects.where(member_id:@wechat_config.member.id,del:1).pluck(:per_user_masseuse_id)
 				if technician_ids.empty?
 						technicians=[]
 				else
+						sql="and b.del=1 and b.status=1 and b.id IN(#{technician_ids.join(',')}) and b.user_id=#{@sangna_config.per_user_id} "
 					if params[:p_type]
 							if params[:p_type]=='true'
-								technicians=@sangna_config.per_user.per_user_masseuses.where(job_class_status:params[:id]).active.where("id IN (#{technician_ids.join(',')})").limit(6).offset(6*(params[:page].to_i-1))		
+								#technicians=@sangna_config.per_user.per_user_masseuses.where(job_class_status:params[:id]).active.where("id IN (#{technician_ids.join(',')})").limit(6).offset(6*(params[:page].to_i-1))		
+								sql=sql+"and b.job_class_status=#{params[:id]}"
 							else
-								technicians=@sangna_config.per_user.per_user_masseuses.where("projects_id regexp '(^|[^0-9])#{params[:id]}([^0-9]|$)'").active.where("id IN (#{technician_ids.join(',')})").limit(6).offset(6*(params[:page].to_i-1))
+								#technicians=@sangna_config.per_user.per_user_masseuses.where("projects_id regexp '(^|[^0-9])#{params[:id]}([^0-9]|$)'").active.where("id IN (#{technician_ids.join(',')})").limit(6).offset(6*(params[:page].to_i-1))
+								sql=sql+"and b.projects_id regexp '(^|[^0-9])#{params[:id]}([^0-9]|$)'"
 							end
 					else
-								technicians=PerUserMasseuse.where("id in (#{technician_ids.join(',')})").active.limit(6).offset(6*(params[:page].to_i-1))
+								#technicians=PerUserMasseuse.where("id in (#{technician_ids.join(',')})").active.limit(6).offset(6*(params[:page].to_i-1))
 					end
 				end
 		 else
+			 sql="and b.del=1 and b.status=1 and b.user_id=#{@sangna_config.per_user_id} "
 			  if params[:p_type]
 							if params[:p_type]=='true'
-									technicians=@sangna_config.per_user.per_user_masseuses.where(job_class_status:params[:id]).active.limit(6).offset(6*(params[:page].to_i-1))			
+									#technicians=@sangna_config.per_user.per_user_masseuses.where(job_class_status:params[:id]).active.limit(6).offset(6*(params[:page].to_i-1))			
+									sql=sql+"and b.job_class_status=#{params[:id]}"
 							else
-									technicians=@sangna_config.per_user.per_user_masseuses.where("projects_id regexp '(^|[^0-9])#{params[:id]}([^0-9]|$)'").active.limit(6).offset(6*(params[:page].to_i-1))
-
+								#	technicians=@sangna_config.per_user.per_user_masseuses.where("projects_id regexp '(^|[^0-9])#{params[:id]}([^0-9]|$)'").active.limit(6).offset(6*(params[:page].to_i-1))
+								sql=sql+"and b.projects_id regexp '(^|[^0-9])#{params[:id]}([^0-9]|$)'"
 							end
 				else
-							technicians=PerUserMasseuse.where(user_id:@sangna_config.per_user.id).active.limit(6).offset(6*(params[:page].to_i-1))
+							#technicians=PerUserMasseuse.where(user_id:@sangna_config.per_user.id).active.limit(6).offset(6*(params[:page].to_i-1))
 				end
 		end
+				mysql="select b.* from 
+				(per_user_masseuses as b left join order_by_masseuses as a on a.masseuse_id=b.id) 
+				left join per_user_projects as d on a.project_id=d.id
+				 where (a.id=(select id from order_by_masseuses where masseuse_id=b.id and del=1 order by id desc limit 0,1 ) 
+				  or (select count(*) from per_user_masseuses where masseuse_id=b.id)=0)
+					#{sql}
+				  order by abs(2.1-work_status) asc,DATE_ADD(a.created_at,INTERVAL d.duration MINUTE) asc
+					limit #{6*(params[:page].to_i-1)},6"
+				technicians=PerUserMasseuse.find_by_sql(mysql)
 		  if !technicians.empty?
 					arr=[]
 					technicians.each do |technician|
@@ -75,31 +89,49 @@ class Wechat::WcFrontController < ApplicationController
 	def search
 	wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
 	  if params[:is_mine]!='true'
+			 sql="and b.del=1 and b.status=1 and b.user_id=#{@sangna_config.per_user_id} "
 			if params[:p_type]
 					if params[:p_type]=='true'
-							technicians=@sangna_config.per_user.per_user_masseuses.where(job_class_status:params[:id]).active.limit(6)		
+							#technicians=@sangna_config.per_user.per_user_masseuses.where(job_class_status:params[:id]).active.limit(6)		
+							sql=sql+"and b.job_class_status=#{params[:id]}"
 					else
-							technicians=@sangna_config.per_user.per_user_masseuses.where("projects_id regexp '(^|[^0-9])#{params[:id]}([^0-9]|$)'").active.limit(6)
+							#technicians=@sangna_config.per_user.per_user_masseuses.where("projects_id regexp '(^|[^0-9])#{params[:id]}([^0-9]|$)'").active.limit(6)
+							sql=sql+"and b.projects_id regexp '(^|[^0-9])#{params[:id]}([^0-9]|$)'"
 					end
 			else
-					technicians=@sangna_config.per_user.per_user_masseuses.where(job_number:params[:t_number]).active	
+					#technicians=@sangna_config.per_user.per_user_masseuses.where(job_number:params[:t_number]).active	
+					sql=sql+"and b.job_number=#{params[:t_number]}"
 			end
 		else
 			collect=@sangna_config.per_user.masseuses_collects.where(member_id:wechat_config.member_id,del:1).pluck(:per_user_masseuse_id)
 			if collect.empty?
 					technicians=[]
 			else
+					sql="and b.del=1 and b.status=1 and b.user_id=#{@sangna_config.per_user_id} and b.id IN (#{collect.join(',')})"
 					if params[:p_type]
 							if params[:p_type]=='true'
-									technicians=@sangna_config.per_user.per_user_masseuses.where(job_class_status:params[:id]).active.where("id IN (#{collect.join(',')})").limit(6)		
+									#technicians=@sangna_config.per_user.per_user_masseuses.where(job_class_status:params[:id]).active.where("id IN (#{collect.join(',')})").limit(6)		
+									sql=sql+"and b.job_class_status=#{params[:id]}"
 							else
-									technicians=@sangna_config.per_user.per_user_masseuses.where("projects_id regexp '(^|[^0-9])#{params[:id]}([^0-9]|$)'").where("id IN (#{collect.join(',')})").active.limit(6)
+									#technicians=@sangna_config.per_user.per_user_masseuses.where("projects_id regexp '(^|[^0-9])#{params[:id]}([^0-9]|$)'").where("id IN (#{collect.join(',')})").active.limit(6)
+									sql=sql+"and b.projects_id regexp '(^|[^0-9])#{params[:id]}([^0-9]|$)'"
 							end
 					else
-							technicians=@sangna_config.per_user.per_user_masseuses.where(job_number:params[:t_number]).where("id IN (#{collect.join(',')})").active
+							#technicians=@sangna_config.per_user.per_user_masseuses.where(job_number:params[:t_number]).where("id IN (#{collect.join(',')})").active
+							sql=sql+"and b.job_number=#{params[:t_number]}"
 					end
 			end	
 		end
+			mysql="select b.* from 
+				(per_user_masseuses as b left join order_by_masseuses as a on a.masseuse_id=b.id) 
+				left join per_user_projects as d on a.project_id=d.id
+				 where (a.id=(select id from order_by_masseuses where masseuse_id=b.id and del=1 order by id desc limit 0,1 ) 
+				  or (select count(*) from per_user_masseuses where masseuse_id=b.id)=0)
+					#{sql}
+				  order by abs(2.1-work_status) asc,DATE_ADD(a.created_at,INTERVAL d.duration MINUTE) asc
+					limit 0,6"
+				technicians=PerUserMasseuse.find_by_sql(mysql)
+
 				if !technicians.empty?
 						string=technicians.collect do |technician|
 								if params[:inscene]=='true'
@@ -143,7 +175,6 @@ class Wechat::WcFrontController < ApplicationController
 				@order=OrderByMasseuse.includes(:per_user_masseuse,:per_user,member: [:wechat_config]).find(params[:o_id])
 					if @order &&  @order.member.wechat_config.openid==cookies.signed["#{params[:appid]}_openid"]
 							@sangna_config=@order.per_user.sangna_config
-
 							if @order.technician_level_remarks.empty?
 									@remark=false
 							else
@@ -162,7 +193,7 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def recommend_technician
-			@technicians=PerUserMasseuse.take(3)
+			@technicians=@sangna_config.per_user.per_user_masseuses.take(3)
 			@wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
 	end
 
@@ -183,7 +214,7 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def project_class
-				projects=@sangna_config.per_user.per_user_projects.where(p_type:1).joins("left join per_user_projects as sub on sub.parent_id=per_user_projects.id").uniq
+				projects=@sangna_config.per_user.per_user_projects.where(p_type:1).open.joins("left join per_user_projects as sub on sub.parent_id=per_user_projects.id").uniq
 				string=projects.collect do |a|
 							"<div class='search_project'><button class='GongZhong' onclick=\"search_by_project('#{a.id}',true)\">#{a.name}</button>"+
 							a.per_user_projects.collect {|b| "<button class='XiangMu' onclick=\"search_by_project('#{b.id}',false)\">#{b.name}</button>"}.join+"</div>"
@@ -246,6 +277,7 @@ class Wechat::WcFrontController < ApplicationController
 				else
 					render nothing: true
 				end
+				
 	end
 
 	def get_redbage

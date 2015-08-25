@@ -41,7 +41,7 @@
 				<div class="Line"></div>
 				<div class="Linkke">
 					<div>领客·水疗行业的微信营销利器</div>
-					<div>www.linkke.com</div>
+					<div>www.linkke.cn</div>
 				</div>
 			</div>
 		</div>
@@ -71,7 +71,7 @@
 				<div class="box_icon close_ER">
 					<span class="mui-icon mui-icon-closeempty"></span>
 				</div>
-				<div class="type_div">￥<%=@coupon_rule.face_value%>元现金卷已经放入您的账号</div>
+				<div class="type_div" id='tip'>￥<%=@coupon_rule.face_value%>元现金卷已经放入您的账号</div>
 				<div class="type_div">有效期<%=@coupon_rule.due_day%>天</div>
 				<div class="box_erweima">
 					<img src="<%=@sangna_config.qr_code.url%>" alt="" width="140px" height="140px" />
@@ -118,6 +118,8 @@
 							}
 							else{
 									mui.toast('绑定成功!'); 
+									var tip=$("#tip").html().replace('您的',$("#phone").val());
+									$("#tip").html(tip);
 									$('#shareit_ErWeiMa').show();
 									$('#shareit_BangDing').hide();
 

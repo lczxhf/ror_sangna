@@ -53,7 +53,9 @@ class ThirdParty
 	def self.refresh_gzh_token(component_token,component_appid,authorizer_appid,authorizer_rtoken)
 		url='https://api.weixin.qq.com/cgi-bin/component/api_authorizer_token?component_access_token='+component_token
 		body='{"component_appid":"'+component_appid+'","authorizer_appid":"'+authorizer_appid+'","authorizer_refresh_token":"'+authorizer_rtoken+'"}'	
-		sent_to_wechat(url,body)
+		result=sent_to_wechat(url,body)
+		puts result
+		result
 	end
 #	def self.get_pre_auth_code(token)
 #		uri = URI('https://api.weixin.qq.com/cgi-bin/component/api_create_preauthcode?component_access_token='+token)

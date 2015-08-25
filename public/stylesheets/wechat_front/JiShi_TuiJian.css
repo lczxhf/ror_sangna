@@ -73,6 +73,26 @@
 
 
 
+/*按钮*/
+.box_btn{
+		width: 95%;
+			margin: 10px auto 0;
+				text-align: center;
+}
+.box_btn .mui-btn-outlined{
+		width: 46%;
+			background: #E6E6E6;
+				color: #867B7B;
+					border: none;
+}
+.box_btn .mui-btn-positive{
+		width: 46%;
+			padding: 6px 15px;
+				background: #58D47C;
+					color: white;
+						border: none;
+}
+
 
 
 

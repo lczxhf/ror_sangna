@@ -11,7 +11,15 @@
      <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>	
 		<title>技师推荐</title>
 		<script type="text/javascript">
-
+				function to_technician(t_id){
+					window.location.href='technician_info?appid=<%=params[:appid]%>&t_id='+t_id;
+				}
+				function back(){
+					history.go(-1);	
+				}
+				function to_person(){
+					window.location.href='my_account?appid=<%=params[:appid]%>';
+				}
 		</script>
 <%end%>
 <%content_for :body do%>
@@ -20,9 +28,9 @@
 			<div class="box_contact">
 				<%@technicians.each_with_index do |technician,index|%>
 				<%if index==@technicians.size-1%>
-				<div class="Jishi_infor border_bottpm">
+				<div class="Jishi_infor border_bottpm" onclick='to_technician(<%=technician.id%>)'>
 				<%else%>
-				<div class="Jishi_infor">
+				<div class="Jishi_infor" onclick='to_technician(<%=technician.id%>)'>
 				<%end%>
 					<div class="box_jishi">
 						<div class="box_img">
@@ -40,6 +48,10 @@
 					</div>
 				</div>
 				<%end%>
+			</div>
+			<div class="box_btn">
+						<button class="mui-btn mui-btn-outlined" onclick='back()'>返回</button>
+						<button class="mui-btn mui-btn-positive" onlcik='to_person()'>个人中心</button>
 			</div>
 		</div>
 <%end%>

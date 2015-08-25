@@ -144,7 +144,7 @@
 				<%if @remark%>
 				<div class='remark_info'>技师印象:<%=@order.masseuses_review.try(:technique_evalution).try(:name) || "无"%></div>
 				<div class="box_btn">
-					<button class="mui-btn mui-btn-outlined" >投诉建议</button>
+				<a href='tel:<%=@order.per_user.phone%>'><button class="mui-btn mui-btn-outlined" >投诉建议</button></a>
 					<button class="mui-btn mui-btn-positive" id='share'>分享这次体验</button>
 					<%else%>
 					<div class="box_btn">
@@ -159,20 +159,29 @@
 				</div>
 			</div>
 		</div>
-		<script type="text/javascript">
+		<div id="shareit">
+		  <img class="arrow" src="/images/share-it.png">
+		  <div href="#" id="follow" >点击右上角即可分享</div>
+		</div>
+		<script>
 		window.onload = function () {
 			<%if @remark%>
+				  //立即分享到微信朋友圈点击事件
+		  $("#share").on("click", function() {
+		      $("#shareit").show();
+		  });
+		  $("#shareit").on("click", function(){
+		    $("#shareit").hide(); 
+		  })
 			var hash=new Array();
 			<%@technician_level_remarks.each_with_index do |level,index|%>
+				
 				var s<%=index+1%> = document.getElementById("pingStar<%=index+1%>")
 				var n<%=index+1%> = s<%=index+1%>.getElementsByTagName("li")
-		        for (var i = 0; i < n<%=index+1%>.length; i++) {
 		            var q = <%=level.level%>
 		            for (var i = 0; i < q; i++) {
 		                n<%=index+1%>[i].className = 'on';
 		            }
-		     }  
-			
 			<%end%>
 			<%else%>
 			var hash=new Array();
@@ -199,9 +208,14 @@
 				<%end%>
 		    $("#remark_level").click(function(){
 		    	var data="";
+					var remark=false;
 		    	for(var key in hash){  
+							if(hash[key]>0){
+								remark=true;
+							}
         			data+="&"+key+"="+hash[key];   
     			} 
+					if(remark==true){
     			data=data.substring(1)+"&o_id="+<%=params[:o_id]%>+"&appid=<%=params[:appid]%>";
     			$.post("/wechat/wc_front/remark_level",data,function(obj){
     				if(obj!="err"){
@@ -211,6 +225,10 @@
     					mui.toast('您已评价');
     				}
     			})
+					}
+					else{
+						mui.toast('您尚未评价!');
+					}
 		    })
 					$("#leave").click(function(){
 						wx.closeWindow();

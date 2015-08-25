@@ -6,4 +6,14 @@ class SangnaConfig < ActiveRecord::Base
 	has_many :templete_messages
 	self.primary_key = :id
 	mount_uploader :qr_code,QrcodeUploader
+
+	before_save :check_token
+
+	def check_token
+			if token.blank?
+					false
+			else
+					true
+			end
+	end
 end

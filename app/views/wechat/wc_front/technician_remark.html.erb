@@ -39,7 +39,7 @@
 													$.post('get_redbage',{o_id:'<%=params[:o_id]%>'},function(r_obj){
 													   if(r_obj=='ok'){
 																	mui.toast('分享成功!代金券已放入您的卡券中');
-																	window.location.replace('my_account?appid=<%=params[:appid]%>&new=true');
+																	window.location.replace('recommend_technician?appid=<%=params[:appid]%>');
 															}
 															else{
 																	mui.toast('您已领取过代金券!');
@@ -71,7 +71,7 @@
 													$.post('get_redbage',{o_id:'<%=params[:o_id]%>'},function(r_obj){
 													   if(r_obj=='ok'){
 																	mui.toast('分享成功!代金券已放入您的卡券中');
-																	window.location.replace('my_account?appid=<%=params[:appid]%>&new=true');
+																	window.location.replace('recommend_technician?appid=<%=params[:appid]%>');
 															}
 															else{
 																	mui.toast('您已领取过代金券!');
