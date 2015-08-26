@@ -18,7 +18,11 @@
 					history.go(-1);	
 				}
 				function to_person(){
+					<%if params[:new]%>
+					window.location.href='my_account?appid=<%=params[:appid]%>&new=<%=params[:new]%>';
+					<%else%>
 					window.location.href='my_account?appid=<%=params[:appid]%>';
+					<%end%>
 				}
 		</script>
 <%end%>
@@ -51,7 +55,7 @@
 			</div>
 			<div class="box_btn">
 						<button class="mui-btn mui-btn-outlined" onclick='back()'>返回</button>
-						<button class="mui-btn mui-btn-positive" onlcik='to_person()'>个人中心</button>
+						<button class="mui-btn mui-btn-positive" onclick='to_person()'>个人中心</button>
 			</div>
 		</div>
 <%end%>

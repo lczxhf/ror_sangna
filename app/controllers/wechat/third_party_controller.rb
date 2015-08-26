@@ -29,6 +29,10 @@ class Wechat::ThirdPartyController < ApplicationController
 		#img=MiniMagick::Image.read ab
 		#img.format 'png'
 		#PerUserImg.create!(user_id:1,status:1,i_type:1,url:img)
+		Member.where(user_id:17).each do |a|
+				a.per_user_qr_code=nil
+				a.save
+		end
   end
 def test1
 				render plain: 'a'

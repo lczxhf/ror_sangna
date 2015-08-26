@@ -31,7 +31,7 @@
 													$.post('get_redbage',{o_id:'<%=params[:o_id]%>'},function(r_obj){
 													   if(r_obj=='ok'){
 																	mui.toast('分享成功!代金券已放入您的卡券中');
-																	window.location.replace('my_account?appid=<%=params[:appid]%>&new=true');
+																	window.location.replace('recommend_technician?appid=<%=params[:appid]%>&new=true');
 															}
 															else{
 																	mui.toast('您已领取过代金券!');
@@ -53,7 +53,7 @@
 													$.post('get_redbage',{o_id:'<%=params[:o_id]%>'},function(r_obj){
 													   if(r_obj=='ok'){
 																	mui.toast('分享成功!代金券已放入您的卡券中');
-																	window.location.replace('my_account?appid=<%=params[:appid]%>&new=true');
+																	window.location.replace('recommend_technician?appid=<%=params[:appid]%>&new=true');
 															}
 															else{
 																	mui.toast('您已领取过代金券!');
@@ -66,20 +66,11 @@
 			 });
 			 <%else%>
 				wx.onMenuShareTimeline({
-		      title: '欢迎', 
+		      title: '我刚去了<%=Region.where(regions_code:@order.per_user.district_id).first.regions_NAME%><%=@order.per_user.name%>会所,他们的服务一流', 
 		        link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>&skip=h',
-		        imgUrl: 'http://weixin.linkke.cn/images/buttom_img.png',
+		        imgUrl: 'http://linkke.cn<%=@order.per_user.per_user_imgs.first.url.thumb.url%>',
 		        success: function(res){
-													$.post('get_redbage',{o_id:'<%=params[:o_id]%>'},function(r_obj){
-													   if(r_obj=='ok'){
-																	mui.toast('分享成功!代金券已放入您的卡券中');
-																	window.location.replace('my_account?appid=<%=params[:appid]%>&new=true');
-															}
-															else{
-																	mui.toast('您已领取过代金券!');
-																	$("#shareit").hide(); 
-															}
-													 })
+								window.location.replace('recommend_technician?appid=<%=params[:appid]%>');
 		        },
 		        cancel: function(res){
 				    }
@@ -87,21 +78,12 @@
 
 
 			 wx.onMenuShareAppMessage({
-				    title: '欢迎', 
+				    title: '我刚去了<%=Region.where(regions_code:@order.per_user.district_id).first.regions_NAME%><%=@order.per_user.name%>会所,他们的服务一流', 
 					  desc: '', 
 					  link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>&skip=h', 
-						imgUrl: 'http://weixin.linkke.cn/images/buttom_img.png',
+						imgUrl: 'http://linkke.cn<%=@order.per_user.per_user_imgs.first.url.thumb.url%>',
 						success: function () { 
-													$.post('get_redbage',{o_id:'<%=params[:o_id]%>'},function(r_obj){
-													   if(r_obj=='ok'){
-																	mui.toast('分享成功!代金券已放入您的卡券中');
-																	window.location.replace('my_account?appid=<%=params[:appid]%>&new=true');
-															}
-															else{
-																	mui.toast('您已领取过代金券!');
-																	$("#shareit").hide(); 
-															}
-													 })
+								window.location.replace('recommend_technician?appid=<%=params[:appid]%>');
 						},
 						cancel: function () { 
 						}

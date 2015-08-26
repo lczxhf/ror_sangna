@@ -22,7 +22,7 @@ class Wechat::WcFrontController < ApplicationController
 		 if params[:collect]=='true'	
 				technician_ids=@sangna_config.per_user.masseuses_collects.where(member_id:@wechat_config.member.id,del:1).pluck(:per_user_masseuse_id)
 				if technician_ids.empty?
-						technicians=[]
+							sql=''
 				else
 						sql="and b.del=1 and b.status=1 and b.id IN(#{technician_ids.join(',')}) and b.user_id=#{@sangna_config.per_user_id} "
 					if params[:p_type]
@@ -51,7 +51,8 @@ class Wechat::WcFrontController < ApplicationController
 							#technicians=PerUserMasseuse.where(user_id:@sangna_config.per_user.id).active.limit(6).offset(6*(params[:page].to_i-1))
 				end
 		end
-				mysql="select b.* from 
+				if sql!=''
+					mysql="select b.* from 
 				(per_user_masseuses as b left join order_by_masseuses as a on a.masseuse_id=b.id) 
 				left join per_user_projects as d on a.project_id=d.id
 				 where (a.id=(select id from order_by_masseuses where masseuse_id=b.id and del=1 order by id desc limit 0,1 ) 
@@ -59,7 +60,10 @@ class Wechat::WcFrontController < ApplicationController
 					#{sql}
 				  order by abs(2.1-work_status) asc,DATE_ADD(a.created_at,INTERVAL d.duration MINUTE) asc
 					limit #{6*(params[:page].to_i-1)},6"
-				technicians=PerUserMasseuse.find_by_sql(mysql)
+					technicians=PerUserMasseuse.find_by_sql(mysql)
+				else
+					technicians=[]
+				end
 		  if !technicians.empty?
 					arr=[]
 					technicians.each do |technician|
@@ -105,7 +109,7 @@ class Wechat::WcFrontController < ApplicationController
 		else
 			collect=@sangna_config.per_user.masseuses_collects.where(member_id:wechat_config.member_id,del:1).pluck(:per_user_masseuse_id)
 			if collect.empty?
-					technicians=[]
+						sql=''
 			else
 					sql="and b.del=1 and b.status=1 and b.user_id=#{@sangna_config.per_user_id} and b.id IN (#{collect.join(',')})"
 					if params[:p_type]
@@ -122,6 +126,7 @@ class Wechat::WcFrontController < ApplicationController
 					end
 			end	
 		end
+			if sql!=''
 			mysql="select b.* from 
 				(per_user_masseuses as b left join order_by_masseuses as a on a.masseuse_id=b.id) 
 				left join per_user_projects as d on a.project_id=d.id
@@ -131,7 +136,9 @@ class Wechat::WcFrontController < ApplicationController
 				  order by abs(2.1-work_status) asc,DATE_ADD(a.created_at,INTERVAL d.duration MINUTE) asc
 					limit 0,6"
 				technicians=PerUserMasseuse.find_by_sql(mysql)
-
+			else
+				technicians=[]
+			end
 				if !technicians.empty?
 						string=technicians.collect do |technician|
 								if params[:inscene]=='true'

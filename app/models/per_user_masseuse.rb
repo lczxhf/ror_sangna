@@ -4,7 +4,7 @@ class PerUserMasseuse < ActiveRecord::Base
 	#has_many :per_user_masseuses,foreign_key: 'job_class_status'
 	has_many :appointments,foreign_key: 'masseuses_id',dependent: :delete_all
 	has_many :masseuses_reviews,foreign_key: 'masseuses_id',dependent: :delete_all
-	has_many :masseuses_collects
+	has_many :masseuses_collects,dependent: :delete_all
 	belongs_to :per_user,foreign_key: "user_id"	
 	belongs_to :per_user_project,foreign_key: 'job_class_status'
 	belongs_to :masseuses_work_shift,foreign_key: "work_shift_id"
@@ -37,13 +37,13 @@ class PerUserMasseuse < ActiveRecord::Base
 			def get_image(member_id)
 						case img_permission
 						when 1 then
-							 img.normal.url
+							 masseuses_imgs.active.first.try(:url).try(:normal).try(:url) || "/images/default_img.png"
 						when 2 then
 							 "/images/buttom_img.png"
 						when 3 then
-							 Member.where("hand_code != ''").where(id:member_id).first	? img.normal.url : "/images/buttom_img.png"
+							 Member.where("hand_code != ''").where(id:member_id).first	? (masseuses_imgs.active.first.try(:url).try(:normal).try(:url) || '/images/default_img.png')  : "/images/buttom_img.png"
 						when 4 then
-							OrderByMasseuse.where(masseuse_id:id,member_id:member_id).first ? img.normal.url : "/images/buttom_img.png"
+							OrderByMasseuse.where(masseuse_id:id,member_id:member_id).first ? (masseuses_img.active.first.try(:url).try(:normal).try(:url) || '/images/default_img.png')  : "/images/buttom_img.png"
 						end
 			end
 	    private
