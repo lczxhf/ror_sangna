@@ -58,7 +58,7 @@ class Wechat::MessageController < ApplicationController
 
 							abc=''
 				else
-						abc='test'
+						abc=@weixin_message.Content
 				end
 				render xml: reply_text_message(abc)	
 			else

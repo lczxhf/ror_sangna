@@ -265,16 +265,17 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def redbage
+				puts params
 				#cookies.delete("#{params[:appid]}_openid")
 				@order=OrderByMasseuse.includes(:member,:per_user).find(params[:o_id])				
 				wechat_config=WechatConfig.includes(:wechat_user,:member).find_by_openid(cookies.signed["#{@order.per_user.sangna_config.appid}_openid"])
 				if @order.member_id==params[:id].to_i
 							if @order.member_id==wechat_config.member_id
-									@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:2,del:1,status:1).first
+									@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:2,same_id:params[:same]).first
 							elsif wechat_config.try(:wechat_user).try(:subscribe_time)
-									@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:3,del:1,status:1).first
+									@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:3,same_id:params[:same]).first
 							else
-									@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:4,del:1,status:1).first
+									@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:4,same_id:params[:same]).first
 							end
 							if wechat_config.member.username!=wechat_config.openid && wechat_config.member.username!='未关注'
 								@bind=true
@@ -288,6 +289,7 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def get_redbage
+				puts params
 				order=OrderByMasseuse.includes(:per_user_masseuse,per_user:[:sangna_config]).find(params[:o_id])
 				wechat_config=WechatConfig.includes(:wechat_user,:member).find_by_openid(cookies.signed["#{order.per_user.sangna_config.appid}_openid"])
 				member_id=wechat_config.member_id
@@ -295,11 +297,11 @@ class Wechat::WcFrontController < ApplicationController
 						render plain: 'err'
 				else
 						if order.member_id==member_id
-							coupon_rule=order.per_user.coupons_rules.where(name:'分享得红包',c_type:2,del:1,status:1).first
+							coupon_rule=order.per_user.coupons_rules.where(name:'分享得红包',c_type:2,same_id:params[:same]).first
 						elsif wechat_config.wechat_user.subscribe_time.nil?
-							coupon_rule=order.per_user.coupons_rules.where(name:'分享得红包',c_type:4,del:1,status:1).first
+							coupon_rule=order.per_user.coupons_rules.where(name:'分享得红包',c_type:4,same_id:params[:same]).first
 						else
-							coupon_rule=order.per_user.coupons_rules.where(name:'分享得红包',c_type:3,del:1,status:1).first
+							coupon_rule=order.per_user.coupons_rules.where(name:'分享得红包',c_type:3,same_id:params[:same]).first
 						end
 							coupon_record=coupon_rule.coupons_records.build
 							o = [('a'..'z'),('A'..'Z')].map{|i| i.to_a}.flatten
@@ -380,7 +382,11 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def card_rule
-				@card=CouponsRecord.includes(:coupons_rule).find(params[:id])
+				if params[:rule_id]
+					@card=CouponsRule.find(params[:rule_id]).coupons_records.build
+				else
+					@card=CouponsRecord.includes(:coupons_rule).find(params[:id])
+				end
 	end
 
 	def use_card

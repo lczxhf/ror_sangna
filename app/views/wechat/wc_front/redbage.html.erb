@@ -37,7 +37,7 @@
 					<button class="mui-btn mui-btn-outlined" id="go_technician">先去看看技师</button>
 					<button id="share_btn" class="mui-btn mui-btn-positive comfirm_BD">领取￥<%=@coupon_rule.face_value%>代金券</button>
 				</div>
-				<a class="type_a" href="">使用规则</a>
+				<a class="type_a" href="card_rule?rule_id=<%=@coupon_rule.id%>">使用规则</a>
 				<div class="Line"></div>
 				<div class="Linkke">
 					<div>领客·水疗行业的微信营销利器</div>
@@ -91,7 +91,7 @@
 				$('.HuiSuo_img>img').css( 'width',window.innerWidth*0.92*0.85-6 );
 			<%if @bind%>
 				$('.comfirm_BD').click(function(){
-					$.post('get_redbage',{o_id:'<%=params[:o_id]%>'},function(obj){
+					$.post('get_redbage',{o_id:'<%=params[:o_id]%>',same:<%=params[:same]%>},function(obj){
 							if(obj=='ok'){
 								mui.toast('领取成功！');	
 								window.location.replace("my_account?appid=<%=params[:appid]%>&new=true")
@@ -123,7 +123,7 @@
 									$('#shareit_ErWeiMa').show();
 									$('#shareit_BangDing').hide();
 
-									$.post('get_redbage',{o_id:'<%=params[:o_id]%>'},function(obj){
+									$.post('get_redbage',{o_id:'<%=params[:o_id]%>',same:<%=params[:same]%>},function(obj){
 											if(obj=='ok'){
 													mui.toast('领取成功！');	
 											}

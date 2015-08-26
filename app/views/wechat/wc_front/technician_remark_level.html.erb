@@ -25,10 +25,10 @@
 			<%if @open_redbage%>
 			wx.onMenuShareTimeline({
 		      title: '送你<%=Region.where(regions_code:@order.per_user.district_id).first.regions_NAME%><%=@order.per_user.name%>会所代金券,记得一定要找<%=@order.per_user_masseuse.job_number%>服务啊!', 
-		        link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&o_id=<%=@order.id%>&id=<%=@order.member_id%>',
+		        link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&o_id=<%=@order.id%>&id=<%=@order.member_id%>&same=<%=params[:same]%>',
 		        imgUrl: 'http://weixin.linkke.cn/images/forward.png',
 		        success: function(res){
-													$.post('get_redbage',{o_id:'<%=params[:o_id]%>'},function(r_obj){
+													$.post('get_redbage',{o_id:'<%=params[:o_id]%>',same:<%=params[:same]%>},function(r_obj){
 													   if(r_obj=='ok'){
 																	mui.toast('分享成功!代金券已放入您的卡券中');
 																	window.location.replace('recommend_technician?appid=<%=params[:appid]%>&new=true');
@@ -47,10 +47,10 @@
 			 wx.onMenuShareAppMessage({
 				    title: '送你<%=Region.where(regions_code:@order.per_user.district_id).first.regions_NAME%><%=@order.per_user.name%>会所代金券,一定要找<%=@order.per_user_masseuse.job_number%>服务啊!', 
 					  desc: '', 
-					  link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&o_id=<%=@order.id%>&id=<%=@order.member_id%>', 
+					  link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&o_id=<%=@order.id%>&id=<%=@order.member_id%>&same=<%=params[:same]%>', 
 						imgUrl: 'http://weixin.linkke.cn/images/forward.png',
 						success: function () { 
-													$.post('get_redbage',{o_id:'<%=params[:o_id]%>'},function(r_obj){
+													$.post('get_redbage',{o_id:'<%=params[:o_id]%>',same:<%=params[:same]%>},function(r_obj){
 													   if(r_obj=='ok'){
 																	mui.toast('分享成功!代金券已放入您的卡券中');
 																	window.location.replace('recommend_technician?appid=<%=params[:appid]%>&new=true');
@@ -201,7 +201,7 @@
     			data=data.substring(1)+"&o_id="+<%=params[:o_id]%>+"&appid=<%=params[:appid]%>";
     			$.post("/wechat/wc_front/remark_level",data,function(obj){
     				if(obj!="err"){
-    					window.location.href="technician_remark?appid=<%=params[:appid]%>&o_id=<%=params[:o_id]%>&l=<%=params[:l]%>";
+    					window.location.href="technician_remark?appid=<%=params[:appid]%>&o_id=<%=params[:o_id]%>&l=<%=params[:l]%>&same=<%=params[:same]%>";
     				}
     				else{
     					mui.toast('您已评价');
