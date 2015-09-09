@@ -1,5 +1,5 @@
 class Wechat::WcpayController < ApplicationController
-	include WcpayHelper
+	include Wechat::WcpayHelper
 	require 'nokogiri'
 	require 'net/https'
 	require 'rest-client'

@@ -1,7 +1,7 @@
 require 'rubygems'  
 require 'mini_magick'  
 class NoisyImage  
-				include Magick  
+				include MiniMagick  
 				attr_reader:code,:image  
 				Jiggle = 15
 				Wobble = 15

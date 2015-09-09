@@ -51,6 +51,6 @@ test:
 #
 production:
   <<: *default
-  database: ror_sangna_production
-  username: ror_sangna
-  password: <%= ENV['ROR_SANGNA_DATABASE_PASSWORD'] %>
+  database: sangna
+ # username: ror_sangna
+ # password: <%= ENV['ROR_SANGNA_DATABASE_PASSWORD'] %>
