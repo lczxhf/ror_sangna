@@ -24,7 +24,7 @@
 				    menuList: ['menuItem:profile','menuItem:addContact'] // 要显示的菜单项，所有menu项见附录3
 			});
 		wx.onMenuShareTimeline({
-		      title: '送你<%=Region.where(regions_code:@order.per_user.district_id).first.regions_NAME%><%=@order.per_user.name%>会所代金券,记得一定要找<%=@order.per_user_masseuse.job_number%>服务啊!', 
+		      title: '送你<%=Region.where(regions_code:@order.per_user.district_id).first.try(:regions_NAME)%><%=@order.per_user.name%>代金券,记得一定要找<%=@order.per_user_masseuse.job_number%>服务啊!', 
 		        link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&o_id=<%=@order.id%>&id=<%=@order.member_id%>&same=<%=params[:same]%>',
 		        imgUrl: 'http://weixin.linkke.cn/images/forward.png',
 		        success: function(res){
@@ -42,7 +42,7 @@
 																	window.location.replace('recommend_technician?appid=<%=params[:appid]%>&new=true');
 															}
 															else{
-																	mui.toast('您已领取过代金券!');
+																	mui.toast('分享成功!您已领取过代金券!');
 																	$("#shareit").hide(); 
 															}
 													 })
@@ -55,8 +55,8 @@
 
 
 			 wx.onMenuShareAppMessage({
-				    title: '送你<%=Region.where(regions_code:@order.per_user.district_id).first.regions_NAME%><%=@order.per_user.name%>会所代金券,一定要找<%=@order.per_user_masseuse.job_number%>服务啊!', 
-					  desc: '', 
+				    title: '送你<%=Region.where(regions_code:@order.per_user.district_id).first.try(:regions_NAME)%><%=@order.per_user.name%>代金券,一定要找<%=@order.per_user_masseuse.job_number%>服务啊!', 
+					  desc: '<%=@order.per_user.name%>送我红包了!赶紧去抢吧!', 
 					  link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&o_id=<%=@order.id%>&id=<%=@order.member_id%>&same=<%=params[:same]%>', 
 						imgUrl: 'http://weixin.linkke.cn/images/forward.png',
 						success: function () { 
@@ -74,7 +74,7 @@
 																	window.location.replace('recommend_technician?appid=<%=params[:appid]%>&new=true');
 															}
 															else{
-																	mui.toast('您已领取过代金券!');
+																	mui.toast('分享成功!您已领取过代金券!');
 																	$("#shareit").hide(); 
 															}
 													 })
@@ -88,7 +88,7 @@
 				<%else%>
 								wx.ready(function(){
 										wx.onMenuShareTimeline({
-											title: '我刚去了<%=Region.where(regions_code:@order.per_user.district_id).first.regions_NAME%><%=@order.per_user.name%>会所,他们的服务一流', 
+											title: '我刚去了<%=Region.where(regions_code:@order.per_user.district_id).first.try(:regions_NAME)%><%=@order.per_user.name%>,他们的服务一流', 
 											link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>&skip=h',
 											imgUrl: 'http://linkke.cn<%=@order.per_user.per_user_imgs.first.url.thumb.url%>',
 											success: function(res){
@@ -100,7 +100,7 @@
 
 
 										wx.onMenuShareAppMessage({
-												title: '我刚去了<%=Region.where(regions_code:@order.per_user.district_id).first.regions_NAME%><%=@order.per_user.name%>会所,他们的服务一流', 
+												title: '我刚去了<%=Region.where(regions_code:@order.per_user.district_id).first.try(:regions_NAME)%><%=@order.per_user.name%>,他们的服务一流', 
 											  desc: '', 
 												link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>&skip=h', 
 												imgUrl: 'http://linkke.cn<%=@order.per_user.per_user_imgs.first.url.thumb.url%>',
@@ -135,7 +135,7 @@
 			function collect(x){
 				 $.get("change_collect",{technician_id:<%=@order.per_user_masseuse.id%>,status:'add',appid:"<%=params[:appid]%>"},function(obj){
 					 mui.toast('收藏成功');		
-					 x.remove(x.selectedIndex);
+					 x.parentNode.removeChild(x); 
 				 })
 			}
 
@@ -151,7 +151,7 @@
 						<%TechniqueEvalution.where(status:1,del:1).each do |evalution|%>
 						<div class="mui-input-row mui-radio mui-left">
 							<label><%=evalution.name%></label>
-							<input name="remark" type="radio" value='<%=evalution.id%>' checked>
+							<input name="remark" type="radio" value='<%=evalution.id%>' >
 						</div>
 						<%end%>
 					</form>

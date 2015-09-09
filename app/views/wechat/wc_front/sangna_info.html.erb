@@ -22,9 +22,9 @@
 		wx.ready(function(){
 		wx.showAllNonBaseMenuItem();
 		wx.onMenuShareTimeline({
-		      title: '<%=@sangna_config.per_user.name%>会所!', 
+		      title: '<%=@sangna_config.per_user.name%>!', 
 		        link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>',
-		        imgUrl: 'http://linkke.cn<%=@sangna_config.per_user.per_user_imgs.first.url.url%>',
+		        imgUrl: 'http://linkke.cn<%=@sangna_config.per_user.per_user_imgs.first.url.thumb.url%>',
 		        success: function(res){
 							
 		        },
@@ -34,10 +34,10 @@
 
 
 			 wx.onMenuShareAppMessage({
-				    title: '<%=@sangna_config.per_user.name%>会所!', 
+				    title: '<%=@sangna_config.per_user.name%>!', 
 					  desc: '', 
 					  link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>', 
-						imgUrl: 'http://linkke.cn<%=@sangna_config.per_user.per_user_imgs.first.url.url%>',
+						imgUrl: 'http://linkke.cn<%=@sangna_config.per_user.per_user_imgs.first.url.thumb.url%>',
 						success: function () { 
 						},
 						cancel: function () { 
@@ -47,12 +47,6 @@
 	</script>
 <%end%>
 <%content_for :body do%>
-<!--  <header class="mui-bar mui-bar-nav">
-			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a> 
-			<h1 class="mui-title"><%=@sangna.name%></h1>
-			<a class="mui-pull-right mui-icon iconfont icon-sandianhover"></a>  
-	</header>
---!>
 		<div class="mui-content">
 			<div class="box">
 				<div id="slider" class="mui-slider" >
@@ -60,7 +54,7 @@
 						<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
 						<div class="mui-slider-item mui-slider-item-duplicate">
 							<a href="#">
-								<img src="http://linkke.cn<%=@per_user_imgs.first.url.url%>" width="100%" height="200px">
+								<img src="http://linkke.cn<%=@per_user_imgs.first.url.thumb.url%>" width="100%" height="200px">
 							</a>
 						</div>
 			
@@ -68,14 +62,14 @@
 						<%@per_user_imgs.each_with_index do |per_user_img,index|%>
 						<div class="mui-slider-item">
 							<a href="#">
-								<img src="http://linkke.cn<%=per_user_img.url.url%>" width="100%" height="200px">
+								<img src="http://linkke.cn<%=per_user_img.url.thumb.url%>" width="100%" height="200px">
 							</a>
 						</div>
 						<%end%>
 						<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
 					<div class="mui-slider-item mui-slider-item-duplicate">
 							<a href="#">
-								<img src="http://linkke.cn<%=@per_user_imgs.first.url.url%>" width="100%" height="200px">
+								<img src="http://linkke.cn<%=@per_user_imgs.first.url.thumb.url%>" width="100%" height="200px">
 							</a>
 						</div>
 		
@@ -93,27 +87,31 @@
 					<span class="left">平均消费</span>
 					<span class="right fs12">￥<%=@sangna_info.per_capita_spending%>元</span>
 				</div>
+				<%if @sangna_info.sauna%>
 				<div class="huisuo_infor">
 					<span class="left">净桑</span>
 					<span class="right fs12">￥<%=@sangna_info.sauna%>元</span>
 				</div>
+				<%end%>
 			</div>
 			<div class="box_infor fs14">
 				<div class="huisuo_infor">
 					<span class="left">前台电话</span>
 					<span class="right fs12"><%=@sangna.phone%></span>
 				</div>
-				<div class="huisuo_infor">
+			<%if @sangna_info.car_phone.present?%>
+			<div class="huisuo_infor">
 					<span class="left">专车电话</span>
-					<span class="right fs12">13535435432</span>
-				</div>
+					<span class="right fs12"><%=@sangna_info.car_phone%></span>
+			</div>
+			<%end%>
 			</div>
 			<div class="box_infor fs14">
 				<div class="addr">
 					<span class="">详细地址</span>
 				</div>
 				<div class="huisuo_infor">
-					<span class="fs12"><%=@sangna.address%></span>
+					<span class="fs12"><%=@sangna.get_address%><%=@sangna.address%></span>
 				</div>
 			</div>
 			<div class="box_infor fs14">

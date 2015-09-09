@@ -142,7 +142,7 @@
 	margin: 5px auto 5px;
 	width: 85%;
 	position: relative;
-	background: url(../images/Vouchers.png) no-repeat;
+	background: url(/images/Vouchers.png) no-repeat;
 	background-size: 100% 100%;
 }
 #BangDing .box_img .Num{

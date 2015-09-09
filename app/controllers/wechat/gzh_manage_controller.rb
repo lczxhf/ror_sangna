@@ -48,7 +48,7 @@ class Wechat::GzhManageController < ApplicationController
       result=ThirdParty.sent_to_wechat(url,body)
 		  puts result
       if params[:authorize]
-          redirect_to("http://linkke.cn/weixin_set?appid="+gzh.appid)
+          redirect_to("http://linkke.cn/weixin_set?status=ok")
       else
          render nothing: true
       end
@@ -166,17 +166,18 @@ class Wechat::GzhManageController < ApplicationController
 			per_user=PerUser.includes(:sangna_config).find(params[:user_id])
 			wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{per_user.sangna_config.appid}_openid"])
 			if wechat_config && wechat_config.try(:del)==1	
-				if params[:sex].nil?
+				if !wechat_config.member.per_user_qr_code
+					if params[:sex].nil?
 						qrcode=PerUserQrCode.where(user_id:params[:user_id],hand_code:params[:hand_code],id_code:params[:id_code],del:1).first
-				else 
+					else 
 						qrcode=PerUserQrCode.where(user_id:params[:user_id],hand_code:params[:hand_code],id_code:params[:id_code],sex:params[:sex],del:1).first
-				end
-				if qrcode.status==1
+					end
+					if qrcode.status==1
 							puts 'status was 1'
 							@error_status=2
 							render "/wechat/wc_front/wechat_error"
-				else
-					if !per_user.member.where(hand_code:qrcode.id).first
+					else
+						if !per_user.member.where(hand_code:qrcode.id).first
 							wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{per_user.sangna_config.appid}_openid"])
 									log=qrcode.qrcode_logs.last 
 									if log.nil? || log.member
@@ -187,7 +188,11 @@ class Wechat::GzhManageController < ApplicationController
 										log.member_bind_time=Time.now
 										rule_ids=wechat_config.member.coupons_records.where("status in (1,2)").pluck(:coupons_rules_id)
 										log.entrance_card_count=rule_ids.size
-										log.entrance_card_sum= rule_ids.empty? ? 0 : CouponsRule.where("id in (#{rule_ids.join(',')})").sum(:face_value)
+										sum=0
+										rule_ids.each do |a|
+													sum+=CouponsRule.find(a).face_value
+										end
+										log.entrance_card_sum= sum
 										log.save
 									wechat_config.member.hand_code=qrcode.id
 									wechat_config.member.save
@@ -203,6 +208,13 @@ class Wechat::GzhManageController < ApplicationController
 								render template: '/wechat/wc_front/wechat_error'
 					end
 				end
+			else
+								#@error_status=2
+								#render template: '/wechat/wc_front/wechat_error'
+								puts 'member had been bind'
+								redirect_to 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid='+per_user.sangna_config.appid
+			end
+
 			else
 						puts 'must use scan by page'
 						params.delete(:controller)

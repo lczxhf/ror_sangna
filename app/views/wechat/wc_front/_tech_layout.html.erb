@@ -75,15 +75,22 @@
 	 </div>
 	</div>
 <%if !inscene %>
-			<nav class="mui-bar mui-bar-tab">
+	 <!--		<nav class="mui-bar mui-bar-tab">
 				<div class="box_footer">
 						<img src="/images/buttom_img.png" alt="" width="42px" height="42px" />
-						<span class="footer_span">技师实时状态更新中，最终状态请以服务员查询为准</span>
+						<span class="footer_span">技师实时状态更新中，进场扫描即可查看!</span>
 				</div>
 			</nav>
+		--!>
+		<nav class="mui-bar mui-bar-tab">
+					<div class="box_footer">
+						<img src="/images/buttom_img.png" alt="" width="42px" height="42px" />
+						<span class="footer_span">技师实时状态更新中，</span>
+						<span class="footer_span">最终状态请以服务员查询为准</span>
+					</div>
+		</nav>
 <script>
 	$(function(){
-		$('#shareit').css('height', window.innerHeight);
 	
 		$('.box_footer').css('width',$('.footer_span').width()+42);
 		$('#shareit').show();
@@ -119,6 +126,7 @@
 					scanType: ["qrCode"], // 可以指定扫二维码还是一维码，默认二者都有
 					success: function (res) {
 						var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+
 						window.location.replace(result);
 					}
 				});	
@@ -135,6 +143,9 @@
 			}
 	var first=true;
 	$(function(){
+		if($('#shareit').height() < window.innerHeight ){
+			$('#shareit').css('height', window.innerHeight);
+		}
 			(function($) {
 						$('#search_project').scroll({
 									indicators: true //是否显示滚动条

@@ -25,9 +25,9 @@
 		//    wx.hideOptionMenu();
 		wx.showAllNonBaseMenuItem();
 		wx.onMenuShareTimeline({
-		      title: '<%=@sangna_config.per_user.name%>会所!', 
+		      title: '<%=@sangna_config.per_user.name%>!', 
 		        link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>',
-		        imgUrl: 'http://linkke.cn<%=@sangna_config.per_user.per_user_imgs.first.url.url%>',
+		        imgUrl: 'http://linkke.cn<%=@sangna_config.per_user.per_user_imgs.first.url.thumb.url%>',
 		        success: function(res){
 							
 		        },
@@ -37,10 +37,10 @@
 
 
 			 wx.onMenuShareAppMessage({
-				    title: '<%=@sangna_config.per_user.name%>会所!', 
+				    title: '<%=@sangna_config.per_user.name%>!', 
 					  desc: '', 
 					  link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>', 
-						imgUrl: 'http://linkke.cn<%=@sangna_config.per_user.per_user_imgs.first.url.url%>',
+						imgUrl: 'http://linkke.cn<%=@sangna_config.per_user.per_user_imgs.first.url.thumb.url%>',
 						success: function () { 
 						},
 						cancel: function () { 
@@ -71,18 +71,27 @@
 		</div>
 		<script type="text/javascript">
 					document.getElementById('my_bind').addEventListener('click',function(){
-						$.post('bind_phone',{appid:'<%=params[:appid]%>',phone:$("#user").val(),code:$("#verify").val()},function(obj){
-								if(obj=='err'){
-										mui.toast("验证码错误!");
+						if ($("#user").val().length==11 && parseInt($("#user").val()).toString().length==11){
+								if($("#verify").val()!=""){
+										$.post('bind_phone',{appid:'<%=params[:appid]%>',phone:$("#user").val(),code:$("#verify").val()},function(obj){
+											if(obj=='err'){
+													mui.toast("验证码错误!");
+											}
+											else{
+													mui.toast('绑定成功!'); 
+													window.location.replace("my_account?appid=<%=params[:appid]%>")
+											}
+										}) 
 								}
 								else{
-										mui.toast('绑定成功!'); 
-										window.location.replace("my_account?appid=<%=params[:appid]%>")
+									mui.toast('请输入验证码!'); 
 								}
-						}) 
+						}
+						else
+						{
+							mui.toast("请输入正确的手机号码!");
+						}
 					})
-
-
 
 
 					document.getElementById("btn").addEventListener("click",function(){
@@ -120,7 +129,7 @@
 	              clearInterval(countdown);
 						}
 						else if (data=='提交成功'){
-							
+								mui.toast("提交成功!短信收取快慢与短信运营商有关!请耐心等待!")	
 						}
 						else{
 								mui.toast(data);

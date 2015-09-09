@@ -19,7 +19,6 @@
 								}
 								function tocardinfo(){
 										window.location.href='card_info?appid=<%=params[:appid]%>';
-									
 								}
 			</script>
 				<script type="text/javascript">
@@ -37,9 +36,9 @@
 		//    wx.hideOptionMenu();
 		wx.showAllNonBaseMenuItem();
 		wx.onMenuShareTimeline({
-		      title: '<%=@sangna_config.per_user.name%>会所!', 
+		      title: '<%=@sangna_config.per_user.name%>!', 
 		        link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>',
-		        imgUrl: 'http://linkke.cn<%=@sangna_config.per_user.per_user_imgs.first.url.url%>',
+		        imgUrl: 'http://linkke.cn<%=@sangna_config.per_user.per_user_imgs.first.url.thumb.url%>',
 		        success: function(res){
 							
 		        },
@@ -49,10 +48,10 @@
 
 
 			 wx.onMenuShareAppMessage({
-				    title: '<%=@sangna_config.per_user.name%>会所!', 
+				    title: '<%=@sangna_config.per_user.name%>!', 
 					  desc: '', 
 					  link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>', 
-						imgUrl: 'http://linkke.cn<%=@sangna_config.per_user.per_user_imgs.first.url.url%>',
+						imgUrl: 'http://linkke.cn<%=@sangna_config.per_user.per_user_imgs.first.url.thumb.url%>',
 						success: function () { 
 						},
 						cancel: function () { 

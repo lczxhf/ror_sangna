@@ -23,9 +23,9 @@
 		//    wx.hideOptionMenu();
 		wx.showAllNonBaseMenuItem();
 		wx.onMenuShareTimeline({
-		      title: '<%=@sangna_config.per_user.name%>会所!', 
+		      title: '<%=@sangna_config.per_user.name%>!', 
 		        link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>',
-		        imgUrl: 'http://linkke.cn<%=@sangna_config.per_user.per_user_imgs.first.url.url%>',
+		        imgUrl: 'http://linkke.cn<%=@sangna_config.per_user.per_user_imgs.first.url.thumb.url%>',
 		        success: function(res){
 							
 		        },
@@ -35,10 +35,10 @@
 
 
 			 wx.onMenuShareAppMessage({
-				    title: '<%=@sangna_config.per_user.name%>会所!', 
+				    title: '<%=@sangna_config.per_user.name%>!', 
 					  desc: '', 
 					  link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>', 
-						imgUrl: 'http://linkke.cn<%=@sangna_config.per_user.per_user_imgs.first.url.url%>',
+						imgUrl: 'http://linkke.cn<%=@sangna_config.per_user.per_user_imgs.first.url.thumb.url%>',
 						success: function () { 
 						},
 						cancel: function () { 
@@ -47,9 +47,9 @@
 		})
 
 		$(function(){
-				$("#use_card").click(function(){
-					
-				})	
+				$('.btn_cancle').click(function(){
+						$('#shareit_Tips').hide();
+				})
 		
 		})
 	</script>
@@ -122,6 +122,26 @@
 				<button class="close">关闭</button>
 			</div>
 		</div>
+
+		<!--弹窗提示绑定手机--!>
+				<div id="shareit_Tips">
+						<div id="XingBie" class="">
+								<div class="box_yuyan">
+										<div class="box_title">
+											<div>提示</div>
+											<div class="box_Line"></div>
+										</div>
+										<div class="type_yuyan">
+											<div class="tip_content">您还没有绑定手机号码，</div>
+											<div class="tip_content">无法使用该红包。</div>
+										</div>
+								</div>
+								<div class="box_button">
+									<button class="btn_cancle">取消</button>
+									<button class="btn_confirm " id='bind'>立即绑定</button>
+								</div>
+						</div>
+				</div>
 		<script type="text/javascript">
 		 var c_id;
 			$(function(){
@@ -163,8 +183,14 @@
 					else{
 							$.post('use_card',{appid:'<%=params[:appid]%>',c_id:c_id,questionary:$('.type_change').eq(0).html()},function(obj){
 									if(obj.id==c_id){
+											var my_date=new Date();
+											var minute=my_date.getMinutes();
+											if (minute.toString().length==1){
+													minute="0"+minute;	
+											}
+											var date_string=my_date.getFullYear()+"年"+(my_date.getMonth()+1)+"月"+my_date.getDate()+"日 "+my_date.getHours()+":"+minute;
 											$('.title_useing').eq(0).html('您使用了一张￥'+obj.coupons_rule.face_value+"元代金券成功");
-											$('.useing_time').eq(0).html(new Date().toLocaleString());
+											$('.useing_time').eq(0).html(date_string);
 											$('.user_handnum').eq(0).html(obj.member.per_user_qr_code.hand_code);
 											$('.shareit_1').hide()
 											$('.shareit_2').show()	
@@ -183,15 +209,22 @@
 				//关掉确认使用的弹窗
 				$('.close').click(function(){
 					$('.shareit_2').hide()
-					window.location.reload();
-				})
+						window.location.reload();
+					})
 
 
 			})
 
 			function want_to_use(card_id){
-				$('.shareit_1').show();
+			<%if @wechat_config.member.username!=@wechat_config.openid && @wechat_config.member.username!='未关注' %>
+			  $('.shareit_1').show();
 				c_id=card_id;
+				<%else%>
+				$("#shareit_Tips").show();
+				$("#bind").click(function(){
+					window.location.href='phone_bind?appid=<%=params[:appid]%>';
+				})
+				<%end%>
 			}
 
 			function rule(id){

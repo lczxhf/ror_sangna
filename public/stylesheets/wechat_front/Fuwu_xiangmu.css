@@ -17,16 +17,28 @@
 	color: #7D7780 !important;
 }
 .loca_1{
+	width: 70px;
+	text-align: center;
 	letter-spacing: 1px;
 	position: absolute;
 	top: 15px;
-	left: 8%;
+	left: 5%;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	-o-text-overflow:ellipsis;
+	white-space:nowrap;
 }
 .loca_2{
 	font-size: 12px;
 	position: absolute;
 	top: 15px;
 	left: 41%;
+	width: 75px;
+overflow:hidden;
+	text-overflow:ellipsis;
+	-o-text-overflow:ellipsis;
+	white-space:nowrap;
+
 }
 .loca_2_1{
 	position: absolute;
@@ -38,6 +50,12 @@
 	position: absolute;
 	top: 15px;
 	right: 0;
+	width: 75px;
+overflow:hidden;
+	text-overflow:ellipsis;
+	-o-text-overflow:ellipsis;
+	white-space:nowrap;
+
 }
 .loca_3_1{
 	position: absolute;

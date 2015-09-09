@@ -6,7 +6,7 @@ class PerUserMasseuse < ActiveRecord::Base
 	has_many :masseuses_reviews,foreign_key: 'masseuses_id',dependent: :delete_all
 	has_many :masseuses_collects,dependent: :delete_all
 	belongs_to :per_user,foreign_key: "user_id"	
-	belongs_to :per_user_project,foreign_key: 'job_class_status'
+	belongs_to :per_user_project,-> {where(del:1,status:1)},foreign_key: 'job_class_status'
 	belongs_to :masseuses_work_shift,foreign_key: "work_shift_id"
 	has_many :technician_level_remarks
 	 mount_uploader :img,TechAvatarUploader
@@ -43,7 +43,7 @@ class PerUserMasseuse < ActiveRecord::Base
 						when 3 then
 							 Member.where("hand_code != ''").where(id:member_id).first	? (masseuses_imgs.active.first.try(:url).try(:normal).try(:url) || '/images/default_img.png')  : "/images/buttom_img.png"
 						when 4 then
-							OrderByMasseuse.where(masseuse_id:id,member_id:member_id).first ? (masseuses_img.active.first.try(:url).try(:normal).try(:url) || '/images/default_img.png')  : "/images/buttom_img.png"
+							OrderByMasseuse.where(masseuse_id:id,member_id:member_id).first ? (masseuses_imgs.active.first.try(:url).try(:normal).try(:url) || '/images/default_img.png')  : "/images/buttom_img.png"
 						end
 			end
 	    private

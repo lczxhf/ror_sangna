@@ -29,7 +29,39 @@ class Wechat::ThirdPartyController < ApplicationController
 		#img=MiniMagick::Image.read ab
 		#img.format 'png'
 		#PerUserImg.create!(user_id:1,status:1,i_type:1,url:img)
+	
+#code=rand(1000..9999).to_s
+#		 uri = URI("http://222.73.117.158/msg/HttpBatchSendSM")
+#			Net::HTTP.start(uri.host, uri.port,:use_ssl => uri.scheme == 'https') do |http|
+#					request= Net::HTTP::Post.new(uri,{'Content-Type'=>'application/json'})
+#					request.set_form_data({"account"=>"jiekou-clcs-005","pswd"=>"Clwh16816868","mobile"=>"15817378124","msg"=>"您好，您的手机验证码是#{code}，如非本人操作请忽略！","needstatus"=>"true",})
+#					response=http.request request
+#					a=response.body
+#					a=a.split("\n")
+#					#result= REXML::Document.new a
+#					#render plain:  result.root.get_elements('msg')[0][0].to_s
+#					render plain: a.inspect
+#			end
+	#	Dir::foreach('/home/rails-server/Projects/0') do |file_name|
+	#			if file=(/\w+\.[a-zA-Z0-9]+/.match(file_name))
+	#					file="/home/rails-server/Projects/0/"+file.to_s
+	#					File.open(file,'r') do |img|
+	#						file_name.gsub!(/[\.]{1}.*/,"")	
+	#						if technician=PerUserMasseuse.where(user_id:0,job_number:file_name,del:1,status:1).first
+	#								if technician.masseuses_imgs.empty?
+	#								masseuses_img=MasseusesImg.new		
+	#								masseuses_img.user_id=0
+	#								masseuses_img.per_user_masseuse=technician
+	#								masseuses_img.url=img
+	#								masseuses_img.i_type=1
+	#								masseuses_img.save
+	#								end
+	#						end
+	#					end
+	#			end
+	#	end
   end
+
 def test1
 				render plain: 'a'
 end	
@@ -39,7 +71,7 @@ def authorize
 		redirect_to '/admin'
 end
 	 def home 
-		@url="https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=#{APPID}&pre_auth_code=#{Rails.cache.read(:pre_code)}&redirect_uri=http://weixin.linkke.cn/wechat/third_party/auth_code"
+		@url="https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=#{APPID}&pre_auth_code=#{Rails.cache.read(:pre_code)}&redirect_uri=http://weixin.linkke.cn/wechat/third_party/auth_code?id=#{params[:id]}"
  	 	render :home,:layout=>false
  	 end
  	def receive
@@ -47,7 +79,7 @@ end
 		str=request.body.read
 		doc=Nokogiri::Slop str
 		ticket=doc.xml.Encrypt.content	
-	
+			
 		if ThirdParty.check_info(TOKEN,params[:timestamp],params[:nonce],ticket,params[:msg_signature])
 			result=ThirdParty.new.decrypt(ticket.to_s,KEY,APPID)
 			xml=Nokogiri::Slop result
@@ -69,7 +101,7 @@ end
 		else
 			puts 'error'
 		end
-		render plain:'success'
+		render plain: 'success'
 	 end
 
 
@@ -84,9 +116,11 @@ end
 	auth_code.code=params[:auth_code]
 	auth_code.token=json['authorization_info']['authorizer_access_token']
 	auth_code.del=1
+	auth_code.per_user_id=params[:id]
 	auth_code.refresh_token=json['authorization_info']['authorizer_refresh_token']
-		ticket=Sangna.get_qrcode(auth_code.token,'QR_LIMIT_SCENE',"","1")['ticket']
-		qrcode=Sangna.fetch_qrcode(ticket)
+		qrcode=Sangna.get_qrcode(auth_code.token,'QR_LIMIT_SCENE',"","1")
+		puts qrcode
+		qrcode=Sangna.fetch_qrcode(qrcode['ticket'])
 		img=MiniMagick::Image.read qrcode
 		img.format 'png'
 		auth_code.qr_code=img
@@ -96,6 +130,22 @@ end
 	end
 	auth_code.func_info=arr.join(',')
 	auth_code.save
+		url='https://api.weixin.qq.com/cgi-bin/user/get?access_token='+auth_code.token
+		info_result=JSON.parse(ThirdParty.get_to_wechat(url))
+		if arr=info_result['data']['openid']
+				arr.to_a.each do |openid|
+						if !WechatConfig.where(openid:openid).first
+							wechat_config=WechatConfig.new(openid:openid,sangna_config_id: auth_code.id)
+							wechat_config.del=1
+							if !wechat_config.member
+									member=Member.create(user_id:params[:id],username:wechat_config.openid)
+									wechat_config.member=member
+							end
+							wechat_config.save
+							Sangna.get_user_info(wechat_config.id,APPID)
+						end
+				end
+		end
 	Group.find_or_create_by(sangna_config_id:auth_code.id,wcgroup_id:'0',name:'默认组')
 	redirect_to :action=>'gzh_info',id:auth_code.id
  end
@@ -118,7 +168,8 @@ end
 	sangna_info.user_name=result['user_name']
 	sangna_info.alias=result['alias']
 	sangna_info.qrcode_url=result['qrcode_url']
-	sangna_info.save!
+	puts sangna_info.to_json
+	sangna_info.save
 	redirect_to :action=>'option_info',id:auth_code.id
  end
 
@@ -138,24 +189,26 @@ end
 
    def set_industry
      sangna_config=SangnaConfig.find(params[:id])
-   #   one='39'
-    #  two='24'
-     # url="https://api.weixin.qq.com/cgi-bin/template/api_set_industry?access_token="+sangna_config.token
-		  # body='{"industry_id1":"'+one+'","industry_id2":"'+two+'"}'
-      # ThirdParty.sent_to_wechat(url,body)
-			 #sleep 1000
-      #url2="https://api.weixin.qq.com/cgi-bin/template/api_add_template?access_token="+sangna_config.token
-      #TempleteNumber.find_each do |templete|
-      #		body2='{"template_id_short":"'+templete.number+'"}'
-			#		result=ThirdParty.sent_to_wechat(url2,body2)
-			#		puts result
-      #		templete_id=JSON.parse(result)["template_id"]
-      #		t_message=TempleteMessage.new
-      #		t_message.templete_id=templete_id
-      #		t_message.sangna_config=sangna_config
-      #		t_message.templete_number=templete
-      #		t_message.save!
-      #end
+      one='39'
+      two='24'
+      url="https://api.weixin.qq.com/cgi-bin/template/api_set_industry?access_token="+sangna_config.token
+		   body='{"industry_id1":"'+one+'","industry_id2":"'+two+'"}'
+       ThirdParty.sent_to_wechat(url,body)
+			# sleep 500
+      url2="https://api.weixin.qq.com/cgi-bin/template/api_add_template?access_token="+sangna_config.token
+      TempleteNumber.find_each do |templete|
+					if !sangna_config.templete_messages.where(templete_number_id:templete.id).first
+      		body2='{"template_id_short":"'+templete.number+'"}'
+					result=ThirdParty.sent_to_wechat(url2,body2)
+					puts result
+      		templete_id=JSON.parse(result)["template_id"]
+      		t_message=TempleteMessage.new
+      		t_message.templete_id=templete_id
+      		t_message.sangna_config=sangna_config
+      		t_message.templete_number=templete
+      		t_message.save!
+					end
+      end
    	  redirect_to :controller=>"gzh_manage",:action=>'set_menu',id:sangna_config.id,:authorize=>true
    end
 end

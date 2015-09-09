@@ -67,7 +67,7 @@
 .shareit_1 {
   -webkit-user-select: none;
   display: none;
-  position: absolute;
+  position: fixed;
   width: 100%;
   height: 100%;
   background: rgba(0,0,0,0.85);
@@ -129,7 +129,7 @@
 .shareit_2 {
   -webkit-user-select: none;
   display: none;
-  position: absolute;
+  position: fixed;
   width: 100%;
   height: 100%;
   background: rgba(0,0,0,0.85);
@@ -234,4 +234,62 @@
 		opacity: 0.2;
 		font-size: 1.3em;
 }
+/*弹窗---提示绑定手机*/
+#shareit_Tips {
+  -webkit-user-select: none;
+	  display: none;
+		  position: fixed;
+			  width: 100%;
+				  height: 100%;
+					  background: rgba(0,0,0,0.85);
+						  top: 0;
+							  left: 0;
+								  z-index: 105;
+}
+#XingBie{
+	position: fixed;
+		top: 15% !important;
+			color: #665241;
+				width: 82%;
+					height: 180px;
+						background: white;
+							margin: 0 9%;
+}
+.box_yuyan{
+		width: 100%;
+			padding: 5% 8% 0;
+}
+#XingBie .box_Line{
+	width: 50px;
+		margin-bottom: 5%;
+			margin: 3px 0 0 3px;
+				width: 60px;
+					height: 2px;
+						background: #01CA98;
+}
 
+#XingBie .type_yuyan{
+	margin: 20px 0;
+}
+#XingBie .type_yuyan .tip_content{
+	padding-left: 10px;
+		font-size: 0.8em;
+}
+#XingBie .box_button{
+	margin-top: 40px;
+}
+.box_button button{
+		width: 50%;
+			border: none;
+				height: 45px;
+					color: #665241;
+						border-radius: 0;
+}
+.box_button .btn_confirm{
+		background: #E3D6CF;
+			margin-left: -5px;
+}
+.box_button .btn_cancle{
+		
+			background: #ECE3DB;
+}

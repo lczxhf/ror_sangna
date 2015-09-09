@@ -24,9 +24,9 @@
 		//    wx.hideOptionMenu();
 			wx.showAllNonBaseMenuItem();
 			wx.onMenuShareTimeline({
-		      title: '<%=@sangna_config.per_user.name%>会所!', 
+		      title: '<%=@sangna_config.per_user.name%>!', 
 		        link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>',
-		        imgUrl: 'http://linkke.cn<%=@sangna_config.per_user.per_user_imgs.first.url.url%>',
+		        imgUrl: 'http://linkke.cn<%=@sangna_config.per_user.per_user_imgs.first.url.thumb.url%>',
 		        success: function(res){
 							
 		        },
@@ -36,10 +36,10 @@
 
 
 			 wx.onMenuShareAppMessage({
-				    title: '<%=@sangna_config.per_user.name%>会所!', 
+				    title: '<%=@sangna_config.per_user.name%>!', 
 					  desc: '', 
 					  link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>', 
-						imgUrl: 'http://linkke.cn<%=@sangna_config.per_user.per_user_imgs.first.url.url%>',
+						imgUrl: 'http://linkke.cn<%=@sangna_config.per_user.per_user_imgs.first.url.thumb.url%>',
 						success: function () { 
 						},
 						cancel: function () { 
@@ -79,8 +79,8 @@
 				<li class="mui-table-view-cell mui-collapse">
 					<a class="box_list size" href="#">
 						<span class="loca_1"><%=project.name%></span>
-						<span class="loca_2">￥<%=project.price.to_i%>/<%=project.duration==0 ? '次' : "#{project.duration}分钟"%></span>
-						<span class="loca_3"><%=project.add_duration==0 ? '/' : "￥#{project.add_price.to_i}/#{project.add_duration}分钟"%></span>
+						<span class="loca_2">￥<%=project.price.to_i%>/<%=project.duration==0 ? '次' : "#{project.duration>480 ? project.get_format_time(project.duration) : "#{project.duration}分钟"}"%></span>
+						<span class="loca_3"><%=project.add_duration==0 || project.add_duration.nil?  ? '/' : "￥#{project.add_price.to_i}/#{project.add_duration}分钟"%></span>
 					</a>
 					<ul class="mui-table-view mui-table-view-chevron">
 						<div class="box2">

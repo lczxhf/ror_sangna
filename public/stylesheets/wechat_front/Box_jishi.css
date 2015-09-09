@@ -508,17 +508,17 @@ to {opacity: 1;margin-top: 0;}
 .GongZhong{
 		display: block;
 		border: none;
-		width: 35%;
-		height: 33px;
-		padding: 3px;
+		padding: 10px 30px;
 		color: #1C6466;
 		background: #37D2ED;
 		font-size: 17px;
+		white-space: normal;
 }
 .XiangMu{
 		margin: 15px 2% 0 0;
-		width: 30%;
+		padding: 5px 20px;
 		color: #20393D;
+		white-space: normal;
 }
 /*暂无收藏*/
 .ShouCang_none{
@@ -529,3 +529,40 @@ to {opacity: 1;margin-top: 0;}
 		opacity: 0.2;
 		font-size: 1.3em;
 }
+
+/*底部*/
+.mui-content{
+		padding-top: 54px !important;
+			padding-bottom: 57px;
+}
+.mui-bar-tab{
+		height: 50px;
+			text-align: center;
+				font-size: 12px;
+					background: white;
+						color: #ADADAD;
+}
+.mui-bar{
+		box-shadow: 0 0 1px rgba(208, 188, 188, 0.85);
+}
+.box_footer img{
+		position: absolute;
+			top: 4px;
+				left: 0;
+}
+.footer_span{
+		padding-left: 45px;
+			width: 210px;
+				display: block;
+					text-align: left;
+						line-height: 15px;
+}
+.box_footer{
+		padding-top: 10px;
+			position: relative;
+				text-align: center;
+					height: 50px;
+						/*line-height: 50px;*/
+							margin: 0 auto;
+}
+

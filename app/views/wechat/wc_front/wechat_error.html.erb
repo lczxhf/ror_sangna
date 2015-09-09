@@ -13,6 +13,8 @@
 			</div>
 			<%if @error_status==1%>
 				<p>此二维码已被其它客户使用</p>
+			<%elsif @error_status==2%>
+				<p>您已绑定锁牌</p>
 			<%else%>
 				<p>此二维码尚未激活</p>
 			<%end%>

@@ -14,6 +14,40 @@
 					window.location.replace("choose_technician?appid=<%=@sangna_config.appid%>&skip=h")
 				})
 		})
+		wx.config({
+			      debug: false, 
+						appId: '<%=params[:appid]%>', 
+						timestamp:'<%=timestamp=Time.now.to_i%>' , 
+						nonceStr: '<%=nonceStr=SecureRandom.uuid.tr('-', '')%>', 
+						signature: '<%=signature(timestamp,nonceStr)%>',
+						jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','showMenuItems'] 
+		});
+		wx.ready(function(){
+			wx.showMenuItems({
+				    menuList: ['menuItem:profile','menuItem:addContact'] // 要显示的菜单项，所有menu项见附录3
+			});
+		wx.onMenuShareTimeline({
+		      title: '送你<%=Region.where(regions_code:@order.per_user.district_id).first.try(:regions_NAME)%><%=@order.per_user.name%>代金券,记得一定要找<%=@order.per_user_masseuse.job_number%>服务啊!', 
+		        link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&o_id=<%=@order.id%>&id=<%=@order.member_id%>&same=<%=params[:same]%>',
+		        imgUrl: 'http://weixin.linkke.cn/images/forward.png',
+		        success: function(res){
+		        },
+		        cancel: function(res){
+				    }
+			 });
+
+
+			 wx.onMenuShareAppMessage({
+				    title: '送你<%=Region.where(regions_code:@order.per_user.district_id).first.try(:regions_NAME)%><%=@order.per_user.name%>代金券,一定要找<%=@order.per_user_masseuse.job_number%>服务啊!', 
+					  desc: '<%=@order.per_user.name%>送我红包了!赶紧去抢吧!', 
+					  link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&o_id=<%=@order.id%>&id=<%=@order.member_id%>&same=<%=params[:same]%>', 
+						imgUrl: 'http://weixin.linkke.cn/images/forward.png',
+						success: function () { 
+						},
+						cancel: function () { 
+						}
+			 });
+		})
 		</script>
 <%end%>
 	<%content_for :body do%>		
@@ -22,10 +56,10 @@
 				<div class="box_img">
 					<img src="<%=@order.member.wechat_user.headimgurl%>" alt="" width="55px" height="55px" />
 				</div>
-				<div class="header_tip">我刚去完<%=@order.per_user.name%>会所，推荐你找<%=@order.per_user_masseuse.job_number%>技师为你服务，顺便送你一张代金券！</div>
+				<div class="header_tip">我刚去完<%=@order.per_user.name%>，推荐你找<%=@order.per_user_masseuse.job_number%>技师为你服务，顺便送你一张代金券！</div>
 			</div>
 			<div class="HuiSuo_infor">
-				<div class="HuiSuo_title"><%=@order.per_user.name%>会所</div>
+				<div class="HuiSuo_title"><%=@order.per_user.name%></div>
 				<div class="HuiSuo_img">
 					<img src="http://linkke.cn<%=@order.per_user.per_user_imgs.first.url.url%>" alt="" height="130px" />
 				</div>
@@ -50,7 +84,7 @@
 				<div class="box_icon close_BD">
 					<span class="mui-icon mui-icon-closeempty"></span>
 				</div>
-				<div class="BangDing_tip">送你一张<%=@order.per_user.name%>会所的代金券</div>
+				<div class="BangDing_tip">送你一张<%=@order.per_user.name%>的代金券</div>
 				<div class="box_img">
 					<div class="Num">￥<%=@coupon_rule.face_value%></div>
 					<div class="voucher">代金券</div>
@@ -170,6 +204,7 @@
 										clearInterval(countdown);
 								}
 								else if (data=='提交成功'){
+										mui.toast("提交成功!收取短信快慢与短信运营商有关!请耐心等待!")
 								}
 								else{
 										mui.toast(data);
