@@ -15,7 +15,7 @@
 				<%if @wechat_config.del==1%>		
 							window.location.replace("/wechat/gzh_manage/change_qrcode?<%=params.to_param%>");
 				<%else%>
-							mui.toast('您未关注!请扫码关注');
+							mui.toast('您未关注!请长按二维码关注');
 				<%end%>
 			})
 		})
@@ -29,14 +29,14 @@
 				<div class="box_img">
 					<img src="<%=@sangna_config.sangna_info.headimgurl%>" alt="" />
 				</div>
-				<div class="club_name"><%=@sangna_config.per_user.name%></div>
-				<div class="welcome">欢迎您使用<%=@sangna_config.per_user.name%>微信客服系统</div>
+				<div class="club_name">想看技师照片?</div>
+				
 			</div>
 			<div class="box_code">
 				<img src="<%=@sangna_config.qr_code.url%>" alt="" />
-				<div class="tips">长按二维码关注公众号即可查看</div>
+				<div class="tips">长按即可查看</div>
 				<%if params[:user_id]%>
-				<input type='button' value='我已关注' id='subscribe' style='margin-top: 10px;width: 100px' />
+				<input type='button' value='已关注请戳我' id='subscribe' style='margin-top: 10px;width: 100px' />
 				<%end%>
 				<ul>
 					<li>技师真实照片 </li>

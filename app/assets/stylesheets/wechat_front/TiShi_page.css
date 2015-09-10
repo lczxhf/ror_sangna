@@ -10,7 +10,7 @@ body{
 	height: 35%;
 	background: #FBF1EB;
 	padding-top: 5%;
-	padding-bottom: 3%;
+	padding-bottom: 5%;
 	text-align: center;
 }
 .box_img{
@@ -24,7 +24,7 @@ body{
 	margin: 3px;
 }
 .club_name{
-	font-size: 1.15em;
+	font-size: 1.3em;
 }
 .welcome{
 	margin-top: 2.5%;
@@ -42,7 +42,7 @@ body{
 }
 .tips{
 	margin-top: 3%;
-	font-size: 0.8em;
+	font-size: 1.1em;
 }
 .box_code ul li{
 	font-size: 0.7em;
