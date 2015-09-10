@@ -81,6 +81,11 @@ line-height: 30px;
 	position: absolute;
 	top: 30px;
 	left: 60px;
+	width: 45%;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	-o-text-overflow:ellipsis;
+	white-space:nowrap;
 }
 .jishi_state{
 	position: absolute;
