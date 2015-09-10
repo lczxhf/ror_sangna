@@ -103,11 +103,6 @@ class Wechat::GzhManageController < ApplicationController
           result=JSON.parse(ThirdParty.get_to_wechat(url))
 					puts result
 					if WechatConfig.find_by_openid(result["openid"])
-							if params[:state]=='200'
-									cookies.signed[:p_openid]=result["openid"]
-							else
-									cookies.signed["#{params[:appid]}_openid"]=result["openid"]
-							end
 					else
 						 sangna_config=SangnaConfig.find_by_appid(params[:appid])
 						 wechat_config=WechatConfig.new
@@ -120,6 +115,11 @@ class Wechat::GzhManageController < ApplicationController
 						#	url2="https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{params[:appid]}&redirect_uri=http://weixin.linkke.cn/wechat/gzh_manage/authorize&response_type=code&scope=snsapi_userinfo&state=200&component_appid=#{APPID}#wechat_redirect'"
 						#	redirect_to url2
 					end
+							if params[:state]=='200'
+									cookies.signed[:p_openid]=result["openid"]
+							else
+									cookies.signed["#{params[:appid]}_openid"]=result["openid"]
+							end
 							next_url=cookies.signed[:next_url]
 							cookies.delete(:next_url)
 							redirect_to next_url
