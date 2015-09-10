@@ -86,7 +86,7 @@
 					</div>
 				</div>
 				<%if @inscene%>
-					<%if card.status==2%>
+					<%if card.status==2 && @no_use%>
 						<button class="employ" onclick="want_to_use('<%=card.id%>')">我要使用</button>
 					<%end%>
 				<%end%>

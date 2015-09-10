@@ -17,7 +17,7 @@
 	color: #7D7780 !important;
 }
 .loca_1{
-	width: 70px;
+	width: 30%;
 	text-align: center;
 	letter-spacing: 1px;
 	position: absolute;
@@ -33,7 +33,7 @@
 	position: absolute;
 	top: 15px;
 	left: 41%;
-	width: 75px;
+	width: 30%;
 overflow:hidden;
 	text-overflow:ellipsis;
 	-o-text-overflow:ellipsis;
@@ -50,8 +50,8 @@ overflow:hidden;
 	position: absolute;
 	top: 15px;
 	right: 0;
-	width: 75px;
-overflow:hidden;
+	width: 30%;
+	overflow:hidden;
 	text-overflow:ellipsis;
 	-o-text-overflow:ellipsis;
 	white-space:nowrap;

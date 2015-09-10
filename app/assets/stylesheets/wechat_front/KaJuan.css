@@ -188,7 +188,7 @@
 	margin: 10px 2% 0;
 	width: 96%;
 	position: relative;
-	background: url(../images/coupons_2.png) no-repeat;
+	background: url(/images/coupons_2.png) no-repeat;
 	background-size: 100% 100%;
 }
 .type_after_use{

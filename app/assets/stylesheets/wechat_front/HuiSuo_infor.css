@@ -29,6 +29,13 @@
 	padding: 0 2% 0 5%;
 	overflow: hidden;
 }
+.huisuo_infor_2{
+width: 100%;
+padding: 8px 2% !important;
+border-bottom: 1px solid #D3D2D2;
+padding: 0 2%;
+overflow: hidden;
+}
 .addr{
 	margin-left: 5%;
 	width: 95%;

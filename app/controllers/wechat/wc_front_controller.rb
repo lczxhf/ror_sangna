@@ -384,7 +384,7 @@ class Wechat::WcFrontController < ApplicationController
 				if @wechat_config.member.per_user_qr_code
 								@inscene=true
 				end
-
+				@no_use=@wechat_config.member.qrcode_logs.order(created_at: :desc).first.coupons_records.empty?
 				@cards=@sangna_config.per_user.coupons_records.includes(:coupons_rule).where(member_id:@wechat_config.member_id).order(:status).order(created_at: :desc)
 	end
 
