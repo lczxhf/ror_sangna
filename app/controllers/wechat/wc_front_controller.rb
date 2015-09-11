@@ -220,7 +220,7 @@ class Wechat::WcFrontController < ApplicationController
 			if !@wechat_config
 					cookies.delete("#{params[:appid]}_openid")
 					check_openid
-			end
+			else
 			params.delete(:controller)
 			params.delete(:action)
 		if @wechat_config.sangna_config.id==22
@@ -233,6 +233,7 @@ class Wechat::WcFrontController < ApplicationController
 			end
 		end
 	end
+end
 
 	def project_class
 				projects=@sangna_config.per_user.per_user_projects.includes(type_relations: :per_user_type).where(p_type:1).open
