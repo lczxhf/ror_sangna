@@ -90,7 +90,7 @@
 	function pullupRefresh() {
 				setTimeout(function(){
 					var str="&appid=<%=params[:appid]%>&page="+(page+1)+"&inscene=<%=@inscene%>&collect=true";
-					if($p_type!=""){
+					if(typeof($p_type)=="boolean"){
 							str+="&p_type="+$p_type+"&id="+$id;	
 					}
 					$.get('page_technician',str,function(obj){
