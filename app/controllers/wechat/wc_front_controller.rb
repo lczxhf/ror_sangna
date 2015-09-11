@@ -215,6 +215,7 @@ class Wechat::WcFrontController < ApplicationController
 			puts params
 			if params[:user_id]
 					check_openid
+					@wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
 			else
 				@wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])	
 				if !@wechat_config
