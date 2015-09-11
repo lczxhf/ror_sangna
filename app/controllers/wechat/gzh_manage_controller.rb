@@ -165,6 +165,7 @@ class Wechat::GzhManageController < ApplicationController
 			puts params
 			per_user=PerUser.includes(:sangna_config).find(params[:user_id])
 			wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{per_user.sangna_config.appid}_openid"])
+	if wechat_config
 			if wechat_config && wechat_config.try(:del)==1	
 				if !wechat_config.member.per_user_qr_code
 					if params[:sex].nil?
@@ -221,8 +222,12 @@ class Wechat::GzhManageController < ApplicationController
 						params.delete(:action)
 						redirect_to '/wechat/wc_front/tip?appid='+per_user.sangna_config.appid+"&#{params.to_param}"
 			end
+		else
+				cookies.signed[:next_url]=request.url
+							auth_url="https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{params[:appid]}&redirect_uri=http://weixin.linkke.cn/wechat/gzh_manage/oauth&response_type=code&scope=snsapi_base&state=123&component_appid=wxf6a05c0e64bc48e1#wechat_redirect"                    
+							redirect_to auth_url
 		end
-
+end
 
 		def sent_consumption_message
 							puts params
