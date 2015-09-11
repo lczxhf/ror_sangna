@@ -214,16 +214,22 @@ class Wechat::WcFrontController < ApplicationController
 			puts params
 			if params[:user_id]
 					check_openid
-			else
 			end
 			@wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])	
 			params.delete(:controller)
 			params.delete(:action)
+			if a=Rails.cache.read(:my_data)
+				if !@wechat_config.member_id.in?(a)
+					Rails.cache.write(:my_data,a<<@wechat_config.member_id,expires_in:24.hours)
+				end
+			else
+				Rails.cache.write(:my_data,[@wechat_config.member_id],expires_in:24.hours)
+			end
 			
 	end
 
 	def project_class
-				projects=@sangna_config.per_user.per_user_projects.where(p_type:1).open.includes(type_relations: :per_user_type)
+				projects=@sangna_config.per_user.per_user_projects.includes(type_relations: :per_user_type).where(p_type:1).open
 				string=projects.collect do |a|
 							"<div class='search_project'><button class='GongZhong' onclick=\"search_by_project('#{a.id}',true)\">#{a.name}</button>"+
 							a.type_relations.where(del:1).collect {|b| "<button class='XiangMu' onclick=\"search_by_project('#{b.per_user_project.id}',false)\">#{b.per_user_project.name}</button>"}.join+"</div>"

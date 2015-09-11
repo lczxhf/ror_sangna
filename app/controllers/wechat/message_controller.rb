@@ -31,7 +31,7 @@ class Wechat::MessageController < ApplicationController
 							wechat_config.save
 			    	Sangna.get_user_info(wechat_config.id,APPID)
 						puts 'prepare sent subscribe message'
-					render xml: reply_news_message([generate_article("欢迎您关注#{gzh.per_user.name}会所","立即开始查看我们的技师实时状态，选择您喜欢的技师！","http://weixin.linkke.cn/images/subscribe.png","http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=#{gzh.appid}")])	
+					render xml: reply_news_message([generate_article("海量技师任你挑","技师图片,技师状态,技师评价","http://weixin.linkke.cn/images/subscribe.png","http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=#{gzh.appid}")])	
 			    elsif @weixin_message.Event=='unsubscribe'
 							wechat_config=WechatConfig.includes(:wechat_user).find_by_openid(@weixin_message.FromUserName)
 							wechat_config.del=2
