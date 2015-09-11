@@ -518,7 +518,7 @@ class Wechat::WcFrontController < ApplicationController
 								</a>
 								<div class="yuan_shoucang">
 									<!--	<span class="mui-icon iconfont icon-xingxingman"> </span>  --!>
-									 
+											<span class="mui-icon iconfont icon-xingxing#{is_collect(sangna_config.appid,technician.id)}" onclick="collect('#{technician.id}',this)"></span> 	 
 								</div>
 						}		
 			  end+ %{
