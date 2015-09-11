@@ -217,6 +217,10 @@ class Wechat::WcFrontController < ApplicationController
 					check_openid
 			end
 			@wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])	
+			if !@wechat_config
+					cookies.delete("#{params[:appid]}_openid")
+					check_openid
+			end
 			params.delete(:controller)
 			params.delete(:action)
 		if @wechat_config.sangna_config.id==22
