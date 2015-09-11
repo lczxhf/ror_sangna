@@ -571,3 +571,72 @@ to {opacity: 1;margin-top: 0;}
 							margin: 0 auto;
 }
 
+/*弹窗---提示扫描*/
+.BJ_shareit{
+  -webkit-user-select: none;
+  display: none;
+  position: fixed;
+  background: #333641;
+  top: 0;
+  left: 0;
+  width: 100%;
+height: 100%;
+  z-index: 105;
+  text-align: center;
+}
+#BJ_shareit{
+margin-top: 15%;
+
+}
+#BJ_shareit .mui-icon-closeempty{
+position: absolute;
+right: 3%;
+top: 1%;
+font-size: 3em;
+color: white;
+}
+#BJ_shareit .box_img_propaganda{
+margin-bottom: 3%;
+}
+#BJ_shareit .title{
+color: #FEE8A6;
+font-size: 1.6em;
+letter-spacing: 2px;
+margin-bottom: 3%;
+}
+#BJ_shareit .title2{
+color: white;
+font-size: 1.1em;
+letter-spacing: 1px;
+margin-bottom: 3%;
+}
+#BJ_shareit .title .enlarge{
+font-size: 1.4em;
+}
+#BJ_shareit .box_round{
+width: 44%;
+margin: 0 auto;
+border-radius: 50%;
+border: 1px solid #717AA0;
+}
+#BJ_shareit .box_round .box_inside_round{
+margin: 2%;
+padding-top: 35%;
+border-radius: 50%;
+background: #3C4464;
+color: #FDDA70;
+}
+#BJ_shareit .box_round .box_inside_round .title3{
+font-size: 1.6em;
+letter-spacing: 4px;
+}
+#BJ_shareit .box_round .box_inside_round .title_small{
+font-size: 0.75em;
+letter-spacing: 1px;
+margin-top: 3px;
+}
+@media (max-height: 420px) {
+#BJ_shareit{
+font-size: 13px;
+}
+}

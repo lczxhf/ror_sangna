@@ -1,0 +1,82 @@
+body{
+	background: white;
+}
+.mui-content{
+	background: white;
+	color: #66554C;
+}
+.box_club{
+	width: 100%;
+	height: 35%;
+	background: #FBF1EB;
+	padding-top: 5%;
+	padding-bottom: 5%;
+	text-align: center;
+}
+.box_img{
+	background: #F2E6DC;
+	border-radius: 50%;
+	margin: 0 auto;
+	margin-bottom: 3%;
+}
+.box_img img{
+	border-radius: 50%;
+	margin: 3px;
+}
+.club_name{
+	font-size: 1.3em;
+}
+.welcome{
+	margin-top: 2.5%;
+	font-size: 0.7em;
+}
+
+.box_code{
+	width: 65%;
+	height: 55%;
+	margin: 0 auto;
+	text-align: center;
+	padding-top: 6%;
+	border-bottom: 1px solid #F0EEED;
+	overflow: hidden;
+}
+.tips{
+	margin-top: 3%;
+	font-size: 1.1em;
+}
+.box_code ul li{
+	font-size: 0.7em;
+	text-align: left;
+	margin-left: 10%;
+}
+
+
+/*footer*/
+.footer{
+	width: 100%;
+	height: 10%;
+	padding-top: 3%;
+	padding-bottom: 2%;
+}
+.box_footer{
+	position: relative;
+	text-align: center;
+	height: 50px;
+	margin: 0 auto;
+	font-size: 0.7em;
+	color: #66554C;
+}
+.box_footer img{
+	position: absolute;
+	top: 4px;
+	left: 0;
+}
+.footer_infor{
+	text-align: left;
+	margin-left: 45px;
+	padding-top: 10px;
+	line-height: 16px;
+}
+.type_size{
+	font-size: 1.4em;
+}

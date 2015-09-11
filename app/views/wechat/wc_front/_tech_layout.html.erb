@@ -20,6 +20,23 @@
 			<div class="close">离开</div>
 		</div>
 	<%end%>
+		<!--弹窗---提示扫描-->
+		<div class="BJ_shareit">
+			<div id="BJ_shareit">
+				<span class="mui-icon mui-icon-closeempty"></span>
+				<div class="box_img_propaganda">
+					<img src="/images/propaganda.png" alt="" width="340px" height="240px" />
+				</div>
+				<div class="title">想看海量技师<span class="enlarge">照片</span>？</div>
+				<div class="title2">您还没扫描,当然看不到</div>
+				<div class="box_round" onclick='qrcode()'>
+					<div class="box_inside_round">
+						<div class="title3">【點我】</div>
+						<div class="title_small">扫描锁牌二维码</div>
+					</div>
+				</div>
+			</div>
+		</div>
 		<!--弹窗搜索search-->
 				<div class="mask_layer">
 					<span class="mui-icon mui-icon-closeempty"></span>
@@ -91,7 +108,16 @@
 		</nav>
 <script>
 	$(function(){
-	
+
+		$('#BJ_shareit>.box_img_propaganda>img').css("width",window.innerWidth*0.65);
+		$('#BJ_shareit>.box_img_propaganda>img').css("height",window.innerWidth*0.65*24/34);
+	$('#BJ_shareit>.box_round').css("height",window.innerWidth*0.43);
+	$('#BJ_shareit>.box_round>.box_inside_round').css("width",window.innerWidth*0.39);
+	$('#BJ_shareit>.box_round>.box_inside_round').css("height",window.innerWidth*0.39);
+	$('#BJ_shareit>.box_round>.box_inside_round').css("margin",window.innerWidth*0.019);
+	$('.box_round,#BJ_shareit>.mui-icon-closeempty').click(function(){
+		$('.BJ_shareit').hide()
+	})
 		$('.box_footer').css('width',$('.footer_span').width()+42);
 		$('#shareit').show();
 		$('.enter').click(function(){
@@ -101,9 +127,17 @@
 				wx.closeWindow();	
 			})	
 		$('#t_data').on('click','.jishi_img',function(){
-				mui.toast('到场扫描锁牌二维码后才可查看');
+				Show_BJ_shareit()
 		})
 	})
+
+	function Show_BJ_shareit() {
+		$('.BJ_shareit').show();
+		setTimeout("Hide_BJ_shareit()",5000);
+	}
+	function Hide_BJ_shareit() {
+		$('.BJ_shareit').hide();
+	}
 		function collect(technician_id,icon){
 						   var status="add";
 							 if($(icon).attr("class").substr(-1)=="n"){

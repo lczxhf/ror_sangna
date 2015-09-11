@@ -1,0 +1,80 @@
+
+.box{
+	width: 100%;
+	background: white;
+	padding: 0 1%;
+}
+#slider{
+	width: 100%;
+	height: 200px;
+}
+.icon-sandianhover{
+	line-height: 30px;
+	text-decoration: none;
+	font-size: 18px !important;
+}
+
+.box_infor{
+	margin-bottom: 8px;
+	background: white;
+	padding: 0 2%;
+	
+	color: #7D7780;
+}
+.huisuo_infor{
+	width: 100%;
+	height: 40px;
+	border-bottom: 1px solid #D3D2D2;
+	line-height: 40px;
+	padding: 0 2% 0 5%;
+	overflow: hidden;
+}
+.huisuo_infor_2{
+width: 100%;
+padding: 8px 2% !important;
+border-bottom: 1px solid #D3D2D2;
+padding: 0 2%;
+overflow: hidden;
+}
+.addr{
+	margin-left: 5%;
+	width: 95%;
+	height: 40px;
+	line-height: 40px;
+	border-bottom: 1px solid #D3D2D2;
+}
+.huisuo_infor2{
+	width: 100%;
+	height: auto;
+	border-bottom: 1px solid #D3D2D2;
+	padding-left: 5%;
+}
+/*footer*/
+.footer{
+	width: 100%;
+	height: 55px;
+	margin-top: 20px;
+	text-align: center;
+}
+.box_footer{
+	position: relative;
+	text-align: center;
+	height: 50px;
+	margin: 0 auto;
+	font-size: 0.7em;
+	color: #C2C2C2;
+}
+.box_footer img{
+	position: absolute;
+	top: 4px;
+	left: 0;
+}
+.footer_infor{
+	text-align: left;
+	margin-left: 45px;
+	padding-top: 10px;
+	line-height: 16px;
+}
+.type_size{
+	font-size: 1.4em;
+}
