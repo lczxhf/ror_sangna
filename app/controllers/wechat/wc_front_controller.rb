@@ -217,7 +217,7 @@ class Wechat::WcFrontController < ApplicationController
 					check_openid
 					@wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
 			else
-				@wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])	
+				@wechat_config=WechatConfig.includes(:member).find_by_openid("oE_fQskJ4vstsxhgmq6D2ltcuWE0")	
 				if !@wechat_config
 					cookies.delete("#{params[:appid]}_openid")
 					check_openid
@@ -234,7 +234,7 @@ class Wechat::WcFrontController < ApplicationController
 						else
 							Rails.cache.write(:my_data,[@wechat_config.member_id],expires_in:24.hours)
 						end
-				end
+			 end
 	end
 
 	def project_class

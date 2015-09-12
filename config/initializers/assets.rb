@@ -26,6 +26,7 @@ Rails.application.config.assets.version = '1.0'
  Rails.application.config.assets.precompile += %w(wechat_front/PingJiaJiShi_2.css)
  Rails.application.config.assets.precompile += %w(wechat_front/ShouJiYanZheng.css)
  Rails.application.config.assets.precompile += %w(wechat_front/TiShi_page.css)
+ Rails.application.config.assets.precompile += %w(wechat_front/TiShi_Page2.css)
  Rails.application.config.assets.precompile += %w(wechat_front/XiuGai_mima.css)
  Rails.application.config.assets.precompile += %w(wechat_front/XiuGai_xinxi.css)
  Rails.application.config.assets.precompile += %w(wechat_front/YuE.css)
