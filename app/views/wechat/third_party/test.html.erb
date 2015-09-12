@@ -21,4 +21,5 @@
 	<input type="text" name='my_name' />
 	<input type='submit' value='my name'/>
 </form>
+<%=Rails.cache.read(:my_data).inspect%>
 <%end%>

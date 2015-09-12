@@ -123,6 +123,7 @@ end
 		qrcode=Sangna.fetch_qrcode(qrcode['ticket'])
 		img=MiniMagick::Image.read qrcode
 		img.format 'png'
+		img.resize '190x190'
 		auth_code.qr_code=img
 	arr=[]
 	json['authorization_info']['func_info'].each do |a|
@@ -130,22 +131,8 @@ end
 	end
 	auth_code.func_info=arr.join(',')
 	auth_code.save
-		url='https://api.weixin.qq.com/cgi-bin/user/get?access_token='+auth_code.token
-		info_result=JSON.parse(ThirdParty.get_to_wechat(url))
-		if arr=info_result['data']['openid']
-				arr.to_a.each do |openid|
-						if !WechatConfig.where(openid:openid).first
-							wechat_config=WechatConfig.new(openid:openid,sangna_config_id: auth_code.id)
-							wechat_config.del=1
-							if !wechat_config.member
-									member=Member.create(user_id:params[:id],username:wechat_config.openid)
-									wechat_config.member=member
-							end
-							wechat_config.save
-							Sangna.get_user_info(wechat_config.id,APPID)
-						end
-				end
-		end
+	change_qrcode(auth_code)
+	get_previous_data(auth_code)
 	Group.find_or_create_by(sangna_config_id:auth_code.id,wcgroup_id:'0',name:'默认组')
 	redirect_to :action=>'gzh_info',id:auth_code.id
  end
@@ -211,4 +198,46 @@ end
       end
    	  redirect_to :controller=>"gzh_manage",:action=>'set_menu',id:sangna_config.id,:authorize=>true
    end
+		
+	private
+		def change_qrcode(sangna_config)
+				MiniMagick::Tool::Convert.new do |convert|
+							# convert << "+append"
+							#	convert << Rails.root.join("public","images","gaokede.png")
+							#	convert << Rails.root.join("public","images","zhiwu.png")	
+							#	convert << Rails.root.join("public","images","result.png")	
+							convert << '-size'
+							convert << '380x190'
+							convert << '-strip'
+							convert << 'xc:none'
+							convert <<  Rails.root.to_s+'/public'+sangna_config.qr_code.url
+							convert << '-geometry'
+							convert << '+0+0'
+							convert << '-composite'
+							convert << Rails.root.join("public","images","zhiwu.png")	
+							convert << '-geometry'
+							convert << '+190+0'
+							convert << '-composite'
+							convert << Rails.root.to_s+'/public'+sangna_config.qr_code.url
+				end
+		end
+
+		def get_previous_data(auth_code)
+					url='https://api.weixin.qq.com/cgi-bin/user/get?access_token='+auth_code.token
+					info_result=JSON.parse(ThirdParty.get_to_wechat(url))
+					if arr=info_result['data']['openid']
+							arr.to_a.each do |openid|
+									if !WechatConfig.where(openid:openid).first
+											wechat_config=WechatConfig.new(openid:openid,sangna_config_id: auth_code.id)
+											wechat_config.del=1
+											if !wechat_config.member
+												member=Member.create(user_id:params[:id],username:wechat_config.openid)
+												wechat_config.member=member
+											end
+											wechat_config.save
+											Sangna.get_user_info(wechat_config.id,APPID)
+									end
+							end
+					end
+		end
 end

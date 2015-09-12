@@ -224,7 +224,9 @@ class Wechat::WcFrontController < ApplicationController
 				else
 					params.delete(:controller)
 					params.delete(:action)
-					if @wechat_config.sangna_config.id==22
+				end
+			end
+			 if @wechat_config &&  @wechat_config.sangna_config.id==22
 						if a=Rails.cache.read(:my_data)
 							if !@wechat_config.member_id.in?(a)
 								Rails.cache.write(:my_data,a<<@wechat_config.member_id,expires_in:24.hours)
@@ -232,16 +234,14 @@ class Wechat::WcFrontController < ApplicationController
 						else
 							Rails.cache.write(:my_data,[@wechat_config.member_id],expires_in:24.hours)
 						end
-					end
 				end
-			end
 	end
 
 	def project_class
-				projects=@sangna_config.per_user.per_user_projects.includes(type_relations: :per_user_type).where(p_type:1).open
+				projects=@sangna_config.per_user.per_user_projects.includes(type_relations: :per_user_project).where(p_type:1).open
 				string=projects.collect do |a|
 							"<div class='search_project'><button class='GongZhong' onclick=\"search_by_project('#{a.id}',true)\">#{a.name}</button>"+
-							a.type_relations.where(del:1).collect {|b| "<button class='XiangMu' onclick=\"search_by_project('#{b.per_user_project.id}',false)\">#{b.per_user_project.name}</button>"}.join+"</div>"
+							a.type_relations.collect {|b| "<button class='XiangMu' onclick=\"search_by_project('#{b.per_user_project.id}',false)\">#{b.per_user_project.name}</button>"}.join+"</div>"
 				end.join
 			render plain: string
 	end
@@ -398,8 +398,8 @@ class Wechat::WcFrontController < ApplicationController
 				@wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
 				if @wechat_config.member.per_user_qr_code
 								@inscene=true
+								@no_use=@wechat_config.member.qrcode_logs.order(created_at: :desc).first.coupons_records.empty?
 				end
-				@no_use=@wechat_config.member.qrcode_logs.order(created_at: :desc).first.coupons_records.empty?
 				@cards=@sangna_config.per_user.coupons_records.includes(:coupons_rule).where(member_id:@wechat_config.member_id).order(:status).order(created_at: :desc)
 	end
 
@@ -420,7 +420,7 @@ class Wechat::WcFrontController < ApplicationController
 							card.status=3
 							if card.save
 								 	log=card.member.qrcode_logs.last	
-									log.coupons_record=card
+									log.coupons_records<<card
 									log.save
 									card.sent_message(@sangna_config,card.member.wechat_config,log.per_user_qr_code.hand_code)
 							end
@@ -475,7 +475,7 @@ class Wechat::WcFrontController < ApplicationController
 	private
 	
 	def check_openid
-			if !cookies["#{params[:appid]}_openid"]							
+			if !cookies["#{params[:appid]}_openid"]	|| WechatConfig.find_by_openid(cookies.signed["#{params[:appid]}_openid"]).nil?
 			cookies.signed[:next_url]=request.url
 			auth_url="https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{params[:appid]}&redirect_uri=http://weixin.linkke.cn/wechat/gzh_manage/oauth&response_type=code&scope=snsapi_base&state=123&component_appid=wxf6a05c0e64bc48e1#wechat_redirect"                    
 		   redirect_to auth_url

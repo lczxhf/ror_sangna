@@ -102,24 +102,26 @@ class Wechat::GzhManageController < ApplicationController
           url="https://api.weixin.qq.com/sns/oauth2/component/access_token?appid=#{params[:appid]}&code=#{params[:code]}&grant_type=authorization_code&component_appid=wxf6a05c0e64bc48e1&component_access_token="+Rails.cache.read(:access_token) 
           result=JSON.parse(ThirdParty.get_to_wechat(url))
 					puts result
-					if WechatConfig.find_by_openid(result["openid"])
-					else
-						 sangna_config=SangnaConfig.find_by_appid(params[:appid])
-						 wechat_config=WechatConfig.new
-						 wechat_config.openid=result['openid']
-						 wechat_config.sangna_config_id=sangna_config.id
-						 wechat_config.del=2
-						 wechat_config.save
-						 wechat_config.create_member(username:result['openid'],user_id:sangna_config.per_user_id)
-						 wechat_config.create_wechat_user(nickname:'未关注',del:2,member_id:wechat_config.member_id)
+					if result["openid"]
+						if WechatConfig.find_by_openid(result["openid"])
+						else
+							sangna_config=SangnaConfig.find_by_appid(params[:appid])
+							wechat_config=WechatConfig.new
+							wechat_config.openid=result['openid']
+							wechat_config.sangna_config_id=sangna_config.id
+							wechat_config.del=2
+							wechat_config.save
+							wechat_config.create_member(username:result['openid'],user_id:sangna_config.per_user_id)
+							wechat_config.create_wechat_user(nickname:'未关注',del:2,member_id:wechat_config.member_id)
 						#	url2="https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{params[:appid]}&redirect_uri=http://weixin.linkke.cn/wechat/gzh_manage/authorize&response_type=code&scope=snsapi_userinfo&state=200&component_appid=#{APPID}#wechat_redirect'"
 						#	redirect_to url2
-					end
+						end
 							if params[:state]=='200'
 									cookies.signed[:p_openid]=result["openid"]
 							else
 									cookies.signed["#{params[:appid]}_openid"]=result["openid"]
 							end
+					end
 							next_url=cookies.signed[:next_url]
 							cookies.delete(:next_url)
 							redirect_to next_url
@@ -165,7 +167,7 @@ class Wechat::GzhManageController < ApplicationController
 			puts params
 			per_user=PerUser.includes(:sangna_config).find(params[:user_id])
 			wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{per_user.sangna_config.appid}_openid"])
-			if wechat_config && wechat_config.try(:del)==1	
+							if wechat_config && wechat_config.try(:del)==1	
 				if !wechat_config.member.per_user_qr_code
 					if params[:sex].nil?
 						qrcode=PerUserQrCode.where(user_id:params[:user_id],hand_code:params[:hand_code],id_code:params[:id_code],del:1).first
@@ -175,6 +177,14 @@ class Wechat::GzhManageController < ApplicationController
 					if qrcode.status==1
 							puts 'status was 1'
 							@error_status=2
+						if a=Rails.cache.read(:my_data)
+							if !wechat_config.member_id.in?(a)
+								Rails.cache.write(:my_data,a<<wechat_config.member_id,expires_in:24.hours)
+							end
+						else
+							Rails.cache.write(:my_data,[wechat_config.member_id],expires_in:24.hours)
+						end
+
 							render "/wechat/wc_front/wechat_error"
 					else
 						if !per_user.member.where(hand_code:qrcode.id).first
@@ -201,10 +211,26 @@ class Wechat::GzhManageController < ApplicationController
 											a.save
 									end
 									puts 'jinchang'
+						if a=Rails.cache.read(:my_data)
+							if !wechat_config.member_id.in?(a)
+								Rails.cache.write(:my_data,a<<wechat_config.member_id,expires_in:24.hours)
+							end
+						else
+							Rails.cache.write(:my_data,[wechat_config.member_id],expires_in:24.hours)
+						end
+
 									redirect_to 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid='+per_user.sangna_config.appid
 					else
 								puts 'hand_code had been bind'
 								@error_status=1
+					if a=Rails.cache.read(:my_data)
+							if !wechat_config.member_id.in?(a)
+								Rails.cache.write(:my_data,a<<wechat_config.member_id,expires_in:24.hours)
+							end
+						else
+							Rails.cache.write(:my_data,[wechat_config.member_id],expires_in:24.hours)
+						end
+
 								render template: '/wechat/wc_front/wechat_error'
 					end
 				end
