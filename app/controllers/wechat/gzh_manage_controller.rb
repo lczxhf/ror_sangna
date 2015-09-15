@@ -170,7 +170,7 @@ class Wechat::GzhManageController < ApplicationController
 				cookies.signed[:next_url]=request.url
 				auth_url="https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{per_user.sangna_config.appid}&redirect_uri=http://weixin.linkke.cn/wechat/gzh_manage/oauth&response_type=code&scope=snsapi_base&state=123&component_appid=wxf6a05c0e64bc48e1#wechat_redirect"                    
 		   		redirect_to auth_url
-			end
+			else
 			wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{per_user.sangna_config.appid}_openid"])
 			if params[:sex].nil?
 				qrcode=PerUserQrCode.where(user_id:params[:user_id],hand_code:params[:hand_code],id_code:params[:id_code],del:1).first
@@ -223,13 +223,12 @@ class Wechat::GzhManageController < ApplicationController
 				end
 
 			else
-						Rails.cache.write("#{wechat_config.openid}_entrance",qrcode.id,expires_in: 3.hours)
-						Rails.cache.write("#{qrcode.id}_entrance",wechat_config.openid,expires_in: 3.hours)
 						puts 'must use scan by page'
 						params.delete(:controller)
 						params.delete(:action)
 						redirect_to '/wechat/wc_front/tip?appid='+per_user.sangna_config.appid+"&#{params.to_param}"
 			end
+	end
 end
 
 		def sent_consumption_message

@@ -31,6 +31,7 @@ class Wechat::MessageController < ApplicationController
 							end
 							wechat_config.save
 							if qrcode=Rails.cache.read("#{@weixin_message.FromUserName}_entrance")
+								puts qrcode
 								member.hand_code=qrcode
 								Rails.cache.delete("#{@weixin_message.FromUserName}_entrance")
 								Rails.cache.delete("#{qrcode}_entrance")
