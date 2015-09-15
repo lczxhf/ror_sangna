@@ -24,7 +24,7 @@ class Wechat::MessageController < ApplicationController
 			    if @weixin_message.Event=='subscribe'
 							wechat_config=WechatConfig.find_or_initialize_by(openid:@weixin_message.FromUserName,sangna_config_id: gzh.id)
 							wechat_config.del=1
-							member=nil
+							member=""
 							if !wechat_config.member
 									member=Member.new(user_id:gzh.per_user.id,username:wechat_config.openid)
 									wechat_config.member=member
@@ -36,7 +36,7 @@ class Wechat::MessageController < ApplicationController
 								Rails.cache.delete("#{@weixin_message.FromUserName}_entrance")
 								Rails.cache.delete("#{qrcode}_entrance")
 							end
-							member.save
+							member.try(:save)
 			    	Sangna.get_user_info(wechat_config.id,APPID)
 						puts 'prepare sent subscribe message'
 					render xml: reply_news_message([generate_article("海量技师任你挑","技师图片,技师状态,技师评价","http://weixin.linkke.cn/images/subscribe.png","http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=#{gzh.appid}")])	

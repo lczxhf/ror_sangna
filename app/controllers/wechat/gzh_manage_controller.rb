@@ -223,6 +223,8 @@ class Wechat::GzhManageController < ApplicationController
 				end
 
 			else
+						Rails.cache.write("#{wechat_config.openid}_entrance",qrcode.id,expires_in: 3.hours)
+						Rails.cache.write("#{qrcode.id}_entrance",wechat_config.openid,expires_in: 3.hours)
 						puts 'must use scan by page'
 						params.delete(:controller)
 						params.delete(:action)
