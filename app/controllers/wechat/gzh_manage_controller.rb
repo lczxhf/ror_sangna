@@ -172,11 +172,13 @@ class Wechat::GzhManageController < ApplicationController
 		   		redirect_to auth_url
 			else
 			wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{per_user.sangna_config.appid}_openid"])
+
 			if params[:sex].nil?
 				qrcode=PerUserQrCode.where(user_id:params[:user_id],hand_code:params[:hand_code],id_code:params[:id_code],del:1).first
 			else 
 				qrcode=PerUserQrCode.where(user_id:params[:user_id],hand_code:params[:hand_code],id_code:params[:id_code],sex:params[:sex],del:1).first
 			end
+			record=ScanQrcodeRecord.create(user_id:per_user.id,member_id:wechat_config.member_id,status:wechat_config.del,qrcode:qrcode.hand_code)
 			if wechat_config && wechat_config.try(:del)==1	
 				if !wechat_config.member.per_user_qr_code
 					if qrcode.status==1
