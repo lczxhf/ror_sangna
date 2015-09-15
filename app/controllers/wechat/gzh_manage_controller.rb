@@ -302,8 +302,8 @@ end
 										sangna_config.save
 								end
           end
-					url="https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token="+params[:token]
-					body='{"touser":"'+params[:openid]+'","msgtype":"text","text":{"content":"'+params[:code]+'"_from_api"}}'
+					url="https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token="+sangna_config.token
+					body='{"touser":"'+params[:openid]+'","msgtype":"text","text":{"content":"'+params[:content]+'"}}'
 				result=	ThirdParty.sent_to_wechat(url,body)
 				 render plain: result
 		end
