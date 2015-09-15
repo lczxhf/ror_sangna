@@ -166,82 +166,65 @@ class Wechat::GzhManageController < ApplicationController
 		def change_qrcode
 			puts params
 			per_user=PerUser.includes(:sangna_config).find(params[:user_id])
+			if !cookies["#{per_user.sangna_config.appid}_openid"]	|| WechatConfig.find_by_openid(cookies.signed["#{per_user.sangna_config.appid}_openid"]).nil?
+				cookies.signed[:next_url]=request.url
+				auth_url="https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{per_user.sangna_config.appid}&redirect_uri=http://weixin.linkke.cn/wechat/gzh_manage/oauth&response_type=code&scope=snsapi_base&state=123&component_appid=wxf6a05c0e64bc48e1#wechat_redirect"                    
+		   		redirect_to auth_url
+			end
 			wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{per_user.sangna_config.appid}_openid"])
-							if wechat_config && wechat_config.try(:del)==1	
+			if params[:sex].nil?
+				qrcode=PerUserQrCode.where(user_id:params[:user_id],hand_code:params[:hand_code],id_code:params[:id_code],del:1).first
+			else 
+				qrcode=PerUserQrCode.where(user_id:params[:user_id],hand_code:params[:hand_code],id_code:params[:id_code],sex:params[:sex],del:1).first
+			end
+			if wechat_config && wechat_config.try(:del)==1	
 				if !wechat_config.member.per_user_qr_code
-					if params[:sex].nil?
-						qrcode=PerUserQrCode.where(user_id:params[:user_id],hand_code:params[:hand_code],id_code:params[:id_code],del:1).first
-					else 
-						qrcode=PerUserQrCode.where(user_id:params[:user_id],hand_code:params[:hand_code],id_code:params[:id_code],sex:params[:sex],del:1).first
-					end
 					if qrcode.status==1
 							puts 'status was 1'
 							@error_status=2
-						if a=Rails.cache.read(:my_data)
-							if !wechat_config.member_id.in?(a)
-								Rails.cache.write(:my_data,a<<wechat_config.member_id,expires_in:24.hours)
-							end
-						else
-							Rails.cache.write(:my_data,[wechat_config.member_id],expires_in:24.hours)
-						end
-
 							render "/wechat/wc_front/wechat_error"
 					else
-						if !per_user.member.where(hand_code:qrcode.id).first
-							wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{per_user.sangna_config.appid}_openid"])
-									log=qrcode.qrcode_logs.last 
-									if log.nil? || log.member
-											log=qrcode.qrcode_logs.build
-											log.created_at=Time.new('2000-01-01')
-									end
-										log.member=wechat_config.member
-										log.member_bind_time=Time.now
-										rule_ids=wechat_config.member.coupons_records.where("status in (1,2)").pluck(:coupons_rules_id)
-										log.entrance_card_count=rule_ids.size
-										sum=0
-										rule_ids.each do |a|
-													sum+=CouponsRule.find(a).face_value
-										end
-										log.entrance_card_sum= sum
-										log.save
-									wechat_config.member.hand_code=qrcode.id
-									wechat_config.member.save
-									wechat_config.member.coupons_records.where(status:1).each do |a|
-											a.status=2
-											a.save
-									end
-									puts 'jinchang'
-						if a=Rails.cache.read(:my_data)
-							if !wechat_config.member_id.in?(a)
-								Rails.cache.write(:my_data,a<<wechat_config.member_id,expires_in:24.hours)
-							end
-						else
-							Rails.cache.write(:my_data,[wechat_config.member_id],expires_in:24.hours)
-						end
-
-									redirect_to 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid='+per_user.sangna_config.appid
-					else
-								puts 'hand_code had been bind'
+						if per_user.member.where(hand_code:qrcode.id).first || (Rails.cache.exist?("#{qrcode.id}_entrance") && Rails.cache.read("#{qrcode.id}_entrance")!=wechat_config.openid)
+							puts 'hand_code had been bind'
 								@error_status=1
-					if a=Rails.cache.read(:my_data)
-							if !wechat_config.member_id.in?(a)
-								Rails.cache.write(:my_data,a<<wechat_config.member_id,expires_in:24.hours)
-							end
-						else
-							Rails.cache.write(:my_data,[wechat_config.member_id],expires_in:24.hours)
-						end
-
 								render template: '/wechat/wc_front/wechat_error'
+						else
+							wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{per_user.sangna_config.appid}_openid"])
+							log=qrcode.qrcode_logs.last 
+							if log.nil? || log.member
+								log=qrcode.qrcode_logs.build
+								log.created_at=Time.new('2000-01-01')
+							end
+							log.member=wechat_config.member
+							log.member_bind_time=Time.now
+							rule_ids=wechat_config.member.coupons_records.where("status in (1,2)").pluck(:coupons_rules_id)
+							log.entrance_card_count=rule_ids.size
+							sum=0
+							rule_ids.each do |a|
+								sum+=CouponsRule.find(a).face_value
+							end
+							log.entrance_card_sum= sum
+							log.save
+							wechat_config.member.hand_code=qrcode.id
+							wechat_config.member.save
+							wechat_config.member.coupons_records.where(status:1).each do |a|
+								a.status=2
+								a.save
+							end
+							puts 'jinchang'
+							redirect_to 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid='+per_user.sangna_config.appid	
+						end
 					end
-				end
-			else
+				else
 								#@error_status=2
 								#render template: '/wechat/wc_front/wechat_error'
 								puts 'member had been bind'
 								redirect_to 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid='+per_user.sangna_config.appid
-			end
+				end
 
 			else
+						Rails.cache.write("#{wechat_config.openid}_entrance",qrcode.id,expires_in: 3.hours)
+						Rails.cache.write("#{qrcode.id}_entrance",wechat_config.openid,expires_in: 3.hours)
 						puts 'must use scan by page'
 						params.delete(:controller)
 						params.delete(:action)
