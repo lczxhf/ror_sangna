@@ -2,8 +2,10 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<%= stylesheet_link_tag  'WeiXin' %>
+		<%= stylesheet_link_tag  'bootstrap.min' %>
+		<%= stylesheet_link_tag  'GongZhongHao' %>
 		<%= javascript_include_tag 'jquery-2.1.0'%>
+		<%= javascript_include_tag 'bootstrap'%>
 		<title>微信公众号绑定</title>
 		<script type="text/javascript">
 			$(function(){$("#authorize").click(function(){
@@ -12,55 +14,38 @@
 		</script>
 	</head>
 	<body>
-		<div class="header bold">
-			微信公众帐号和领客绑定
-			<a class="right size_a" href="">返回</a>
-		</div>
 		<div class="content">
-			<div class="left box_left">
-				<span>一分钟即可绑定，获得领客所有功能</span>
-				<div class="round" id="authorize">马上绑定</div>
-				<div class="checkbox">
-				    <label>
-				      <input type="checkbox" id="check">勾选同意
-				      <a href="">领客使用条款</a>
-				    </label>
-				  </div>
+			<h3 class="culb_title">微信公众号和领客绑定</h3>
+			<div class="tips">一分钟即可绑定，获得领客云平台所有功能</div>
+			<button type="button" class="btn btn_binding" id="authorize">马上绑定</button>
+			<div class="checkbox">
+				<label>
+					<input type="checkbox" id='check'>勾选同意&nbsp; <a class="type_a" href=""> 领客云平台使用条款</a>
+				</label>
 			</div>
-			<div class="right box_right">
-				<div class="box_table">
-					<div class="bold">哪些微信公众账号可以使用领客？</div>
-						<table class="table" border="0" cellpadding="0" cellspacing="0">
-							<tr>
-								<td>公众号类型</td>
-								<th class="border_red border_bottom ">服务号</th>
-								<th class="border_red border_bottom border_left">认证服务号</th>
-								<th class="border_grey border_bottom border_left">订阅号</th>
-								<th class="border_grey border_bottom border_left">认证订阅号</th>
-							</tr>
-							<tr>
-								<td>能否使用</td>
-								<td class="border_red background">基本要求</td>
-								<td class="border_red background border_left">推荐类型</td>
-								<td class="border_grey border_left">不能使用</td>
-								<td class="border_grey border_left">不能使用</td>
-							</tr>
-						</table>
-					
-				</div>
-				<div class="box_apply">
-					<div class="bold">没有微信公众号怎么办？</div>
-					<div class="type_a">点击
-						<a href="https://mp.weixin.qq.com/">此处免费申请</a>
-						，请申请<strong>服务号</strong>提供高质量的服务
-					</div>
-				</div>
+			<div class="box_requirement ">
+				<div class="requirement_title">[&nbsp;&nbsp;哪些微信公众账号可以使用领客云平台?&nbsp;&nbsp;]</div>
+				<table class="table table-bordered table_requirement">
+					<tr>
+						<td>公众号类型</td>
+						<td>服务号</td>
+						<td>认证服务号</td>
+						<td>订阅号</td>
+						<td>认证订阅号</td>
+					</tr>
+					<tr>
+						<td>能否使用</td>
+						<td>部分功能不可用</td>
+						<td>推荐类型</td>
+						<td>不能使用</td>
+						<td>不能使用</td>
+					</tr>
+				</table>
 			</div>
-		</div>
-		<div class="footer">
-			<span class="left">深圳天地网电子商务有限公司</span>
-			<strong>400-07777700</strong>
-			<span class="right">ICP备案：粤XXXXXXXXXX</span>
+			<div class="box_requirement ">
+				<div class="requirement_title">[&nbsp;&nbsp;没有微信公众号怎么办?&nbsp;&nbsp;]</div>
+				<div class="help">点击 <a class="type_a" href="https://mp.weixin.qq.com/">此处免费申请</a>,申请<strong>认证服务号</strong>获得高质量的服务</div>
+			</div>
 		</div>
 	</body>
 </html>

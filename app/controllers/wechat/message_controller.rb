@@ -31,7 +31,7 @@ class Wechat::MessageController < ApplicationController
 							wechat_config.save
 							if qrcode=Rails.cache.read("#{@weixin_message.FromUserName}_entrance")
 								puts qrcode
-								wechat_config.member.hand_code=qrcode
+								entry(wechat_config,qrcode)
 								Rails.cache.delete("#{@weixin_message.FromUserName}_entrance")
 								Rails.cache.delete("#{qrcode}_entrance")
 							end
@@ -75,5 +75,31 @@ class Wechat::MessageController < ApplicationController
 				render xml: reply_text_message("other") 
 			end
 		end
+   end
+
+   private
+
+   def entry(wechat_config,qrcode)
+   							qrcode=PerUserQrCode.find(qrcode)
+							log=qrcode.qrcode_logs.last 
+							if log.nil? || log.member
+								log=qrcode.qrcode_logs.build
+								log.created_at=Time.new('2000-01-01')
+							end
+							log.member=wechat_config.member
+							log.member_bind_time=Time.now
+							rule_ids=wechat_config.member.coupons_records.where("status in (1,2)").pluck(:coupons_rules_id)
+							log.entrance_card_count=rule_ids.size
+							sum=0
+							rule_ids.each do |a|
+								sum+=CouponsRule.find(a).face_value
+							end
+							log.entrance_card_sum= sum
+							log.save
+							wechat_config.member.hand_code=qrcode.id
+							wechat_config.member.coupons_records.where(status:1).each do |a|
+								a.status=2
+								a.save
+							end
    end
 end

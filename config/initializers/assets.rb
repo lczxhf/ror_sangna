@@ -9,7 +9,7 @@ Rails.application.config.assets.version = '1.0'
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
 # Rails.application.config.assets.precompile += %w(wechat/wechat_front.js wechat/wechat_front.css)
- Rails.application.config.assets.precompile += %w(WeiXin.css)
+ Rails.application.config.assets.precompile += %w(GongZhongHao.css)
  Rails.application.config.assets.precompile += %w(wechat_front/BaoCuo_Page.css)
  Rails.application.config.assets.precompile += %w(wechat_front/Box_jishi.css)
  Rails.application.config.assets.precompile += %w(wechat_front/Fuwu_xiangmu.css)
