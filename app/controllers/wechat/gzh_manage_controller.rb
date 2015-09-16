@@ -178,7 +178,7 @@ class Wechat::GzhManageController < ApplicationController
 			else 
 				qrcode=PerUserQrCode.where(user_id:params[:user_id],hand_code:params[:hand_code],id_code:params[:id_code],sex:params[:sex],del:1).first
 			end
-			record=ScanQrcodeRecord.create(user_id:per_user.id,member_id:wechat_config.member_id,status:wechat_config.del,qrcode:qrcode.hand_code)
+			record=ScanQrcodeRecord.create(user_id:per_user.id,member_id:wechat_config.member_id,status:wechat_config.del,hand_code:qrcode.hand_code)
 			if wechat_config && wechat_config.try(:del)==1	
 				if !wechat_config.member.per_user_qr_code
 					if qrcode.status==1
