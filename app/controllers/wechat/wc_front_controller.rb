@@ -450,7 +450,7 @@ class Wechat::WcFrontController < ApplicationController
 								@no_use=@wechat_config.member.qrcode_logs.order(created_at: :desc).first.coupons_records.empty?
 				end
 				sql = ActiveRecord::Base.connection()  
-				sql.update_sql 'update sangna.coupons_records as record left join coupons_rules as rule on record.coupons_rules_id=rule.id set record.status=4 where date_add(record.created_at,INTERVAL rule.due_day Day)<now() and member_id='+@wechat_config.member_id
+				sql.update_sql 'update sangna.coupons_records as record left join coupons_rules as rule on record.coupons_rules_id=rule.id set record.status=4 where date_add(record.created_at,INTERVAL rule.due_day Day)<now() and member_id='+@wechat_config.member_id.to_s
 				@cards=@sangna_config.per_user.coupons_records.includes(:coupons_rule).where(member_id:@wechat_config.member_id).order(:status).order(created_at: :desc)
 	end
 
