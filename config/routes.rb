@@ -45,6 +45,7 @@ Rails.application.routes.draw do
 		get "wc_front/redbage" =>"wc_front#redbage"
 		post "wc_front/remark" => "wc_front#remark"
 		post "wc_front/get_redbage" => "wc_front#get_redbage"
+    post "wc_front/get_ab_redbage" => "wc_front#get_ab_redbage"
 		get "wc_front/balance" => "wc_front#balance"
 		get "wc_front/card_info" => "wc_front#card_info"
 		get "wc_front/phone_bind" => "wc_front#phone_bind"
