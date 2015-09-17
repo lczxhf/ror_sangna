@@ -43,7 +43,6 @@
 													$.post('get_redbage',{o_id:'<%=params[:o_id]%>',same:<%=params[:same]%>},function(r_obj){
 													   if(r_obj=='ok'){
 																	mui.toast('分享成功!代金券已放入您的卡券中');
-																	window.location.replace('my_account?appid=<%=params[:appid]%>&new=true');
 															}
 															else{
 																	mui.toast('分享成功!您已领取过代金券!');
@@ -51,6 +50,7 @@
 															}
 													 })
 													get_ab_redbage();
+													window.location.replace('my_account?appid=<%=params[:appid]%>&new=true');
 		        },
 		        cancel: function(res){
 				    }
@@ -66,7 +66,6 @@
 													$.post('get_redbage',{o_id:'<%=params[:o_id]%>',same:<%=params[:same]%>},function(r_obj){
 													   if(r_obj=='ok'){
 																	mui.toast('分享成功!代金券已放入您的卡券中');
-																	window.location.replace('my_account?appid=<%=params[:appid]%>&new=true');
 															}
 															else{
 																	mui.toast('分享成功!您已领取过代金券!');
@@ -74,6 +73,7 @@
 															}
 													 })
 													get_ab_redbage();
+													window.location.replace('my_account?appid=<%=params[:appid]%>&new=true');
 						},
 						cancel: function () { 
 						}

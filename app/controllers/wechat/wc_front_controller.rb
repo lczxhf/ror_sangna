@@ -168,33 +168,7 @@ class Wechat::WcFrontController < ApplicationController
 					@order=OrderByMasseuse.includes(:per_user_masseuse,:per_user_project,:per_user,member: [:wechat_config]).find(params[:o_id])
 					if @order && @order.member.wechat_config.openid==cookies.signed["#{params[:appid]}_openid"]
 							@sangna_config=@order.per_user.sangna_config
-							@ab_rule_id=nil
-							if @order.member.per_use_qr_code && coupons_class=CouponsClass.where(id:2,del:1,status:1).first
-								if user_coupons_class=coupons_class.user_coupons_classes.where(user_id:@order.user_id,status:1).first
-									if ab_rule=coupons_class.ab_rules.where(user_id:@order.user_id,original_project_id:@order.project_id,status:1,del:1).first
-										case ab_rule.applicable_member
-										when 1
-											if @order.member.per_user_qr_code.sex==1
-												@ab_rule_id=ab_rule.id
-											end
-										when 2
-											if @order.member.per_user_qr_code.sex==2
-												@ab_rule_id=ab_rule.id
-											end
-										when 3
-											if @order.member.per_user_qr_code.sex==3
-												@ab_rule_id=ab_rule.id
-											end
-										when 5
-											if QrcodeLog.where(member_id:@order.member_id).count==1
-												@ab_rule_id=ab_rule.id
-											end
-										else
-												@ab_rule_id=ab_rule.id
-										end
-									end
-								end
-							end
+							@ab_rule_id=@order.get_ab_rule
 							if params[:l]=='z'
 								@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:2,del:1,status:1).first
 								@open_redbage=true
@@ -211,6 +185,7 @@ class Wechat::WcFrontController < ApplicationController
 				@order=OrderByMasseuse.includes(:per_user_masseuse,:per_user,member: [:wechat_config]).find(params[:o_id])
 					if @order &&  @order.member.wechat_config.openid==cookies.signed["#{params[:appid]}_openid"]
 							@sangna_config=@order.per_user.sangna_config
+							@ab_rule_id=@order.get_ab_rule
 							if @order.technician_level_remarks.empty?
 									@remark=false
 							else
