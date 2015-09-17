@@ -165,9 +165,36 @@ class Wechat::WcFrontController < ApplicationController
 
 	def technician_remark
 					puts params
-					@order=OrderByMasseuse.includes(:per_user_masseuse,:per_user,member: [:wechat_config]).find(params[:o_id])
+					@order=OrderByMasseuse.includes(:per_user_masseuse,:per_user_project,:per_user,member: [:wechat_config]).find(params[:o_id])
 					if @order && @order.member.wechat_config.openid==cookies.signed["#{params[:appid]}_openid"]
 							@sangna_config=@order.per_user.sangna_config
+							@ab_rule_id=nil
+							if @order.member.per_use_qr_code && coupons_class=CouponsClass.where(id:2,del:1,status:1).first
+								if user_coupons_class=coupons_class.user_coupons_classes.where(user_id:@order.user_id,status:1).first
+									if ab_rule=coupons_class.ab_rules.where(user_id:@order.user_id,original_project_id:@order.project_id,status:1,del:1).first
+										case ab_rule.applicable_member
+										when 1
+											if @order.member.per_user_qr_code.sex==1
+												@ab_rule_id=ab_rule.id
+											end
+										when 2
+											if @order.member.per_user_qr_code.sex==2
+												@ab_rule_id=ab_rule.id
+											end
+										when 3
+											if @order.member.per_user_qr_code.sex==3
+												@ab_rule_id=ab_rule.id
+											end
+										when 5
+											if QrcodeLog.where(member_id:@order.member_id).count==1
+												@ab_rule_id=ab_rule.id
+											end
+										else
+												@ab_rule_id=ab_rule.id
+										end
+									end
+								end
+							end
 							if params[:l]=='z'
 								@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:2,del:1,status:1).first
 								@open_redbage=true
@@ -301,7 +328,8 @@ class Wechat::WcFrontController < ApplicationController
 				order=OrderByMasseuse.includes(:per_user_masseuse,per_user:[:sangna_config]).find(params[:o_id])
 				wechat_config=WechatConfig.includes(:wechat_user,:member).find_by_openid(cookies.signed["#{order.per_user.sangna_config.appid}_openid"])
 				member_id=wechat_config.member_id
-				if order.coupons_records.find_by_member_id(member_id)
+				if CouponsRecord.find_by_sql("SELECT * FROM sangna.coupons_records as record left join coupons_classes as class on record.coupons_classes_id=class.id
+ where from_order_id=#{order.id} and class.name='分享得红包'").present?
 						render plain: 'err'
 				else
 						status=1
@@ -322,11 +350,41 @@ class Wechat::WcFrontController < ApplicationController
 							coupon_record.user_id=coupon_rule.user_id
 							coupon_record.member_id=member_id 
 							coupon_record.created_at=Time.now
+							coupon_record.value=coupon_rule.face_value
 							coupon_record.from_order_id=params[:o_id]
 							coupon_record.status=status
 							coupon_record.save
 							render plain: 'ok'
 				end		
+	end
+
+	def get_ab_redbage
+		if ab_rule=UserAbProjectsCouponsRule.find(params[:ab_rule_id])
+			wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
+			order=OrderByMasseuse.find(params[:o_id])
+			if ab_rule.rules==1
+				ab_recommended_projects=ab_rule.ab_recommended_projects.order("rand()").limit(1)
+			elsif ab_rule.rules==2
+				ab_recommended_projects=ab_rule.ab_recommended_projects
+			end
+			ab_recommended_projects.each do |a|
+				coupons_record=CouponsRecord.new
+				coupons_record.user_id=ab_rule.user_id
+				coupons_record.member_id=wechat_config.member_id
+				coupons_record.from_order_id=order.id
+				o = [('a'..'z'),('A'..'Z')].map{|i| i.to_a}.flatten
+				string = (0...4).map{ o[rand(o.length)] }.join
+				coupons_record.number=Time.now.to_i.to_s+string
+				coupons_record.status=2
+				coupons_record.projects_id=a.id
+				coupons_record.value=a.value
+				coupons_record.coupons_classes_id=ab_rule.coupons_classes_id
+				coupons_record.save
+			end
+			render plain: 'ok'
+		else
+				render plain: 'err'
+		end
 	end
 
 	def remark
@@ -391,6 +449,8 @@ class Wechat::WcFrontController < ApplicationController
 								@inscene=true
 								@no_use=@wechat_config.member.qrcode_logs.order(created_at: :desc).first.coupons_records.empty?
 				end
+				sql = ActiveRecord::Base.connection()  
+				sql.update_sql 'update sangna.coupons_records as record left join coupons_rules as rule on record.coupons_rules_id=rule.id set record.status=4 where date_add(record.created_at,INTERVAL rule.due_day Day)<now() and member_id='+@wechat_config.member_id
 				@cards=@sangna_config.per_user.coupons_records.includes(:coupons_rule).where(member_id:@wechat_config.member_id).order(:status).order(created_at: :desc)
 	end
 

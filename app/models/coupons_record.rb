@@ -4,7 +4,8 @@ class CouponsRecord < ActiveRecord::Base
 	belongs_to :qrcode_log
 	belongs_to :member
 	belongs_to :per_user,foreign_key: 'user_id'
-
+	belongs_to :ab_recommended_project,class_name: 'UserAbProjectsCouponsRulesRecommendedProject',foreign_key: 'projects_id'
+	belongs_to :coupons_class,foreign_key: 'coupons_classes_id'
 
 	def sent_message(sangna_config,wechat_config,hand_code)
 			templete=TempleteNumber.find_by_topic('卡券核销通知')	

@@ -88,16 +88,13 @@ class Wechat::MessageController < ApplicationController
 							end
 							log.member=wechat_config.member
 							log.member_bind_time=Time.now
-							rule_ids=wechat_config.member.coupons_records.where("status in (1,2)").pluck(:coupons_rules_id)
-							log.entrance_card_count=rule_ids.size
-							sum=0
-							rule_ids.each do |a|
-								sum+=CouponsRule.find(a).face_value
-							end
-							log.entrance_card_sum= sum
+							coupons_records=wechat_config.member.coupons_records.where("status in (1,2)")
+							log.entrance_card_count=coupons_records.size
+							log.entrance_card_sum= coupons_records.collect{|a| a.value}.sum
 							log.save
 							wechat_config.member.hand_code=qrcode.id
-							wechat_config.member.coupons_records.where(status:1).each do |a|
+							wechat_config.member.save
+							coupons_records.each do |a|
 								a.status=2
 								a.save
 							end
