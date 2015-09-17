@@ -14,3 +14,4 @@
 
 # Ignore Spring files.
 /spring/*.pid
+/config/database.yml
