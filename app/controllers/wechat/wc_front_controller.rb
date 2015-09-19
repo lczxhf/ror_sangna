@@ -323,7 +323,8 @@ class Wechat::WcFrontController < ApplicationController
 							string = (0...4).map{ o[rand(o.length)] }.join
 							coupon_record.number=Time.now.to_i.to_s+string
 							coupon_record.user_id=coupon_rule.user_id
-							coupon_record.member_id=member_id 
+							coupon_record.member_id=member_id
+							coupon_record.coupons_class=CouponsClass.find(1) 
 							coupon_record.created_at=Time.now
 							coupon_record.value=coupon_rule.face_value
 							coupon_record.from_order_id=params[:o_id]
@@ -421,8 +422,7 @@ class Wechat::WcFrontController < ApplicationController
 				
 				@wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
 				if @wechat_config.member.per_user_qr_code
-								@inscene=true
-								@no_use=@wechat_config.member.qrcode_logs.order(created_at: :desc).first.coupons_records.empty?
+						@inscene=true
 				end
 				sql = ActiveRecord::Base.connection()  
 				sql.update_sql 'update sangna.coupons_records as record left join coupons_rules as rule on record.coupons_rules_id=rule.id set record.status=4 where date_add(record.created_at,INTERVAL rule.due_day Day)<now() and member_id='+@wechat_config.member_id.to_s
