@@ -304,7 +304,7 @@ class Wechat::WcFrontController < ApplicationController
 				wechat_config=WechatConfig.includes(:wechat_user,:member).find_by_openid(cookies.signed["#{order.per_user.sangna_config.appid}_openid"])
 				member_id=wechat_config.member_id
 				if CouponsRecord.find_by_sql("SELECT * FROM sangna.coupons_records as record left join coupons_classes as class on record.coupons_classes_id=class.id
- where from_order_id=#{order.id} and class.name='分享得红包'").present?
+ where from_order_id=#{order.id} and class.name='评价转发代金券' and member_id=#{member_id}").present?
 						render plain: 'err'
 				else
 						status=1

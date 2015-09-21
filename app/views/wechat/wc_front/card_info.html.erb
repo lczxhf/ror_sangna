@@ -61,7 +61,7 @@
 	<%@cards.each do |card|%>
 		<%if !card.status.in?([1,2])%>
 		 <div class="box_coupons_2">
-				<div class="coupons_num type_after_use"><%=card..face_value%></div>
+				<div class="coupons_num type_after_use"><%=card.value%></div>
 				<div class="box_2">
 					<div class="project_2">代金券</div>
 					<div class="closing_time_2">截止日期:<%=(card.created_at+card.coupons_rule.due_day.days).strftime('%Y年%m月%d日')%>

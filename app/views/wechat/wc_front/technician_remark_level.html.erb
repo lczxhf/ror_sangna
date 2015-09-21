@@ -40,9 +40,11 @@
 		        link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&o_id=<%=@order.id%>&id=<%=@order.member_id%>&same=<%=params[:same]%>',
 		        imgUrl: 'http://weixin.linkke.cn/images/forward.png',
 		        success: function(res){
+													var is_new=false;
 													$.post('get_redbage',{o_id:'<%=params[:o_id]%>',same:<%=params[:same]%>},function(r_obj){
 													   if(r_obj=='ok'){
 																	mui.toast('分享成功!代金券已放入您的卡券中');
+																	is_new=true;
 															}
 															else{
 																	mui.toast('分享成功!您已领取过代金券!');
@@ -50,7 +52,7 @@
 															}
 													 })
 													get_ab_redbage();
-													window.location.replace('my_account?appid=<%=params[:appid]%>&new=true');
+													window.location.replace('my_account?appid=<%=params[:appid]%>&new='+is_new);
 		        },
 		        cancel: function(res){
 				    }
@@ -63,9 +65,11 @@
 					  link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&o_id=<%=@order.id%>&id=<%=@order.member_id%>&same=<%=params[:same]%>', 
 						imgUrl: 'http://weixin.linkke.cn/images/forward.png',
 						success: function () { 
+													var is_new=false;
 													$.post('get_redbage',{o_id:'<%=params[:o_id]%>',same:<%=params[:same]%>},function(r_obj){
 													   if(r_obj=='ok'){
 																	mui.toast('分享成功!代金券已放入您的卡券中');
+																	is_new=true;
 															}
 															else{
 																	mui.toast('分享成功!您已领取过代金券!');
@@ -73,7 +77,7 @@
 															}
 													 })
 													get_ab_redbage();
-													window.location.replace('my_account?appid=<%=params[:appid]%>&new=true');
+													window.location.replace('my_account?appid=<%=params[:appid]%>&new='+is_new);
 						},
 						cancel: function () { 
 						}
