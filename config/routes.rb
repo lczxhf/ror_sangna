@@ -23,6 +23,7 @@ Rails.application.routes.draw do
 		get "gzh_manage/get_info" => "gzh_manage#get_info"
 		get "gzh_manage/change_qrcode" =>"gzh_manage#change_qrcode"
 		get "gzh_manage/sent_custom_message" => "gzh_manage#sent_custom_message"
+    get "gzh_manage/sent_card_message" => "gzh_manage#sent_card_message"    
 		post "gzh_manage/sent_consumption_message" => "gzh_manage#sent_consumption_message"
     post 'message/:appid' => "message#receive"
     post 'wcpay/get_order' => "wcpay#get_order"

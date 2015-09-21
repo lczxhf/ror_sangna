@@ -230,6 +230,11 @@ class Wechat::GzhManageController < ApplicationController
 			end
 	end
 end
+		
+		def sent_card_message
+			coupons_record=CouponsRecord.find(params[:card_id])
+			coupons_record.sent_message(coupons_record.per_user.sangna_config,coupons_record.member.wechat_config,params[:hand_code])
+		end
 
 		def sent_consumption_message
 							puts params
