@@ -61,7 +61,7 @@
 													 })
 								     })
 								get_ab_redbage();
-								window.location.replace('my_account?appid=<%=params[:appid]%>&new='+is_new);
+								window.location.replace('card_info?appid=<%=params[:appid]%>');
 								}
 		        },
 		        cancel: function(res){
@@ -96,7 +96,7 @@
 													 })
 								     })
 								get_ab_redbage();
-								window.location.replace('my_account?appid=<%=params[:appid]%>&new='+is_new);
+								window.location.replace('card_info?appid=<%=params[:appid]%>');
 								}
 						},
 						cancel: function () { 
@@ -111,7 +111,7 @@
 											imgUrl: 'http://linkke.cn<%=@order.per_user.per_user_imgs.first.url.thumb.url%>',
 											success: function(res){
 												get_ab_redbage();
-												window.location.replace('my_account?appid=<%=params[:appid]%>');
+												window.location.replace('card_info?appid=<%=params[:appid]%>');
 											},
 											cancel: function(res){
 											}
@@ -125,7 +125,7 @@
 												imgUrl: 'http://linkke.cn<%=@order.per_user.per_user_imgs.first.url.thumb.url%>',
 												success: function () { 
 													get_ab_redbage();
-													window.location.replace('my_account?appid=<%=params[:appid]%>');
+													window.location.replace('card_info?appid=<%=params[:appid]%>');
 												},
 												cancel: function () { 
 												}
