@@ -63,7 +63,13 @@ class Wechat::ThirdPartyController < ApplicationController
   end
 
 def test1
-				render plain: 'a'
+		SangnaConfig.all.each do |sangna_config|
+      	qrcode=ThirdParty.get_to_wechat(sangna_config.sangna_info.qrcode_url)
+        img=MiniMagick::Image.read qrcode
+        img.format 'png'
+        sangna_config.original_qr_code=img
+        sangna_config.save
+    	end
 end	
 
 def authorize

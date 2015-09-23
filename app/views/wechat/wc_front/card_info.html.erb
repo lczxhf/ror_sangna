@@ -60,50 +60,77 @@
 		})
 	</script>
 <%end%>
+			
 <%content_for :body do%>
+	<div class="mui-content">
+		<div class="box_Choice">
+			<button type="button" class="mui-btn mui-btn-outlined btn_Comment btn_Selected">评论代金券</button>
+			<button type="button" class="mui-btn mui-btn-outlined btn_Scene">现场代金券</button>
+		</div>	
 	<%if @cards.empty?%>
 			<span class="ShouCang_none">暂无卡券</span>
+		</div>
 	<%else%>
-	<%@cards.each do |card|%>
-		<%if !card.status.in?([1,2])%>
-		 <div class="box_coupons_2">
-				<div class="coupons_num type_after_use"><%=card.value%></div>
-				<div class="box_2">
-					<div class="project_2">代金券</div>
-					<div class="closing_time_2">截止日期:<%=(card.created_at+card.coupons_rule.due_day.days).strftime('%Y年%m月%d日')%>
+		<div id="Comment_Vouchers">
+			<%@cards.each do |card|%>
+				<%if card.coupons_rule%>
+					<%if !card.status.in?([1,2])%>
+		 			 <div class="box_coupons_2">
+						<div class="coupons_num type_after_use"><%=card.value%></div>
+						<div class="box_2">
+							<div class="project_2">代金券</div>
+							<div class="closing_time_2">截止日期:<%=(card.created_at+card.coupons_rule.due_day.days).strftime('%Y年%m月%d日')%>
+							</div>
+						</div>
+						<%if card.status==3%>
+							<button class="btn_after_use" disabled>已使用</button>
+						<%else%>
+							<button class="btn_after_use" disabled>已过期</button>
+						<%end%>
 					</div>
-				</div>
-				<%if card.status==3%>
-						<button class="btn_after_use" disabled>已使用</button>
 				<%else%>
-						<button class="btn_after_use" disabled>已过期</button>
+						<div class="box_coupons">
+							<div class="box_infor">
+								<div class="coupons_num"><%=card.coupons_rule.face_value%></div>
+								<div class="box">
+									<div class="project">代金券</div>
+									<div class="closing_time">截止日期:<%=(card.created_at+card.coupons_rule.due_day.days).strftime('%Y年%m月%d日')%></div>
+									<div class="status">到场自动激活</div>
+								</div>
+							</div>
+							<%if @inscene%>
+								<%if card.status==2%>
+									<button class="employ" disabled="disabled">可使用</button>
+								<%elsif card.status==1%>
+									<button class="employ" disabled="disabled">未激活</button>
+								<%end%>
+							<%end%>
+							<div class="guize" onclick='rule(<%=card.id%>)'>使用规则</div>
+						</div>
 				<%end%>
-			</div>
+				<%end%>
+			<%end%>
 		</div>
-		<%else%>
-		<div class="mui-content">
-			<div class="box_coupons">
-				<div class="box_infor">
-					<div class="coupons_num"><%=card.coupons_rule.face_value%></div>
-					<div class="box">
-						<div class="project">代金券</div>
-						<div class="closing_time">截止日期:<%=(card.created_at+card.coupons_rule.due_day.days).strftime('%Y年%m月%d日')%></div>
-						<div class="status">到场自动激活</div>
+		<div id="Scene_Vouchers">
+			<%@cards.each do |card|%>
+				<%if !card.coupons_rule && card.status==2%>
+					<div class="box_coupons">
+					<div class="Voucher_infor">
+						<div class="infor_left">
+							<div class="Discount_num"><span>￥</span><%=card.value%></div>
+							<div class="project_name"><%= card.ab_recommended_project.per_user_project.name%></div>
+							<div class="time_limit">离场自动失效</div>
+						</div>
+						<button type="button" class="mui-btn mui-btn-outlined btn_Choose">挑选技师</button>
 					</div>
+					<a class="a_Rule" href="javascript:void('0')" onclick='rule(<%=card.id%>)'>使用规则</a>
+					<div class="tips_limit">有效期:离场前</div>
 				</div>
-				<%if @inscene%>
-					<%if card.status==2%>
-						<button class="employ" disabled="disabled">可使用</button>
-					<%elsif card.status==1%>
-					<button class="employ" disabled="disabled">未激活</button>
-					<%end%>
 				<%end%>
-<div class="guize" onclick='rule(<%=card.id%>)'>使用规则</div>
-			</div>
+			<%end%>
 		</div>
-		<%end%>
+		</div>
 	<%end%>
-<%end%>
 		<!--/*确认是否使用弹窗*/-->
 		<div class="shareit_1">
 			<div class="box_determine">
@@ -220,6 +247,22 @@
 						window.location.reload();
 					})
 
+				$('.btn_Scene').click(function(){
+					$('#Scene_Vouchers').show();
+					$('#Comment_Vouchers').hide();
+					$(this).addClass('btn_Selected');
+					if($('.btn_Comment').hasClass('btn_Selected')){
+						$('.btn_Comment').removeClass('btn_Selected')
+					}
+				})
+				$('.btn_Comment').click(function(){
+					$('#Scene_Vouchers').hide();
+					$('#Comment_Vouchers').show();
+					$(this).addClass('btn_Selected');
+					if($('.btn_Scene').hasClass('btn_Selected')){
+						$('.btn_Scene').removeClass('btn_Selected')
+					}
+				})
 
 			})
 

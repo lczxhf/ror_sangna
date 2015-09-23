@@ -338,26 +338,30 @@ class Wechat::WcFrontController < ApplicationController
 		if ab_rule=UserAbProjectsCouponsRule.find(params[:ab_rule_id])
 			wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
 			order=OrderByMasseuse.find(params[:o_id])
-			if ab_rule.rules==1
-				ab_recommended_projects=ab_rule.ab_recommended_projects.order("rand()").limit(1)
-			elsif ab_rule.rules==2
-				ab_recommended_projects=ab_rule.ab_recommended_projects
+			if !CouponsRecord.where(member_id:wechat_config.member_id,from_order_id:order.id,coupons_classes_id:2).first
+				if ab_rule.rules==1
+					ab_recommended_projects=ab_rule.ab_recommended_projects.order("rand()").limit(1)
+				elsif ab_rule.rules==2
+					ab_recommended_projects=ab_rule.ab_recommended_projects
+				end
+				ab_recommended_projects.each do |a|
+					coupons_record=CouponsRecord.new
+					coupons_record.user_id=ab_rule.user_id
+					coupons_record.member_id=wechat_config.member_id
+					coupons_record.from_order_id=order.id
+					o = [('a'..'z'),('A'..'Z')].map{|i| i.to_a}.flatten
+					string = (0...4).map{ o[rand(o.length)] }.join
+					coupons_record.number=Time.now.to_i.to_s+string
+					coupons_record.status=2
+					coupons_record.projects_id=a.id
+					coupons_record.value=a.value
+					coupons_record.coupons_classes_id=ab_rule.coupons_classes_id
+					coupons_record.save
+				end
+				render plain: 'ok'
+			else
+				render plain: 'exist'
 			end
-			ab_recommended_projects.each do |a|
-				coupons_record=CouponsRecord.new
-				coupons_record.user_id=ab_rule.user_id
-				coupons_record.member_id=wechat_config.member_id
-				coupons_record.from_order_id=order.id
-				o = [('a'..'z'),('A'..'Z')].map{|i| i.to_a}.flatten
-				string = (0...4).map{ o[rand(o.length)] }.join
-				coupons_record.number=Time.now.to_i.to_s+string
-				coupons_record.status=2
-				coupons_record.projects_id=a.id
-				coupons_record.value=a.value
-				coupons_record.coupons_classes_id=ab_rule.coupons_classes_id
-				coupons_record.save
-			end
-			render plain: 'ok'
 		else
 				render plain: 'err'
 		end

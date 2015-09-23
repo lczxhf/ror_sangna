@@ -28,8 +28,14 @@
 		<div class="mui-content">
 			<div class="title">使用规则</div>
 			<div class="box_text">
+			<%if @card.coupons_rule%>
 			<% @card.coupons_rule.rule_info.each_line do |a|%>
 				<p><%=a%></p>
+			<%end%>
+			<%else%>
+				<% @card.ab_recommended_project.ab_rule.rule_info.each_line do |a|%>
+					<p><%=a%></p>
+				<%end%>
 			<%end%>
 			</div>
 		</div>
