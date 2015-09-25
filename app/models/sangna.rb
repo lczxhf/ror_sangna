@@ -16,6 +16,7 @@ class Sangna
                                 template_body='{"touser":"'+openid+'","template_id":"'+template_id+'","url":"'+url+'","topcolor":"#FF0000","data":{'+data+'}}'
                                 template_result=JSON.parse(ThirdParty.sent_to_wechat(template_url,template_body))
                                 puts template_result
+                                template_result
 	end
 
 

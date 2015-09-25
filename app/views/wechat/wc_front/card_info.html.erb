@@ -6,6 +6,7 @@
 		<%=stylesheet_link_tag "wechat_front/mui.min"%>
 		<%=stylesheet_link_tag "wechat_front/common"%>
 		<%=stylesheet_link_tag "wechat_front/KaJuan"%>
+		<%=stylesheet_link_tag "wechat_front/KaJuan2"%>
 		<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 	    <title>卡劵</title>
 	    	<script type="text/javascript">
@@ -59,6 +60,23 @@
 		
 		})
 	</script>
+	<script type="text/javascript">
+		<%if params[:prompt] == 'true'%>
+			function HidePopupVoucher(){
+				$('.Popup_Voucher').hide();
+			}
+			$(function(){
+				$('.box_img>img').css('width', window.innerWidth*0.9);
+				$('.Voucher_content>.mui-icon-closeempty').click(function(){
+					$('.Popup_Voucher').hide();
+//					setTimeout("HidePopupVoucher()",3000);
+				})
+				$('.Voucher_content').css('margin-top',(window.innerHeight-$('.box_img>img').height())/4);
+				 setTimeout("HidePopupVoucher()",3000);
+				 $('.Popup_Voucher').css('display','block');
+			})
+		<%end%>
+		</script>
 <%end%>
 			
 <%content_for :body do%>
@@ -118,10 +136,12 @@
 					<div class="Voucher_infor">
 						<div class="infor_left">
 							<div class="Discount_num"><span>￥</span><%=card.value%></div>
-							<div class="project_name"><%= card.ab_recommended_project.per_user_project.name%></div>
-							<div class="time_limit">离场自动失效</div>
+							<div class="box_introduction">
+								<div class="project_name"><%= card.ab_recommended_project.per_user_project.name%></div>
+								<div class="time_limit">离场自动失效</div>
+							</div>
 						</div>
-						<button type="button" class="mui-btn mui-btn-outlined btn_Choose">挑选技师</button>
+						<a href='choose_technician?appid=<%=params[:appid]%>&p_id=<%=card.ab_recommended_project.projects_id%>'><button type="button" class="mui-btn mui-btn-outlined btn_Choose">挑选技师</button></a>
 					</div>
 					<a class="a_Rule" href="javascript:void('0')" onclick='rule(<%=card.id%>)'>使用规则</a>
 					<div class="tips_limit">有效期:离场前</div>
@@ -131,6 +151,16 @@
 		</div>
 		</div>
 	<%end%>
+		<!--弹窗---卡劵-->
+			<div class="Popup_Voucher">
+				<div class="Voucher_content">
+					<span class="mui-icon mui-icon-closeempty"></span>
+					<div class="Voucher_number"><%=params[:num]%></div>
+					<div class="box_img">
+						<img src="/images/Voucher.png" alt="" />
+					</div>
+				</div>
+			</div>
 		<!--/*确认是否使用弹窗*/-->
 		<div class="shareit_1">
 			<div class="box_determine">

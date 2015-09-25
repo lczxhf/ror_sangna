@@ -29,4 +29,14 @@ class PerUser < ActiveRecord::Base
 			end
 			address
 	end
+
+	def self.get_ab_status(per_user_id)
+		is_open=false
+		if  coupons_class=CouponsClass.where(id:2,del:1,status:1).first
+				if user_coupons_class=coupons_class.user_coupons_classes.where(user_id:per_user_id,status:1).first
+					is_open=true
+				end
+		end
+		is_open
+	end
 end

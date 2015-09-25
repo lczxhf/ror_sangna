@@ -161,6 +161,11 @@ end
 	sangna_info.user_name=result['user_name']
 	sangna_info.alias=result['alias']
 	sangna_info.qrcode_url=result['qrcode_url']
+	qrcode=ThirdParty.get_to_wechat(sangna_info.qrcode_url)
+        img=MiniMagick::Image.read qrcode
+        img.format 'png'
+        auth_code.original_qr_code=img
+        auth_code.save
 	puts sangna_info.to_json
 	sangna_info.save
 	redirect_to :action=>'option_info',id:auth_code.id

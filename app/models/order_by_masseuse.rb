@@ -12,8 +12,8 @@ class OrderByMasseuse<ActiveRecord::Base
 
 
 
-	def get_ab_rule()
-		ab_rule_id=nil
+	def get_ab_rule_test()
+		ab_rule=nil
 		if self.member.per_user_qr_code && coupons_class=CouponsClass.where(id:2,del:1,status:1).first
 			if user_coupons_class=coupons_class.user_coupons_classes.where(user_id:self.user_id,status:1).first
 				if ab_rule=coupons_class.ab_rules.where(user_id:self.user_id,original_project_id:self.project_id,status:1,del:1).first
@@ -41,5 +41,18 @@ class OrderByMasseuse<ActiveRecord::Base
 			end
 		end
 		ab_rule_id
+	end
+
+	def get_ab_rule
+		ab_rule=nil
+		arr=[4]
+		arr << self.member.per_user_qr_code.sex if self.member.per_user_qr_code.sex!=3
+		arr << 5 if QrcodeLog.where(member_id:self.member_id).count==1
+		if self.member.per_user_qr_code && coupons_class=CouponsClass.where(id:2,del:1,status:1).first
+			if user_coupons_class=coupons_class.user_coupons_classes.where(user_id:self.user_id,status:1).first
+				ab_rule=coupons_class.ab_rules.where(user_id:self.user_id,original_project_id:self.project_id,status:1,del:1).where("applicable_member in (#{arr.join(',')})").first
+			end
+		end
+		ab_rule
 	end
 end

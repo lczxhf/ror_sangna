@@ -7,18 +7,18 @@ class CouponsRecord < ActiveRecord::Base
 	belongs_to :ab_recommended_project,class_name: 'UserAbProjectsCouponsRulesRecommendedProject',foreign_key: 'projects_id'
 	belongs_to :coupons_class,foreign_key: 'coupons_classes_id'
 
-	def sent_message(sangna_config,wechat_config,hand_code)
+	def sent_message(sangna_config,wechat_config,card_ids)
 			templete=TempleteNumber.find_by_topic('卡券核销通知')	
 			message=templete.templete_messages.where(sangna_config_id:sangna_config.id).first
 
 			hash={}
-			hash["first"]="您此次核销的卡卷是用于#{hand_code}锁牌"
-			hash["remark"]="#{sangna_config.per_user.name}期待您再次的光临!"
-			array=['代金券','任何项目',Time.now.strftime("%Y年%m月%d日 %H:%M")]
+			hash["first"]="您有#{card_ids.size}张卡券刚被店家核销,未避免打扰您!只发送此次通知消息给您."
+			hash["remark"]="点击详情可查看被使用的卡券\\n#{sangna_config.per_user.name}期待您再次的光临!"
+			array=['代金券','点击查看',Time.now.strftime("%Y年%m月%d日 %H:%M")]
 			templete.fields.split(',').each_with_index do |a,index|
 				  hash[a]=array[index]
 			end
-			url="http://weixin.linkke.cn/wechat/wc_front/my_account?appid=#{sangna_config.appid}"
+			url="http://weixin.linkke.cn/wechat/wc_front/consumption_info?appid=#{sangna_config.appid}&card_ids=#{card_ids.join(',')}"
 			Sangna.sent_template_message(sangna_config.token,wechat_config.openid,message.templete_id,url,hash)
 	end
 end

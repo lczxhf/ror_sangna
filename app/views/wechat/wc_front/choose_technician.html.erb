@@ -144,6 +144,7 @@
 				}
 				$(function(){
 				//		$('.mui-bar-tab').css('display','block');
+					<%if !params[:p_id]%>
 						$.get('page_technician',{appid:'<%=params[:appid]%>',page:page,inscene:<%=@inscene%>},function(obj){
 						if(obj==''){
 						$("#t_data").html('<span class="ShouCang_none">暂无技师</span>');
@@ -153,12 +154,17 @@
 							countdown();
 						}
 						})
+					<%else%>
+                 		search_by_project(<%=params[:p_id]%>,false)
+             		<%end%>
+
 				})
 			<%else%>
 		
 		$(function(){
 			$(".enter").click(function(){
 				//	$('.mui-bar-tab').css('display','block');
+				<%if !params[:p_id]%>
 					$.get('page_technician',{appid:'<%=params[:appid]%>',page:page,inscene:<%=@inscene%>},function(obj){
 						if(obj==''){
 							$("#t_data").html('<span class="ShouCang_none">暂无技师</span>');
@@ -166,7 +172,10 @@
 						else{
 							$("#t_data").html(obj);
 						}
-				})
+					})
+				<%else%>
+                 		search_by_project(<%=params[:p_id]%>,false)
+             	<%end%>
 			})
 		})
 

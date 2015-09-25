@@ -56,6 +56,7 @@ Rails.application.routes.draw do
 		post 'wc_front/use_card' => "wc_front#use_card"
     get 'wc_front/tip' => 'wc_front#tip'
 		get "wc_front/project_class" => "wc_front#project_class"
+    get "wc_front/consumption_info" => "wc_front#consumption_info"
 		get "wc_front/card_rule" => "wc_front#card_rule"
     get "wc_front/technician_remark_level" => "wc_front#technician_remark_level"
     post "wc_front/remark_level" => "wc_front#remark_level"

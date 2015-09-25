@@ -232,8 +232,17 @@ class Wechat::GzhManageController < ApplicationController
 end
 		
 		def sent_card_message
-			coupons_record=CouponsRecord.find(params[:card_id])
-			coupons_record.sent_message(coupons_record.per_user.sangna_config,coupons_record.member.wechat_config,params[:hand_code])
+			card_ids=params[:card_ids].split(',')
+			coupons_records=CouponsRecord.find(card_ids)
+			if coupons_records.all? {|a| a.status==2}
+				if coupons_records.first.sent_message(coupons_records.first.per_user.sangna_config,coupons_records.first.member.wechat_config,card_ids)['errmsg']=='ok'
+					render plain: true
+				else
+					render plain: false
+				end
+			else
+				render plain: false
+			end
 		end
 
 		def sent_consumption_message

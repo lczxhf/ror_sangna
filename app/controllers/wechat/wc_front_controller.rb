@@ -168,7 +168,7 @@ class Wechat::WcFrontController < ApplicationController
 					@order=OrderByMasseuse.includes(:per_user_masseuse,:per_user_project,:per_user,member: [:wechat_config]).find(params[:o_id])
 					if @order && @order.member.wechat_config.openid==cookies.signed["#{params[:appid]}_openid"]
 							@sangna_config=@order.per_user.sangna_config
-							@ab_rule_id=@order.get_ab_rule
+							@ab_status=PerUser.get_ab_status(@order.user_id)
 							if params[:l]=='z'
 								@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:2,del:1,status:1).first
 								@open_redbage=true
@@ -185,7 +185,7 @@ class Wechat::WcFrontController < ApplicationController
 				@order=OrderByMasseuse.includes(:per_user_masseuse,:per_user,member: [:wechat_config]).find(params[:o_id])
 					if @order &&  @order.member.wechat_config.openid==cookies.signed["#{params[:appid]}_openid"]
 							@sangna_config=@order.per_user.sangna_config
-							@ab_rule_id=@order.get_ab_rule
+							@ab_status=PerUser.get_ab_status(@order.user_id)
 							if @order.technician_level_remarks.empty?
 									@remark=false
 							else
@@ -335,9 +335,10 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def get_ab_redbage
-		if ab_rule=UserAbProjectsCouponsRule.find(params[:ab_rule_id])
+		order=OrderByMasseuse.find(params[:o_id])
+		if ab_rule=order.get_ab_rule
 			wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
-			order=OrderByMasseuse.find(params[:o_id])
+			
 			if !CouponsRecord.where(member_id:wechat_config.member_id,from_order_id:order.id,coupons_classes_id:2).first
 				if ab_rule.rules==1
 					ab_recommended_projects=ab_rule.ab_recommended_projects.order("rand()").limit(1)
@@ -358,15 +359,18 @@ class Wechat::WcFrontController < ApplicationController
 					coupons_record.coupons_classes_id=ab_rule.coupons_classes_id
 					coupons_record.save
 				end
-				render plain: 'ok'
+				render plain: ab_recommended_projects.size
 			else
-				render plain: 'exist'
+				render plain: 0
 			end
 		else
-				render plain: 'err'
+				render plain: 0
 		end
 	end
 
+	def consumption_info
+			coupons_records=CouponsRecord.find(params[:card_ids].split(','))
+	end
 	def remark
 					puts params
 					order=OrderByMasseuse.where(id:params[:o_id],del:1,status:2,is_reviewed:1).first
