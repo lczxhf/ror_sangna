@@ -196,6 +196,7 @@ class Wechat::GzhManageController < ApplicationController
 							if log.nil? || log.member
 								log=qrcode.qrcode_logs.build
 								log.created_at=Time.new('2000-01-01')
+								log.per_user=per_user
 							end
 							log.member=wechat_config.member
 							log.member_bind_time=Time.now
