@@ -291,7 +291,12 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def wifi_page
-		@wifi_infos=PerUserWifi.where(user_id:@sangna_config.per_user_id,del:1)
+		wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
+		if wechat_config.member.per_user_qr_code.present?
+			@wifi_infos=PerUserWifi.where(user_id:@sangna_config.per_user_id,del:1)
+		else
+			render plain: '请先扫描进场'
+		end
 	end
 	def redbage
 				puts params
