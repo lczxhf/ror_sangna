@@ -388,6 +388,7 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def consumption_info
+			puts params
 			@coupons_records=CouponsRecord.includes(ab_recommended_project: :per_user_project).find(params[:card_ids].split(','))
 	end
 	def remark
