@@ -210,6 +210,7 @@ class Wechat::GzhManageController < ApplicationController
 								a.status=2
 								a.save
 							end
+							per_user.sent_wifi_message(wechat_config)
 							puts 'jinchang'
 							redirect_to 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid='+per_user.sangna_config.appid	
 						end

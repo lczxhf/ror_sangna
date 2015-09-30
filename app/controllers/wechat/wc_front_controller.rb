@@ -204,8 +204,24 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def recommend_technician
-			@technicians=@sangna_config.per_user.per_user_masseuses.active.take(3)
-			@wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
+			technicians=@sangna_config.per_user.per_user_masseuses.active.where(work_status:2).order("rand()").limit(2)
+			wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
+			html=technicians.collect do |technician|
+				if inscene=wechat_config.member.per_user_qr_code.present?
+						if technician.work_status==3
+							order=technician.order_by_masseuses.order(start_time: :desc).first	
+							if order
+								time=((order.start_time+order.per_user_project.duration.minutes).to_i-Time.now.to_i)/60
+							else
+								time=0
+							end
+						else
+								time=""	
+						end
+				end
+				generate_technician_html(technician,inscene.to_s,@sangna_config,time,wechat_config.member_id)
+			end.join
+			render plain: html
 	end
 
 	def project_info
@@ -274,6 +290,9 @@ class Wechat::WcFrontController < ApplicationController
 				end
 	end
 
+	def wifi_page
+		@wifi_infos=PerUserWifi.where(user_id:@sangna_config.per_user_id,del:1)
+	end
 	def redbage
 				puts params
 				#cookies.delete("#{params[:appid]}_openid")
@@ -353,7 +372,7 @@ class Wechat::WcFrontController < ApplicationController
 					o = [('a'..'z'),('A'..'Z')].map{|i| i.to_a}.flatten
 					string = (0...4).map{ o[rand(o.length)] }.join
 					coupons_record.number=Time.now.to_i.to_s+string
-					coupons_record.status=2
+					coupons_record.status=1
 					coupons_record.projects_id=a.id
 					coupons_record.value=a.value
 					coupons_record.coupons_classes_id=ab_rule.coupons_classes_id
@@ -369,7 +388,7 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def consumption_info
-			coupons_records=CouponsRecord.find(params[:card_ids].split(','))
+			@coupons_records=CouponsRecord.includes(ab_recommended_project: :per_user_project).find(params[:card_ids].split(','))
 	end
 	def remark
 					puts params
@@ -437,7 +456,7 @@ class Wechat::WcFrontController < ApplicationController
 				end
 				sql = ActiveRecord::Base.connection()  
 				sql.update_sql 'update sangna.coupons_records as record left join coupons_rules as rule on record.coupons_rules_id=rule.id set record.status=4 where date_add(record.created_at,INTERVAL rule.due_day Day)<now() and member_id='+@wechat_config.member_id.to_s
-				@cards=@sangna_config.per_user.coupons_records.includes(:coupons_rule).where(member_id:@wechat_config.member_id).order(:status).order(created_at: :desc)
+				@cards=@sangna_config.per_user.coupons_records.includes(:coupons_rule).where(member_id:@wechat_config.member_id).order("abs(status-1.6) asc").order(created_at: :desc)
 	end
 
 	def card_rule

@@ -1,0 +1,79 @@
+
+.mui-btn-success{
+	width: 90%;
+	height: 40px;
+	font-size: 0.9em;
+	letter-spacing: 2px;
+	border-radius: 0;
+	margin: 0 5%;
+}
+
+.mui-content{
+	padding-top: 20px;
+}
+.box_coupons{
+	width: 96%;
+	height: 120px;
+	margin: 0 auto 10px;
+	background: #ECE3DB;
+	border-radius: 3px;
+	overflow: hidden;
+	box-shadow: 1px 1px 1px #DED3CA;
+}
+.Voucher_infor_left_Used{
+	float: left;
+	height: 120px;
+	padding-top: 28px;
+	text-align: center;
+	color: #99867C;
+	background: url(../images/bg_Grey.png) no-repeat;
+	background-size:  100% 100%;
+}
+
+.Discount_num{
+	font-size: 1.7em;
+	height: 40px;
+	line-height: 30px;
+	margin: 0 auto;
+}
+.box_line{
+	height: 1px;
+	width: 60px;
+	margin: 0 auto;
+	background: #99867C;
+}
+.Voucher_type{
+	font-size: 0.77em;
+	letter-spacing: 2px;
+	margin-top: 8px;
+	color: #817267;
+}
+.Voucher_infor_right{
+	float: left;
+}
+.box_infor{
+	height: 94px;
+	width: 100%;
+	color: #A19086;
+	font-size: 0.95em;
+	padding: 21px 0 0 7%;
+	border-bottom: 1px solid #CCBFB6;
+}
+
+.Project_name{
+	letter-spacing: 1px;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	-o-text-overflow:ellipsis;
+	white-space:nowrap;
+}
+.Voucher_number{
+	font-size: 0.9em;
+}
+.Voucher_Validity{
+	color: #785F57;
+	font-size: 10px;
+	text-align: right;
+	line-height: 27px;
+	margin-right: 5%;
+}

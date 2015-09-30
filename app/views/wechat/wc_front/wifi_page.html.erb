@@ -1,0 +1,41 @@
+<%content_for :head do%>
+		<meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<%=javascript_include_tag "jquery-2.1.0"%>
+		<%=javascript_include_tag "mui.min"%>
+		<%=stylesheet_link_tag "wechat_front/common"%>
+		<%=stylesheet_link_tag "wechat_front/WIFI_page"%>
+	    <title>WIFI推荐页面</title>
+	    <script type="text/javascript">
+	    $(function(){
+	    	$.get("recommend_technician",{appid:'<%=params[:appid]%>'},function(obj){
+	    		$("#technician_data").html(obj);
+	    	})
+	    })
+	    function show_info(technician_id){
+					window.location.href="technician_info?t_id="+technician_id+"&appid=<%=params[:appid]%>";
+			}
+	    </script>
+<%end%>
+<%content_for :body do%>	
+		<div class="mui-content">
+			<div class="box_infor">
+				<div class="Li_WIFIinfor">
+					<span class="WIFI_Name">WI-FI账号</span>
+					<span class="WIFI_Password">密码</span>
+				</div>
+				<%@wifi_infos.each do |wifi|%>
+				<div class="Li_WIFIinfor">
+					<span class="WIFI_Name"><%=wifi.wifi_name%></span>
+					<span class="WIFI_Password"><%=wifi.wifi_password%></span>
+				</div>
+				<%end%>
+			</div>
+			<div class="tips_WIFI">长按即可复制密码</div>
+			<div class="title_jishi">推荐技师</div>
+			<div class="box_infor" id='technician_data'>
+			 	  
+			</div>
+			<a href="choose_technician?appid=<%=params[:appid]%>" class="A_allTechnician">查看全部技师</a>
+		</div>
+<%end%>

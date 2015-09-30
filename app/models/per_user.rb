@@ -39,4 +39,18 @@ class PerUser < ActiveRecord::Base
 		end
 		is_open
 	end
+
+	def sent_wifi_message(wechat_config)
+		templete=TempleteNumber.find_by_topic('入场成功通知')	
+		message=templete.templete_messages.where(sangna_config_id:self.sangna_config.id).first
+		hash={}
+		hash["first"]="恭喜您已经成功入场!"
+		hash["remark"]="点击即可查看更多信息!祝您有个愉快的一天"
+		array=[self.name,'点击查看']
+		templete.fields.split(',').each_with_index do |a,index|
+			 hash[a]=array[index]
+		end
+		url="http://weixin.linkke.cn/wechat/wc_front/wifi_page?appid=#{self.sangna_config.appid}"
+		Sangna.sent_template_message(self.sangna_config.token,wechat_config.openid,message.templete_id,url,hash)
+	end
 end

@@ -1,0 +1,40 @@
+	<%content_for :head do%>
+		<meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<%=javascript_include_tag "jquery-2.1.0"%>
+		<%=javascript_include_tag "mui.min"%>
+		<%=stylesheet_link_tag "wechat_front/mui.min"%>
+		<%=stylesheet_link_tag "wechat_front/common"%>
+		<%=stylesheet_link_tag "wechat_front/KaJuan_Used"%>
+	    <title>卡券使用详情</title>
+	<%end%>
+	<%content_for :body do%>
+		<nav class="mui-bar mui-bar-tab mui_bar_bottom">
+			<a href='card_info?appid=<%=params[:appid]%>'><button type="button" class="mui-btn mui-btn-success">查看剩余卡劵</button><a>
+		</nav>
+		<div class="mui-content">
+		<%@coupons_records.each do |card|%>
+			<div class="box_coupons">
+				<div class="Voucher_infor_left_Used">
+					<div class="Discount_num">￥<%card.value%></div>
+					<div class="box_line"></div>
+					<div class="Voucher_type"><%card.coupons_rules_id.nil? ? '现场' : '评论'%>代金券</div>
+				</div>
+				<div class="Voucher_infor_right">
+					<div class="box_infor">
+						<div class="Project_name"><%card.try(:ab_recommended_project).try(:per_user_project).try(:name) || '适用于所有项目'%></div>
+						<div class="Voucher_number"><%card.number%></div>
+					</div>
+					<div class="Voucher_Validity">已使用</div>
+				</div>
+			</div>
+		<%end%>
+		</div>
+		
+		<script type="text/javascript">
+			$(function(){
+				$('.Voucher_infor_left_Used').css('width',120*194/206);
+				$('.Voucher_infor_right').css('width',$('.box_coupons').width()-120*194/206-5);
+			})
+		</script>
+	<%end%>
