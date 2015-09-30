@@ -18,6 +18,14 @@ class CouponsRecord < ActiveRecord::Base
 			templete.fields.split(',').each_with_index do |a,index|
 				  hash[a]=array[index]
 			end
+			if Time.now-sangna_config.updated_at>=7200
+					result=JSON.parse(ThirdParty.refresh_gzh_token(Rails.cache.read(:access_token),APPID,gzh.appid,gzh.refresh_token))
+					if result['authorizer_refresh_token']
+						sangna_config.refresh_token=result['authorizer_refresh_token']
+						sangna_config.token=result['authorizer_access_token']
+						sangna_config.save
+					end
+			end
 			url="http://weixin.linkke.cn/wechat/wc_front/consumption_info?appid=#{sangna_config.appid}&card_ids=#{card_ids.join(',')}"
 			Sangna.sent_template_message(sangna_config.token,wechat_config.openid,message.templete_id,url,hash)
 	end
