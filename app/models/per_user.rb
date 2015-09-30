@@ -50,7 +50,16 @@ class PerUser < ActiveRecord::Base
 		templete.fields.split(',').each_with_index do |a,index|
 			 hash[a]=array[index]
 		end
-		url="http://weixin.linkke.cn/wechat/wc_front/wifi_page?appid=#{self.sangna_config.appid}"
-		Sangna.sent_template_message(self.sangna_config.token,wechat_config.openid,message.templete_id,url,hash)
+		sangna_config=self.sangna_config
+		if Time.now-sangna_config.updated_at>=7200
+					result=JSON.parse(ThirdParty.refresh_gzh_token(Rails.cache.read(:access_token),"wxf6a05c0e64bc48e1",sangna_config.appid,sangna_config.refresh_token))
+					if result['authorizer_refresh_token']
+						sangna_config.refresh_token=result['authorizer_refresh_token']
+						sangna_config.token=result['authorizer_access_token']
+						sangna_config.save
+					end
+		end
+		url="http://weixin.linkke.cn/wechat/wc_front/wifi_page?appid=#{sangna_config.appid}"
+		Sangna.sent_template_message(sangna_config.token,wechat_config.openid,message.templete_id,url,hash)
 	end
 end
