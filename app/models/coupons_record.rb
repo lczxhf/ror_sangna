@@ -19,7 +19,7 @@ class CouponsRecord < ActiveRecord::Base
 				  hash[a]=array[index]
 			end
 			if Time.now-sangna_config.updated_at>=7200
-					result=JSON.parse(ThirdParty.refresh_gzh_token(Rails.cache.read(:access_token),APPID,gzh.appid,gzh.refresh_token))
+					result=JSON.parse(ThirdParty.refresh_gzh_token(Rails.cache.read(:access_token),"wxf6a05c0e64bc48e1",sangna_config.appid,sangna_config.refresh_token))
 					if result['authorizer_refresh_token']
 						sangna_config.refresh_token=result['authorizer_refresh_token']
 						sangna_config.token=result['authorizer_access_token']
