@@ -45,7 +45,7 @@ ul,li{
 .box_infor .Li_WIFIinfor .WIFI_Password{
 	float: right;
 	min-width: 25%;
-	max-width: 48%
+	max-width: 48%;
 	margin-right: 3%;
 	text-align: center;
 	overflow:hidden;
