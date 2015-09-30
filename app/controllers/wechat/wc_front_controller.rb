@@ -295,7 +295,8 @@ class Wechat::WcFrontController < ApplicationController
 		if wechat_config.member.per_user_qr_code.present?
 			@wifi_infos=PerUserWifi.where(user_id:@sangna_config.per_user_id,del:1)
 		else
-			render plain: '请先扫描进场'
+			@error_status=3
+			render "/wechat/wc_front/wechat_error"		
 		end
 	end
 	def redbage
