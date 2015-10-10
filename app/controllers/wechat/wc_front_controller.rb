@@ -360,9 +360,10 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 def get_ab_redbage
+		puts params
 	order=OrderByMasseuse.find(params[:o_id])
 	wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
-	if !wechat_config.member.coupons_records.where(coupons_class_id:2).where("status in (1,2)").first	
+	if !wechat_config.member.coupons_records.where(coupons_classes_id:2).where("status in (1,2)").first	
 		if ab_rule=order.get_ab_rule
 			if !CouponsRecord.where(member_id:wechat_config.member_id,from_order_id:order.id,coupons_classes_id:2).first
 				if ab_rule.rules==1
