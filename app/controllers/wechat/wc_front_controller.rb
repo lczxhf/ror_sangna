@@ -574,9 +574,8 @@ end
 						</div>
 				}
 				else
-					""
-				end
-			+%{
+					" "
+				end + %{
 						<div class="JiShi_JobNum">
 							<span class="jishi_num fs17">#{technician.job_number}</span>
 							<span class="jishi_sex fs11">（#{technician.sex==1 ? "男":"女"}）</span>

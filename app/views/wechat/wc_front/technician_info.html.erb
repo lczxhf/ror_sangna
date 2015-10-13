@@ -165,12 +165,14 @@
 				</div>
 				<%if @technician.seniority%>
 				<div class="box_seniority">
-					<span class="seniority_num">7<%=@technician.seniority%></span>
+					<span class="seniority_num"><%=@technician.seniority%></span>
 					<span class="seniority_Company">年</span>
 				</div>
 				<%end%>
-				<span class="jishi_num fs17"><%=@technician.job_number%></span>
-				<span class="jishi_sex fs11">（<%=@technician.sex==1 ? "男":"女"%>）</span>
+				<div class="JiShi_JobNum">
+					<span class="jishi_num fs17"><%=@technician.job_number%></span>
+					<span class="jishi_sex fs11">（<%=@technician.sex==1 ? "男":"女"%>）</span>
+				</div>
 				<div class="jishi_type fs11">
 					<span class="mui-icon iconfont icon-lianxiren "></span>
 					<span class=""><%=@technician.per_user_project.try(:name) || "无"%></span>
