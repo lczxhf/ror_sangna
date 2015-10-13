@@ -88,6 +88,8 @@ class Wechat::WcFrontController < ApplicationController
 	end
 	def technician_info
 		@technician=PerUserMasseuse.find(params[:t_id])
+		@technician.details_page_times=@technician.details_page_times+1
+		@technician.save
 		@wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])	
 	end
 
@@ -564,8 +566,21 @@ end
 						<div class="box_img jishi_background">
 							<img class="jishi_img" src="#{technician.get_image(member_id)}" alt="" height="50px" width="50px" />
 						</div>
-						<span class="jishi_num fs17">#{technician.job_number}</span>
-						<span class="jishi_sex fs11">（#{technician.sex==1 ? "男":"女"}）</span>
+			}+	if technician.seniority
+				%{
+						<div class="box_seniority">
+							<span class="seniority_num">#{technician.seniority}</span>
+							<span class="seniority_Company">年</span>
+						</div>
+				}
+				else
+					""
+				end
+			+%{
+						<div class="JiShi_JobNum">
+							<span class="jishi_num fs17">#{technician.job_number}</span>
+							<span class="jishi_sex fs11">（#{technician.sex==1 ? "男":"女"}）</span>
+						</div>
 						<span class="jishi_type">#{technician.per_user_project.try(:name)}</span>
 
 			}+if inscene=='true'

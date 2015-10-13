@@ -168,6 +168,12 @@
 				})
 				<%if params[:prompt] == 'true'%>
 				//代金券弹窗提示
+				$('#Scene_Vouchers').show();
+					$('#Comment_Vouchers').hide();
+					$('.btn_Scene').addClass('btn_Selected');
+					if($('.btn_Comment').hasClass('btn_Selected')){
+						$('.btn_Comment').removeClass('btn_Selected')
+					}
 				$('.box_img>img').css('width', window.innerWidth*0.9);
 				$('.Voucher_content>.mui-icon-closeempty').click(function(){
 					$('.Popup_Voucher').hide();

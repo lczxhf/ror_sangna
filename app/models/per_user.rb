@@ -45,7 +45,7 @@ class PerUser < ActiveRecord::Base
 		message=templete.templete_messages.where(sangna_config_id:self.sangna_config.id).first
 		hash={}
 		hash["first"]="恭喜您已经成功入场!"
-		hash["remark"]="点击即可查看更多信息!祝您有个愉快的一天"
+		hash["remark"]="点击即可查看更多信息!"
 		array=[self.name,'点击查看']
 		templete.fields.split(',').each_with_index do |a,index|
 			 hash[a]=array[index]

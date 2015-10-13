@@ -12,7 +12,7 @@ class CouponsRecord < ActiveRecord::Base
 			message=templete.templete_messages.where(sangna_config_id:sangna_config.id).first
 
 			hash={}
-			hash["first"]="您有#{card_ids.size}张卡券刚被店家核销,未避免打扰您!只发送此次通知消息给您."
+			hash["first"]="您有#{card_ids.size}张卡券刚被店家核销,为避免打扰您!只发送此次通知消息给您."
 			hash["remark"]="点击详情可查看被使用的卡券\\n#{sangna_config.per_user.name}期待您再次的光临!"
 			array=['代金券','点击查看',Time.now.strftime("%Y年%m月%d日 %H:%M")]
 			templete.fields.split(',').each_with_index do |a,index|

@@ -66,16 +66,17 @@ line-height: 30px;
 .jishi_img{
 	margin: 1px;
 }
-.jishi_num{
+.JiShi_JobNum{
 	position: absolute;
 	top: 8px;
 	left: 60px;
+}
+.jishi_num{
+	
 	letter-spacing: 1px;
 }
 .jishi_sex{
-	position: absolute;
-	top: 10px;
-	left: 105px;
+	
 }
 .jishi_type{
 	position: absolute;
@@ -639,4 +640,33 @@ margin-top: 3px;
 #BJ_shareit{
 font-size: 13px;
 }
+}
+
+/*工龄css*/
+.box_seniority{
+	width: 30px;
+	height: 12px;
+	position: absolute;
+	left: -5px;
+	top: 33px;
+	background-image: url(/images/seniority.png);
+	background-size: 100% 100%;
+}
+.box_seniority span{
+	font-size: 0.38em;
+	line-height: 10px ;
+	color: white;
+}
+.box_seniority .seniority_num{
+	width: 15px;
+	font-size: 0.6em;
+	text-align: center;
+	position: absolute;
+	left: 4px;
+	top: 2px;
+}
+.box_seniority .seniority_Company{
+	position: absolute;
+	right: 5px;
+	top: 2px;
 }

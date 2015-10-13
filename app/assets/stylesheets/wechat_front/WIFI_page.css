@@ -40,6 +40,10 @@ ul,li{
 	text-overflow:ellipsis;
 	-o-text-overflow:ellipsis;
 	white-space:nowrap;
+	
+	-moz-user-select: none;  
+	-webkit-user-select: none;  
+	-ms-user-select: none;
 }
 
 .box_infor .Li_WIFIinfor .WIFI_Password{
@@ -145,16 +149,17 @@ ul,li{
 	top: 3px;
 	right: 5%;
 }
-.jishi_num{
+.JiShi_JobNum{
 	position: absolute;
 	top: 8px;
 	left: 65px;
+}
+.jishi_num{
+	;
 	letter-spacing: 1px;
 }
 .jishi_sex{
-	position: absolute;
-	top: 10px;
-	left: 110px;
+	
 }
 .jishi_type{
 	position: absolute;
@@ -245,4 +250,31 @@ ul,li{
 		font-size: 1.3em;
 }
 
-
+/*工龄css*/
+.box_seniority{
+	width: 30px;
+	height: 12px;
+	position: absolute;
+	left: -5px;
+	top: 33px;
+	background-image: url(/images/seniority.png);
+	background-size: 100% 100%;
+}
+.box_seniority span{
+	font-size: 0.38em;
+	line-height: 10px ;
+	color: white;
+}
+.box_seniority .seniority_num{
+	width: 15px;
+	font-size: 0.6em;
+	text-align: center;
+	position: absolute;
+	left: 4px;
+	top: 2px;
+}
+.box_seniority .seniority_Company{
+	position: absolute;
+	right: 5px;
+	top: 2px;
+}
