@@ -83,8 +83,7 @@ ul,li{
 	height: 90px;
 	color: #604E44;
 	border-bottom: 1px solid #E3E3E6;
-	margin-bottom: 3px;
-	padding: 10px 2% 0;
+	margin:  10px 2% 3px;
 	position: relative;
 }
 .Jishi_infor:last-child{

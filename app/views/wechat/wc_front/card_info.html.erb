@@ -5,6 +5,8 @@
 		<%=javascript_include_tag "mui.min"%>
 		<%=stylesheet_link_tag "wechat_front/mui.min"%>
 		<%=stylesheet_link_tag "wechat_front/common"%>
+		<%=stylesheet_link_tag "wechat_front/ShouJiYanZheng"%>
+		<%=stylesheet_link_tag "wechat_front/iconfont"%>
 		<%=stylesheet_link_tag "wechat_front/KaJuan2"%>
 		<%=stylesheet_link_tag "wechat_front/KaJuan_New"%>
 		<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
@@ -49,10 +51,7 @@
 
 		$(function(){
 			    <%if !@bind%>
-			    	mui.toast('您善未绑定手机,三秒后跳转到绑定页面!')
-			    	setTimeout(function(){
-			    		window.location.href='phone_bind?appid=<%=params[:appid]%>';
-			    	},3000)
+			    	$(".Popup_BindingPhone").show();
 			    <%end%>
 		})
 		function rule(id){
@@ -140,7 +139,30 @@
 					</div>
 				</div>
 			</div>
-		
+		<!--弹窗---绑定手机-->
+		<div class="Popup_BindingPhone">
+			<div class="Mask_layer"></div>
+			<div class="content_Binding">
+				<div class="box_infor_Binding">
+					<div class="title">请绑定手机后使用代金券</div>
+					<form action="" id="testForm" novalidate="novalidate">
+						<div class="infor">
+							<div class="mui-input-row">
+								<span class="mui-icon iconfont icon-iconfontshouji"></span>
+								<input class="mui-input-clear" id='user' type="text" placeholder="请输入手机号码"  />
+							</div>
+						</div>
+						<div class="infor_2">
+							<span class="mui-icon mui-icon-locked"></span>
+							<input type="text" placeholder="请输入验证码"    required=""/  id="verify">
+							<button id="btn" class="mui-btn mui-btn-positive" type="button">获取验证码</button>
+						</div>
+						
+						<button id="my_bind" class="mui-btn public_btn" type='button'>立即绑定</button>
+					</form>
+				</div>
+			</div>
+		</div>
 		<script type="text/javascript">
 			function HidePopupVoucher(){
 				$('.Popup_Voucher').hide();
@@ -166,14 +188,16 @@
 						$('.btn_Scene').removeClass('btn_Selected')
 					}
 				})
-				<%if params[:prompt] == 'true'%>
+				<%if params[:num]%>
 				//代金券弹窗提示
-				$('#Scene_Vouchers').show();
+				  <%if params[:num].to_i>1%>
+					$('#Scene_Vouchers').show();
 					$('#Comment_Vouchers').hide();
 					$('.btn_Scene').addClass('btn_Selected');
 					if($('.btn_Comment').hasClass('btn_Selected')){
 						$('.btn_Comment').removeClass('btn_Selected')
 					}
+				  <%end%>
 				$('.box_img>img').css('width', window.innerWidth*0.9);
 				$('.Voucher_content>.mui-icon-closeempty').click(function(){
 					$('.Popup_Voucher').hide();
@@ -184,7 +208,74 @@
 				 $('.Popup_Voucher').css('display','block');
 				 <%end%>
 			})
-			
-			
+			</script>
+			<script >
+			document.getElementById("btn").addEventListener("click",function(){
+					//倒计时
+					var count = 60;
+	                var countdown = setInterval(CountDown, 1000)   
+	                function CountDown() {
+	                	
+	                		if(count>0){
+	    			 			$('#btn').attr('disabled','disabled');
+		    			 	}else{
+		    			 		$('#btn').removeAttr('disabled');
+		    			 	}
+		    			 	
+	                    $("#btn").html( count + " 秒");
+	                    if (count == 0) {
+	                    		$("#btn").html('获取验证码');
+	                        clearInterval(countdown);
+	                    }
+	                    count--;
+	                }
+                
+                
+				    var user = $("#user");
+				    var user_val=$('#user').val();
+				   $.post('sent_code',{phone:user_val,appid:'<%=params[:appid]%>'},function(data){
+				   if(data=='exist'){
+				   			mui.toast('该用户名已存在');
+				   			$("#btn").html('获取验证码');
+	              clearInterval(countdown);
+				   	}
+						else if(data=='err'){
+								mui.toast('请输入正确的手机号码!');	
+								$("#btn").html('获取验证码');
+	              clearInterval(countdown);
+						}
+						else if (data=='提交成功'){
+								mui.toast("提交成功!短信收取快慢与短信运营商有关!请耐心等待!")	
+						}
+						else{
+								mui.toast(data);
+								 $("#btn").html('获取验证码');
+								 clearInterval(countdown);
+						}
+			   	})							
+			});
+
+			document.getElementById('my_bind').addEventListener('click',function(){
+				if ($("#user").val().length==11 && parseInt($("#user").val()).toString().length==11){
+						if($("#verify").val()!=""){
+							$.post('bind_phone',{appid:'<%=params[:appid]%>',phone:$("#user").val(),code:$("#verify").val()},function(obj){
+									if(obj=='err'){
+										mui.toast("验证码错误!");
+									}
+									else{
+										mui.toast('绑定成功!'); 
+										window.location.replace("card_info?appid=<%=params[:appid]%>")
+									}
+								}) 
+						 }
+						else{
+							mui.toast('请输入验证码!'); 
+						}
+				}
+				else
+				{
+					mui.toast("请输入正确的手机号码!");
+				}
+			})
 		</script>
 <%end%>

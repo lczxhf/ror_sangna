@@ -1,14 +1,16 @@
 
-.box_infor{
+.box_infor_Binding{
 	width: 85%;
 	height: 350px;
 	background: white;
 	margin: 30px auto 0;
 	border-radius: 2px;
+	padding-top: 10px;
 }
 .title{
-	color: #BDA28F;
-	padding: 10px 0 30px 6%;
+	font-size: 1.1em;
+	color: #6A554B;
+	padding: 10px 6% 30px 6%;
 }
 .infor{
 	width: 90%;
@@ -16,7 +18,7 @@
 }
 .mui-icon-clear:before{
 	position: absolute;
-	right: 7%;
+	right: 10px;
 	top: 0;
 }
 .mui-input-row .mui-input-clear~.mui-icon-clear{
@@ -32,7 +34,7 @@
 }
 input::-webkit-input-placeholder {
 	color: #A1A1A1 !important; 
-	font-size: 14px;
+	font-size: 0.75em;
 }
 input:focus{
 	border: 1px solid #41D7B0;
@@ -63,7 +65,7 @@ input:focus{
 .infor_2 input{
 	border: none;
 	display: inline;
-	width: 65%;
+	width: 66%;
 	line-height: 20px;
 	padding-left: 40px;
 	border-radius: 3px;
@@ -87,29 +89,31 @@ input:focus{
 }
  .mui-btn-positive{
 	width: 35%;
-	font-size: 12px;
+	font-size: 0.7em;
 	letter-spacing: 2px;
+	padding: 0 6px;
 	height: 40px;
 	line-height: 40px;
-	padding: 0;
 	position: absolute;
 	right: 0;
 	top: 0;
-	border-radius: 0;
+	border-radius: 2px;
+	text-align: center;
 	border-top-left-radius: 0;
 	border-bottom-left-radius: 0;
-	background: #BDA28F;
+	background: #6A554B;
+	border: none;
 }
 
 .public_btn{
 	display: block;
 	border: none;
 	width: 90%;
-	background: #00A64F;
+	background: #64BA6D;
 	margin: 10px auto;
 	letter-spacing: 5px;
 	padding: 10px 20px;
-	font-size: 14px;
+	font-size: 0.8em;
 	color: white;
 	text-align: center;
 	margin-top: 50px;

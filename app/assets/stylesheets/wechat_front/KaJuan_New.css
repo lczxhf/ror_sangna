@@ -120,4 +120,38 @@
 	margin-right: 2%;
 }
 
+/*弹窗---绑定手机*/
+.Popup_BindingPhone{
+    display: none;
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+}
+.Mask_layer{
+	-webkit-user-select: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    background-repeat: repeat-x;
+    top: 0;
+    left: 0;
+    z-index: 105;
+}
+.content_Binding{
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	left: 0;
+	top: 2%;
+	z-index: 110;
+}
+.box_infor_Binding{
+	padding-top: 40px;
+}
+ .box_infor_Binging .title{
+   font-size: 1em;
+}
 
