@@ -467,9 +467,7 @@ end
 				if @wechat_config.member.username!=@wechat_config.openid && @wechat_config.member.username!='未关注'
 						@bind=true
 				end
-				sql = ActiveRecord::Base.connection()  
-				sql.update_sql 'update sangna.coupons_records as record left join coupons_rules as rule on record.coupons_rules_id=rule.id set record.status=4 where date_add(record.created_at,INTERVAL rule.due_day Day)<now() and member_id='+@wechat_config.member_id.to_s
-				@cards=@sangna_config.per_user.coupons_records.includes(:coupons_rule).where(status: :desc).where(member_id:@wechat_config.member_id).order("abs(status-1.6) asc").order(created_at: :desc)
+				@cards=@sangna_config.per_user.coupons_records.includes(:coupons_rule).where('status in (1,2)').where(member_id:@wechat_config.member_id).order("status asc").order(created_at: :desc)
 	end
 
 	def card_rule
