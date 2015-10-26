@@ -7,6 +7,8 @@ class PerUserProject < ActiveRecord::Base
 	has_many :type_relations,->{where(del:1)},class_name: 'ProjectRelation',foreign_key: 'type_id'
 	scope :open, ->{where(del:1,status:1)}
 
+
+	#返回项目的格式化时间
 	def get_format_time(minutes)
 			hour=minutes/60
 			minute=minutes-hour*60

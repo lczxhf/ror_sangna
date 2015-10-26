@@ -7,6 +7,7 @@ class CouponsRecord < ActiveRecord::Base
 	belongs_to :ab_recommended_project,class_name: 'UserAbProjectsCouponsRulesRecommendedProject',foreign_key: 'projects_id'
 	belongs_to :coupons_class,foreign_key: 'coupons_classes_id'
 
+	#发送微信模板消息!卡券核销通知
 	def sent_message(sangna_config,wechat_config,card_ids)
 			templete=TempleteNumber.find_by_topic('卡券核销通知')	
 			message=templete.templete_messages.where(sangna_config_id:sangna_config.id).first

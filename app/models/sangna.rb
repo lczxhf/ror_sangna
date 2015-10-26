@@ -1,11 +1,18 @@
 class Sangna
 	require 'net/http/post/multipart'
+
+	#向微信发起刷新token的请求
+	#返回xml
 	def self.refresh_token(appid,refresh_token,c_appid,c_token)
 		url="https://api.weixin.qq.com/sns/oauth2/component/refresh_token?appid=#{appid}&grant_type=refresh_token&component_appid=#{c_appid}&component_access_token=#{c_token}&refresh_token="+refresh_token
 		body=""
 		ThirdParty.sent_to_wechat(url,body)
 	end	
 	
+	#向微信发起发送模板消息请求!
+	#并返回发送结果
+	#参数: url为点击模板消息后的跳转页面
+	#     hash为填充模板消息内容的键值对
 	def self.sent_template_message(token,openid,template_id,url,hash)
 		 template_url='https://api.weixin.qq.com/cgi-bin/message/template/send?access_token='+token
 				data=""
@@ -20,6 +27,9 @@ class Sangna
 	end
 
 
+	#向微信请求生成场景二维码
+	#并返回请求结果
+	#参数: action为二维码的类型
 	def self.get_qrcode(token,action,expire="",scene_id="",scene_str="")
 	url="https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token="+token
 		case action
@@ -36,17 +46,21 @@ class Sangna
 		result
 	end
 	
+
+	#根据ticket向微信拿回二维码图片
 	def self.fetch_qrcode(ticket)
 		url='https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='+ticket
 		ThirdParty.get_to_wechat(url)	
 	end
 	
+	#长链接转短链接
 	def self.long2short(token,long_url)
 		url='https://api.weixin.qq.com/cgi-bin/shorturl?access_token='+token
 		body='{"action":"long2short","long_url":"'+long_url+'"}'
 		ThirdParty.sent_to_wechat(url,body)
 	end
 	
+	#上传meida!
 	def self.upload_media(token,media,type,name)
 		url = URI.parse('https://api.weixin.qq.com/cgi-bin/media/upload?access_token='+token+'&type='+type)
 		req = Net::HTTP::Post::Multipart.new url,
@@ -56,12 +70,15 @@ class Sangna
 	        end
         end
 	
+	#根据media_id获取media
 	def self.get_media(token,media_id)
 		url=URI.parse('https://api.weixin.qq.com/cgi-bin/media/get?access_token='+token+'&media_id='+media_id)
 		puts 'aa'
 		ThirdParty.get_to_wechat(url)
 	end
 	
+
+	#长传永久media
 	def self.upload_forever_media(token,type,media,name,title="",introduction="")
 		url=URI.parse('https://api.weixin.qq.com/cgi-bin/material/add_material?access_token='+token)
 		   description='{"title":"'+title+'","introduction":"'+introduction+'"}'
@@ -74,6 +91,7 @@ class Sangna
                 end
 	end
 
+	#获取用户的基本信息
 	def self.get_user_info(user_id,appid)
 		 wechat_config=WechatConfig.includes(:member,:sangna_config).find(user_id)
  	   sangna_config=wechat_config.sangna_config
@@ -112,6 +130,8 @@ class Sangna
 			end
 	end
 
+
+	#或者用户的授权信息
 	def self.get_oauth2_info(wechat_config_id,appid)
 				wechat_config=WechatConfig.includes(:sangna_config).find(wechat_config_id)
 				sangna_config=wechat_config.sangna_config
@@ -145,6 +165,7 @@ class Sangna
 				wechat_user.save
 	end
 
+	#上传news类型的media
 	def self.upload_news(token,array)
 		url='https://api.weixin.qq.com/cgi-bin/material/add_news?access_token='+token
 		body='{"articles":['
@@ -155,34 +176,42 @@ class Sangna
 		ThirdParty.sent_to_wechat(url,body)
 	end
 	
+	#根据media_id更新media
 	def self.update_news(token,media_id,index,hash)
 		url='https://api.weixin.qq.com/cgi-bin/material/update_news?access_token='+token
 		body='{"media_id":"'+media_id+'","index":"'+index+'","articles":{"title":"'+hash['title']+'","thumb_media_id":"'+hash['media_id']+'","author":"'+hash['author']+'","digest":"'+hash['digest']+'","show_cover_pic":"'+hash['is_cover']+'","content":"'+hash['content']+'","content_source_url":"'+hash['url']+'"}}'
 		ThirdParty.sent_to_wechat(url,body)
 	end
 	
+	#根据media_id获取media或者删除media
 	def self.get_or_del_forever_media(token,media_id,type='get')
 		url='https://api.weixin.qq.com/cgi-bin/material/'+type+'_material?access_token='+token
 		body='{"media_id":"'+media_id+'"}'
 		ThirdParty.sent_to_wechat(url,body)
 	end
 	
+	#获取media的数量
 	def self.get_media_sum(token)
 		url='https://api.weixin.qq.com/cgi-bin/material/get_materialcount?access_token='+token
 		ThridParty.get_to_wechat(url)
 	end
 	
+	#获取media列表
+	#参数  offset:跳过的个数
+	#      count:获取的数量
 	def self.get_media_list(token,type,offset,count)
 		url='https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token='+token
 		body='{"type":"'+type+'","offset":"'+offset+'","count":"'+count+'"}'
 		ThirdParty.sent_to_wechat(url,body)
 	end
 
+	#根据group_id发送群发消息
 	def self.sentall_by_group(token,is_to_all,group_id,type,array)
 		url,body=return_url_body('group',token,['filter',is_to_all,group_id],type,array)
 		ThirdParty.sent_to_wechat(url,body)
 	end
 
+	#根据openid发送群发消息
 	def self.sentall_by_openid(token,arr_openid,type,array)
 		url,body=return_url_body('openid',token,['touser',arr_openid],type,array)
 		ThirdParty.sent_to_wechat(url,body)

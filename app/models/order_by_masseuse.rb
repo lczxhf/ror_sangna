@@ -11,7 +11,9 @@ class OrderByMasseuse<ActiveRecord::Base
 			self.primary_key = :id
 
 
-
+    #返回会所是否开启A推B活动!
+    #如果开启且此订单的用户符合A推B的规则时返回规则id
+    #如果没开启或者不符合所有的规则那么返回nil
 	def get_ab_rule_test()
 		ab_rule=nil
 		if self.member.per_user_qr_code && coupons_class=CouponsClass.where(id:2,del:1,status:1).first
@@ -43,6 +45,9 @@ class OrderByMasseuse<ActiveRecord::Base
 		ab_rule_id
 	end
 
+
+	#返回符合此订单和用户的A推B规则
+	#如没有符合的那么返回nil
 	def get_ab_rule
 		ab_rule=nil
 		arr=[4]

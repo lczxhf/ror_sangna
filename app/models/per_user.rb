@@ -13,6 +13,8 @@ class PerUser < ActiveRecord::Base
 	has_many :per_user_projects,foreign_key: "user_id"
 	has_many :member,foreign_key: 'user_id'
 
+	#返回当前会所的完整地址
+	#"xx省xx市xx区"
 	def get_address
 			province=Region.find_by_regions_CODE(province_id)
 			city=Region.find_by_regions_CODE(city_id)
@@ -30,6 +32,7 @@ class PerUser < ActiveRecord::Base
 			address
 	end
 
+	#返回会所是否开启A推B活动
 	def self.get_ab_status(per_user_id)
 		is_open=false
 		if  coupons_class=CouponsClass.where(id:2,del:1,status:1).first
@@ -40,6 +43,7 @@ class PerUser < ActiveRecord::Base
 		is_open
 	end
 
+	#发送wifi推送的模板消息
 	def sent_wifi_message(wechat_config)
 		templete=TempleteNumber.find_by_topic('入场成功通知')	
 		message=templete.templete_messages.where(sangna_config_id:self.sangna_config.id).first

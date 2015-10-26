@@ -7,6 +7,8 @@ class ThirdParty
 	#@@appsecret='0c79e1fa963cd80cc0be99b20a18faeb'
 	#@@encryptkey='IuvWqPHol3TrXsLYMuOKisVFjewCwIUJBJ6ucMBKjp8'
 	#@@wechat_info=WechatInfo.first	
+
+  #验证是否是微信发来的消息
 	def self.check_info(token,timestamp,nonce,msg_encrypt,signature)
 		str=[token,timestamp,nonce,msg_encrypt].sort.join
 		sha1=Digest::SHA1.hexdigest(str.to_s)
@@ -28,6 +30,7 @@ class ThirdParty
 #	        end
 #	end
 	
+  #向微信发起post请求
 	def self.sent_to_wechat(url,body)
 		 uri = URI(url)
                 Net::HTTP.start(uri.host, uri.port,:use_ssl => uri.scheme == 'https') do |http|
@@ -39,6 +42,7 @@ class ThirdParty
                 end
 	end
 	
+  #向微信发起get请求
 	def self.get_to_wechat(url)
                  uri = URI(url)
                 Net::HTTP.start(uri.host, uri.port,:use_ssl => uri.scheme == 'https') do |http|
@@ -49,7 +53,7 @@ class ThirdParty
         end
 
 
-
+  #刷新公众号的token
 	def self.refresh_gzh_token(component_token,component_appid,authorizer_appid,authorizer_rtoken)
 		url='https://api.weixin.qq.com/cgi-bin/component/api_authorizer_token?component_access_token='+component_token
 		body='{"component_appid":"'+component_appid+'","authorizer_appid":"'+authorizer_appid+'","authorizer_refresh_token":"'+authorizer_rtoken+'"}'	
