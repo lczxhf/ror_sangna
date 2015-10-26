@@ -1,0 +1,67 @@
+
+.content{
+	width: 95%;
+	margin: 30px auto;
+	text-align: center;
+	color: #666666;
+}
+.culb_title {
+  color: #328CCE;
+  font-size: 25px;
+  height: 34px;
+  text-align: left;
+  font-weight: 600;
+  letter-spacing: 1px;
+  border-bottom: 1px solid #D5E3EF;
+}
+.tips{
+	margin: 50px auto 40px;
+	font-size: 23px;
+}
+.btn_binding{
+	width: 21%;
+	height: 50px;
+	margin: 0 auto 30px;
+	font-size: 20px;
+	color: white;
+	background: #41B075;
+}
+.type_a{
+	color: #666666;
+	letter-spacing: 1px;
+	text-decoration: underline;
+}
+.box_requirement{
+	width: 80%;
+	margin: 25px auto 0;
+	height: 180px;
+	padding-top: 25px;
+	border: 1px solid #cccccc;
+}
+.requirement_title{
+	font-size: 21px;
+	margin-bottom: 20px;
+}
+.table_requirement{
+	width: 78%;
+	margin: 0 auto;
+	
+	border-color: #CCCCCC;
+}
+.table_requirement tr td{
+	color: #666666;
+	font-size: 16px;
+}
+.help{
+	font-size: 18px;
+	letter-spacing: 2px;
+	margin-top: 35px;
+}
+
+
+
+
+
+
+
+

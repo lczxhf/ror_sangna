@@ -30,5 +30,4 @@ class CouponsRecord < ActiveRecord::Base
 			url="http://weixin.linkke.cn/wechat/wc_front/consumption_info?appid=#{sangna_config.appid}&card_ids=#{card_ids.join(',')}"
 			Sangna.sent_template_message(sangna_config.token,wechat_config.openid,message.templete_id,url,hash)
 	end
-s
 end
