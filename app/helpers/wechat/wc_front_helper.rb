@@ -93,7 +93,7 @@ module Wechat::WcFrontHelper
 
 	def signature(timestamp,noncestr)
 			if !Rails.cache.read("#{params[:appid]}_ticket")
-						if Time.now-@sangna_config.updated_at>=7200
+						if Time.now-@sangna_config.updated_at>=6000
               result=JSON.parse(ThirdParty.refresh_gzh_token(Rails.cache.read(:access_token),'wxf6a05c0e64bc48e1',@sangna_config.appid,@sangna_config.refresh_token))
 							if result['authorizer_refresh_token']
               @sangna_config.refresh_token=result['authorizer_refresh_token']

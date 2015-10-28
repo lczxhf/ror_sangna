@@ -10,7 +10,9 @@
          puts current_occurrence
          coupons_records=CouponsRecord.includes(:coupons_rule,member: :wechat_config).joins(:coupons_rule).where("to_days(now()) >= to_days(date_add(coupons_records.created_at,INTERVAL coupons_rules.due_day day))-3 and coupons_records.status in (1,2)")
          hash={}
+				 if coupons_records.present?
          sangna_config=coupons_records.first.per_user.sangna_config
+				 end
          coupons_records.each do |record|
                openid=record.member.wechat_config.openid
                if record.coupons_rule.due_day>=3
