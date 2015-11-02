@@ -8,9 +8,13 @@
 		<%= javascript_include_tag 'bootstrap'%>
 		<title>微信公众号绑定</title>
 		<script type="text/javascript">
-			$(function(){$("#authorize").click(function(){
+			$(function(){
+				$('.btn-close-popup').click(function(){
+			     $('.Popup-bind-tips').hide();
+			    })
+				$("#authorize").click(function(){
 				if($("#check").is(":checked")){
-				window.location.href= "<%=raw @url%>";}else{alert("请查看条款");}})})
+				window.location.href= "<%=raw @url%>";}else{$('.Popup-bind-tips').show()}})})
 		</script>
 	</head>
 	<body>
@@ -47,5 +51,15 @@
 				<div class="help">点击 <a class="type_a" href="https://mp.weixin.qq.com/">此处免费申请</a>,申请<strong>认证服务号</strong>获得高质量的服务</div>
 			</div>
 		</div>
+		<!-- 提示框 -->
+		<div class="Popup-bind-tips">
+		  <div class="box_add">
+		    <div class="box_title">提示</div>
+		    <div id="delete_tip" class="tip_content box_tips"><center>请查看条款！</center></div>
+		    <div class="box_button">
+		     <button class="btn btn-close-popup" type="submit">确定</button>
+		    </div>
+		  </div>
+		 </div>
 	</body>
 </html>

@@ -66,4 +66,12 @@ class PerUser < ActiveRecord::Base
 		url="http://weixin.linkke.cn/wechat/wc_front/wifi_page?appid=#{sangna_config.appid}"
 		Sangna.sent_template_message(sangna_config.token,wechat_config.openid,message.templete_id,url,hash)
 	end
+
+	def get_forward_img
+		if per_user_imgs.empty?
+			'http://linkke.cn/huisuo_img'
+		else
+			'http://linkke.cn<%=@per_user_imgs.first.url.thumb.url%>'
+		end
+	end
 end
