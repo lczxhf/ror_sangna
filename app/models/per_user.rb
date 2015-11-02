@@ -71,7 +71,7 @@ class PerUser < ActiveRecord::Base
 		if per_user_imgs.empty?
 			'http://linkke.cn/huisuo_img'
 		else
-			'http://linkke.cn<%=@per_user_imgs.first.url.thumb.url%>'
+			"http://linkke.cn#{per_user_imgs.first.url.thumb.url}"
 		end
 	end
 end
