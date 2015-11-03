@@ -264,7 +264,7 @@ class Wechat::WcFrontController < ApplicationController
 	def sangna_info
 			@sangna=@sangna_config.per_user
 			if @sangna.status==1&&@sangna.del==1
-				@per_user_imgs=@sangna.per_user_imgs
+				@per_user_imgs=@sangna.per_user_imgs.empty? ? ['http://linkke.cn/images/huisuo_img.png']
 				@sangna_info=@sangna.per_user_info
 			else
 				render plain: "该会所暂时无法查看"

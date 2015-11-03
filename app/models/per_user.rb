@@ -69,7 +69,7 @@ class PerUser < ActiveRecord::Base
 
 	def get_forward_img
 		if per_user_imgs.empty?
-			'http://weixin.linkke.cn/images/huisuo_img.png'
+			'http://weixin.linkke.cn/images/sangna_img.png'
 		else
 			"http://linkke.cn#{per_user_imgs.first.url.thumb.url}"
 		end

@@ -78,3 +78,15 @@ overflow: hidden;
 .type_size{
 	font-size: 1.4em;
 }
+.default-img{
+width: 100%;
+height: 200px;
+padding-top: 50px;
+background: #F1E7E1;
+}
+.default-img img{
+height: 100px;
+width: 167px !important;
+display: block;
+margin: 0 auto;
+}
