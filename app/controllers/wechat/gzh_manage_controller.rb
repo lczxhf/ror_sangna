@@ -123,6 +123,7 @@ class Wechat::GzhManageController < ApplicationController
 							end
 					end
 							next_url=cookies.signed[:next_url]
+							puts "next_url is #{next_url}"
 							cookies.delete(:next_url)
 							redirect_to next_url
 		end
