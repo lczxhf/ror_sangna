@@ -1,0 +1,31 @@
+
+                        --------------2015-11-02 18:33:03-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-11-03 01:18:50-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-11-03 02:51:52-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-11-03 09:04:21-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-11-03 15:03:33-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
