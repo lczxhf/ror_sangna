@@ -57,7 +57,7 @@
 								<img src="<%=@sangna_config.per_user.get_forward_img%>" width="100%" height="200px">
 							</a>
 						</div>
-			
+						<%if !@per_user_imgs.empty?%>
 						<!-- 第一张 -->
 						<%@per_user_imgs.each_with_index do |per_user_img,index|%>
 						<div class="mui-slider-item">
@@ -80,6 +80,7 @@
 						<div class="mui-indicator"></div>
 						<%end%>
 					</div>
+					<%end%>
 				</div>
 			</div>
 			<div class="box_infor fs14">
