@@ -178,7 +178,8 @@ class Wechat::WcFrontController < ApplicationController
 								@open_redbage=false
 							end
 					else
-								render nothing: true
+								 redirect_to  "http://weixin.linkke.cn/wechat/wc_front/redbage?appid=#{params[:appi    d]}&o_id=#{@order.id}&id=#{@order.member_id}&same=#{params[:same]}"
+
 					end
 	end
 
@@ -201,7 +202,8 @@ class Wechat::WcFrontController < ApplicationController
 								@open_redbage=false
 							end
 					else
-								render nothing: true
+					   redirect_to  "http://weixin.linkke.cn/wechat/wc_front/redbage?appid=#{params[:appi    d]}&o_id=#{@order.id}&id=#{@order.member_id}&same=#{params[:same]}"
+
 					end
 	end
 
