@@ -2,6 +2,7 @@ class Wechat::MessageController < ApplicationController
   require 'net/http'
   require "nokogiri"
   include Wechat::ReplyWeixinMessageHelper
+	include Wechat::WcFrontHelper
   TOKEN='tiandiwang'
   KEY="IuvWqPHol3TrXsLYMuOKisVFjewCwIUJBJ6ucMBKjp8"
   APPID="wxf6a05c0e64bc48e1"

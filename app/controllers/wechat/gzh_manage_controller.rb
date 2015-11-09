@@ -2,6 +2,7 @@ class Wechat::GzhManageController < ApplicationController
 	require 'net/http'
   	require "nokogiri"
   	APPID="wxf6a05c0e64bc48e1"
+		include Wechat::WcFrontHelper
   	def set_menu
         gzh=SangnaConfig.find(params[:id])
         if Time.now-gzh.updated_at>=7200
@@ -105,12 +106,12 @@ class Wechat::GzhManageController < ApplicationController
           result=JSON.parse(ThirdParty.get_to_wechat(url))
 					puts result
 					if result["openid"]
-						if  wechat_config=WechatConfig.includes(:member,:wechat_user).find_by_openid(result["openid"])
+						if  wechat_config=WechatConfig.includes(:wechat_user).find_by_openid(result["openid"])
 
 						else
 							 sangna_config=fetch_redis(params[:appid],6000) do
-                   				SangnaConfig.find_by_appid(params[:appid])
-               				 end
+                   				SangnaConfig.includes(per_user:[:per_user_imgs]).find_by_appid(params[:appid])
+               end
 
 							wechat_config=WechatConfig.new
 							wechat_config.openid=result['openid']
@@ -129,7 +130,7 @@ class Wechat::GzhManageController < ApplicationController
 							end
 							fetch_redis(result["openid"]) do
                  			  	wechat_config
-               				end
+              end
 
 					end
 							next_url=cookies.signed[:next_url]
@@ -203,7 +204,7 @@ class Wechat::GzhManageController < ApplicationController
 								render template: '/wechat/wc_front/wechat_error'
 						else
 							wechat_config=fetch_redis(cookies.signed["#{params[:appid]}_openid"]) do
-               					WechatConfig.includes(:member,:wechat_user).find_by_openid(cookies.signed["#{per_user.sangna_config.appid}_openid"])          
+               					WechatConfig.includes(:wechat_user).find_by_openid(cookies.signed["#{per_user.sangna_config.appid}_openid"])          
            					end
 							log=qrcode.qrcode_logs.last 
 							if log.nil? || log.member

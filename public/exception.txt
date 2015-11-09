@@ -1601,3 +1601,57 @@ code=0413eabc5ab50555bae7bdacaca25c1e&state=123&appid=wx55d4d556c43b3bfc
 no implicit conversion of nil into String
 /home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:102:in `+'
                   
+                        --------------2015-11-09 17:42:51-------------
+                       /wechat/message/wx55d4d556c43b3bfc?signature=510b899bb8e9caf8dafad616f6c5d8c04a83e137&timestamp=1447062168&nonce=1204473197&encrypt_type=aes&msg_signature=0e677cecb4b8b7621dcbed9f322928c908e52f6b
+signature=510b899bb8e9caf8dafad616f6c5d8c04a83e137&timestamp=1447062168&nonce=1204473197&encrypt_type=aes&msg_signature=0e677cecb4b8b7621dcbed9f322928c908e52f6b
+undefined method `fetch_redis' for #<Wechat::MessageController:0x00000002e23270>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/message_controller.rb:10:in `receive'
+                  
+                        --------------2015-11-09 17:42:51-------------
+                       /wechat/gzh_manage/oauth?code=0315ec2f18525f486410d0f4612531bk&state=123&appid=wx55d4d556c43b3bfc
+code=0315ec2f18525f486410d0f4612531bk&state=123&appid=wx55d4d556c43b3bfc
+no implicit conversion of nil into String
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:104:in `+'
+                  
+                        --------------2015-11-09 17:45:44-------------
+                       /wechat/gzh_manage/oauth?code=04130ec71c2ac1442c8334ab739b9171&state=123&appid=wx55d4d556c43b3bfc
+code=04130ec71c2ac1442c8334ab739b9171&state=123&appid=wx55d4d556c43b3bfc
+no implicit conversion of nil into String
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:104:in `+'
+                  
+                        --------------2015-11-09 17:45:51-------------
+                       /wechat/gzh_manage/oauth?code=04130ec71c2ac1442c8334ab739b9171
+code=04130ec71c2ac1442c8334ab739b9171
+no implicit conversion of nil into String
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:104:in `+'
+                  
+                        --------------2015-11-09 17:45:52-------------
+                       /wechat/gzh_manage/oauth?code=04130ec71c2ac1442c8334ab739b9171
+code=04130ec71c2ac1442c8334ab739b9171
+no implicit conversion of nil into String
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:104:in `+'
+                  
+                        --------------2015-11-09 17:45:55-------------
+                       /wechat/gzh_manage/oauth?code=04130ec71c2ac1442c8334ab739b9171
+code=04130ec71c2ac1442c8334ab739b9171
+no implicit conversion of nil into String
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:104:in `+'
+                  
+                        --------------2015-11-09 17:46:41-------------
+                       /wechat/gzh_manage/oauth?code=021a72ac0b5cc90a8ca9b4e3c1cc863N&state=123&appid=wx55d4d556c43b3bfc
+code=021a72ac0b5cc90a8ca9b4e3c1cc863N&state=123&appid=wx55d4d556c43b3bfc
+no implicit conversion of nil into String
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:105:in `+'
+                  
+                        --------------2015-11-09 17:47:53-------------
+                       /wechat/gzh_manage/oauth?code=01172dda1b8a6d65822ba5d94f18510J&state=123&appid=wx55d4d556c43b3bfc
+code=01172dda1b8a6d65822ba5d94f18510J&state=123&appid=wx55d4d556c43b3bfc
+no implicit conversion of nil into String
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:105:in `+'
+                  
+                        --------------2015-11-09 17:50:22-------------
+                       /wechat/third_party/receive?signature=e473641282c2af033e09795dacbae9518d555f94&timestamp=1447062621&nonce=1839896592&encrypt_type=aes&msg_signature=8e18f751c0226ed30d4dff4d882e040353354a89
+signature=e473641282c2af033e09795dacbae9518d555f94&timestamp=1447062621&nonce=1839896592&encrypt_type=aes&msg_signature=8e18f751c0226ed30d4dff4d882e040353354a89
+no implicit conversion of nil into String
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/third_party_controller.rb:105:in `+'
+                  

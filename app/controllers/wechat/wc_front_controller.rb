@@ -242,7 +242,7 @@ class Wechat::WcFrontController < ApplicationController
 					
 			else
 				@wechat_config=fetch_redis(cookies.signed["#{params[:appid]}_openid"]) do
-               		WechatConfig.includes(:member,:wechat_user).find_by_openid(cookies.signed["#{params[:appid]}_openid"])          
+               		WechatConfig.includes(:wechat_user).find_by_openid(cookies.signed["#{params[:appid]}_openid"])          
            		end
 				if !@wechat_config
 					cookies.delete("#{params[:appid]}_openid")
@@ -335,7 +335,7 @@ class Wechat::WcFrontController < ApplicationController
 				puts params
 				order=OrderByMasseuse.includes(:per_user_masseuse,per_user:[:sangna_config]).find(params[:o_id])
 				wechat_config=fetch_redis(cookies.signed["#{order.per_user.sangna_config.appid}_openid"]) do
-              		 WechatConfig.includes(:member,:wechat_user).find_by_openid(cookies.signed["#{order.per_user.sangna_config.appid}_openid"])  
+              		 WechatConfig.includes(:wechat_user).find_by_openid(cookies.signed["#{order.per_user.sangna_config.appid}_openid"])  
          	    end
 
 				member_id=wechat_config.member_id
@@ -539,7 +539,6 @@ end
 		  if params[:code]==Rails.cache.read(params[:phone])
 					 
 					 @wechat_config.member.username=params[:phone]
-					 @puts wechat_config.member.to_json
 					 @wechat_config.member.save
 					 Rails.cache.delete(params[:phone])
 					 render plain: 'ok'
@@ -563,7 +562,7 @@ end
         else
         	if params[:appid]
           		@wechat_config=fetch_redis(cookies.signed["#{params[:appid]}_openid"]) do
-               		WechatConfig.includes(:member,:wechat_user).find_by_openid(cookies.signed["#{params[:appid]}_openid"])          
+               		WechatConfig.includes(:wechat_user).find_by_openid(cookies.signed["#{params[:appid]}_openid"])          
            		end
            	end
         end
