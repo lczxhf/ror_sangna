@@ -10,6 +10,7 @@ class Wechat::GzhManageController < ApplicationController
 								gzh.refresh_token=result['authorizer_refresh_token']
 								gzh.token=result['authorizer_access_token']
 								gzh.save
+								$redis.del(gzh.appid)
 							end
         end
         url='https://api.weixin.qq.com/cgi-bin/menu/create?access_token='+gzh.token
@@ -67,6 +68,7 @@ class Wechat::GzhManageController < ApplicationController
 								gzh.refresh_token=result['authorizer_refresh_token']
 								gzh.token=result['authorizer_access_token']
 								gzh.save
+								$redis.del(gzh.appid)
 						 end
 			end
       url="https://api.weixin.qq.com/sns/oauth2/component/access_token?appid=#{gzh.appid}&code=#{params[:code]}&grant_type=authorization_code&component_appid=#{APPID}&component_access_token="+Rails.cache.read(:access_token)
@@ -103,9 +105,13 @@ class Wechat::GzhManageController < ApplicationController
           result=JSON.parse(ThirdParty.get_to_wechat(url))
 					puts result
 					if result["openid"]
-						if WechatConfig.find_by_openid(result["openid"])
+						if  wechat_config=WechatConfig.includes(:member,:wechat_user).find_by_openid(result["openid"])
+
 						else
-							sangna_config=SangnaConfig.find_by_appid(params[:appid])
+							 sangna_config=fetch_redis(params[:appid],6000) do
+                   				SangnaConfig.find_by_appid(params[:appid])
+               				 end
+
 							wechat_config=WechatConfig.new
 							wechat_config.openid=result['openid']
 							wechat_config.sangna_config_id=sangna_config.id
@@ -121,6 +127,10 @@ class Wechat::GzhManageController < ApplicationController
 							else
 									cookies.signed["#{params[:appid]}_openid"]=result["openid"]
 							end
+							fetch_redis(result["openid"]) do
+                 			  	wechat_config
+               				end
+
 					end
 							next_url=cookies.signed[:next_url]
 							puts "next_url is #{next_url}"
@@ -192,7 +202,9 @@ class Wechat::GzhManageController < ApplicationController
 								@error_status=1
 								render template: '/wechat/wc_front/wechat_error'
 						else
-							wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{per_user.sangna_config.appid}_openid"])
+							wechat_config=fetch_redis(cookies.signed["#{params[:appid]}_openid"]) do
+               					WechatConfig.includes(:member,:wechat_user).find_by_openid(cookies.signed["#{per_user.sangna_config.appid}_openid"])          
+           					end
 							log=qrcode.qrcode_logs.last 
 							if log.nil? || log.member
 								log=qrcode.qrcode_logs.build
@@ -207,6 +219,7 @@ class Wechat::GzhManageController < ApplicationController
 							log.save
 							wechat_config.member.hand_code=qrcode.id
 							wechat_config.member.save
+							$redis.del(wechat_config.openid)
 							coupons_records.each do |a|
 								a.status=2
 								a.save
@@ -259,6 +272,7 @@ end
 											gzh.refresh_token=result['authorizer_refresh_token']
 											gzh.token=result['authorizer_access_token']
 											gzh.save
+											$redis.del(gzh.appid)
 									end
 								end
 								hash={}
@@ -299,6 +313,7 @@ end
 										sangna_config.refresh_token=result['authorizer_refresh_token']
 										sangna_config.token=result['authorizer_access_token']
 										sangna_config.save
+										$redis.del(sangna_config.appid)
 								end
           end
 					url="https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token="+sangna_config.token

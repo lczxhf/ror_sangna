@@ -7,7 +7,10 @@ class Wechat::MessageController < ApplicationController
   APPID="wxf6a05c0e64bc48e1"
   APPSECRET="0c79e1fa963cd80cc0be99b20a18faeb"
   def receive
-		gzh=SangnaConfig.where(appid:params[:appid]).first
+		gzh=fetch_redis(params[:appid],6000) do
+            SangnaConfig.includes(per_user:[:per_user_imgs]).find_by_appid(params[:appid])
+        end
+
 		str=request.body.read
 		doc=Nokogiri::Slop str
 		encrypt=doc.xml.Encrypt.content

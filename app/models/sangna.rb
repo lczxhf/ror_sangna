@@ -95,12 +95,13 @@ class Sangna
 	def self.get_user_info(user_id,appid)
 		 wechat_config=WechatConfig.includes(:member,:sangna_config).find(user_id)
  	   sangna_config=wechat_config.sangna_config
- 	   if Time.now-sangna_config.updated_at>=7200
+ 	   if Time.now-sangna_config.updated_at>=7000
               result=JSON.parse(ThirdParty.refresh_gzh_token(Rails.cache.read(:access_token),appid,sangna_config.appid,sangna_config.refresh_token))
 							if result['authorizer_refresh_token']
 									sangna_config.refresh_token=result['authorizer_refresh_token']
 									sangna_config.token=result['authorizer_access_token']
 									sangna_config.save
+									$redis.del(sangna_config.appid)
 							end
   	 end
  		   url="https://api.weixin.qq.com/cgi-bin/user/info?access_token=#{sangna_config.token}&openid=#{wechat_config.openid}&lang=zh_CN"
@@ -135,12 +136,13 @@ class Sangna
 	def self.get_oauth2_info(wechat_config_id,appid)
 				wechat_config=WechatConfig.includes(:sangna_config).find(wechat_config_id)
 				sangna_config=wechat_config.sangna_config
-				 if Time.now-sangna_config.updated_at>=7200
+				 if Time.now-sangna_config.updated_at>=7000
 					  result=JSON.parse(ThirdParty.refresh_gzh_token(Rails.cache.read(:access_token),appid,sangna_config.appid,sangna_config.refresh_token))
 						if result['authorizer_refresh_token']
 								sangna_config.refresh_token=result['authorizer_refresh_token']
 								sangna_config.token=result['authorizer_access_token']
 								sangna_config.save
+								$redis.del(sangna_config.appid)
 						end
 				 end
 				url="https://api.weixin.qq.com/sns/userinfo?access_token=#{wechat_config.token}&openid=#{wechat_config.openid}&lang=zh_CN"

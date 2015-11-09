@@ -1,4 +1,13 @@
 module Wechat::WcFrontHelper
+	 def fetch_redis(key,expire_in=7000,&block)
+         result=$redis.get(key)
+         if result.nil?
+            puts "#{key} cache invaild"
+            result=Marshal.dump(yield)
+            $redis.set(key,result,ex:expire_in)
+         end
+         Marshal.load(result)
+     end
 	def return_job_class(number,is_zh=true)
 		job_class=[0,["Dating","大厅"],["Fangjian","房间"],["Meirong","美容"]]
 		if number
@@ -99,6 +108,7 @@ module Wechat::WcFrontHelper
               @sangna_config.refresh_token=result['authorizer_refresh_token']
               @sangna_config.token=result['authorizer_access_token']
               @sangna_config.save
+              $redis.del(@sangna_config.appid)
 							end
 						end					
 						url="https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=#{@sangna_config.token}&type=jsapi"

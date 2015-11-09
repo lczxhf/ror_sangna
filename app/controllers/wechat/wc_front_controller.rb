@@ -1,12 +1,11 @@
 class Wechat::WcFrontController < ApplicationController
 			require "rexml/document" 
-	before_action :check_openid,:except=>[:remark,:get_redbage,:page_technician,:project_class,:tip,:card_rule]
+	before_action :check_openid,:except=>[:remark,:get_redbage,:project_class,:tip,:card_rule]
 	before_action :set_sangna_config,:except=>[:remark,:get_redbage,:change_collect,:card_rule]
 	include Wechat::WcFrontHelper
 	def choose_technician
 			puts params
-			@inscene=false
-			if @wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])	
+			@inscene=false		
 				if @wechat_config.del==1 || params[:skip]=='h'
 						if @qr_code=@wechat_config.member.per_user_qr_code
 											@inscene=true
@@ -14,12 +13,10 @@ class Wechat::WcFrontController < ApplicationController
 				else
 					redirect_to action: :tip,:appid=>params[:appid]
 				end		
-			end
 	end
 
 	def page_technician
 			puts params
-			@wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
 		 if params[:collect]=='true'	
 				technician_ids=@sangna_config.per_user.masseuses_collects.where(member_id:@wechat_config.member.id,del:1).pluck(:per_user_masseuse_id)
 				if technician_ids.empty?
@@ -90,11 +87,9 @@ class Wechat::WcFrontController < ApplicationController
 		@technician=PerUserMasseuse.find(params[:t_id])
 		@technician.details_page_times=@technician.details_page_times+1
 		@technician.save
-		@wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])	
 	end
 
 	def search
-	wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
 	  if params[:is_mine]!='true'
 			 sql="and b.del=1 and b.status=1 and b.user_id=#{@sangna_config.per_user_id} "
 			if params[:p_type]
@@ -110,7 +105,7 @@ class Wechat::WcFrontController < ApplicationController
 					sql=sql+"and b.job_number='#{params[:t_number]}'"
 			end
 		else
-			collect=@sangna_config.per_user.masseuses_collects.where(member_id:wechat_config.member_id,del:1).pluck(:per_user_masseuse_id)
+			collect=@sangna_config.per_user.masseuses_collects.where(member_id:@wechat_config.member_id,del:1).pluck(:per_user_masseuse_id)
 			if collect.empty?
 						sql=''
 			else
@@ -156,7 +151,7 @@ class Wechat::WcFrontController < ApplicationController
 											time=""	
 									end
 								end
-										generate_technician_html(technician,params[:inscene],@sangna_config,time,wechat_config.member_id)
+										generate_technician_html(technician,params[:inscene],@sangna_config,time,@wechat_config.member_id)
 								end.join
 						render plain: string 
 				else
@@ -168,24 +163,34 @@ class Wechat::WcFrontController < ApplicationController
 	def technician_remark
 					puts params
 					@order=OrderByMasseuse.includes(:per_user_masseuse,:per_user_project,:per_user,member: [:wechat_config]).find(params[:o_id])
+					if params[:l]=='z'
+								@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:2,del:1,status:1).first
+								@open_redbage=true
+					elsif params[:l]=="h"
+								@open_redbage=false
+					end
 					if @order && @order.member.wechat_config.openid==cookies.signed["#{params[:appid]}_openid"]
 							@sangna_config=@order.per_user.sangna_config
 							@ab_status=PerUser.get_ab_status(@order.user_id)
-							if params[:l]=='z'
-								@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:2,del:1,status:1).first
-								@open_redbage=true
-							elsif params[:l]=="h"
-								@open_redbage=false
-							end
-					else
-								 redirect_to  "http://weixin.linkke.cn/wechat/wc_front/redbage?appid=#{params[:appid]}&o_id=#{@order.id}&id=#{@order.member_id}&same=#{params[:same]}"
 
+					else
+								if @open_redbage
+								 redirect_to  "http://weixin.linkke.cn/wechat/wc_front/redbage?appid=#{params[:appid]}&o_id=#{@order.id}&id=#{@order.member_id}&same=#{params[:same]}"
+								else
+								 redirect_to  "http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=#{params[:appid]}&skip=h"
+								end
 					end
 	end
 
 	def technician_remark_level
 				puts params
 				@order=OrderByMasseuse.includes(:per_user_masseuse,:per_user,member: [:wechat_config]).find(params[:o_id])
+				if params[:l]=='z'
+								@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:2).first
+								@open_redbage=true
+				elsif params[:l]=="h"
+								@open_redbage=false
+				end
 					if @order &&  @order.member.wechat_config.openid==cookies.signed["#{params[:appid]}_openid"]
 							@sangna_config=@order.per_user.sangna_config
 							@ab_status=PerUser.get_ab_status(@order.user_id)
@@ -195,23 +200,20 @@ class Wechat::WcFrontController < ApplicationController
 									@technician_level_remarks=@order.technician_level_remarks
 									@remark=true
 							end
-							if params[:l]=='z'
-								@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:2).first
-								@open_redbage=true
-							elsif params[:l]=="h"
-								@open_redbage=false
-							end
+							
 					else
-					   redirect_to  "http://weixin.linkke.cn/wechat/wc_front/redbage?appid=#{params[:appid]}&o_id=#{@order.id}&id=#{@order.member_id}&same=#{params[:same]}"
-
+					   if @open_redbage
+							redirect_to  "http://weixin.linkke.cn/wechat/wc_front/redbage?appid=#{params[:appid]}&o_id=#{@order.id}&id=#{@order.member_id}&same=#{params[:same]}"
+						else
+							redirect_to  "http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=#{params[:appid]}&skip=h"
+						end
 					end
 	end
 
 	def recommend_technician
 			technicians=@sangna_config.per_user.per_user_masseuses.active.where(work_status:2).order("rand()").limit(2)
-			wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
 			html=technicians.collect do |technician|
-				if inscene=wechat_config.member.per_user_qr_code.present?
+				if inscene=@wechat_config.member.per_user_qr_code.present?
 						if technician.work_status==3
 							order=technician.order_by_masseuses.order(start_time: :desc).first	
 							if order
@@ -223,7 +225,7 @@ class Wechat::WcFrontController < ApplicationController
 								time=""	
 						end
 				end
-				generate_technician_html(technician,inscene.to_s,@sangna_config,time,wechat_config.member_id)
+				generate_technician_html(technician,inscene.to_s,@sangna_config,time,@wechat_config.member_id)
 			end.join
 			render plain: html
 	end
@@ -237,9 +239,11 @@ class Wechat::WcFrontController < ApplicationController
 			puts params
 			if params[:user_id]
 					check_openid
-					@wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
+					
 			else
-				@wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])	
+				@wechat_config=fetch_redis(cookies.signed["#{params[:appid]}_openid"]) do
+               		WechatConfig.includes(:member,:wechat_user).find_by_openid(cookies.signed["#{params[:appid]}_openid"])          
+           		end
 				if !@wechat_config
 					cookies.delete("#{params[:appid]}_openid")
 					check_openid
@@ -274,7 +278,7 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def my_account
-				@wechat_config=WechatConfig.includes(:wechat_user,:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"]) 
+				
 				if @wechat_config.del==2
 						redirect_to action: :tip,:appid=>params[:appid]
 				end
@@ -283,7 +287,7 @@ class Wechat::WcFrontController < ApplicationController
 
 	def my_collect
 				
-				@wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
+				
 				#technician_ids=@sangna_config.per_user.masseuses_collects.where(member_id:@wechat_config.member.id,del:1).pluck(:per_user_masseuse_id)
 				#@technicians=PerUserMasseuse.find(technician_ids)
 				@inscene=false
@@ -295,8 +299,8 @@ class Wechat::WcFrontController < ApplicationController
 	end
 
 	def wifi_page
-		wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
-		if wechat_config.member.per_user_qr_code.present?
+		
+		if @wechat_config.member.per_user_qr_code.present?
 			@wifi_infos=PerUserWifi.where(user_id:@sangna_config.per_user_id,del:1)
 		else
 			@error_status=3
@@ -307,16 +311,16 @@ class Wechat::WcFrontController < ApplicationController
 				puts params
 				#cookies.delete("#{params[:appid]}_openid")
 				@order=OrderByMasseuse.includes(:member,:per_user).find(params[:o_id])				
-				wechat_config=WechatConfig.includes(:wechat_user,:member).find_by_openid(cookies.signed["#{@order.per_user.sangna_config.appid}_openid"])
+				
 				if @order.member_id==params[:id].to_i
-							if @order.member_id==wechat_config.member_id
+							if @order.member_id==@wechat_config.member_id
 									@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:2,same_id:params[:same]).first
-							elsif wechat_config.try(:wechat_user).try(:subscribe_time)
+							elsif @wechat_config.try(:wechat_user).try(:subscribe_time)
 									@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:3,same_id:params[:same]).first
 							else
 									@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:4,same_id:params[:same]).first
 							end
-							if wechat_config.member.username!=wechat_config.openid && wechat_config.member.username!='未关注'
+							if @wechat_config.member.username!=@wechat_config.openid && @wechat_config.member.username!='未关注'
 								@bind=true
 							else
 								@bind=false
@@ -330,7 +334,10 @@ class Wechat::WcFrontController < ApplicationController
 	def get_redbage
 				puts params
 				order=OrderByMasseuse.includes(:per_user_masseuse,per_user:[:sangna_config]).find(params[:o_id])
-				wechat_config=WechatConfig.includes(:wechat_user,:member).find_by_openid(cookies.signed["#{order.per_user.sangna_config.appid}_openid"])
+				wechat_config=fetch_redis(cookies.signed["#{order.per_user.sangna_config.appid}_openid"]) do
+              		 WechatConfig.includes(:member,:wechat_user).find_by_openid(cookies.signed["#{order.per_user.sangna_config.appid}_openid"])  
+         	    end
+
 				member_id=wechat_config.member_id
 				if CouponsRecord.find_by_sql("SELECT * FROM sangna.coupons_records as record left join coupons_classes as class on record.coupons_classes_id=class.id
  where from_order_id=#{order.id} and class.name='评价转发代金券' and member_id=#{member_id}").present?
@@ -366,10 +373,10 @@ class Wechat::WcFrontController < ApplicationController
 def get_ab_redbage
 		puts params
 	order=OrderByMasseuse.find(params[:o_id])
-	wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
-	if !wechat_config.member.coupons_records.where(coupons_classes_id:2).where("status in (1,2)").first	
+	
+	if !@wechat_config.member.coupons_records.where(coupons_classes_id:2).where("status in (1,2)").first	
 		if ab_rule=order.get_ab_rule
-			if !CouponsRecord.where(member_id:wechat_config.member_id,from_order_id:order.id,coupons_classes_id:2).first
+			if !CouponsRecord.where(member_id:@wechat_config.member_id,from_order_id:order.id,coupons_classes_id:2).first
 				if ab_rule.rules==1
 					ab_recommended_projects=ab_rule.ab_recommended_projects.order("rand()").limit(1)
 				elsif ab_rule.rules==2
@@ -378,7 +385,7 @@ def get_ab_redbage
 				ab_recommended_projects.each do |a|
 					coupons_record=CouponsRecord.new
 					coupons_record.user_id=ab_rule.user_id
-					coupons_record.member_id=wechat_config.member_id
+					coupons_record.member_id=@wechat_config.member_id
 					coupons_record.from_order_id=order.id
 					o = [('a'..'z'),('A'..'Z')].map{|i| i.to_a}.flatten
 					string = (0...4).map{ o[rand(o.length)] }.join
@@ -452,8 +459,8 @@ end
 	end
 
 	def change_collect
-				wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
-				collect(params[:technician_id],wechat_config,params[:status])
+				
+				collect(params[:technician_id],@wechat_config,params[:status])
 				render plain: "success"	
 	end
 
@@ -462,7 +469,7 @@ end
 
 	def card_info
 				
-				@wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
+				
 				if @wechat_config.member.per_user_qr_code
 						@inscene=true
 				end
@@ -530,10 +537,10 @@ end
 
 	def bind_phone
 		  if params[:code]==Rails.cache.read(params[:phone])
-					 wechat_config=WechatConfig.includes(:member).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
-					 wechat_config.member.username=params[:phone]
-					 puts wechat_config.member.to_json
-					 wechat_config.member.save
+					 
+					 @wechat_config.member.username=params[:phone]
+					 @puts wechat_config.member.to_json
+					 @wechat_config.member.save
 					 Rails.cache.delete(params[:phone])
 					 render plain: 'ok'
 			else
@@ -544,19 +551,34 @@ end
 	private
 	
 	def check_openid
-			if !cookies["#{params[:appid]}_openid"]	|| WechatConfig.find_by_openid(cookies.signed["#{params[:appid]}_openid"]).nil?
-			cookies.signed[:next_url]=request.url
-			auth_url="https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{params[:appid]}&redirect_uri=http://weixin.linkke.cn/wechat/gzh_manage/oauth&response_type=code&scope=snsapi_base&state=123&component_appid=wxf6a05c0e64bc48e1#wechat_redirect"                    
-		   redirect_to auth_url
-			end
+			# if !cookies["#{params[:appid]}_openid"]	|| WechatConfig.find_by_openid(cookies.signed["#{params[:appid]}_openid"]).nil?
+			# cookies.signed[:next_url]=request.url
+			# auth_url="https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{params[:appid]}&redirect_uri=http://weixin.linkke.cn/wechat/gzh_manage/oauth&response_type=code&scope=snsapi_base&state=123&component_appid=wxf6a05c0e64bc48e1#wechat_redirect"                    
+		 #   redirect_to auth_url
+			# end
+		if !cookies["#{params[:appid]}_openid"] || $redis.get(cookies.signed["#{params[:appid]}_openid"]).nil?
+      		 cookies.signed[:next_url]=request.url
+       		 auth_url="https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{params[:appid]}&redirect_uri=http://weixin.linkke.cn/wechat/gzh_manage/oauth&response_type=code&scope=snsapi_base&state=123&component_appid=wxf6a05c0e64bc48e1#wechat_redirect"
+        	 redirect_to auth_url
+        else
+        	if params[:appid]
+          		@wechat_config=fetch_redis(cookies.signed["#{params[:appid]}_openid"]) do
+               		WechatConfig.includes(:member,:wechat_user).find_by_openid(cookies.signed["#{params[:appid]}_openid"])          
+           		end
+           	end
+        end
+
 	end
 
 	def set_sangna_config
 			if params[:appid]
-					Rails.cache.delete(params[:appid])
-					@sangna_config=Rails.cache.fetch(params[:appid],expire_in: 2.hours) do 
-							SangnaConfig.includes(per_user:[:per_user_imgs]).find_by_appid(params[:appid])
-					end
+					# Rails.cache.delete(params[:appid])
+					# @sangna_config=Rails.cache.fetch(params[:appid],expire_in: 2.hours) do 
+					# 		SangnaConfig.includes(per_user:[:per_user_imgs]).find_by_appid(params[:appid])
+					# end
+				  @sangna_config=fetch_redis(params[:appid],6000) do
+                     SangnaConfig.includes(per_user:[:per_user_imgs]).find_by_appid(params[:appid])
+                  end
 			end
 	end
 

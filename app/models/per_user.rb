@@ -55,12 +55,13 @@ class PerUser < ActiveRecord::Base
 			 hash[a]=array[index]
 		end
 		sangna_config=self.sangna_config
-		if Time.now-sangna_config.updated_at>=7200
+		if Time.now-sangna_config.updated_at>=7000
 					result=JSON.parse(ThirdParty.refresh_gzh_token(Rails.cache.read(:access_token),"wxf6a05c0e64bc48e1",sangna_config.appid,sangna_config.refresh_token))
 					if result['authorizer_refresh_token']
 						sangna_config.refresh_token=result['authorizer_refresh_token']
 						sangna_config.token=result['authorizer_access_token']
 						sangna_config.save
+						$redis.del(sangna_config.appid)
 					end
 		end
 		url="http://weixin.linkke.cn/wechat/wc_front/wifi_page?appid=#{sangna_config.appid}"

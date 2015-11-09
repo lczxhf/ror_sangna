@@ -19,12 +19,13 @@ class CouponsRecord < ActiveRecord::Base
 			templete.fields.split(',').each_with_index do |a,index|
 				  hash[a]=array[index]
 			end
-			if Time.now-sangna_config.updated_at>=7200
+			if Time.now-sangna_config.updated_at>=7000
 					result=JSON.parse(ThirdParty.refresh_gzh_token(Rails.cache.read(:access_token),"wxf6a05c0e64bc48e1",sangna_config.appid,sangna_config.refresh_token))
 					if result['authorizer_refresh_token']
 						sangna_config.refresh_token=result['authorizer_refresh_token']
 						sangna_config.token=result['authorizer_access_token']
 						sangna_config.save
+						$redis.del(sangna_config.appid)
 					end
 			end
 			url="http://weixin.linkke.cn/wechat/wc_front/consumption_info?appid=#{sangna_config.appid}&card_ids=#{card_ids.join(',')}"
@@ -41,12 +42,13 @@ class CouponsRecord < ActiveRecord::Base
 		templete.fields.split(',').each_with_index do |a,index|
 			hash[a]=array[index]
 		end
-		if Time.now-sangna_config.updated_at>=7200
+		if Time.now-sangna_config.updated_at>=7000
 			result=JSON.parse(ThirdParty.refresh_gzh_token(Rails.cache.read(:access_token),"wxf6a05c0e64bc48e1",sangna_config.appid,sangna_config.refresh_token))
 			if result['authorizer_refresh_token']
 				sangna_config.refresh_token=result['authorizer_refresh_token']
 				sangna_config.token=result['authorizer_access_token']
 				sangna_config.save
+				$redis.del(sangna_config.appid)
 			end
 		end
 		url="http://weixin.linkke.cn/wechat/wc_front/card_info?appid=#{sangna_config.appid}"
