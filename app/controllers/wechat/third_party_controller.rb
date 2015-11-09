@@ -92,10 +92,16 @@ end
 			if xml.xml.InfoType.content.to_s=='component_verify_ticket'
 			   verify_ticket=xml.xml.ComponentVerifyTicket.content.to_s
 			   Rails.cache.write(:ticket,verify_ticket)
-			   url='https://api.weixin.qq.com/cgi-bin/component/api_component_token'
-			   body='{"component_appid":"'+APPID+'","component_appsecret":"'+APPSECRET+'","component_verify_ticket":"'+verify_ticket+'"}'
-			   access_token=JSON.parse(ThirdParty.sent_to_wechat(url,body))["component_access_token"]
-			   Rails.cache.write(:access_token,access_token)
+				 Rails.cache.write(:access_token_time,(Rails.cache.read(:access_token_time) || 0)+1)
+				 if (access_token=Rails.cache.read(:access_token)).nil? || Rails.cache.read(:access_token_time)==9
+						url='https://api.weixin.qq.com/cgi-bin/component/api_component_token'
+						body='{"component_appid":"'+APPID+'","component_appsecret":"'+APPSECRET+'","component_verify_ticket":"'+verify_ticket+'"}'
+						a=JSON.parse(ThirdParty.sent_to_wechat(url,body))
+						puts a
+						access_token=a["component_access_token"]
+						Rails.cache.write(:access_token,access_token,expires_in: 90.minutes)
+						Rails.cache.write(:access_token_time,0)
+				 end
 			   url='https://api.weixin.qq.com/cgi-bin/component/api_create_preauthcode?component_access_token='+access_token
 			   body='{"component_appid":"'+APPID+'"}'
 			   pre_auth_code=JSON.parse(ThirdParty.sent_to_wechat(url,body))
