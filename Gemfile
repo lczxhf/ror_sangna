@@ -36,6 +36,7 @@ gem 'sinatra',:require=> nil
 gem 'redis'
 gem 'hiredis'
 gem 'exception_notification'
+gem 'newrelic_rpm'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
