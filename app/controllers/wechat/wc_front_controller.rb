@@ -6,6 +6,7 @@ class Wechat::WcFrontController < ApplicationController
 	def choose_technician
 			puts params
 			@inscene=false		
+				puts @wechat_config.to_json
 				if @wechat_config.del==1 || params[:skip]=='h'
 						if @qr_code=@wechat_config.member.per_user_qr_code
 											@inscene=true

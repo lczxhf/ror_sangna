@@ -21,7 +21,7 @@
 		 function get_ab_redbage(num){
 		 	<%if @ab_status%>
 				$.post("get_ab_redbage",{appid:'<%=params[:appid]%>',o_id:<%=params[:o_id]%>},function(obj){
-					
+						if(obj!='0')	
 							window.location.replace('card_info?appid=<%=params[:appid]%>&num='+(parseInt(obj)+num));
 						else{
 							window.location.replace('card_info?appid=<%=params[:appid]%>&num=1');
@@ -187,7 +187,7 @@
 				</div>
 				<div class="Line"></div>
 				<%if is_collect(params[:appid],@order.per_user_masseuse.id)=='kong'%>
-					<button class="type_btn" onclick="collect(this)">收藏技师</button>
+						<button class="type_btn" onclick="collect(this)">收藏技师</button>
 				<%end%>
 			</div>
 			<a class="type_a" href="javascript:history.go(-1);">返回</a>

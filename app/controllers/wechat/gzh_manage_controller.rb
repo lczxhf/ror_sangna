@@ -129,7 +129,8 @@ class Wechat::GzhManageController < ApplicationController
 									cookies.signed["#{params[:appid]}_openid"]=result["openid"]
 							end
 							fetch_redis(result["openid"]) do
-                 			  	wechat_config
+                 			  	wechat_config.instance_eval{|a| a.association_cache.delete_if{|b| b==:member}}
+													wechat_config
               end
 
 					end
@@ -203,13 +204,11 @@ class Wechat::GzhManageController < ApplicationController
 								@error_status=1
 								render template: '/wechat/wc_front/wechat_error'
 						else
-							wechat_config=fetch_redis(cookies.signed["#{params[:appid]}_openid"]) do
-               					WechatConfig.includes(:wechat_user).find_by_openid(cookies.signed["#{per_user.sangna_config.appid}_openid"])          
-           					end
-							log=qrcode.qrcode_logs.last 
-							if log.nil? || log.member
+							log=qrcode.qrcode_logs.where(status:2).first
+							if log.nil? 
 								log=qrcode.qrcode_logs.build
 								log.created_at=Time.new('2000-01-01')
+								log.status=2
 								log.per_user=per_user
 							end
 							log.member=wechat_config.member
