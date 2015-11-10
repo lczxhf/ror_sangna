@@ -24,7 +24,7 @@
 		wx.onMenuShareTimeline({
 		      title: '<%=@sangna_config.per_user.name%>!', 
 		        link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>',
-		        imgUrl: '<%=@sangna_config.per_user.get_forward_img%>',
+		        imgUrl: '<%=@sangna_config.per_user.get_forward_img("forward")%>',
 		        success: function(res){
 							
 		        },
@@ -37,7 +37,7 @@
 				    title: '<%=@sangna_config.per_user.name%>!', 
 					  desc: '', 
 					  link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>', 
-						imgUrl: '<%=@sangna_config.per_user.get_forward_img%>',
+						imgUrl: '<%=@sangna_config.per_user.get_forward_img("forward")%>',
 						success: function () { 
 						},
 						cancel: function () { 
@@ -55,7 +55,7 @@
 						<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
 						<div class="mui-slider-item mui-slider-item-duplicate">
 							<a href="#">
-								<img src="<%=@sangna_config.per_user.get_forward_img%>" width="100%" height="200px">
+								<img src="<%=@sangna_config.per_user.get_forward_img('info')%>" width="100%" height="200px">
 							</a>
 						</div>
 						

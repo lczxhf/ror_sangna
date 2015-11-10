@@ -68,9 +68,9 @@ class PerUser < ActiveRecord::Base
 		Sangna.sent_template_message(sangna_config.token,wechat_config.openid,message.templete_id,url,hash)
 	end
 
-	def get_forward_img
+	def get_forward_img(type)
 		if per_user_imgs.empty?
-			'http://weixin.linkke.cn/images/sangna_img.png'
+			"http://weixin.linkke.cn/images/#{type}_hs.png"
 		else
 			"http://linkke.cn#{per_user_imgs.first.url.thumb.url}"
 		end

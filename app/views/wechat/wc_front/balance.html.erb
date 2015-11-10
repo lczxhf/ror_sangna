@@ -31,7 +31,7 @@
 		wx.onMenuShareTimeline({
 		      title: '<%=@sangna_config.per_user.name%>!', 
 		        link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>',
-		        imgUrl: '<%=@sangna_config.per_user.get_forward_img%>',
+		        imgUrl: '<%=@sangna_config.per_user.get_forward_img("forward")%>',
 		        success: function(res){
 							
 		        },
@@ -44,7 +44,7 @@
 				    title: '<%=@sangna_config.per_user.name%>!', 
 					  desc: '', 
 					  link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>', 
-						imgUrl: '<%=@sangna_config.per_user.get_forward_img%>',
+						imgUrl: '<%=@sangna_config.per_user.get_forward_img("forward")%>',
 						success: function () { 
 						},
 						cancel: function () { 
