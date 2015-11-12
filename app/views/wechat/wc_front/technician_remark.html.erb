@@ -22,13 +22,13 @@
 		 	<%if @ab_status%>
 				$.post("get_ab_redbage",{appid:'<%=params[:appid]%>',o_id:<%=params[:o_id]%>},function(obj){
 						if(obj!='0')	
-							window.location.replace('card_info?appid=<%=params[:appid]%>&num='+(parseInt(obj)+num));
+							window.location.replace('card_info?appid=<%=params[:appid]%>&num='+(parseInt(obj)+num)+"&prompt=true");
 						else{
-							window.location.replace('card_info?appid=<%=params[:appid]%>&num=1');
+							window.location.replace('card_info?appid=<%=params[:appid]%>&num='+num);
 						}
 				})
 			<%else%>
-			   window.location.replace('card_info?appid=<%=params[:appid]%>');
+			   window.location.replace('card_info?appid=<%=params[:appid]%>&num='+num);
 			<%end%>
 		 }
 		 <%if @open_redbage%>

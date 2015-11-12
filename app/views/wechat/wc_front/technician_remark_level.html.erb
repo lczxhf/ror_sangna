@@ -24,11 +24,15 @@
 				});
 				function get_ab_redbage(num){
 					<%if @ab_status%>
-					$.post("get_ab_redbage",{appid:'<%=params[:appid]%>',o_id:<%=params[:o_id]%>},function(obj){
-							window.location.replace('card_info?appid=<%=params[:appid]%>&num='+(num+parseInt(obj)));
-					})
+						$.post("get_ab_redbage",{appid:'<%=params[:appid]%>',o_id:<%=params[:o_id]%>},function(obj){
+								if(obj!='0')	
+									window.location.replace('card_info?appid=<%=params[:appid]%>&num='+(parseInt(obj)+num)+"&prompt=true");
+								else{
+									window.location.replace('card_info?appid=<%=params[:appid]%>&num='+num);
+								}
+						})
 					<%else%>
-							window.location.replace('card_info?appid=<%=params[:appid]%>&num=1');
+			   			window.location.replace('card_info?appid=<%=params[:appid]%>&num='+num);
 					<%end%>
 				}
 			<%if @open_redbage%>
@@ -219,7 +223,7 @@
     			data=data.substring(1)+"&o_id="+<%=params[:o_id]%>+"&appid=<%=params[:appid]%>";
     			$.post("/wechat/wc_front/remark_level",data,function(obj){
     				if(obj!="err"){
-    					window.location.href="technician_remark?appid=<%=params[:appid]%>&o_id=<%=params[:o_id]%>&l=<%=params[:l]%>&same=<%=params[:same]%>";
+    					window.location.replace("technician_remark?appid=<%=params[:appid]%>&o_id=<%=params[:o_id]%>&l=<%=params[:l]%>&same=<%=params[:same]%>");
     				}
     				else{
     					mui.toast('您已评价');

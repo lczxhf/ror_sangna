@@ -186,9 +186,9 @@
 						$('.btn_Scene').removeClass('btn_Selected')
 					}
 				})
-				<%if params[:num]%>
+				<%if params[:num].to_i>0%>
 				//代金券弹窗提示
-				  <%if params[:num].to_i>1%>
+				  <%if params[:prompt]=='true'%>
 					$('#Scene_Vouchers').show();
 					$('#Comment_Vouchers').hide();
 					$('.btn_Scene').addClass('btn_Selected');
