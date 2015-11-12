@@ -164,9 +164,7 @@
 			</div>
 		</div>
 		<script type="text/javascript">
-			function HidePopupVoucher(){
-				$('.Popup_Voucher').hide();
-			}
+			
 			$(function(){
 				$('.Voucher_infor_left_Comment').css('width',120*194/206);
 				$('.Voucher_infor_left_Scene').css('width',120*194/206);
@@ -198,13 +196,16 @@
 						$('.btn_Comment').removeClass('btn_Selected')
 					}
 				  <%end%>
+				  $(".mui-icon-closeempty").click(function(){
+				  		$('.Popup_Voucher').hide();
+				  })
 				$('.box_img>img').css('width', window.innerWidth*0.9);
 				$('.Voucher_content>.mui-icon-closeempty').click(function(){
 					$('.Popup_Voucher').hide();
 //					setTimeout("HidePopupVoucher()",3000);
 				})
 				$('.Voucher_content').css('margin-top',(window.innerHeight-$('.box_img>img').height())/4);
-				 setTimeout("HidePopupVoucher()",3000);
+				 
 				 $('.Popup_Voucher').css('display','block');
 				 <%end%>
 			})
