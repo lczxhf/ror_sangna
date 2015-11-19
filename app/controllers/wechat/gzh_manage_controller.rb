@@ -102,6 +102,7 @@ class Wechat::GzhManageController < ApplicationController
   end
 
 	  def oauth
+					puts params
           url="https://api.weixin.qq.com/sns/oauth2/component/access_token?appid=#{params[:appid]}&code=#{params[:code]}&grant_type=authorization_code&component_appid=wxf6a05c0e64bc48e1&component_access_token="+Rails.cache.read(:access_token) 
           result=JSON.parse(ThirdParty.get_to_wechat(url))
 					puts result
@@ -179,7 +180,7 @@ class Wechat::GzhManageController < ApplicationController
 		def change_qrcode
 			puts params
 			per_user=PerUser.includes(:sangna_config).find(params[:user_id])
-			if !cookies["#{per_user.sangna_config.appid}_openid"]	|| WechatConfig.find_by_openid(cookies.signed["#{per_user.sangna_config.appid}_openid"]).nil?
+			if !cookies["#{per_user.sangna_config.appid}_openid"]	
 				cookies.signed[:next_url]=request.url
 				auth_url="https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{per_user.sangna_config.appid}&redirect_uri=http://weixin.linkke.cn/wechat/gzh_manage/oauth&response_type=code&scope=snsapi_base&state=123&component_appid=wxf6a05c0e64bc48e1#wechat_redirect"                    
 		   		redirect_to auth_url
@@ -219,7 +220,9 @@ class Wechat::GzhManageController < ApplicationController
 							log.save
 							wechat_config.member.hand_code=qrcode.id
 							wechat_config.member.save
-							$redis.del(wechat_config.openid)
+              wechat_config.instance_eval{|a| a.association_cache.delete_if{|b| b==:member}}
+							wechat_config.wechat_user
+							$redis.set(wechat_config.openid,Marshal.dump(wechat_config))
 							coupons_records.each do |a|
 								a.status=2
 								a.save

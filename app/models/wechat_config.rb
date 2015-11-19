@@ -8,6 +8,9 @@ class WechatConfig < ActiveRecord::Base
 
 	private
 		def update_redis
+					self.association_cache.delete_if{|b| b==:member}
+					puts 'correlation'
+					puts self.association_cache.collect{|a| a.first}
 					result=Marshal.dump(self)
 					$redis.set(openid,result,ex:6000)
 		end

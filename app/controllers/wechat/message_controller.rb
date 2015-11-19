@@ -32,7 +32,6 @@ class Wechat::MessageController < ApplicationController
 									member=Member.new(user_id:gzh.per_user.id,username:wechat_config.openid)
 									wechat_config.member=member
 							end
-							wechat_config.save
 							if qrcode=Rails.cache.read("#{@weixin_message.FromUserName}_entrance")
 								puts qrcode
 								entry(wechat_config,qrcode)
@@ -40,6 +39,7 @@ class Wechat::MessageController < ApplicationController
 								Rails.cache.delete("#{qrcode}_entrance")
 							end
 							wechat_config.member.save
+							wechat_config.save
 			    	Sangna.get_user_info(wechat_config.id,APPID)
 						puts 'prepare sent subscribe message'
 					render xml: reply_news_message([generate_article("海量技师任你挑","技师图片,技师状态,技师评价","http://weixin.linkke.cn/images/subscribe.png","http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=#{gzh.appid}")])	

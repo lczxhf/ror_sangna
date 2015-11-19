@@ -72,8 +72,12 @@ module Wechat::WcFrontHelper
 	def get_language_name(number)
 			language_arr=[0,"粤语","普通话","英语"]
 			language=[]
-			number.split(',').each do |a|
-					language<<language_arr[a.to_i]
+			if number
+				number.split(',').each do |a|
+						language<<language_arr[a.to_i]
+				end
+			else
+					language<<'无'
 			end
 		language.join(',')
 	end

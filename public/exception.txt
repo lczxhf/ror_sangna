@@ -2309,3 +2309,201 @@ user_id=51&id_code=1&hand_code=6816&sex=2
 undefined method `appid' for nil:NilClass
 /home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:182:in `change_qrcode'
                   
+                        --------------2015-11-13 01:55:34-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-11-13 14:36:22-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-11-13 14:36:22-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-11-13 23:16:37-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-11-15 02:12:27-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-11-15 02:59:45-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-11-16 00:53:32-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-11-16 00:53:35-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-11-16 10:20:52-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-11-16 12:54:00-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-11-16 16:48:41-------------
+                       /wechat/gzh_manage/change_qrcode?user_id=51&id_code=1&hand_code=6806&sex=2
+user_id=51&id_code=1&hand_code=6806&sex=2
+undefined method `appid' for nil:NilClass
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:182:in `change_qrcode'
+                  
+                        --------------2015-11-16 16:49:06-------------
+                       /wechat/gzh_manage/change_qrcode?user_id=51&id_code=1&hand_code=8031&sex=1
+user_id=51&id_code=1&hand_code=8031&sex=1
+undefined method `appid' for nil:NilClass
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:182:in `change_qrcode'
+                  
+                        --------------2015-11-16 16:49:08-------------
+                       /wechat/gzh_manage/change_qrcode?user_id=51&id_code=1&hand_code=8053&sex=1
+user_id=51&id_code=1&hand_code=8053&sex=1
+undefined method `appid' for nil:NilClass
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:182:in `change_qrcode'
+                  
+                        --------------2015-11-16 16:49:25-------------
+                       /wechat/gzh_manage/change_qrcode?user_id=51&id_code=1&hand_code=6815&sex=2
+user_id=51&id_code=1&hand_code=6815&sex=2
+undefined method `appid' for nil:NilClass
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:182:in `change_qrcode'
+                  
+                        --------------2015-11-16 16:49:55-------------
+                       /wechat/gzh_manage/change_qrcode?user_id=51&id_code=1&hand_code=8053&sex=1
+user_id=51&id_code=1&hand_code=8053&sex=1
+undefined method `appid' for nil:NilClass
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:182:in `change_qrcode'
+                  
+                        --------------2015-11-17 00:27:48-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-11-17 04:03:51-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-11-17 12:08:13-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-11-17 15:38:15-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-11-17 23:58:11-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-11-18 15:15:49-------------
+                       /wechat/gzh_manage/change_qrcode?user_id=51&id_code=1&hand_code=8006&sex=1
+user_id=51&id_code=1&hand_code=8006&sex=1
+undefined method `appid' for nil:NilClass
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:182:in `change_qrcode'
+                  
+                        --------------2015-11-18 16:15:40-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-11-18 16:40:08-------------
+                       /wechat/gzh_manage/change_qrcode?user_id=55&id_code=1&hand_code=0001&sex=1
+user_id=55&id_code=1&hand_code=0001&sex=1
+undefined method `appid' for nil:NilClass
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:182:in `change_qrcode'
+                  
+                        --------------2015-11-18 16:40:34-------------
+                       /wechat/gzh_manage/change_qrcode?user_id=55&id_code=1&hand_code=0001&sex=1
+user_id=55&id_code=1&hand_code=0001&sex=1
+undefined method `appid' for nil:NilClass
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:182:in `change_qrcode'
+                  
+                        --------------2015-11-18 23:04:24-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-11-19 01:30:10-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-11-19 11:14:21-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-11-19 11:58:36-------------
+                       /wechat/gzh_manage/change_qrcode?user_id=57&id_code=1&hand_code=1001&sex=1
+user_id=57&id_code=1&hand_code=1001&sex=1
+undefined method `appid' for nil:NilClass
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:183:in `change_qrcode'
+                  
+                        --------------2015-11-19 11:58:40-------------
+                       /wechat/gzh_manage/change_qrcode?user_id=57&id_code=1&hand_code=1001&sex=1
+user_id=57&id_code=1&hand_code=1001&sex=1
+undefined method `appid' for nil:NilClass
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:183:in `change_qrcode'
+                  
+                        --------------2015-11-19 15:40:57-------------
+                       /wechat/gzh_manage/change_qrcode?user_id=57&id_code=1&hand_code=1007&sex=1
+user_id=57&id_code=1&hand_code=1007&sex=1
+undefined method `appid' for nil:NilClass
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:183:in `change_qrcode'
+                  
+                        --------------2015-11-19 15:47:20-------------
+                       /wechat/gzh_manage/change_qrcode?user_id=54&id_code=1&hand_code=0001&sex=3
+user_id=54&id_code=1&hand_code=0001&sex=3
+undefined method `appid' for nil:NilClass
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:183:in `change_qrcode'
+                  
+                        --------------2015-11-19 15:47:20-------------
+                       /wechat/gzh_manage/change_qrcode?user_id=54&id_code=1&hand_code=0001&sex=3
+user_id=54&id_code=1&hand_code=0001&sex=3
+undefined method `appid' for nil:NilClass
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:183:in `change_qrcode'
+                  
+                        --------------2015-11-19 15:51:11-------------
+                       /wechat/gzh_manage/change_qrcode?user_id=55&id_code=1&hand_code=0001&sex=1
+user_id=55&id_code=1&hand_code=0001&sex=1
+undefined method `appid' for nil:NilClass
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:183:in `change_qrcode'
+                  
