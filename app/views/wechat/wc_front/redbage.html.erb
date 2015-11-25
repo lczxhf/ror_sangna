@@ -128,7 +128,7 @@
 					$.post('get_redbage',{o_id:'<%=params[:o_id]%>',same:<%=params[:same]%>},function(obj){
 							if(obj=='ok'){
 								mui.toast('领取成功！');	
-								window.location.replace("my_account?appid=<%=params[:appid]%>&new=true")
+								window.location.replace("my_account?appid=<%=params[:appid]%>")
 							}
 							else{
 								mui.toast('已经领取过！');

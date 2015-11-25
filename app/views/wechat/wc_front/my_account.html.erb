@@ -18,6 +18,7 @@
 										window.location.href='balance?appid=<%=params[:appid]%>';
 								}
 								function tocardinfo(){
+										$(".tip_new").html('');
 										window.location.href='card_info?appid=<%=params[:appid]%>';
 								}
 			</script>
@@ -100,7 +101,7 @@
 					<span class="size loca_1">卡卷</span>
 					<div class="loca_2 size ">
 						<!--<img src="../images/5-131223215K9-50.gif" alt="" />-->
-							<%if params[:new]=='true'%>
+							<%if $redis.get("new_card:#{@wechat_config.member_id}")%>
 							<span class="tip_new">New!</span>
 							<%end%>
 								<span class=""><%=@sangna_config.per_user.coupons_records.where(member_id:@wechat_config.member_id).where("status not in (3,4)").count%></span>

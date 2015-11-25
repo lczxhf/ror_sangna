@@ -89,11 +89,13 @@
 				</div>
 			</div>
 			<div class="box_infor fs14">
+			<%if @sangna_info.per_capita_spending.present?%>
 				<div class="huisuo_infor">
 					<span class="left">平均消费</span>
 					<span class="right fs12">￥<%=@sangna_info.per_capita_spending%>元</span>
 				</div>
-				<%if @sangna_info.sauna%>
+			<%end%>
+				<%if @sangna_info.sauna.present?%>
 				<div class="huisuo_infor">
 					<span class="left">净桑</span>
 					<span class="right fs12">￥<%=@sangna_info.sauna%>元</span>

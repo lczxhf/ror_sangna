@@ -470,7 +470,7 @@ end
 
 	def card_info
 				
-				
+			  $redis.del("new_card:#{@wechat_config.member_id}")	
 				if @wechat_config.member.per_user_qr_code
 						@inscene=true
 				end
@@ -577,7 +577,7 @@ end
 					# 		SangnaConfig.includes(per_user:[:per_user_imgs]).find_by_appid(params[:appid])
 					# end
 				  @sangna_config=fetch_redis(params[:appid],6000) do
-                     SangnaConfig.includes(per_user:[:per_user_imgs]).find_by_appid(params[:appid])
+                     SangnaConfig.find_by_appid(params[:appid])
                   end
 			end
 	end

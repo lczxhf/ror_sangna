@@ -51,7 +51,7 @@ class OrderByMasseuse<ActiveRecord::Base
 	def get_ab_rule
 		ab_rule=nil
 		arr=[4]
-		arr << self.member.per_user_qr_code.sex if self.member.per_user_qr_code.sex!=3
+		arr << self.member.per_user_qr_code.sex if !self.member.try(:per_user_qr_code).try(:sex).in?([3,nil])
 		arr << 5 if QrcodeLog.where(member_id:self.member_id).count==1
 		if self.member.per_user_qr_code && coupons_class=CouponsClass.where(id:2,del:1,status:1).first
 			if user_coupons_class=coupons_class.user_coupons_classes.where(user_id:self.user_id,status:1).first

@@ -80,7 +80,7 @@
 					<a class="box_list size" href="#">
 						<span class="loca_1"><%=project.name%></span>
 						<span class="loca_2">￥<%=project.price.to_i%>/<%=project.duration==0 ? '次' : "#{project.duration>480 ? project.get_format_time(project.duration) : "#{project.duration}分钟"}"%></span>
-						<span class="loca_3"><%=project.add_duration==0 || project.add_duration.nil?  ? '/' : "￥#{project.add_price.to_i}/#{project.add_duration}分钟"%></span>
+						<span class="loca_3"><%=project.add_price.nil? || project.add_duration.nil?  ? '/' : "￥#{project.add_price.to_i}/#{project.add_duration==0 ? "次" : project.add_duration>480 ? project.get_format_time(project.add_duration) : "#{project.add_duration}分钟"}"%></span>
 					</a>
 					<ul class="mui-table-view mui-table-view-chevron">
 						<div class="box2">

@@ -9,7 +9,7 @@ class Wechat::MessageController < ApplicationController
   APPSECRET="0c79e1fa963cd80cc0be99b20a18faeb"
   def receive
 		gzh=fetch_redis(params[:appid],6000) do
-            SangnaConfig.includes(per_user:[:per_user_imgs]).find_by_appid(params[:appid])
+            SangnaConfig.find_by_appid(params[:appid])
         end
 
 		str=request.body.read
@@ -49,6 +49,10 @@ class Wechat::MessageController < ApplicationController
 							wechat_config.wechat_user.del=2
 							wechat_config.save
 							wechat_config.wechat_user.save
+							if wechat_config.member.per_user.id.in?([31,39])
+									wechat_config.member.destroy
+									$redis.del(wechat_config.openid)
+							end
 							render plain: ''
 					elsif @weixin_message.Event=='SCAN'
 							render plain: "success"

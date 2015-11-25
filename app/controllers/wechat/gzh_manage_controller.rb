@@ -111,7 +111,7 @@ class Wechat::GzhManageController < ApplicationController
 
 						else
 							 sangna_config=fetch_redis(params[:appid],6000) do
-                   				SangnaConfig.includes(per_user:[:per_user_imgs]).find_by_appid(params[:appid])
+                   				SangnaConfig.find_by_appid(params[:appid])
                end
 
 							wechat_config=WechatConfig.new
@@ -130,7 +130,7 @@ class Wechat::GzhManageController < ApplicationController
 									cookies.signed["#{params[:appid]}_openid"]=result["openid"]
 							end
 							fetch_redis(result["openid"]) do
-                 			  	wechat_config.instance_eval{|a| a.association_cache.delete_if{|b| b==:member}}
+                 			  	wechat_config.instance_eval{|a| a.association_cache.delete_if{|b| b==:member || b==:wechat_user}}
 													wechat_config
               end
 

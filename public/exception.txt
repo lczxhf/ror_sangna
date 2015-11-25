@@ -2507,3 +2507,231 @@ user_id=55&id_code=1&hand_code=0001&sex=1
 undefined method `appid' for nil:NilClass
 /home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:183:in `change_qrcode'
                   
+                        --------------2015-11-20 00:49:04-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-11-20 01:30:05-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-11-20 09:59:33-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-11-20 15:17:55-------------
+                       /wechat/gzh_manage/sent_consumption_message
+
+undefined method `wechat_config' for nil:NilClass
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:303:in `sent_consumption_message'
+                  
+                        --------------2015-11-20 15:45:00-------------
+                       /wechat/wc_front/redbage?appid=wx1afe4579d119834a&o_id=756&id=2350&same=20151012143830&from=groupmessage&isappinstalled=0
+appid=wx1afe4579d119834a&o_id=756&id=2350&same=20151012143830&from=groupmessage&isappinstalled=0
+undefined method `wechat_user' for nil:NilClass
+
+                  
+                        --------------2015-11-20 15:45:03-------------
+                       /wechat/wc_front/redbage?appid=wx1afe4579d119834a&o_id=756&id=2350&same=20151012143830&from=groupmessage&isappinstalled=0
+appid=wx1afe4579d119834a&o_id=756&id=2350&same=20151012143830&from=groupmessage&isappinstalled=0
+undefined method `wechat_user' for nil:NilClass
+
+                  
+                        --------------2015-11-20 15:45:18-------------
+                       /wechat/wc_front/redbage?appid=wx1afe4579d119834a&o_id=756&id=2350&same=20151012143830&from=groupmessage&isappinstalled=0
+appid=wx1afe4579d119834a&o_id=756&id=2350&same=20151012143830&from=groupmessage&isappinstalled=0
+undefined method `wechat_user' for nil:NilClass
+
+                  
+                        --------------2015-11-20 19:18:27-------------
+                       /wechat/gzh_manage/change_qrcode?user_id=39&id_code=1&hand_code=0001&sex=2
+user_id=39&id_code=1&hand_code=0001&sex=2
+undefined method `member_id' for nil:NilClass
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:195:in `change_qrcode'
+                  
+                        --------------2015-11-20 19:19:26-------------
+                       /wechat/gzh_manage/change_qrcode?user_id=39&id_code=1&hand_code=0001&sex=2
+user_id=39&id_code=1&hand_code=0001&sex=2
+undefined method `member_id' for nil:NilClass
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:195:in `change_qrcode'
+                  
+                        --------------2015-11-20 19:19:45-------------
+                       /wechat/gzh_manage/change_qrcode?user_id=39&id_code=1&hand_code=0001&sex=2
+user_id=39&id_code=1&hand_code=0001&sex=2
+undefined method `member_id' for nil:NilClass
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:195:in `change_qrcode'
+                  
+                        --------------2015-11-20 19:20:24-------------
+                       /wechat/message/wx697eed6c8f1d5c78?signature=c6e40e9b9a02d2ba1de5b81d8a0928307641dc08&timestamp=1448018389&nonce=1507696724&encrypt_type=aes&msg_signature=c5dce43b130a71d9ce5aa4c8ecdbf025afdcb42a
+signature=c6e40e9b9a02d2ba1de5b81d8a0928307641dc08&timestamp=1448018389&nonce=1507696724&encrypt_type=aes&msg_signature=c5dce43b130a71d9ce5aa4c8ecdbf025afdcb42a
+Connection reset by peer - SSL_connect
+/home/rails-server/.rvm/rubies/ruby-2.2.1/lib/ruby/2.2.0/net/http.rb:923:in `connect'
+                  
+                        --------------2015-11-20 19:20:26-------------
+                       /wechat/gzh_manage/change_qrcode?user_id=39&id_code=1&hand_code=0001&sex=2
+user_id=39&id_code=1&hand_code=0001&sex=2
+undefined method `member_id' for nil:NilClass
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:195:in `change_qrcode'
+                  
+                        --------------2015-11-20 21:44:00-------------
+                       /wechat/wc_front/redbage?appid=wx1afe4579d119834a&o_id=800&id=2510&same=20151012143830&from=groupmessage&isappinstalled=0
+appid=wx1afe4579d119834a&o_id=800&id=2510&same=20151012143830&from=groupmessage&isappinstalled=0
+undefined method `wechat_user' for nil:NilClass
+
+                  
+                        --------------2015-11-20 21:44:04-------------
+                       /wechat/wc_front/redbage?appid=wx1afe4579d119834a&o_id=802&id=2513&same=20151012143830&from=groupmessage&isappinstalled=0
+appid=wx1afe4579d119834a&o_id=802&id=2513&same=20151012143830&from=groupmessage&isappinstalled=0
+undefined method `wechat_user' for nil:NilClass
+
+                  
+                        --------------2015-11-21 02:51:49-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-11-21 10:23:29-------------
+                       /wechat/wc_front/redbage?appid=wx1afe4579d119834a&o_id=799&id=2510&same=20151012143830&from=groupmessage&isappinstalled=0
+appid=wx1afe4579d119834a&o_id=799&id=2510&same=20151012143830&from=groupmessage&isappinstalled=0
+undefined method `wechat_user' for nil:NilClass
+
+                  
+                        --------------2015-11-21 10:23:36-------------
+                       /wechat/wc_front/redbage?appid=wx1afe4579d119834a&o_id=800&id=2510&same=20151012143830&from=groupmessage&isappinstalled=0
+appid=wx1afe4579d119834a&o_id=800&id=2510&same=20151012143830&from=groupmessage&isappinstalled=0
+undefined method `wechat_user' for nil:NilClass
+
+                  
+                        --------------2015-11-21 10:23:47-------------
+                       /wechat/wc_front/redbage?appid=wx1afe4579d119834a&o_id=802&id=2513&same=20151012143830&from=groupmessage&isappinstalled=0
+appid=wx1afe4579d119834a&o_id=802&id=2513&same=20151012143830&from=groupmessage&isappinstalled=0
+undefined method `wechat_user' for nil:NilClass
+
+                  
+                        --------------2015-11-21 10:24:09-------------
+                       /wechat/wc_front/redbage?appid=wx1afe4579d119834a&o_id=793&id=2420&same=20151012143830&from=groupmessage&isappinstalled=0
+appid=wx1afe4579d119834a&o_id=793&id=2420&same=20151012143830&from=groupmessage&isappinstalled=0
+undefined method `wechat_user' for nil:NilClass
+
+                  
+                        --------------2015-11-21 11:07:14-------------
+                       /wechat/wc_front/get_ab_redbage
+
+undefined method `sex' for nil:NilClass
+/home/rails-server/Projects/ror_sangna/app/models/order_by_masseuse.rb:54:in `get_ab_rule'
+                  
+                        --------------2015-11-21 20:04:13-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-11-21 23:50:16-------------
+                       /wechat/wc_front/get_ab_redbage
+
+undefined method `sex' for nil:NilClass
+/home/rails-server/Projects/ror_sangna/app/models/order_by_masseuse.rb:54:in `get_ab_rule'
+                  
+                        --------------2015-11-22 00:59:06-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-11-22 03:28:32-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-11-22 14:22:53-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-11-23 03:01:15-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-11-23 11:59:17-------------
+                       /wechat/gzh_manage/change_qrcode?user_id=56&id_code=1&hand_code=1000&sex=1
+user_id=56&id_code=1&hand_code=1000&sex=1
+undefined method `appid' for nil:NilClass
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:183:in `change_qrcode'
+                  
+                        --------------2015-11-23 11:59:18-------------
+                       /wechat/gzh_manage/change_qrcode?user_id=56&id_code=1&hand_code=1000&sex=1
+user_id=56&id_code=1&hand_code=1000&sex=1
+undefined method `appid' for nil:NilClass
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:183:in `change_qrcode'
+                  
+                        --------------2015-11-23 11:59:24-------------
+                       /wechat/gzh_manage/change_qrcode?user_id=56&id_code=1&hand_code=1000&sex=1
+user_id=56&id_code=1&hand_code=1000&sex=1
+undefined method `appid' for nil:NilClass
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:183:in `change_qrcode'
+                  
+                        --------------2015-11-23 11:59:24-------------
+                       /wechat/gzh_manage/change_qrcode?user_id=56&id_code=1&hand_code=1000&sex=1
+user_id=56&id_code=1&hand_code=1000&sex=1
+undefined method `appid' for nil:NilClass
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:183:in `change_qrcode'
+                  
+                        --------------2015-11-23 15:25:26-------------
+                       /wechat/gzh_manage/change_qrcode?user_id=51&id_code=1&hand_code=6813&sex=2
+user_id=51&id_code=1&hand_code=6813&sex=2
+undefined method `appid' for nil:NilClass
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:183:in `change_qrcode'
+                  
+                        --------------2015-11-23 17:02:55-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-11-24 14:39:32-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-11-24 18:07:49-------------
+                       /wechat/wc_front/redbage?appid=wx1afe4579d119834a&o_id=753&id=2491&same=20151012143830&from=singlemessage&isappinstalled=0
+appid=wx1afe4579d119834a&o_id=753&id=2491&same=20151012143830&from=singlemessage&isappinstalled=0
+undefined method `wechat_user' for nil:NilClass
+
+                  
+                        --------------2015-11-24 18:07:56-------------
+                       /wechat/wc_front/redbage?appid=wx1afe4579d119834a&o_id=753&id=2491&same=20151012143830&from=singlemessage&isappinstalled=0
+appid=wx1afe4579d119834a&o_id=753&id=2491&same=20151012143830&from=singlemessage&isappinstalled=0
+undefined method `wechat_user' for nil:NilClass
+
+                  
+                        --------------2015-11-24 18:07:57-------------
+                       /wechat/wc_front/redbage?appid=wx1afe4579d119834a&o_id=753&id=2491&same=20151012143830&from=singlemessage&isappinstalled=0
+appid=wx1afe4579d119834a&o_id=753&id=2491&same=20151012143830&from=singlemessage&isappinstalled=0
+undefined method `wechat_user' for nil:NilClass
+
+                  
+                        --------------2015-11-25 00:40:56-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-11-25 01:20:31-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
