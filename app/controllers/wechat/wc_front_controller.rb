@@ -233,7 +233,7 @@ class Wechat::WcFrontController < ApplicationController
 
 	def project_info
 			@projects=PerUserProject.where(user_id:@sangna_config.per_user.id,p_type:2).open
-			Rails.cache.delete("#{params[:appid]}_openid")
+			
 	end
 
 	def tip

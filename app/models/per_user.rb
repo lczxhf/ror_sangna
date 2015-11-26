@@ -44,9 +44,10 @@ class PerUser < ActiveRecord::Base
 	end
 
 	#发送wifi推送的模板消息
-	def sent_wifi_message(wechat_config)
+	def self.sent_wifi_message(user_id,openid)
+		per_user=PerUser.find(user_id)
 		templete=TempleteNumber.find_by_topic('入场成功通知')	
-		message=templete.templete_messages.where(sangna_config_id:self.sangna_config.id).first
+		message=templete.templete_messages.where(sangna_config_id:per_user.sangna_config.id).first
 		hash={}
 		hash["first"]="恭喜您已经成功入场!"
 		hash["remark"]="点击即可查看更多信息!"
@@ -54,7 +55,7 @@ class PerUser < ActiveRecord::Base
 		templete.fields.split(',').each_with_index do |a,index|
 			 hash[a]=array[index]
 		end
-		sangna_config=self.sangna_config
+		sangna_config=per_user.sangna_config
 		if Time.now-sangna_config.updated_at>=7000
 					result=JSON.parse(ThirdParty.refresh_gzh_token(Rails.cache.read(:access_token),"wxf6a05c0e64bc48e1",sangna_config.appid,sangna_config.refresh_token))
 					if result['authorizer_refresh_token']
@@ -65,7 +66,7 @@ class PerUser < ActiveRecord::Base
 					end
 		end
 		url="http://weixin.linkke.cn/wechat/wc_front/wifi_page?appid=#{sangna_config.appid}"
-		Sangna.sent_template_message(sangna_config.token,wechat_config.openid,message.templete_id,url,hash)
+		Sangna.sent_template_message(sangna_config.token,openid,message.templete_id,url,hash)
 	end
 
 	def get_forward_img(type)

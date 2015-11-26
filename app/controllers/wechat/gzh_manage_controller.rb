@@ -223,11 +223,8 @@ class Wechat::GzhManageController < ApplicationController
               wechat_config.instance_eval{|a| a.association_cache.delete_if{|b| b==:member}}
 							wechat_config.wechat_user
 							$redis.set(wechat_config.openid,Marshal.dump(wechat_config))
-							coupons_records.each do |a|
-								a.status=2
-								a.save
-							end
-							per_user.sent_wifi_message(wechat_config)
+							sql=ActiveRecord::Base.connection.execute("update coupons_records set status=2 where id in (#{coupons_records.collect{|a| a.id}.join(',')})")
+							SentWifiMessage.perform_async(params[:user_id],wechat_config.openid)
 							puts 'jinchang'
 							redirect_to 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid='+per_user.sangna_config.appid	
 						end
@@ -312,18 +309,26 @@ end
 			if UserCouponsClass.where(user_id:params[:user_id],coupons_classes_id:3,status:1).first
 				if rule=UserDepartureCouponsRule.where(user_id:params[:user_id],del:1,status:1).first
 					member=Member.find(params[:member_id])
-					templete_number=TempleteNumber.find_by_topic('获得优惠券通知')
-					hash={}
-					url="http://weixin.linkke.cn/wechat/wc_front/card_info?appid=#{per_user.sangna_config.appid}"
-					hash['first']="您好，恭喜您获得#{rule.face_value}元代金券"
-					hash['remark']='点击查看卡券详情'
-					array=['代金券','所有项目',(Time.now+rule.effective_time.days).strftime("%Y-%m-%d")]
-					templete_message=templete_number.templete_messages.where(sangna_config_id:per_user.sangna_config.id).first
-					templete_number.fields.split(',').each_with_index do |a,index|
-							hash[a]=array[index]	
+					coupons_record=CouponsRecord.new(user_id:params[:user_id],member_id:params[:member_id],value:rule.face_value,departure_rule_id:rule.id,accurate_presence_coupons_record_id:3)
+					o = [('a'..'z'),('A'..'Z')].map{|i| i.to_a}.flatten
+					string = (0...4).map{ o[rand(o.length)] }.join
+					coupons_record=Time.now.to_i.to_s+string
+					if coupons_record.save
+						templete_number=TempleteNumber.find_by_topic('获得优惠券通知')
+						hash={}
+						url="http://weixin.linkke.cn/wechat/wc_front/card_info?appid=#{per_user.sangna_config.appid}"
+						hash['first']="您好，恭喜您获得#{rule.face_value}元代金券"
+						hash['remark']='点击查看卡券详情'
+						array=['代金券','所有项目',(Time.now+rule.effective_time.days).strftime("%Y-%m-%d")]
+						templete_message=templete_number.templete_messages.where(sangna_config_id:per_user.sangna_config.id).first
+						templete_number.fields.split(',').each_with_index do |a,index|
+								hash[a]=array[index]	
+						end
+						Sangna.sent_template_message(per_user.sangna_config.token,member.wechat_config.openid,templete_message.templete_id,url,hash)
+						render plain: 'ok'
+					else
+						render plain: 'failure'
 					end
-					Sangna.sent_template_message(per_user.sangna_config.token,member.wechat_config.openid,templete_message.templete_id,url,hash)
-					render plain: 'ok'
 				else
 					render plain: 'not rule'
 				end
