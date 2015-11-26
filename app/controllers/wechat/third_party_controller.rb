@@ -149,6 +149,7 @@ end
 	auth_code.save
 	change_qrcode(auth_code)
 	#get_previous_data(auth_code)
+	GetUserInfo.perform_async(auth_code.token,auth_code.id)
 	Group.find_or_create_by(sangna_config_id:auth_code.id,wcgroup_id:'0',name:'默认组')
 	redirect_to :action=>'gzh_info',id:auth_code.id
  end
@@ -248,9 +249,9 @@ end
 					info_result=JSON.parse(ThirdParty.get_to_wechat(url))
 					if info_result['count'].to_i>0
 						if next_openid.nil?
-								susplus=info_result['totle'].to_i-info_result['count'].to_i
+								susplus=info_result['total'].to_i-info_result['count'].to_i
 						end
-				   	if arr=info_result['data']['openid']
+				   		if arr=info_result['data']['openid']
 				   			arr.to_a.each do |openid|
 				   					if !WechatConfig.where(openid:openid).first
 				   							wechat_config=WechatConfig.new(openid:openid,sangna_config_id: auth_code.id)
@@ -266,7 +267,7 @@ end
 												get_previous_data(auth_code,info_result['next_openid'],susplus)
 										end
 				   			end
-				   	end
+				   		end
 					end
 		end
 end
