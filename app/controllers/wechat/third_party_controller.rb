@@ -242,6 +242,7 @@ end
 		def get_previous_data(auth_code)
 					url='https://api.weixin.qq.com/cgi-bin/user/get?access_token='+auth_code.token
 					info_result=JSON.parse(ThirdParty.get_to_wechat(url))
+					puts info_result.inspect
 					if arr=info_result['data']['openid']
 							arr.to_a.each do |openid|
 									if !WechatConfig.where(openid:openid).first
