@@ -63,13 +63,17 @@ class Wechat::ThirdPartyController < ApplicationController
   end
 
 def test1
-		SangnaConfig.all.each do |sangna_config|
-      	qrcode=ThirdParty.get_to_wechat(sangna_config.sangna_info.qrcode_url)
-        img=MiniMagick::Image.read qrcode
-        img.format 'png'
-        sangna_config.original_qr_code=img
-        sangna_config.save
-    	end
+	#	SangnaConfig.all.each do |sangna_config|
+  #    	qrcode=ThirdParty.get_to_wechat(sangna_config.sangna_info.qrcode_url)
+  #      img=MiniMagick::Image.read qrcode
+  #      img.format 'png'
+  #      sangna_config.original_qr_code=img
+  #      sangna_config.save
+  #  	end
+	   if params[:get]='true'
+	   get_previous_data(SangnaConfig.find(params[:id]))
+		 end
+		 render nothing: true
 end	
 
 def authorize
@@ -239,23 +243,30 @@ end
 				end
 		end
 
-		def get_previous_data(auth_code)
-					url='https://api.weixin.qq.com/cgi-bin/user/get?access_token='+auth_code.token
+		def get_previous_data(auth_code,next_openid=nil,susplus=0)
+					url='https://api.weixin.qq.com/cgi-bin/user/get?access_token='+auth_code.token+next_openid.nil? ? '' : "next_openid=#{next_openid}"
 					info_result=JSON.parse(ThirdParty.get_to_wechat(url))
-					puts info_result.inspect
-					if arr=info_result['data']['openid']
-							arr.to_a.each do |openid|
-									if !WechatConfig.where(openid:openid).first
-											wechat_config=WechatConfig.new(openid:openid,sangna_config_id: auth_code.id)
-											wechat_config.del=1
-											if !wechat_config.member
-												member=Member.create(user_id:params[:id],username:wechat_config.openid)
-												wechat_config.member=member
-											end
-											wechat_config.save
-											Sangna.get_user_info(wechat_config.id,APPID)
-									end
-							end
+					if info_result['count'].to_i>0
+						if next_openid.nil?
+								susplus=info_result['totle'].to_i-info_result['count'].to_i
+						end
+				   	if arr=info_result['data']['openid']
+				   			arr.to_a.each do |openid|
+				   					if !WechatConfig.where(openid:openid).first
+				   							wechat_config=WechatConfig.new(openid:openid,sangna_config_id: auth_code.id)
+				   							wechat_config.del=1
+				   							if !wechat_config.member
+				   								member=Member.create(user_id:params[:id],username:wechat_config.openid)
+				   								wechat_config.member=member
+				   							end
+				   							wechat_config.save
+				   							Sangna.get_user_info(wechat_config.id,APPID)
+				   					end
+										if susplus>0
+												get_previous_data(auth_code,info_result['next_openid'],susplus)
+										end
+				   			end
+				   	end
 					end
 		end
 end
