@@ -6,7 +6,10 @@ class CouponsRecord < ActiveRecord::Base
 	belongs_to :per_user,foreign_key: 'user_id'
 	belongs_to :ab_recommended_project,class_name: 'UserAbProjectsCouponsRulesRecommendedProject',foreign_key: 'projects_id'
 	belongs_to :coupons_class,foreign_key: 'coupons_classes_id'
+	belongs_to :departure_rule,class_name: 'UserDepartureCouponsRule',foreign_key: 'departure_rule_id'
+	belongs_to :accurate_rule,class_name: 'UserAccuratePresenceCouponsRule',foreign_key: 'accurate_rule_id'
 	before_save :add_new_tip
+
 
 	#发送微信模板消息!卡券核销通知
 	def sent_message(sangna_config,wechat_config,card_ids)
@@ -61,5 +64,7 @@ class CouponsRecord < ActiveRecord::Base
 		def add_new_tip
 				$redis.set("new_card:#{member_id}",'true')
 		end
+
+		
 
 end

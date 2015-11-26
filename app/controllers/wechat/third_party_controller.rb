@@ -144,7 +144,7 @@ end
 	auth_code.func_info=arr.join(',')
 	auth_code.save
 	change_qrcode(auth_code)
-	get_previous_data(auth_code)
+	#get_previous_data(auth_code)
 	Group.find_or_create_by(sangna_config_id:auth_code.id,wcgroup_id:'0',name:'默认组')
 	redirect_to :action=>'gzh_info',id:auth_code.id
  end

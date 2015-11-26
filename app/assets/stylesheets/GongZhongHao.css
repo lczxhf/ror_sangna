@@ -97,6 +97,14 @@
 }
 
 
+.box_title {
+    width: 85%;
+    margin: 0 auto 15px;
+    text-align: center;
+    color: #666666;
+    font-size: 20px;
+    border-bottom: 1px solid #E4E3E3;
+}
 
 
 

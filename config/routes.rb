@@ -28,6 +28,8 @@
 		get "gzh_manage/sent_custom_message" => "gzh_manage#sent_custom_message"
     post "gzh_manage/sent_card_message" => "gzh_manage#sent_card_message"    
 		post "gzh_manage/sent_consumption_message" => "gzh_manage#sent_consumption_message"
+    post "gzh_manage/sent_departure_card" => "gzh_manage#sent_departure_card"
+    post "gzh_manage/sent_accurate_card" => "gzh_manage#sent_accurate_card"
     post 'message/:appid' => "message#receive"
     post 'wcpay/get_order' => "wcpay#get_order"
     post 'wcpay/callback' => "wcpay#callback"

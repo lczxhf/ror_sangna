@@ -306,11 +306,58 @@ end
 								render nothing: true
 		end
 
-
+		def sent_departure_card
+			puts params
+			per_user=PerUser.find(params[:user_id])
+			if UserCouponsClass.where(user_id:params[:user_id],coupons_classes_id:3,status:1).first
+				if rule=UserDepartureCouponsRule.where(user_id:params[:user_id],del:1,status:1).first
+					member=Member.find(params[:member_id])
+					templete_number=TempleteNumber.find_by_topic('获得优惠券通知')
+					hash={}
+					url="http://weixin.linkke.cn/wechat/wc_front/card_info?appid=#{per_user.sangna_config.appid}"
+					hash['first']="您好，恭喜您获得#{rule.face_value}元代金券"
+					hash['remark']='点击查看卡券详情'
+					array=['代金券','所有项目',(Time.now+rule.effective_time.days).strftime("%Y-%m-%d")]
+					templete_message=templete_number.templete_messages.where(sangna_config_id:per_user.sangna_config.id).first
+					templete_number.fields.split(',').each_with_index do |a,index|
+							hash[a]=array[index]	
+					end
+					Sangna.sent_template_message(per_user.sangna_config.token,member.wechat_config.openid,templete_message.templete_id,url,hash)
+					render plain: 'ok'
+				else
+					render plain: 'not rule'
+				end
+			else
+				render plain: 'not open'
+			end
+		end
+		def sent_accurate_card
+			per_user=PerUser.find(params[:user_id])
+			if UserCouponsClass.where(user_id:params[:user_id],coupons_classes_id:4,status:1).first
+				if rule=UserAccuratePresenceCouponsRule.where(id:params[:rule_id],status:1).first
+					templete_number=TempleteNumber.find_by_topic('获得优惠券通知')
+					hash={}
+					url="http://weixin.linkke.cn/wechat/wc_front/card_info?appid=#{per_user.sangna_config.appid}"
+					hash['first']="您好，恭喜您获得#{rule.face_value}元代金券"
+					hash['remark']='点击查看卡券详情'
+					array=['代金券','所有项目','离场前']
+					templete_message=templete_number.templete_messages.where(sangna_config_id:per_user.sangna_config.id).first
+					templete_number.fields.split(',').each_with_index do |a,index|
+							hash[a]=array[index]	
+					end
+					Sangna.sent_template_message(per_user.sangna_config.token,member.wechat_config.openid,templete_message.templete_id,url,hash)
+					render plain: 'ok'
+				else
+					render plain: 'not rule'
+				end
+			else
+				render plain: 'no open'
+			end
+		end
 
 		def sent_custom_message
-					sangna_config=SangnaConfig.find(params[:id])
-					 if Time.now-sangna_config.updated_at>=7200
+				sangna_config=SangnaConfig.find(params[:id])
+				if Time.now-sangna_config.updated_at>=7200
                 result=JSON.parse(ThirdParty.refresh_gzh_token(Rails.cache.read(:access_token),APPID,sangna_config.appid,sangna_config.refresh_token))
 								if result['authorizer_refresh_token']
 										sangna_config.refresh_token=result['authorizer_refresh_token']
@@ -318,10 +365,10 @@ end
 										sangna_config.save
 										$redis.del(sangna_config.appid)
 								end
-          end
-					url="https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token="+sangna_config.token
-					body='{"touser":"'+params[:openid]+'","msgtype":"text","text":{"content":"'+params[:content]+'"}}'
+          		end
+				url="https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token="+sangna_config.token
+				body='{"touser":"'+params[:openid]+'","msgtype":"text","text":{"content":"'+params[:content]+'"}}'
 				result=	ThirdParty.sent_to_wechat(url,body)
-				 render plain: result
+				render plain: result
 		end
 end
