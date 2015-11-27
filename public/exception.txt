@@ -9,3 +9,39 @@ Missing template wechat/third_party/test1, application/test1 with {:locale=>[:en
 
 /home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionview-4.2.1/lib/action_view/path_set.rb:46:in `find'
                   
+                        --------------2015-11-26 17:52:12-------------
+                       /wechat/gzh_manage/change_qrcode?user_id=31&id_code=1&hand_code=0024&sex=2
+user_id=31&id_code=1&hand_code=0024&sex=2
+Mysql2::Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1: update coupons_records set status=2 where id in ()
+
+                  
+                        --------------2015-11-26 23:48:38-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-11-27 01:29:56-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-11-27 03:18:04-------------
+                       /wechat/gzh_manage/oauth?code=031e24437cb6c2944a0bf9cc908548bg&state=123&appid=wx55d4d556c43b3bfc
+code=031e24437cb6c2944a0bf9cc908548bg&state=123&appid=wx55d4d556c43b3bfc
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-11-27 11:36:00-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-11-27 11:39:54-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  

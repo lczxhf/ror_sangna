@@ -223,7 +223,9 @@ class Wechat::GzhManageController < ApplicationController
               wechat_config.instance_eval{|a| a.association_cache.delete_if{|b| b==:member}}
 							wechat_config.wechat_user
 							$redis.set(wechat_config.openid,Marshal.dump(wechat_config))
+							if !coupons_records.empty?
 							sql=ActiveRecord::Base.connection.execute("update coupons_records set status=2 where id in (#{coupons_records.collect{|a| a.id}.join(',')})")
+							end
 							SentWifiMessage.perform_async(params[:user_id],wechat_config.openid)
 							puts 'jinchang'
 							redirect_to 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid='+per_user.sangna_config.appid	
