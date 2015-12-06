@@ -63,29 +63,28 @@
 <%content_for :body do%>		
 		<div class="mui-content">
 			<div class="box_Choice">
-				<button type="button" class="mui-btn mui-btn-outlined btn_Comment btn_Selected">评论代金券</button>
+				<button type="button" class="mui-btn mui-btn-outlined btn_Comment btn_Selected">普通代金券</button>
 				<button type="button" class="mui-btn mui-btn-outlined btn_Scene ">现场代金券</button>
 			</div>
 			<!--评论代金券-->
 			<div id="Comment_Vouchers">
 			<%@cards.each do |card|%>
-				<%if card.coupons_rule && card.status.in?([1,2])%>	
+				<%if card.coupons_classes_id.in?([1,3]) && card.status.in?([1,2])%>	
 						<div class="box_coupons" onclick='rule(<%=card.id%>)'>
 							<div class="Voucher_infor_left_Comment">
 								<div class="Discount_num">￥<%=card.value%></div>
 								<div class="box_line"></div>
-								<div class="Voucher_type">评论代金券</div>
+								<div class="Voucher_type"><%=card.coupons_classes_id==1 ? '精准' : '便易'%>普通代金券</div>
 								
 							</div>
 							<div class="Voucher_infor_right">
-							<%if @inscene%>
+							
                 				<%if card.status==1%>
                    					<img class="IMG_Voucher_status" src="/images/NoActivation.png" alt="" width="50px" />
                 			 	<%elsif card.status==2%>
                     				<img class="IMG_Voucher_status" src="/images/Activation.png" alt="" width="50px" />
                 			 	<%end%>
-              				<%end%>
-
+              				
 								<div class="box_infor">
 									<div class="Project_name">适用于所有项目</div>
 									<div class="Voucher_number"><%=card.number%></div>
@@ -100,24 +99,24 @@
 			</div>
 			<div id="Scene_Vouchers">
 			<%@cards.each do |card|%>
-			   <%if !card.coupons_rule && card.status.in?([1,2])%>
+			   <%if card.coupons_classes_id.in?([2,4]) && card.status.in?([1,2])%>
 				<div class="box_coupons" onclick='rule(<%=card.id%>)'>
 					<div class="Voucher_infor_left_Scene">
 						<div class="Discount_num">￥<%=card.value%></div>
 						<div class="box_line"></div>
-						<div class="Voucher_type">现场代金券</div>
+						<div class="Voucher_type"><%=card.coupons_classes_id==2 ? '精准' : '便易'%>现场代金券</div>
 						
 					</div>
 					<div class="Voucher_infor_right">
-						<%if @inscene%>
+						
                 			<%if card.status==1%>
                    				<img class="IMG_Voucher_status" src="/images/NoActivation.png" alt="" width="50px" />
                 			 <%elsif card.status==2%>
                     			<img class="IMG_Voucher_status" src="/images/Activation.png" alt="" width="50px" />
                 			 <%end%>
-              			<%end%>
+              			
 						<div class="box_infor">
-							<div class="Project_name"><%=card.ab_recommended_project.per_user_project.name%></div>
+							<div class="Project_name"><%=card.coupons_classes_id==2 ? card.ab_recommended_project.per_user_project.name : '所有项目'%></div>
 							<div class="Voucher_number"><%=card.number%></div>
 							<div class="Use_Rule">使用规则</div>
 						</div>
@@ -186,9 +185,7 @@
 						$('.btn_Scene').removeClass('btn_Selected')
 					}
 				})
-				<%if params[:num].to_i>0%>
-				//代金券弹窗提示
-				  <%if params[:prompt]=='true'%>
+				<%if params[:prompt]=='true'%>
 					$('#Scene_Vouchers').show();
 					$('#Comment_Vouchers').hide();
 					$('.btn_Scene').addClass('btn_Selected');
@@ -196,6 +193,9 @@
 						$('.btn_Comment').removeClass('btn_Selected')
 					}
 				  <%end%>
+				<%if params[:num].to_i>0%>
+				//代金券弹窗提示
+				  
 				  $(".mui-icon-closeempty").click(function(){
 				  		$('.Popup_Voucher').hide();
 				  })

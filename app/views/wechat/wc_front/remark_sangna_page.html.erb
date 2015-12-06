@@ -1,0 +1,207 @@
+<%content_for :head do%>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		 <%=javascript_include_tag "jquery-2.1.0"%>
+          <%=javascript_include_tag "mui.min"%>
+          <%=stylesheet_link_tag "wechat_front/mui.min"%>
+          <%=stylesheet_link_tag "wechat_front/common"%>
+          <%=stylesheet_link_tag "wechat_front/HongBao_2"%>
+          <%=stylesheet_link_tag "wechat_front/iconfont"%>
+          <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+		<title>评价会所</title>
+		<script type="text/javascript">
+			wx.config({
+			      debug: false, 
+						appId: '<%=params[:appid]%>', 
+						timestamp:'<%=timestamp=Time.now.to_i%>' , 
+						nonceStr: '<%=nonceStr=SecureRandom.uuid.tr('-', '')%>', 
+						signature: '<%=signature(timestamp,nonceStr)%>',
+						jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','showMenuItems'] 
+			 });
+			wx.ready(function(){
+				wx.showMenuItems({
+				    menuList: ['menuItem:profile','menuItem:addContact'] // 要显示的菜单项，所有menu项见附录3
+				});
+
+				wx.onMenuShareTimeline({
+		      title: '送你<%=Region.where(regions_code:@log.per_user.district_id).first.try(:regions_NAME)%><%=@log.per_user.name%>代金券!', 
+		        link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&same=<%=params[:same_id]%>&log_id=<%=@log.id%>&id=<%=@log.member_id%>',
+		        imgUrl: 'http://weixin.linkke.cn/images/forward.png',
+		        success: function(res){
+		          <%if @level.nil?%>
+		        	if ($level>0){
+		        		$.post("remark_sangna",{appid:'<%=params[:appid]%>',log_id:'<%=@log.id%>',level:$level},function(obj){
+		        			if(obj=='ok'){
+		        				mui.toast('评价成功');
+		        			}
+		        			else{
+		        				mui.toast('评价失败');
+		        			}
+		        		})
+		        	}
+		        	else{
+		        		mui.toast('请选择评价');
+		        	}
+		          <%end%>
+					var num=0;
+					$.post('get_departure_card',{appid:'<%=params[:appid]%>',log_id:'<%=params[:log_id]%>',same:'<%=params[:same_id]%>'},function(r_obj){
+						  
+						  if(r_obj=='ok'){
+								mui.toast('分享成功!代金券已放入您的卡券中');
+								num=1;
+								
+							}
+							else{
+									mui.toast('您已领取过代金券!');
+									$("#shareit").hide(); 
+							}
+							window.location.replace('card_info?appid=<%=params[:appid]%>&num=');
+					 })
+													
+		        },
+		        cancel: function(res){
+				    }
+			 });
+
+
+			 wx.onMenuShareAppMessage({
+				    title: '送你<%=Region.where(regions_code:@log.per_user.district_id).first.try(:regions_NAME)%><%=@log.per_user.name%>代金券!', 
+					  desc: '<%=@log.per_user.name%>送我红包了!赶紧去抢吧!', 
+					  link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&same=<%=params[:same_id]%>&log_id=<%=@log.id%>&id=<%=@log.member_id%>', 
+						imgUrl: 'http://weixin.linkke.cn/images/forward.png',
+						success: function () { 
+						  <%if @level.nil?%>
+							if ($level>0){
+		        				$.post("remark_sangna",{appid:'<%=params[:appid]%>',level:$level,log_id:'<%=@log.id%>'},function(obj){
+		        					if(obj=='ok'){
+		        						mui.toast('评价成功');
+		        					}
+		        					else{
+		        						mui.toast('评价失败');
+		        					}
+		        				})
+		        			}
+		        			else{
+		        				mui.toast('请选择评价');
+		        			}
+		        	      <%end%>
+							var num=0;
+							$.post('get_departure_card',{appid:'<%=params[:appid]%>',log_id:'<%=params[:log_id]%>',same:'<%=params[:same_id]%>'},function(r_obj){
+									
+						  			if(r_obj=='ok'){
+										mui.toast('分享成功!代金券已放入您的卡券中');
+										num=1;
+										
+									}
+									else{
+										mui.toast('您已领取过代金券!');
+										$("#shareit").hide(); 
+									}
+									window.location.replace('card_info?appid=<%=params[:appid]%>&num='+num);
+					 		})			
+													
+						},
+						cancel: function () { 
+						}
+			 });
+			})
+		</script>
+<%end%>
+<%content_for :body do%>
+		<div class="mui-content">
+			<div class="header">
+				<div class="box_img">
+					<img src="<%=@log.member.wechat_user.headimgurl%>" alt="" width="55px" height="55px" />
+				</div>
+				<div class="header_tip tip-center">您刚在<%=@sangna_config.per_user.name%>完成服务!</div>
+			</div>
+			<div class="HuiSuo_infor">
+				<div class="HuiSuo_title"><%=@sangna_config.per_user.name%></div>
+				<div class="HuiSuo_img">
+					<img src="http://weixin.linkke.cn<%=@log.per_user.per_user_imgs.first.url.thumb.url%>" alt="" height="130px" />
+				</div>
+				<div class="HuiSuo_contact Narrow">
+					<div class="HuiSuo_addr">地址：<%=@sangna_config.per_user.get_address%><%=@sangna_config.per_user.address%></div>
+					<div class="HuiSuo_phone">电话：<%=@sangna_config.per_user.phone%></div>
+				</div>
+				<div class="box_xingxing clearfix">
+					<span class="title_option">请打分</span>
+					<div class="starts">
+					    <ul id="pingStar1">
+					        <li rel="1" title="1分"><span class="mui-icon iconfont icon-xingxingman"></span></li>
+					        <li rel="2" title="2分"><span class="mui-icon iconfont icon-xingxingman"></span></li>
+					        <li rel="3" title="3分"><span class="mui-icon iconfont icon-xingxingman"></span></li>
+					        <li rel="4" title="4分"><span class="mui-icon iconfont icon-xingxingman"></span></li>
+					        <li rel="5" title="5分"><span class="mui-icon iconfont icon-xingxingman"></span></li>
+					    </ul>
+					</div>
+				</div>
+				<div class="box_btn">
+					<button id='leave' class="mui-btn mui-btn-outlined">放弃福利</button>
+					<button id="share_btn" class="mui-btn mui-btn-positive comfirm_BD">获取福利</button>
+				</div>
+				<div class="Line"></div>
+				<div class="Linkke Linkke-color">
+					<div>领客·水疗行业的微信营销利器</div>
+					<div>www.linkke.cn</div>
+				</div>
+			</div>
+		</div>
+		<div id="shareit">
+		  <img class="arrow" src="/images/share-it.png">
+		  <div href="#" id="follow" >点击右上角即可分享</div>
+		</div>
+		<script type="text/javascript">
+
+			$(function() {
+				var $level;
+				$('.header_tip').css( 'width',window.innerWidth*0.92-60 );
+				$('.HuiSuo_img').css( 'width',window.innerWidth*0.92*0.85 );
+				$('.HuiSuo_contact').css( 'width',window.innerWidth*0.92*0.85 );
+				$('#BangDing>.box_img').css( 'height',$('.box_img').width()*1.3 );
+				$('.HuiSuo_img>img').css( 'width',window.innerWidth*0.92*0.85-6 );
+
+				$("#share_btn").on("click", function() {
+		      		$("#shareit").show();
+		  		});
+		  		$("#shareit").on("click", function(){
+		  			$("#shareit").hide(); 
+		 		 })
+		  		$("#leave").click(function(){
+						wx.closeWindow();
+				})
+
+			})
+			window.onload = function () {
+				$level=0;
+		    var s = document.getElementById("pingStar1"),
+		        n = s.getElementsByTagName("li");
+		        <%if @level%>
+		        	<%@level.to_i.times.each do |num|%>
+		        		for (var i = 0; i <= <%=num%>; i++) {
+		        			n[i].className = 'on';
+		        		}
+		        	<%end%>
+		        <%end%>
+		    clearAll = function () {
+		        for (var i = 0; i < n.length; i++) {
+		            n[i].className = '';
+		        }
+		    }
+		    
+		    for (var i = 0; i < n.length; i++) {
+		        n[i].onclick = function () {
+		            var q = this.getAttribute("rel");
+		            $level = q;
+		            clearAll();
+		            for (var i = 0; i < q; i++) {
+		                n[i].className = 'on';
+		            }
+			        // m.innerHTML = this.getAttribute("title");
+		        }
+		     }  
+		     
+		    
+		}
+		</script>
+<%end%>

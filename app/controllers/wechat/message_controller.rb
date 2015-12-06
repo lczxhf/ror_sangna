@@ -8,7 +8,7 @@ class Wechat::MessageController < ApplicationController
   APPID="wxf6a05c0e64bc48e1"
   APPSECRET="0c79e1fa963cd80cc0be99b20a18faeb"
   def receive
-		gzh=fetch_redis(params[:appid],6000) do
+		gzh=fetch_redis(params[:appid],4500) do
             SangnaConfig.find_by_appid(params[:appid])
         end
 

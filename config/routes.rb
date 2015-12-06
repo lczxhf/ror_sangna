@@ -53,6 +53,7 @@
 		post "wc_front/remark" => "wc_front#remark"
 		post "wc_front/get_redbage" => "wc_front#get_redbage"
     post "wc_front/get_ab_redbage" => "wc_front#get_ab_redbage"
+    post "wc_front/get_departure_card" => "wc_front#get_departure_card"
 		get "wc_front/balance" => "wc_front#balance"
 		get "wc_front/card_info" => "wc_front#card_info"
 		get "wc_front/phone_bind" => "wc_front#phone_bind"
@@ -67,6 +68,8 @@
     get "wc_front/technician_remark_level" => "wc_front#technician_remark_level"
     post "wc_front/remark_level" => "wc_front#remark_level"
     get  "wc_front/recommend_technician" => "wc_front#recommend_technician"
+    get  "wc_front/remark_sangna_page" => "wc_front#remark_sangna_page"
+    post  "wc_front/remark_sangna" => "wc_front#remark_sangna"
     #match "/:name/:controller/:action",:via=>[:get]
   end
 

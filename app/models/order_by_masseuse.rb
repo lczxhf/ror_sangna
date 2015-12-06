@@ -53,10 +53,10 @@ class OrderByMasseuse<ActiveRecord::Base
 		arr=[4]
 		arr << self.member.per_user_qr_code.sex if !self.member.try(:per_user_qr_code).try(:sex).in?([3,nil])
 		arr << 5 if QrcodeLog.where(member_id:self.member_id).count==1
-		if self.member.per_user_qr_code && coupons_class=CouponsClass.where(id:2,del:1,status:1).first
-			if user_coupons_class=coupons_class.user_coupons_classes.where(user_id:self.user_id,status:1).first
-				ab_rule=coupons_class.ab_rules.where(user_id:self.user_id,original_project_id:self.project_id,status:1,del:1).where("applicable_member in (#{arr.join(',')})").first
-			end
+		if self.member.per_user_qr_code #&& coupons_class=CouponsClass.where(id:2,del:1,status:1).first
+			#if user_coupons_class=coupons_class.user_coupons_classes.where(user_id:self.user_id,status:1).first
+				ab_rule=UserAbProjectsCouponsRule.where(user_id:self.user_id,original_project_id:self.project_id,status:1,del:1).where("applicable_member in (#{arr.join(',')})").first
+			#end
 		end
 		ab_rule
 	end
