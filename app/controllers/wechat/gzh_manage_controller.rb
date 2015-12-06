@@ -5,7 +5,7 @@ class Wechat::GzhManageController < ApplicationController
 		include Wechat::WcFrontHelper
   	def set_menu
         gzh=SangnaConfig.find(params[:id])
-        if Time.now-gzh.updated_at>=7200
+        if Time.now-gzh.updated_at>=4500
               result=JSON.parse(ThirdParty.refresh_gzh_token(Rails.cache.read(:access_token),APPID,gzh.appid,gzh.refresh_token))
 							if result['authorizer_refresh_token']
 								gzh.refresh_token=result['authorizer_refresh_token']
@@ -63,7 +63,7 @@ class Wechat::GzhManageController < ApplicationController
     if params[:appid]
 			puts params
       gzh=SangnaConfig.where(appid:params[:appid]).first
-			 if Time.now-gzh.updated_at>=7200
+			 if Time.now-gzh.updated_at>=4500
 				     result=JSON.parse(ThirdParty.refresh_gzh_token(Rails.cache.read(:access_token),appid,gzh.appid,gzh.refresh_token))
 						 if result['authorizer_refresh_token']
 								gzh.refresh_token=result['authorizer_refresh_token']
@@ -110,7 +110,7 @@ class Wechat::GzhManageController < ApplicationController
 						if  wechat_config=WechatConfig.includes(:wechat_user).find_by_openid(result["openid"])
 
 						else
-							 sangna_config=fetch_redis(params[:appid],6000) do
+							 sangna_config=fetch_redis(params[:appid],4500) do
                    				SangnaConfig.find_by_appid(params[:appid])
                end
 
@@ -266,7 +266,7 @@ end
 								order=OrderByMasseuse.includes(:member,:per_user_masseuse,:per_user_project,:per_user).where(id:params[:o_id],status:2,del:1,is_reviewed:1).first
 					#	if order.per_user_qr_code.hand_code==params[:h]
 							  gzh=order.per_user.sangna_config
-								if Time.now-gzh.updated_at>=7200
+								if Time.now-gzh.updated_at>=4500
 									result=JSON.parse(ThirdParty.refresh_gzh_token(Rails.cache.read(:access_token),APPID,gzh.appid,gzh.refresh_token))
 									if result['authorizer_refresh_token']
 											gzh.refresh_token=result['authorizer_refresh_token']
@@ -306,43 +306,60 @@ end
 		def sent_departure_card
 			puts params
 			per_user=PerUser.find(params[:user_id])
-			if UserCouponsClass.where(user_id:params[:user_id],coupons_classes_id:3,status:1).first
-				if rule=UserDepartureCouponsRule.where(user_id:params[:user_id],del:1,status:1).first
+			#if UserCouponsClass.where(user_id:params[:user_id],coupons_classes_id:3,status:1).first
+				if rule=CouponsRule.where(user_id:params[:user_id],del:1,status:1,coupons_type:2).first
 					member=Member.find(params[:member_id])
-					coupons_record=CouponsRecord.new(user_id:params[:user_id],member_id:params[:member_id],value:rule.face_value,departure_rule_id:rule.id,accurate_presence_coupons_record_id:3)
-					o = [('a'..'z'),('A'..'Z')].map{|i| i.to_a}.flatten
-					string = (0...4).map{ o[rand(o.length)] }.join
-					coupons_record=Time.now.to_i.to_s+string
-					if coupons_record.save
+					log=member.qrcode_logs.where(status:2).first || member.qrcode_logs.order(created_at: :desc).first
+					#coupons_record=CouponsRecord.new(departure_log_id:log.id,user_id:params[:user_id],member_id:params[:member_id],value:rule.face_value,coupons_rules_id:rule.id,coupons_classes_id:3)
+					#o = [('a'..'z'),('A'..'Z')].map{|i| i.to_a}.flatten
+					#string = (0...4).map{ o[rand(o.length)] }.join
+					#coupons_record.number=Time.now.to_i.to_s+string
+					#if coupons_record.save
+						if Time.now-per_user.sangna_config.updated_at>=6000
+									result=JSON.parse(ThirdParty.refresh_gzh_token(Rails.cache.read(:access_token),APPID,per_user.sangna_config.appid,per_user.sangna_config.refresh_token))
+									if result['authorizer_refresh_token']
+											per_user.sangna_config.refresh_token=result['authorizer_refresh_token']
+											per_user.sangna_config.token=result['authorizer_access_token']
+											per_user.sangna_config.save
+									end
+						end
 						templete_number=TempleteNumber.find_by_topic('获得优惠券通知')
 						hash={}
-						url="http://weixin.linkke.cn/wechat/wc_front/card_info?appid=#{per_user.sangna_config.appid}"
-						hash['first']="您好，恭喜您获得#{rule.face_value}元代金券"
+						url="http://weixin.linkke.cn/wechat/wc_front/remark_sangna_page?appid=#{per_user.sangna_config.appid}&log_id=#{log.id}&same_id=#{rule.same_id}"
+						hash['first']="您好，恭喜您获得代金券"
 						hash['remark']='点击查看卡券详情'
-						array=['代金券','所有项目',(Time.now+rule.effective_time.days).strftime("%Y-%m-%d")]
+						array=['代金券','所有项目',"#{rule.due_day}天"]
 						templete_message=templete_number.templete_messages.where(sangna_config_id:per_user.sangna_config.id).first
 						templete_number.fields.split(',').each_with_index do |a,index|
 								hash[a]=array[index]	
 						end
 						Sangna.sent_template_message(per_user.sangna_config.token,member.wechat_config.openid,templete_message.templete_id,url,hash)
 						render plain: 'ok'
-					else
-						render plain: 'failure'
-					end
+					#else
+					#	render plain: 'failure'
+					#end
 				else
 					render plain: 'not rule'
 				end
-			else
-				render plain: 'not open'
-			end
+			#else
+			#	render plain: 'not open'
+			#end
 		end
 		def sent_accurate_card
 			per_user=PerUser.find(params[:user_id])
-			if UserCouponsClass.where(user_id:params[:user_id],coupons_classes_id:4,status:1).first
-				if rule=UserAccuratePresenceCouponsRule.where(id:params[:rule_id],status:1).first
+			if Time.now-per_user.sangna_config.updated_at>=6000
+				result=JSON.parse(ThirdParty.refresh_gzh_token(Rails.cache.read(:access_token),APPID,per_user.sangna_config.appid,per_user.sangna_config.refresh_token))
+				if result['authorizer_refresh_token']
+						per_user.sangna_config.refresh_token=result['authorizer_refresh_token']
+						per_user.sangna_config.token=result['authorizer_access_token']
+						per_user.sangna_config.save
+				end
+			end
+			#if UserCouponsClass.where(user_id:params[:user_id],coupons_classes_id:4,status:1).first
+				if rule=UserAccuratePresenceCouponsRule.where(id:params[:rule_id],del:1).first
 					templete_number=TempleteNumber.find_by_topic('获得优惠券通知')
 					hash={}
-					url="http://weixin.linkke.cn/wechat/wc_front/card_info?appid=#{per_user.sangna_config.appid}"
+					url="http://weixin.linkke.cn/wechat/wc_front/card_info?appid=#{per_user.sangna_config.appid}&prompt=true&skip=true"
 					hash['first']="您好，恭喜您获得#{rule.face_value}元代金券"
 					hash['remark']='点击查看卡券详情'
 					array=['代金券','所有项目','离场前']
@@ -350,19 +367,22 @@ end
 					templete_number.fields.split(',').each_with_index do |a,index|
 							hash[a]=array[index]	
 					end
-					Sangna.sent_template_message(per_user.sangna_config.token,member.wechat_config.openid,templete_message.templete_id,url,hash)
+					sql="#{params[:user_id]},#{rule.face_value},#{rule.id},4"
+					record=UserAccuratePresenceCouponsRecord.create(user_id:params[:user_id],accurate_presence_coupons_id:params[:rule_id])
+					SentAccurateCard.perform_async(per_user.sangna_config.token,"accurate_member_ids_#{params[:user_id]}","accurate_qrcode_log_ids_#{params[:user_id]}",templete_message.templete_id,url,hash,sql,record.try(:id))
+					#Sangna.sent_template_message(per_user.sangna_config.token,member.wechat_config.openid,templete_message.templete_id,url,hash)
 					render plain: 'ok'
 				else
 					render plain: 'not rule'
 				end
-			else
-				render plain: 'no open'
-			end
+			#else
+			#	render plain: 'no open'
+			#end
 		end
 
 		def sent_custom_message
 				sangna_config=SangnaConfig.find(params[:id])
-				if Time.now-sangna_config.updated_at>=7200
+				if Time.now-sangna_config.updated_at>=4500
                 result=JSON.parse(ThirdParty.refresh_gzh_token(Rails.cache.read(:access_token),APPID,sangna_config.appid,sangna_config.refresh_token))
 								if result['authorizer_refresh_token']
 										sangna_config.refresh_token=result['authorizer_refresh_token']

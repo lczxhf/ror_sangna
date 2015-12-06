@@ -211,6 +211,25 @@ class Wechat::WcFrontController < ApplicationController
 					end
 	end
 
+	def remark_sangna_page
+		@log=QrcodeLog.find(params[:log_id])
+		 if @wecaht_config.member_id == @log.member_id
+		 	@level=$redis.hget("remark_sangna:#{@sangna_config.per_user_id}","#{@log.id}")
+		 	
+		 else
+		 	
+		 	redirect_to  "http://weixin.linkke.cn/wechat/wc_front/redbage?appid=#{params[:appid]}&same=#{params[:same_id]}&log_id=#{@log.id}"
+		 end
+	end
+
+	def remark_sangna
+		if $redis.hmset("remark_sangna:#{@sangna_config.per_user_id}",params[:log_id],params[:level])
+			render plain: 'ok'
+		else
+		    render plain: 'err'
+		end
+	end
+
 	def recommend_technician
 			technicians=@sangna_config.per_user.per_user_masseuses.active.where(work_status:2).order("rand()").limit(2)
 			html=technicians.collect do |technician|
@@ -309,27 +328,27 @@ class Wechat::WcFrontController < ApplicationController
 		end
 	end
 	def redbage
-				puts params
-				#cookies.delete("#{params[:appid]}_openid")
-				@order=OrderByMasseuse.includes(:member,:per_user).find(params[:o_id])				
-				
-				if @order.member_id==params[:id].to_i
-							if @order.member_id==@wechat_config.member_id
-									@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:2,same_id:params[:same]).first
-							elsif @wechat_config.try(:wechat_user).try(:subscribe_time)
-									@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:3,same_id:params[:same]).first
-							else
-									@coupon_rule=@order.per_user.coupons_rules.where(name:'分享得红包',c_type:4,same_id:params[:same]).first
-							end
-							if @wechat_config.member.username!=@wechat_config.openid && @wechat_config.member.username!='未关注'
-								@bind=true
-							else
-								@bind=false
-							end
-				else
-					render nothing: true
-				end
-				
+		puts params
+		if params[:o_id]
+			@main=OrderByMasseuse.find(params[:o_id])							    	
+		    	coupons_type=1		    	
+		else
+			@main=QrcodeLog.find(params[:log_id])	
+				coupons_type=2
+		end
+		if @main.member_id!=params[:id].to_i				
+				render nothing: true
+		else
+			if @main.member_id==@wechat_config.member_id
+		 		   	@coupon_rule=CouponsRule.where(c_type:2,same_id:params[:same],coupons_type:coupons_type).first
+			elsif @wechat_config.try(:wechat_user).try(:subscribe_time)
+		    		@coupon_rule=CouponsRule.where(c_type:3,same_id:params[:same],coupons_type:coupons_type).first
+			else
+		 		  	@coupon_rule=CouponsRule.where(c_type:4,same_id:params[:same],coupons_type:coupons_type).first
+			end
+			@bind=@wechat_config.member.username!=@wechat_config.openid && @wechat_config.member.username!='未关注' ? true : false
+		  	
+		end
 	end
 
 	def get_redbage
@@ -370,7 +389,39 @@ class Wechat::WcFrontController < ApplicationController
 							render plain: 'ok'
 				end		
 	end
+def get_departure_card
+	log=QrcodeLog.find(params[:log_id])
+ 		if CouponsRecord.where(departure_log_id:log.id,coupons_classes_id:3,member_id:@wechat_config.member_id).first
+               render plain: 'err'
+        else
+             status=1
+             if log.member_id==@wechat_config.member_id
+                 coupon_rule=CouponsRule.where(user_id:@sangna_config.per_user_id,c_type:2,same_id:params[:same],coupons_type:2).first
+                 if log.id!=QrcodeLog.where(member:log.member_id).order(created_at: :desc).first.id
+                   status=2
+                 end
+             elsif @wechat_config.wechat_user.subscribe_time.nil?
+                 coupon_rule=CouponsRule.where(user_id:@sangna_config.per_user_id,c_type:4,same_id:params[:same],coupons_type:2).first
+             else
+                 coupon_rule=CouponsRule.where(user_id:@sangna_config.per_user_id,c_type:3,same_id:params[:same],coupons_type:2).first
+             end
+ 			 coupon_record=coupon_rule.coupons_records.build
+             o = [('a'..'z'),('A'..'Z')].map{|i| i.to_a}.flatten
+             string = (0...4).map{ o[rand(o.length)] }.join
+             coupon_record.number=Time.now.to_i.to_s+string
+             coupon_record.user_id=coupon_rule.user_id
+             coupon_record.member_id=@wechat_config.member_id
+             coupon_record.coupons_classes_id=3
+             coupon_record.created_at=Time.now
+             coupon_record.value=coupon_rule.face_value
+             coupon_record.departure_log_id=log.id
+             coupon_record.status=status
+             coupon_record.save
+             render plain: 'ok'
+         end
 
+
+end
 def get_ab_redbage
 		puts params
 	order=OrderByMasseuse.find(params[:o_id])
@@ -469,15 +520,16 @@ end
 	end
 
 	def card_info
-				
-			  $redis.del("new_card:#{@wechat_config.member_id}")	
-				if @wechat_config.member.per_user_qr_code
+			  if params[:skip].nil?
+			  	$redis.del("new_card:#{@wechat_config.member_id}")	
+			  end
+			  	if @wechat_config.member.per_user_qr_code
 						@inscene=true
 				end
 				if @wechat_config.member.username!=@wechat_config.openid && @wechat_config.member.username!='未关注'
 						@bind=true
 				end
-				@cards=@sangna_config.per_user.coupons_records.includes(:coupons_rule).where('status in (1,2)').where(member_id:@wechat_config.member_id).order("status asc").order(created_at: :desc)
+				@cards=@sangna_config.per_user.coupons_records.includes(:coupons_rule,:accurate_rule,ab_recommended_project:[:per_user_project]).where('status in (1,2)').where(member_id:@wechat_config.member_id).order("status asc").order(created_at: :desc)
 	end
 
 	def card_rule
@@ -576,7 +628,7 @@ end
 					# @sangna_config=Rails.cache.fetch(params[:appid],expire_in: 2.hours) do 
 					# 		SangnaConfig.includes(per_user:[:per_user_imgs]).find_by_appid(params[:appid])
 					# end
-				  @sangna_config=fetch_redis(params[:appid],6000) do
+				  @sangna_config=fetch_redis(params[:appid],4500) do
                      SangnaConfig.find_by_appid(params[:appid])
                   end
 			end

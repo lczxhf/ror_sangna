@@ -106,7 +106,7 @@ module Wechat::WcFrontHelper
 
 	def signature(timestamp,noncestr)
 			if !Rails.cache.read("#{params[:appid]}_ticket")
-						if Time.now-@sangna_config.updated_at>=6000
+						if Time.now-@sangna_config.updated_at>=4500
               result=JSON.parse(ThirdParty.refresh_gzh_token(Rails.cache.read(:access_token),'wxf6a05c0e64bc48e1',@sangna_config.appid,@sangna_config.refresh_token))
 							if result['authorizer_refresh_token']
               @sangna_config.refresh_token=result['authorizer_refresh_token']
@@ -117,7 +117,7 @@ module Wechat::WcFrontHelper
 						end					
 						url="https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=#{@sangna_config.token}&type=jsapi"
 						ticket=JSON.parse(ThirdParty.get_to_wechat(url))["ticket"]
-						Rails.cache.write("#{params[:appid]}_ticket",ticket,:expires_in=>7200)
+						Rails.cache.write("#{params[:appid]}_ticket",ticket,:expires_in=>6000)
 			end
 			query={	
 				timestamp: timestamp,

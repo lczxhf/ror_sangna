@@ -2,12 +2,14 @@ class CouponsRecord < ActiveRecord::Base
 	belongs_to :coupons_rule,foreign_key: 'coupons_rules_id'
 	belongs_to :order_by_masseuse,foreign_key: 'from_order_id'
 	belongs_to :qrcode_log
+	belongs_to :from_log,class_name: 'QrcodeLog',foreign_key: 'departure_log_id'
 	belongs_to :member
 	belongs_to :per_user,foreign_key: 'user_id'
 	belongs_to :ab_recommended_project,class_name: 'UserAbProjectsCouponsRulesRecommendedProject',foreign_key: 'projects_id'
 	belongs_to :coupons_class,foreign_key: 'coupons_classes_id'
-	belongs_to :departure_rule,class_name: 'UserDepartureCouponsRule',foreign_key: 'departure_rule_id'
+	#belongs_to :departure_rule,class_name: 'UserDepartureCouponsRule',foreign_key: 'departure_rule_id'
 	belongs_to :accurate_rule,class_name: 'UserAccuratePresenceCouponsRule',foreign_key: 'accurate_rule_id'
+	belongs_to :accurate_record,class_name: 'UserAccuratePresenceCouponsRecord',foreign_key: 'accurate_presence_coupons_record_id'
 	before_save :add_new_tip
 
 
@@ -64,7 +66,5 @@ class CouponsRecord < ActiveRecord::Base
 		def add_new_tip
 				$redis.set("new_card:#{member_id}",'true')
 		end
-
-		
 
 end
