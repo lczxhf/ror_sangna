@@ -56,7 +56,7 @@
 				<div class="box_img">
 					<img src="<%=@main.member.wechat_user.headimgurl%>" alt="" width="55px" height="55px" />
 				</div>
-				<div class="header_tip">我刚去完<%=@main.per_user.name%><%=params[:o_id].nil? "" : "，推荐你找<%=@main.per_user_masseuse.job_number%>技师为你服务，顺便送你一张代金券"%>！</div>
+				<div class="header_tip">我刚去完<%=@main.per_user.name%><%=params[:o_id].nil? ? "" : "，推荐你找#{@main.per_user_masseuse.job_number}技师为你服务，顺便送你一张代金券"%>！</div>
 			</div>
 			<div class="HuiSuo_infor">
 				<div class="HuiSuo_title"><%=@main.per_user.name%></div>

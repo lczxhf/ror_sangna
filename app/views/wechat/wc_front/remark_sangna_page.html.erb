@@ -118,7 +118,7 @@
 			<div class="HuiSuo_infor">
 				<div class="HuiSuo_title"><%=@sangna_config.per_user.name%></div>
 				<div class="HuiSuo_img">
-					<img src="http://weixin.linkke.cn<%=@log.per_user.per_user_imgs.first.url.thumb.url%>" alt="" height="130px" />
+					<img src="<%=@log.per_user.get_forward_img('xx')%>" alt="" height="130px" />
 				</div>
 				<div class="HuiSuo_contact Narrow">
 					<div class="HuiSuo_addr">地址：<%=@sangna_config.per_user.get_address%><%=@sangna_config.per_user.address%></div>

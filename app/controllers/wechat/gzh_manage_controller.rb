@@ -177,9 +177,10 @@ class Wechat::GzhManageController < ApplicationController
 					end
 		end
 
-		def change_qrcode
-			puts params
-			per_user=PerUser.includes(:sangna_config).find(params[:user_id])
+def change_qrcode
+	puts params
+	per_user=PerUser.includes(:sangna_config).find(params[:user_id])
+	if per_user.sangna_config
 			if !cookies["#{per_user.sangna_config.appid}_openid"]	
 				cookies.signed[:next_url]=request.url
 				auth_url="https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{per_user.sangna_config.appid}&redirect_uri=http://weixin.linkke.cn/wechat/gzh_manage/oauth&response_type=code&scope=snsapi_base&state=123&component_appid=wxf6a05c0e64bc48e1#wechat_redirect"                    
@@ -246,6 +247,10 @@ class Wechat::GzhManageController < ApplicationController
 						params.delete(:action)
 						redirect_to '/wechat/wc_front/tip?appid='+per_user.sangna_config.appid+"&#{params.to_param}"
 			end
+	end
+	else
+				@error_status=4
+				render "/wechat/wc_front/wechat_error"
 	end
 end
 		

@@ -13,12 +13,16 @@
 			</div>
 			<%if @error_status==1%>
 				<p>此二维码已被其它客户使用</p>
+				<p>请向服务员查证</p>
 			<%elsif @error_status==2%>
 				<p>此二维码尚未激活</p>
+				<p>请向服务员查证</p>
 			<%elsif @error_status==3%>
 				<p>请扫描锁牌上的二维码进场</p>
 				<p>进场后即可查看wifi账号/密码</p>
+			<%elsif @error_status==4%>
+				<p>店家未开通此服务!</p>
+				<p>详情请咨询店家!</p>
 			<%end%>
-				<p>请向服务员查证</p>
 		</div>
 <%end%>

@@ -213,7 +213,7 @@ class Wechat::WcFrontController < ApplicationController
 
 	def remark_sangna_page
 		@log=QrcodeLog.find(params[:log_id])
-		 if @wecaht_config.member_id == @log.member_id
+		 if @wechat_config.member_id == @log.member_id
 		 	@level=$redis.hget("remark_sangna:#{@sangna_config.per_user_id}","#{@log.id}")
 		 	
 		 else
