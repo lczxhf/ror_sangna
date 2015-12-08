@@ -359,8 +359,7 @@ class Wechat::WcFrontController < ApplicationController
          	    end
 
 				member_id=wechat_config.member_id
-				if CouponsRecord.find_by_sql("SELECT * FROM sangna.coupons_records as record left join coupons_classes as class on record.coupons_classes_id=class.id
- where from_order_id=#{order.id} and class.name='评价转发代金券' and member_id=#{member_id}").present?
+				if CouponsRecord.where(coupons_classes_id:1,from_order_id:order.id,member_id:member_id).first
 						render plain: 'err'
 				else
 						status=1
@@ -534,7 +533,7 @@ end
 
 	def card_rule
 				if params[:rule_id]
-					@card=CouponsRule.find(params[:rule_id]).coupons_records.build
+					@card=CouponsRule.find(params[:rule_id]).coupons_records.build(coupons_classes_id:3)
 				else
 					@card=CouponsRecord.includes(:coupons_rule).find(params[:id])
 				end

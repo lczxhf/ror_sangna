@@ -7,7 +7,7 @@ require 'sidekiq/api'
     end
 
     def get_previous_data(token,id,next_openid=nil,susplus=0)
-        url='https://api.weixin.qq.com/cgi-bin/user/get?access_token='+token+next_openid.nil? ? '' : "next_openid=#{next_openid}"
+        url='https://api.weixin.qq.com/cgi-bin/user/get?access_token='+token+(next_openid.nil? ? ' ' : "next_openid=#{next_openid}")
         info_result=JSON.parse(ThirdParty.get_to_wechat(url))
         if info_result['count'].to_i>0
             if next_openid.nil?
