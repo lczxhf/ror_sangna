@@ -70,6 +70,7 @@
     get  "wc_front/recommend_technician" => "wc_front#recommend_technician"
     get  "wc_front/remark_sangna_page" => "wc_front#remark_sangna_page"
     post  "wc_front/remark_sangna" => "wc_front#remark_sangna"
+    post  "wc_front/operate_like" => "wc_front#operate_like"
     #match "/:name/:controller/:action",:via=>[:get]
   end
 

@@ -301,7 +301,7 @@
 				<div class="box_evaluate">
 					<span class="comment"><%=evalution.name%></span>
 					<span class="num_evaluate"><%=MasseusesReview.where(masseuses_id:@technician.id,technique_evalution_id:evalution.id).where("created_at>:my_time",{my_time:Time.now-1.month}).count%></span>
-					<span class="mui-icon iconfont icon-zan"></span>
+					<span class="mui-icon iconfont2 icon-zan"></span>
 				</div>
 				<%end%>
 			</div>

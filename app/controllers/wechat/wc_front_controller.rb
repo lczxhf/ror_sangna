@@ -600,6 +600,31 @@ end
 			end
 	end
 
+	def operate_like
+	  if (params[:type]=='add' && $redis.llen("mem_like:#{@wechat_config.member_id}").to_i <= 50) || params[:type]=='del'
+        record=UserMasseusesLikeRecord.find_or_initialize_by(user_id:@sangna_config.per_user_id,member_id:@wechat_config.member_id,masseuses_id:params[:tech_id])
+        if params[:type]=='add'
+             record.status=1
+        else  
+             record.status=2
+        end
+        if record.save
+        	 if params[:type]=='add'
+                 $redis.lpush("mem_like:#{@wechat_config.member_id}",params[:tech_id])
+	             $redis.incr("like:#{params[:tech_id]}")
+             else
+                 $redis.lrem("mem_like:#{@wechat_config.member_id}",0,params[:tech_id])
+                 $redis.incrby("like:#{params[:tech_id]}",-1)
+             end
+            render plain: 'ok'
+        else
+            render plain: 'err'
+        end
+       else
+       		render plain: 'err'
+       end
+	end
+
 	private
 	
 	def check_openid
@@ -635,7 +660,8 @@ end
 	end
 
 	def generate_technician_html(technician,inscene,sangna_config,time,member_id)
-			%{	<div class="Jishi_infor jishi_color" onclick="show_info('#{technician.id}')">
+			%{	<div class="Jishi_infor jishi_color">
+					<input type='hidden' value="#{technician.id}"/>
 					<div class="box_jishi">
 						<div class="box_img jishi_background">
 							<img class="jishi_img" src="#{technician.get_image(member_id)}" alt="" height="50px" width="50px" />
@@ -657,6 +683,7 @@ end
 						<span class="jishi_type">#{technician.per_user_project.try(:name)}</span>
 
 			}+if inscene=='true'
+					if sangna_config.per_user.on_off_duty_auth==1
 						if technician.work_status==1
 							"<span class='waiting'>待</span>"
 						elsif technician.work_status==2
@@ -664,6 +691,16 @@ end
 						elsif technician.work_status==3
 							"<div><div class='box_busy'><span class='busy'>忙</span><div class='surplus_time'>#{time}分钟后空闲</div></div></div>"
 						end
+					else
+						 "<div class='praise'>"+
+			                if technician.id.to_s.in?($redis.lrange("mem_like:#{member_id}",0,-1))
+                                "<i class='fa fa-thumbs-up animation-zan'></i>"
+                            else
+                                "<i class='fa fa-thumbs-o-up animation-delete'></i>"
+                            end+
+			               "<span class='praise-num'>#{$redis.get("like:#{technician.id}") || 0}</span>
+			               </div>"
+					end
 			  else
 						%{		<a href="tel:#{sangna_config.per_user.phone}">
 									<div class="yuan_yuyue">
