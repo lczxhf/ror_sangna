@@ -28,7 +28,7 @@
 			});
 		wx.onMenuShareTimeline({
 		      title: '送你<%=Region.where(regions_code:@main.per_user.district_id).first.try(:regions_NAME)%><%=@main.per_user.name%>代金券<%=@main.class==OrderByMasseuse ? ",记得一定要找#{@main.per_user_masseuse.job_number}服务啊" : ""%>!', 
-		        link: '<%=request.url%>',
+		        link: '<%=request.url+"&m_id=#{@wechat_config.member_id}"%>',
 		        imgUrl: 'http://weixin.linkke.cn/images/forward.png',
 		        success: function(res){
 		        },
@@ -40,7 +40,7 @@
 			 wx.onMenuShareAppMessage({
 				    title: '送你<%=Region.where(regions_code:@main.per_user.district_id).first.try(:regions_NAME)%><%=@main.per_user.name%>代金券<%=@main.class==OrderByMasseuse ? ",记得一定要找#{@main.per_user_masseuse.job_number}服务啊" : ""%>!', 
 					  desc: '<%=@main.per_user.name%>送我红包了!赶紧去抢吧!', 
-					  link: '<%=request.url%>', 
+					  link: '<%=request.url+"&m_id=#{@wechat_config.member_id}"%>', 
 						imgUrl: 'http://weixin.linkke.cn/images/forward.png',
 						success: function () { 
 						},
@@ -54,7 +54,7 @@
 		<div class="mui-content">
 			<div class="header">
 				<div class="box_img">
-					<img src="<%=@main.member.wechat_user.headimgurl%>" alt="" width="55px" height="55px" />
+					<img src="<%=@forward_member.nil? ? @main.member.wechat_user.headimgurl : @forward_member.wechat_user.headimgurl%>" alt="" width="55px" height="55px" />
 				</div>
 				<div class="header_tip">我刚去完<%=@main.per_user.name%><%=params[:o_id].nil? ? "" : "，推荐你找#{@main.per_user_masseuse.job_number}技师为你服务，顺便送你一张代金券"%>！</div>
 			</div>

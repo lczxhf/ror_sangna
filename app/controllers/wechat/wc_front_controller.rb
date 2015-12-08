@@ -351,6 +351,9 @@ class Wechat::WcFrontController < ApplicationController
 			else
 		 		  	@coupon_rule=CouponsRule.where(c_type:4,same_id:params[:same],coupons_type:coupons_type).first
 			end
+			if params[:m_id]
+				@forward_member=Member.find(params[:m_id])
+			end
 			@bind=@wechat_config.member.username!=@wechat_config.openid && @wechat_config.member.username!='未关注' ? true : false
 		  	
 		end
