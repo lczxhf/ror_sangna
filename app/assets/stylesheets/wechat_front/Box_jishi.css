@@ -670,3 +670,135 @@ font-size: 13px;
 	right: 5px;
 	top: 2px;
 }
+/*点赞css*/
+.praise{
+width: 45px;
+height: 20px;
+position: absolute;
+top: 35px;
+right: 2%;
+z-index: 99;
+color: #999999;
+font-size: 18px;
+}
+.praise i.fa{
+position: absolute;
+left: 5px;
+top: -5px;
+display: inline-block;
+width: 30px;
+height: 30px;
+line-height: 30px;
+text-align: center;
+z-index: 100;
+}
+.praise i.fa:hover{
+font-size: 21px;
+}
+.praise span{
+font-size: 12px;
+position: absolute;
+right: 0;
+top: 3px;
+}
+.animation-zan{
+color: #07C1E6;
+animation:mymove 500ms linear 1;
+-moz-animation:mymove 500ms linear 1; /* Firefox */
+-webkit-animation:mymove 500ms linear 1; /* Safari and Chrome */
+-o-animation:mymove 500ms linear 1; /* Opera */
+}
+.animation-delete{
+animation:mymove1 500ms linear 1;
+-moz-animation:mymove1 500ms linear 1; /* Firefox */
+-webkit-animation:mymove1 500ms linear 1; /* Safari and Chrome */
+-o-animation:mymove1 500ms linear 1; /* Opera */
+}
+@keyframes mymove{
+0%{
+font-size: 21px;
+}
+50%{
+font-size: 28px;
+}
+100%{
+font-size: 18px;
+}
+}
+@-webkit-keyframes mymove{
+0%{
+font-size: 21px;
+}
+50%{
+font-size: 28px;
+}
+100%{
+font-size: 18px;
+}
+}
+@-moz-keyframes mymove{
+0%{
+font-size: 21px;
+}
+50%{
+font-size: 28px;
+}
+100%{
+font-size: 18px;
+}
+}
+@-o-keyframes mymove{
+0%{
+font-size: 21px;
+}
+50%{
+font-size: 28px;
+}
+100%{
+font-size: 18px;
+}
+}
+@keyframes mymove1{
+0%{
+font-size: 21px;
+}
+50%{
+font-size: 28px;
+}
+100%{
+font-size: 18px;
+}
+}
+@-webkit-keyframes mymove1{
+0%{
+font-size: 21px;
+}
+50%{
+font-size: 28px;
+}
+100%{
+font-size: 18px;
+}
+}
+@-moz-keyframes mymove1{
+0%{
+font-size: 21px;
+}
+50%{
+font-size: 28px;
+}
+100%{
+font-size: 18px;
+}
+}
+@-o-keyframes mymove1{
+0%{
+font-size: 21px;
+}
+50%{
+font-size: 28px;
+}
+100%{
+font-size: 18px;
+}
+}

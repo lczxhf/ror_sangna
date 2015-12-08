@@ -1,7 +1,7 @@
 require 'sidekiq/api'
   class GetUserInfo
     include Sidekiq::Worker
-
+    sidekiq_options :retry => false
     def perform(token,id)
     	get_previous_data(token,id)
     end

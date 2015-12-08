@@ -1,5 +1,5 @@
 
-@font-face {font-family: "iconfont";
+@font-face {font-family: "iconfont2";
   src: url('/fonts/iconfont_2.eot'); /* IE9*/
   src: url('/fonts/iconfont_2.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
   url('/fonts/iconfont_2.woff') format('woff'), /* chrome、firefox */
@@ -7,8 +7,8 @@
   url('/fonts/iconfont_2.svg#iconfont') format('svg'); /* iOS 4.1- */
 }
 
-.iconfont {
-  font-family:"iconfont" !important;
+.iconfont2 {
+  font-family:"iconfont2" !important;
   font-size:16px;
   font-style:normal;
   -webkit-font-smoothing: antialiased;

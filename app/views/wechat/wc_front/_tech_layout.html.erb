@@ -1,3 +1,5 @@
+<link href="https://cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/font-awesome/4.4.0/fonts/fontawesome-webfont.svg"/>
 	<%if !inscene%>
 		<div id="shareit">
 			<div class="box_saomiao">
@@ -92,13 +94,7 @@
 	 </div>
 	</div>
 <%if !inscene %>
-	 <!--		<nav class="mui-bar mui-bar-tab">
-				<div class="box_footer">
-						<img src="/images/buttom_img.png" alt="" width="42px" height="42px" />
-						<span class="footer_span">技师实时状态更新中，进场扫描即可查看!</span>
-				</div>
-			</nav>
-		--!>
+
 		<nav class="mui-bar mui-bar-tab">
 					<div class="box_footer">
 						<img src="/images/buttom_img.png" alt="" width="42px" height="42px" />
@@ -201,6 +197,40 @@
 		$('#btn').click(function(){
 			$('.mask_layer').hide()
 		})
+	$(document).on('tap','i',function(){
+		if($(this).hasClass('fa-thumbs-o-up')){
+			add_like(this)
+			$.post("operate_like",{appid:'<%=per_user.sangna_config.appid%>',type:'add',tech_id:$(this).parent().parent().prev().val()},function(obj){
+             	if(obj=='err'){
+               		del_like(this)  
+             	}
+       		})
+
+		}else{
+			del_like(this)  
+         	$.post("operate_like",{appid:'<%=per_user.sangna_config.appid%>',type:'del',tech_id:$(this).parent().parent().prev().val()},function(obj){
+             		if(obj=='err'){
+               			add_like(this)  
+             		}
+       		})	
+		}
+		e.stopPropagation() 
+	});
+	$(document).on("click",'.Jishi_infor',function(){
+		 show_info($(this).children().eq(0).val()); 
+	})
 })
+	function add_like(obj){
+       $(obj).removeClass('fa-thumbs-o-up animation-delete');
+       $(obj).addClass('fa-thumbs-up animation-zan');
+       var praise_num = $(obj).parent().find('span');
+       praise_num.html(parseInt(praise_num.html())+1);
+   }
+   function del_like(obj){
+       $(obj).removeClass('fa-thumbs-up animation-zan');
+       $(obj).addClass('fa-thumbs-o-up animation-delete');
+       var praise_num = $(obj).parent().find('span');
+       praise_num.html(parseInt(praise_num.html())-1);
+   }
 
 </script>
