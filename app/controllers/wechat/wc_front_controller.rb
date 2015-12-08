@@ -62,7 +62,7 @@ class Wechat::WcFrontController < ApplicationController
 					 if @sangna_config.per_user.on_off_duty_auth==2
                 		ActiveRecord::Base.connection.execute("update per_user_masseuses as masseuse inner join masseuses_work_shifts as shift on shift.id=masseuse.work_shift_id set work_status=2 where masseuse.del=1 and masseuse.status=1 and timediff(shift.start_time,curtime())<0 and  timediff(shift.end_time,curtime())>0 and masseuse.user_id=#{@sangna_config.per_user_id}")
                 		ActiveRecord::Base.connection.execute("update per_user_masseuses as masseuse inner join masseuses_work_shifts as shift on shift.id=masseuse.work_shift_id set work_status=1 where masseuse.del=1 and masseuse.status=1 and timediff(shift.start_time,curtime())>0 and  timediff(shift.end_time,curtime())<0 and masseuse.user_id=#{@sangna_config.per_user_id}")
-            		end
+           end
 
 					technicians=PerUserMasseuse.find_by_sql(mysql)
 				else
@@ -728,18 +728,7 @@ end
 									#		'<span class="current_state fs12"> <span class="time">在'+appointment.service_time.strftime("%H:%M")+'</span>有约</span>'
 									#else
 											'<span class="current_state fs12"> <span class="time"></span></span>'
-									#
-
-
-
-
-
-
-
-
-
-
-								end
+								#end
 							else
 								if technician.masseuses_work_shift
 								"<span class='current_state fs12'>在场时间:#{technician.masseuses_work_shift.start_time.try(:strftime,"%H:%M")}-#{technician.masseuses_work_shift.end_time.try(:strftime,"%H:%M")}</span>"		
