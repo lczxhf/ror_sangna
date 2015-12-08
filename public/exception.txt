@@ -227,3 +227,51 @@ get=true&id=26
 no implicit conversion of true into String
 /home/rails-server/Projects/ror_sangna/app/controllers/wechat/third_party_controller.rb:248:in `+'
                   
+                        --------------2015-12-09 00:01:15-------------
+                       /admin
+
+Mysql2::Error: Table 'sangna.user_masseuses_like_records' doesn't exist: SHOW FULL FIELDS FROM `user_masseuses_like_records`
+
+                  
+                        --------------2015-12-09 00:01:27-------------
+                       /admin
+
+Mysql2::Error: Table 'sangna.user_masseuses_like_records' doesn't exist: SHOW FULL FIELDS FROM `user_masseuses_like_records`
+
+                  
+                        --------------2015-12-09 00:05:59-------------
+                       /wechat/wc_front/operate_like
+
+Mysql2::Error: Unknown column 'user_masseuses_like_records.masseuses_id' in 'where clause': SELECT  `user_masseuses_like_records`.* FROM `user_masseuses_like_records` WHERE `user_masseuses_like_records`.`user_id` = 31 AND `user_masseuses_like_records`.`member_id` = 2525 AND `user_masseuses_like_records`.`masseuses_id` = '994' LIMIT 1
+
+                  
+                        --------------2015-12-09 00:06:35-------------
+                       /wechat/wc_front/operate_like
+
+Mysql2::Error: Unknown column 'user_masseuses_like_records.masseuses_id' in 'where clause': SELECT  `user_masseuses_like_records`.* FROM `user_masseuses_like_records` WHERE `user_masseuses_like_records`.`user_id` = 31 AND `user_masseuses_like_records`.`member_id` = 2525 AND `user_masseuses_like_records`.`masseuses_id` = '994' LIMIT 1
+
+                  
+                        --------------2015-12-09 00:07:06-------------
+                       /wechat/wc_front/operate_like
+
+unknown attribute 'masseuses_id' for UserMasseusesLikeRecord.
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/activerecord-4.2.1/lib/active_record/attribute_assignment.rb:59:in `rescue in _assign_attribute'
+                  
+                        --------------2015-12-09 00:07:11-------------
+                       /wechat/wc_front/operate_like
+
+unknown attribute 'masseuses_id' for UserMasseusesLikeRecord.
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/activerecord-4.2.1/lib/active_record/attribute_assignment.rb:59:in `rescue in _assign_attribute'
+                  
+                        --------------2015-12-09 00:08:52-------------
+                       /wechat/wc_front/operate_like
+
+Mysql2::Error: Field 'id' doesn't have a default value: INSERT INTO `user_masseuses_like_records` (`user_id`, `member_id`, `masseuses_id`, `created_at`) VALUES (31, 2525, 994, '2015-12-09 00:08:52')
+
+                  
+                        --------------2015-12-09 00:08:59-------------
+                       /wechat/wc_front/operate_like
+
+Mysql2::Error: Field 'id' doesn't have a default value: INSERT INTO `user_masseuses_like_records` (`user_id`, `member_id`, `masseuses_id`, `created_at`) VALUES (31, 2525, 994, '2015-12-09 00:08:59')
+
+                  

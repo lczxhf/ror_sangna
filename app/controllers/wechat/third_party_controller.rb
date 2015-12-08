@@ -247,6 +247,7 @@ end
 		def get_previous_data(auth_code,next_openid=nil,susplus=0)
 					url='https://api.weixin.qq.com/cgi-bin/user/get?access_token='+auth_code.token+(next_openid.nil? ? '' : "next_openid=#{next_openid}")
 					info_result=JSON.parse(ThirdParty.get_to_wechat(url))
+					puts info_result.to_json
 					if info_result['count'].to_i>0
 						if next_openid.nil?
 								susplus=info_result['total'].to_i-info_result['count'].to_i
