@@ -211,7 +211,7 @@ def change_qrcode
 								log=qrcode.qrcode_logs.build
 								log.created_at=Time.new('2000-01-01')
 								log.status=2
-								log.per_user=per_user
+								log.user_id=params[:user_id]
 							end
 							log.member=wechat_config.member
 							log.member_bind_time=Time.now

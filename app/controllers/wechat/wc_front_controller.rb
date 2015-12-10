@@ -609,7 +609,12 @@ end
 
 	def operate_like
 	  if (params[:type]=='add' && $redis.llen("mem_like:#{@wechat_config.member_id}").to_i <= 50) || params[:type]=='del'
-        record=UserMasseusesLikeRecord.find_or_initialize_by(user_id:@sangna_config.per_user_id,member_id:@wechat_config.member_id,masseuses_id:params[:tech_id])
+
+      if  record=UserMasseusesLikeRecord.where(user_id:@sangna_config.per_user_id,member_id:@wechat_config.member_id,masseuses_id:params[:tech_id]).where("to_days(now())-to_days(created_at)=0").first
+			else
+					record=UserMasseusesLikeRecord.new(user_id:@sangna_config.per_user_id,member_id:@wechat_config.member_id,masseuses_id:params[:tech_id])
+
+			end
         if params[:type]=='add'
              record.status=1
         else  

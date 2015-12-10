@@ -275,3 +275,183 @@ Mysql2::Error: Field 'id' doesn't have a default value: INSERT INTO `user_masseu
 Mysql2::Error: Field 'id' doesn't have a default value: INSERT INTO `user_masseuses_like_records` (`user_id`, `member_id`, `masseuses_id`, `created_at`) VALUES (31, 2525, 994, '2015-12-09 00:08:59')
 
                   
+                        --------------2015-12-09 14:35:32-------------
+                       /wechat/wc_front/remark_sangna_page?appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+undefined method `district_id' for nil:NilClass
+
+                  
+                        --------------2015-12-09 14:35:40-------------
+                       /wechat/wc_front/remark_sangna_page?appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+undefined method `district_id' for nil:NilClass
+
+                  
+                        --------------2015-12-09 14:35:48-------------
+                       /wechat/wc_front/remark_sangna_page?appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+undefined method `district_id' for nil:NilClass
+
+                  
+                        --------------2015-12-09 14:36:22-------------
+                       /wechat/wc_front/remark_sangna_page?appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+undefined method `district_id' for nil:NilClass
+
+                  
+                        --------------2015-12-09 14:36:27-------------
+                       /wechat/wc_front/remark_sangna_page?appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+undefined method `district_id' for nil:NilClass
+
+                  
+                        --------------2015-12-09 14:36:47-------------
+                       /wechat/wc_front/remark_sangna_page?appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+undefined method `district_id' for nil:NilClass
+
+                  
+                        --------------2015-12-09 14:37:12-------------
+                       /wechat/wc_front/remark_sangna_page?appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+undefined method `district_id' for nil:NilClass
+
+                  
+                        --------------2015-12-09 15:00:24-------------
+                       /wechat/wc_front/remark_sangna_page?appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+undefined method `district_id' for nil:NilClass
+
+                  
+                        --------------2015-12-09 15:00:24-------------
+                       /wechat/wc_front/remark_sangna_page?appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+undefined method `district_id' for nil:NilClass
+
+                  
+                        --------------2015-12-09 15:00:25-------------
+                       /wechat/wc_front/remark_sangna_page?appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+undefined method `district_id' for nil:NilClass
+
+                  
+                        --------------2015-12-09 15:00:28-------------
+                       /wechat/wc_front/remark_sangna_page?appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+undefined method `district_id' for nil:NilClass
+
+                  
+                        --------------2015-12-09 15:00:28-------------
+                       /wechat/wc_front/remark_sangna_page?appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+undefined method `district_id' for nil:NilClass
+
+                  
+                        --------------2015-12-09 15:09:17-------------
+                       /wechat/wc_front/remark_sangna_page?appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+undefined method `district_id' for nil:NilClass
+
+                  
+                        --------------2015-12-09 15:15:30-------------
+                       /wechat/wc_front/remark_sangna_page?appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+undefined method `district_id' for nil:NilClass
+
+                  
+                        --------------2015-12-09 15:15:33-------------
+                       /wechat/wc_front/remark_sangna_page?appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+undefined method `district_id' for nil:NilClass
+
+                  
+                        --------------2015-12-09 15:15:41-------------
+                       /wechat/wc_front/remark_sangna_page?appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+undefined method `district_id' for nil:NilClass
+
+                  
+                        --------------2015-12-09 15:16:09-------------
+                       /wechat/wc_front/remark_sangna_page?appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+undefined method `district_id' for nil:NilClass
+
+                  
+                        --------------2015-12-09 15:17:12-------------
+                       /wechat/wc_front/remark_sangna_page?appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+undefined method `district_id' for nil:NilClass
+
+                  
+                        --------------2015-12-09 15:17:53-------------
+                       /wechat/wc_front/remark_sangna_page?appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+undefined method `district_id' for nil:NilClass
+
+                  
+                        --------------2015-12-09 15:19:12-------------
+                       /wechat/wc_front/remark_sangna_page?appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+undefined method `district_id' for nil:NilClass
+
+                  
+                        --------------2015-12-09 15:29:54-------------
+                       /wechat/gzh_manage/oauth?code=001caef1104eea8d9890b92b611eb8c9&state=123&appid=wx5a3825f9c36bccdc
+code=001caef1104eea8d9890b92b611eb8c9&state=123&appid=wx5a3825f9c36bccdc
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-12-09 16:01:29-------------
+                       /wechat/wc_front/remark_sangna_page?appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+undefined method `district_id' for nil:NilClass
+
+                  
+                        --------------2015-12-09 16:15:47-------------
+                       /wechat/wc_front/remark_sangna_page?appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+undefined method `district_id' for nil:NilClass
+
+                  
+                        --------------2015-12-09 16:15:51-------------
+                       /wechat/wc_front/remark_sangna_page?appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+undefined method `district_id' for nil:NilClass
+
+                  
+                        --------------2015-12-09 16:15:56-------------
+                       /wechat/wc_front/remark_sangna_page?appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+undefined method `district_id' for nil:NilClass
+
+                  
+                        --------------2015-12-09 16:18:46-------------
+                       /wechat/wc_front/remark_sangna_page?appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+undefined method `district_id' for nil:NilClass
+
+                  
+                        --------------2015-12-09 16:20:17-------------
+                       /wechat/wc_front/remark_sangna_page?appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+undefined method `district_id' for nil:NilClass
+
+                  
+                        --------------2015-12-09 16:24:27-------------
+                       /wechat/wc_front/remark_sangna_page?appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+appid=wx5a3825f9c36bccdc&log_id=15211&same_id=dep20151207165824
+undefined method `district_id' for nil:NilClass
+
+                  
+                        --------------2015-12-10 00:40:22-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-12-10 01:21:23-------------
+                       /wechat/third_party/receive?signature=774e9ae4dafc1306128bef90484f49e686fa665d&timestamp=1449681620&nonce=970614609&encrypt_type=aes&msg_signature=33d2ea1d1ce86f6e91499763d6bfc7f12ef991c8
+signature=774e9ae4dafc1306128bef90484f49e686fa665d&timestamp=1449681620&nonce=970614609&encrypt_type=aes&msg_signature=33d2ea1d1ce86f6e91499763d6bfc7f12ef991c8
+SSL_connect SYSCALL returned=5 errno=0 state=SSLv3 read server session ticket A
+/home/rails-server/.rvm/rubies/ruby-2.2.1/lib/ruby/2.2.0/net/http.rb:923:in `connect'
+                  
