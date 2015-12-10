@@ -185,7 +185,7 @@
 						$('.btn_Scene').removeClass('btn_Selected')
 					}
 				})
-				<%if params[:prompt]=='true'%>
+				<%if params[:prompt]=='true' || params[:num].to_i>0%>
 					$('#Scene_Vouchers').show();
 					$('#Comment_Vouchers').hide();
 					$('.btn_Scene').addClass('btn_Selected');

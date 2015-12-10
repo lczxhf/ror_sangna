@@ -22,17 +22,17 @@
 				wx.showMenuItems({
 				    menuList: ['menuItem:profile','menuItem:addContact'] // 要显示的菜单项，所有menu项见附录3
 				});
-				function get_ab_redbage(num){
+				function get_ab_redbage(){
 					<%if @ab_status%>
 						$.post("get_ab_redbage",{appid:'<%=params[:appid]%>',o_id:<%=params[:o_id]%>},function(obj){
 								if(obj!='0')	
-									window.location.replace('card_info?appid=<%=params[:appid]%>&num='+(parseInt(obj)+num)+"&prompt=true");
+									window.location.replace('card_info?appid=<%=params[:appid]%>&num='+parseInt(obj));
 								else{
-									window.location.replace('card_info?appid=<%=params[:appid]%>&num='+num);
+									window.location.replace('card_info?appid=<%=params[:appid]%>');
 								}
 						})
 					<%else%>
-			   			window.location.replace('card_info?appid=<%=params[:appid]%>&num='+num);
+			   			window.location.replace('card_info?appid=<%=params[:appid]%>');
 					<%end%>
 				}
 			<%if @open_redbage%>
@@ -41,18 +41,18 @@
 		        link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&o_id=<%=@order.id%>&id=<%=@order.member_id%>&same=<%=params[:same]%>',
 		        imgUrl: 'http://weixin.linkke.cn/images/forward.png',
 		        success: function(res){
-													var num=0;
+													
 													$.post('get_redbage',{o_id:'<%=params[:o_id]%>',same:<%=params[:same]%>},function(r_obj){
 													   if(r_obj=='ok'){
 																	mui.toast('分享成功!代金券已放入您的卡券中');
-																	num=1;
+																	
 
 															}
 															else{
 																	mui.toast('分享成功!您已领取过代金券!');
 																	$("#shareit").hide(); 
 															}
-															get_ab_redbage(num)
+															get_ab_redbage()
 													 })
 													
 		        },
@@ -67,17 +67,17 @@
 					  link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&o_id=<%=@order.id%>&id=<%=@order.member_id%>&same=<%=params[:same]%>', 
 						imgUrl: 'http://weixin.linkke.cn/images/forward.png',
 						success: function () { 
-													var num=0;
+													
 													$.post('get_redbage',{o_id:'<%=params[:o_id]%>',same:<%=params[:same]%>},function(r_obj){
 													   if(r_obj=='ok'){
 																	mui.toast('分享成功!代金券已放入您的卡券中');
-																	num=1;
+																	
 															}
 															else{
 																	mui.toast('分享成功!您已领取过代金券!');
 																	$("#shareit").hide(); 
 															}
-															get_ab_redbage(num)
+															get_ab_redbage()
 													 })
 												
 													
@@ -91,7 +91,7 @@
 		        link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>&skip=h',
 		        imgUrl: '<%=@order.per_user.get_forward_img%>',
 		        success: function(res){
-		        				get_ab_redbage(0)								
+		        				get_ab_redbage()								
 		        },
 		        cancel: function(res){
 				    }
@@ -104,7 +104,7 @@
 					  link: 'http://weixin.linkke.cn/wechat/wc_front/choose_technician?appid=<%=params[:appid]%>&skip=h', 
 						imgUrl: '<%=@order.per_user.get_forward_img%>',
 						success: function () { 
-						get_ab_redbage(0)
+						get_ab_redbage()
 						
 						},
 						cancel: function () { 

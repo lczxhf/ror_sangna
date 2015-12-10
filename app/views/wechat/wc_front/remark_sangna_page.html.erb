@@ -28,39 +28,11 @@
 		        link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&same=<%=params[:same_id]%>&log_id=<%=@log.id%>&id=<%=@log.member_id%>',
 		        imgUrl: 'http://weixin.linkke.cn/images/forward.png',
 		        success: function(res){
-		          <%if @level.nil?%>
-		        	if ($level>0){
-		        		$.post("remark_sangna",{appid:'<%=params[:appid]%>',log_id:'<%=@log.id%>',level:$level},function(obj){
-		        			if(obj=='ok'){
-		        				mui.toast('评价成功');
-		        			}
-		        			else{
-		        				mui.toast('评价失败');
-		        			}
-		        		})
-		        	}
-		        	else{
-		        		mui.toast('请选择评价');
-		        	}
-		          <%end%>
-					var num=0;
-					$.post('get_departure_card',{appid:'<%=params[:appid]%>',log_id:'<%=params[:log_id]%>',same:'<%=params[:same_id]%>'},function(r_obj){
-						  
-						  if(r_obj=='ok'){
-								mui.toast('分享成功!代金券已放入您的卡券中');
-								num=1;
-								
-							}
-							else{
-									mui.toast('您已领取过代金券!');
-									$("#shareit").hide(); 
-							}
-							window.location.replace('card_info?appid=<%=params[:appid]%>&num=');
-					 })
-													
+		        	$("#shareit").hide(); 						
 		        },
 		        cancel: function(res){
-				    }
+				 	$("#shareit").hide(); 
+				 }
 			 });
 
 
@@ -70,36 +42,7 @@
 					  link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&same=<%=params[:same_id]%>&log_id=<%=@log.id%>&id=<%=@log.member_id%>', 
 						imgUrl: 'http://weixin.linkke.cn/images/forward.png',
 						success: function () { 
-						  <%if @level.nil?%>
-							if ($level>0){
-		        				$.post("remark_sangna",{appid:'<%=params[:appid]%>',level:$level,log_id:'<%=@log.id%>'},function(obj){
-		        					if(obj=='ok'){
-		        						mui.toast('评价成功');
-		        					}
-		        					else{
-		        						mui.toast('评价失败');
-		        					}
-		        				})
-		        			}
-		        			else{
-		        				mui.toast('请选择评价');
-		        			}
-		        	      <%end%>
-							var num=0;
-							$.post('get_departure_card',{appid:'<%=params[:appid]%>',log_id:'<%=params[:log_id]%>',same:'<%=params[:same_id]%>'},function(r_obj){
-									
-						  			if(r_obj=='ok'){
-										mui.toast('分享成功!代金券已放入您的卡券中');
-										num=1;
-										
-									}
-									else{
-										mui.toast('您已领取过代金券!');
-										$("#shareit").hide(); 
-									}
-									window.location.replace('card_info?appid=<%=params[:appid]%>&num='+num);
-					 		})			
-													
+					
 						},
 						cancel: function () { 
 						}
@@ -136,9 +79,13 @@
 					    </ul>
 					</div>
 				</div>
-				<div class="box_btn">
+				<div class="box_btn" id='box_btn1'>
 					<button id='leave' class="mui-btn mui-btn-outlined">放弃福利</button>
 					<button id="share_btn" class="mui-btn mui-btn-positive comfirm_BD">获取福利</button>
+				</div>
+				<div class="box_btn" id="box_btn2" style="display: none;">
+					<button class="mui-btn mui-btn-outlined" id='to_card'>看看我的卡劵</button>
+					<button class="mui-btn mui-btn-positive" id='share_btn2'>分享这次体验</button>
 				</div>
 				<div class="Line"></div>
 				<div class="Linkke Linkke-color">
@@ -154,7 +101,7 @@
 		<script type="text/javascript">
 
 			$(function() {
-				var $level;
+				var level=0;
 				$('.header_tip').css( 'width',window.innerWidth*0.92-60 );
 				$('.HuiSuo_img').css( 'width',window.innerWidth*0.92*0.85 );
 				$('.HuiSuo_contact').css( 'width',window.innerWidth*0.92*0.85 );
@@ -162,8 +109,43 @@
 				$('.HuiSuo_img>img').css( 'width',window.innerWidth*0.92*0.85-6 );
 
 				$("#share_btn").on("click", function() {
-		      		$("#shareit").show();
+		      	  <%if @level.nil?%>
+		        	if (level>0){
+		        		$.post("remark_sangna",{appid:'<%=params[:appid]%>',log_id:'<%=@log.id%>',level:$level},function(obj){
+		        			if(obj=='ok'){
+		        				mui.toast('评价成功');
+		        				$.post('get_departure_card',{appid:'<%=params[:appid]%>',log_id:'<%=params[:log_id]%>',same:'<%=params[:same_id]%>'},function(r_obj){
+						  
+						 				 if(r_obj=='ok'){
+												mui.toast('分享成功!代金券已放入您的卡券中');	
+										  }
+										 else{
+											mui.toast('您已领取过代金券!');
+											$("#shareit").hide(); 
+										 }							
+					 			 })
+		        			}
+		        			else{
+		        				mui.toast('评价失败');
+		        			}
+		        		})
+		        	}
+		        	else{
+		        		mui.toast("评论完会所才可以领取代金券!")
+		        	}
+		          <%else%>
+		        		mui.toast("您已领取过代金券!")
+                        $("#box_btn1").hide();
+                        $("#box_btn2").show()
+		          <%end%>					
 		  		});
+		  		$("#to_card").on("click",function(){
+                    window.location.href="card_info?appid=<%=params[:appid]%>";
+                })
+                $("#share_btn2").on("click",function(){
+                   $("#shareit").show();    
+                })
+
 		  		$("#shareit").on("click", function(){
 		  			$("#shareit").hide(); 
 		 		 })
@@ -171,9 +153,7 @@
 						wx.closeWindow();
 				})
 
-			})
-			window.onload = function () {
-				$level=0;
+	
 		    var s = document.getElementById("pingStar1"),
 		        n = s.getElementsByTagName("li");
 		        <%if @level%>
@@ -192,16 +172,14 @@
 		    for (var i = 0; i < n.length; i++) {
 		        n[i].onclick = function () {
 		            var q = this.getAttribute("rel");
-		            $level = q;
+		            level = q;
 		            clearAll();
 		            for (var i = 0; i < q; i++) {
 		                n[i].className = 'on';
 		            }
 			        // m.innerHTML = this.getAttribute("title");
 		        }
-		     }  
-		     
-		    
-		}
+		     }  		    
+		})
 		</script>
 <%end%>

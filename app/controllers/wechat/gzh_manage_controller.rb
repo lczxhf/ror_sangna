@@ -333,8 +333,8 @@ end
 						templete_number=TempleteNumber.find_by_topic('获得优惠券通知')
 						hash={}
 						url="http://weixin.linkke.cn/wechat/wc_front/remark_sangna_page?appid=#{per_user.sangna_config.appid}&log_id=#{log.id}&same_id=#{rule.same_id}"
-						hash['first']="您好，恭喜您获得代金券"
-						hash['remark']='点击查看卡券详情'
+						hash['first']="感谢您在#{per_user.name}的消费"
+						hash['remark']='点击详情评论会所后,可得代金券'
 						array=['代金券','所有项目',"#{rule.due_day}天"]
 						templete_message=templete_number.templete_messages.where(sangna_config_id:per_user.sangna_config.id).first
 						templete_number.fields.split(',').each_with_index do |a,index|
