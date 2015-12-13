@@ -455,3 +455,93 @@ signature=774e9ae4dafc1306128bef90484f49e686fa665d&timestamp=1449681620&nonce=97
 SSL_connect SYSCALL returned=5 errno=0 state=SSLv3 read server session ticket A
 /home/rails-server/.rvm/rubies/ruby-2.2.1/lib/ruby/2.2.0/net/http.rb:923:in `connect'
                   
+                        --------------2015-12-10 17:21:48-------------
+                       /wechat/gzh_manage/oauth?code=04127a423e1b6d81611aa1e3edfd00d3&state=123&appid=wx55d4d556c43b3bfc
+code=04127a423e1b6d81611aa1e3edfd00d3&state=123&appid=wx55d4d556c43b3bfc
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-12-10 17:21:48-------------
+                       /wechat/gzh_manage/oauth?code=04127a423e1b6d81611aa1e3edfd00d3&state=123&appid=wx55d4d556c43b3bfc
+code=04127a423e1b6d81611aa1e3edfd00d3&state=123&appid=wx55d4d556c43b3bfc
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-12-10 17:21:48-------------
+                       /wechat/gzh_manage/oauth?code=001d0ecff322210afff6ba128533a1f2&state=123&appid=wx55d4d556c43b3bfc
+code=001d0ecff322210afff6ba128533a1f2&state=123&appid=wx55d4d556c43b3bfc
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-12-10 17:21:48-------------
+                       /wechat/gzh_manage/oauth?code=001d0ecff322210afff6ba128533a1f2&state=123&appid=wx55d4d556c43b3bfc
+code=001d0ecff322210afff6ba128533a1f2&state=123&appid=wx55d4d556c43b3bfc
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-12-10 18:48:50-------------
+                       /wechat/gzh_manage/sent_departure_card
+
+SSL_connect SYSCALL returned=5 errno=0 state=SSLv3 read server session ticket A
+/home/rails-server/.rvm/rubies/ruby-2.2.1/lib/ruby/2.2.0/net/http.rb:923:in `connect'
+                  
+                        --------------2015-12-11 03:19:52-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-12-11 16:11:35-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-12-12 01:01:06-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-12-12 02:46:12-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-12-12 13:07:09-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-12-13 02:12:13-------------
+                       /wechat/wc_front/redbage?appid=wx1afe4579d119834a&o_id=856&id=2512&same=20151012143830&from=timeline&isappinstalled=0
+appid=wx1afe4579d119834a&o_id=856&id=2512&same=20151012143830&from=timeline&isappinstalled=0
+undefined method `face_value' for nil:NilClass
+
+                  
+                        --------------2015-12-13 02:12:13-------------
+                       /wechat/wc_front/redbage?appid=wx1afe4579d119834a&o_id=856&id=2512&same=20151012143830&from=timeline&isappinstalled=0
+appid=wx1afe4579d119834a&o_id=856&id=2512&same=20151012143830&from=timeline&isappinstalled=0
+undefined method `face_value' for nil:NilClass
+
+                  
+                        --------------2015-12-13 02:12:13-------------
+                       /wechat/wc_front/redbage?appid=wx1afe4579d119834a&o_id=856&id=2512&same=20151012143830&from=timeline&isappinstalled=0&dcwpf0dc4=1449943933094
+appid=wx1afe4579d119834a&o_id=856&id=2512&same=20151012143830&from=timeline&isappinstalled=0&dcwpf0dc4=1449943933094
+undefined method `face_value' for nil:NilClass
+
+                  
+                        --------------2015-12-13 02:24:21-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-12-13 04:21:14-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  

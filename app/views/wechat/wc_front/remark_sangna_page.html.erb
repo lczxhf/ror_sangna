@@ -31,7 +31,6 @@
 		        	$("#shareit").hide(); 						
 		        },
 		        cancel: function(res){
-				 	$("#shareit").hide(); 
 				 }
 			 });
 
@@ -42,7 +41,7 @@
 					  link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&same=<%=params[:same_id]%>&log_id=<%=@log.id%>&id=<%=@log.member_id%>', 
 						imgUrl: 'http://weixin.linkke.cn/images/forward.png',
 						success: function () { 
-					
+		        	$("#shareit").hide(); 						
 						},
 						cancel: function () { 
 						}
@@ -111,7 +110,7 @@
 				$("#share_btn").on("click", function() {
 		      	  <%if @level.nil?%>
 		        	if (level>0){
-		        		$.post("remark_sangna",{appid:'<%=params[:appid]%>',log_id:'<%=@log.id%>',level:$level},function(obj){
+		        		$.post("remark_sangna",{appid:'<%=params[:appid]%>',log_id:'<%=@log.id%>',level:level},function(obj){
 		        			if(obj=='ok'){
 		        				mui.toast('评价成功');
 		        				$.post('get_departure_card',{appid:'<%=params[:appid]%>',log_id:'<%=params[:log_id]%>',same:'<%=params[:same_id]%>'},function(r_obj){
@@ -121,8 +120,9 @@
 										  }
 										 else{
 											mui.toast('您已领取过代金券!');
-											$("#shareit").hide(); 
-										 }							
+											 }							
+										  $("#box_btn1").hide();
+                        $("#box_btn2").show()
 					 			 })
 		        			}
 		        			else{

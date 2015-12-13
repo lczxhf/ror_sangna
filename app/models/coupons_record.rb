@@ -38,7 +38,8 @@ class CouponsRecord < ActiveRecord::Base
 			Sangna.sent_template_message(sangna_config.token,wechat_config.openid,message.templete_id,url,hash)
 	end
 
-	def self.sent_due_message(sangna_config,num,openid)
+	def self.sent_due_message(s_id,num,openid)
+		sangna_config=SangnaConfig.find(s_id)
 		templete=TempleteNumber.find_by_topic('优惠券到期提醒') 
 	  message=templete.templete_messages.where(sangna_config_id:sangna_config.id).first
 		hash={}
