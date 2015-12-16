@@ -545,3 +545,75 @@ Cannot redirect to nil!
 Cannot redirect to nil!
 /home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
                   
+                        --------------2015-12-14 00:18:25-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-12-14 02:24:40-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-12-14 02:32:04-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-12-14 03:41:45-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-12-15 12:13:43-------------
+                       /wechat/third_party/auth_code?id=82&auth_code=queryauthcode@@@Tz3kw3f_CwlzPQFmhBFpYmoftmW4hIOoWubqykzHgpjh5sVN7NW4NTiNB8PRCYRcbC3nNEim80DSdr877efJdw&expires_in=3600
+id=82&auth_code=queryauthcode@@@Tz3kw3f_CwlzPQFmhBFpYmoftmW4hIOoWubqykzHgpjh5sVN7NW4NTiNB8PRCYRcbC3nNEim80DSdr877efJdw&expires_in=3600
+no implicit conversion of nil into String
+/home/rails-server/Projects/ror_sangna/app/models/sangna.rb:52:in `+'
+                  
+                        --------------2015-12-15 12:13:45-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-12-15 12:16:16-------------
+                       /wechat/third_party/auth_code?id=82&auth_code=queryauthcode@@@Tz3kw3f_CwlzPQFmhBFpYtGq1cLaRYNLofAD46pfbdzewGm6-5lOenaNP78sgJPKnMePDZy1Sy8OUoZ47Is4FQ&expires_in=3600
+id=82&auth_code=queryauthcode@@@Tz3kw3f_CwlzPQFmhBFpYtGq1cLaRYNLofAD46pfbdzewGm6-5lOenaNP78sgJPKnMePDZy1Sy8OUoZ47Is4FQ&expires_in=3600
+no implicit conversion of nil into String
+/home/rails-server/Projects/ror_sangna/app/models/sangna.rb:52:in `+'
+                  
+                        --------------2015-12-15 12:18:19-------------
+                       /wechat/third_party/receive?signature=8e5f429e72cf412d8a0c88478c1ffe0bec3d9ee1&timestamp=1450153099&nonce=628131015&encrypt_type=aes&msg_signature=179fff0e370ad659edfb6d7f0344c5ce4691624b
+signature=8e5f429e72cf412d8a0c88478c1ffe0bec3d9ee1&timestamp=1450153099&nonce=628131015&encrypt_type=aes&msg_signature=179fff0e370ad659edfb6d7f0344c5ce4691624b
+undefined method `update_attribute' for nil:NilClass
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/third_party_controller.rb:115:in `receive'
+                  
+                        --------------2015-12-15 12:19:31-------------
+                       /wechat/third_party/auth_code?id=82&auth_code=queryauthcode@@@Tz3kw3f_CwlzPQFmhBFpYmtuptkphYrWs7gl8Z5OJwPSb7qslG1VBl-cC-rUKAirxPwzUKgB6oyH_oAW9mVxkA&expires_in=3600
+id=82&auth_code=queryauthcode@@@Tz3kw3f_CwlzPQFmhBFpYmtuptkphYrWs7gl8Z5OJwPSb7qslG1VBl-cC-rUKAirxPwzUKgB6oyH_oAW9mVxkA&expires_in=3600
+no implicit conversion of nil into String
+/home/rails-server/Projects/ror_sangna/app/models/sangna.rb:52:in `+'
+                  
+                        --------------2015-12-15 12:22:12-------------
+                       /wechat/third_party/receive?signature=f13ce0076ed70ad2b7a0345679a3fb9988fe6952&timestamp=1450153332&nonce=276424752&encrypt_type=aes&msg_signature=bcd24ae10f92f64020ec81a5ae37ca187720ea2c
+signature=f13ce0076ed70ad2b7a0345679a3fb9988fe6952&timestamp=1450153332&nonce=276424752&encrypt_type=aes&msg_signature=bcd24ae10f92f64020ec81a5ae37ca187720ea2c
+undefined method `update_attribute' for nil:NilClass
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/third_party_controller.rb:115:in `receive'
+                  
+                        --------------2015-12-15 17:06:14-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-12-15 17:06:14-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
