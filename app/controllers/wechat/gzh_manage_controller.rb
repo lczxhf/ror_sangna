@@ -218,7 +218,6 @@ def change_qrcode
 							coupons_records=wechat_config.member.coupons_records.where("status in (1,2)")
 							log.entrance_card_count=coupons_records.size
 							log.entrance_card_sum=coupons_records.collect{|a| a.value}.sum
-							puts log.to_json
 							log.save
 							wechat_config.member.hand_code=qrcode.id
 							wechat_config.member.save
