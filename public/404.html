@@ -1,67 +1,57 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>The page you were looking for doesn't exist (404)</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <style>
-  body {
-    background-color: #EFEFEF;
-    color: #2E2F30;
-    text-align: center;
-    font-family: arial, sans-serif;
-    margin: 0;
-  }
-
-  div.dialog {
-    width: 95%;
-    max-width: 33em;
-    margin: 4em auto 0;
-  }
-
-  div.dialog > div {
-    border: 1px solid #CCC;
-    border-right-color: #999;
-    border-left-color: #999;
-    border-bottom-color: #BBB;
-    border-top: #B00100 solid 4px;
-    border-top-left-radius: 9px;
-    border-top-right-radius: 9px;
-    background-color: white;
-    padding: 7px 12% 0;
-    box-shadow: 0 3px 8px rgba(50, 50, 50, 0.17);
-  }
-
-  h1 {
-    font-size: 100%;
-    color: #730E15;
-    line-height: 1.5em;
-  }
-
-  div.dialog > p {
-    margin: 0 0 1em;
-    padding: 1em;
-    background-color: #F7F7F7;
-    border: 1px solid #CCC;
-    border-right-color: #999;
-    border-left-color: #999;
-    border-bottom-color: #999;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-    border-top-color: #DADADA;
-    color: #666;
-    box-shadow: 0 3px 8px rgba(50, 50, 50, 0.17);
-  }
-  </style>
-</head>
-
-<body>
-  <!-- This file lives in public/404.html -->
-  <div class="dialog">
-    <div>
-      <h1>The page you were looking for doesn't exist.</h1>
-      <p>You may have mistyped the address or the page may have moved.</p>
-    </div>
-    <p>If you are the application owner check the logs for more information.</p>
-  </div>
-</body>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<title>主页 | 领客水疗</title>
+		<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			body{
+			
+				background: #FAF1EA;
+				
+			}
+			.err-box{
+							position: absolute;
+							left: 50%;
+							top: 37%;
+							transform: translate(-50%,-50%);
+							-webkit-transform: translate(-50%,-50%);
+							-moz-transform: translate(-50%,-50%);
+							-o-transform: translate(-50%,-50%);
+							text-align: left;
+							width: 215px;
+							color: #2B2733;
+							font-size: 15px;
+							font-family: "微软雅黑";
+			}
+			.err-box img{
+				max-width: 82px;
+			    _width: expression(this.width > 82 ? "82px" : this.width);
+			    max-height: 82px;
+			    _height: expression(this.height > 82 ? "82px" : this.height);
+			    margin-bottom: 8px;
+			}
+			.err-box .err-line{
+				height: 1px;
+				width: 139px;
+				background: #E7E1DD;
+			}
+			.err-box .err-c{
+				margin: 5px 0px;
+			}			
+		</style>
+	</head>
+	<body>
+		<div class="err-box">
+			<img src="/images/linkkelogo1209.png" alt=""/>
+			<div class="err-line"></div>
+			<p class="err-c">您打开的页面不存在！</p><!--系统繁忙，请稍后刷新-->
+			<span>请重新核对您输入的网址</span>					
+		</div>
+	</body>
 </html>

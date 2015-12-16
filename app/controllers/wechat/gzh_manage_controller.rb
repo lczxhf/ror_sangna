@@ -206,7 +206,7 @@ def change_qrcode
 								@error_status=1
 								render template: '/wechat/wc_front/wechat_error'
 						else
-							log=qrcode.qrcode_logs.where(status:2).first
+							log=qrcode.qrcode_logs.where(user_id:params[:user_id],status:2).first
 							if log.nil? 
 								log=qrcode.qrcode_logs.build
 								log.created_at=Time.new('2000-01-01')
