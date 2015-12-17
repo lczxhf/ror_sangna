@@ -28,7 +28,7 @@
 			});
 		wx.onMenuShareTimeline({
 		      title: '送你<%=Region.where(regions_code:@main.per_user.district_id).first.try(:regions_NAME)%><%=@main.per_user.name%>代金券<%=@main.class==OrderByMasseuse ? ",记得一定要找#{@main.per_user_masseuse.job_number}服务啊" : ""%>!', 
-		        link: '<%=request.url+"&m_id=#{@wechat_config.member_id}"%>',
+		        link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&same=<%=params[:same]%>&id=<%=params[:id]%>&<%=params[:o_id].nil? ? "log_id=#{params[:log_id]} : "o_id=params[:o_id]" %>&m_id=<%=@wechat_config.member_id%>',
 		        imgUrl: 'http://weixin.linkke.cn/images/forward.png',
 		        success: function(res){
 		        },
@@ -40,7 +40,7 @@
 			 wx.onMenuShareAppMessage({
 				    title: '送你<%=Region.where(regions_code:@main.per_user.district_id).first.try(:regions_NAME)%><%=@main.per_user.name%>代金券<%=@main.class==OrderByMasseuse ? ",记得一定要找#{@main.per_user_masseuse.job_number}服务啊" : ""%>!', 
 					  desc: '<%=@main.per_user.name%>送我红包了!赶紧去抢吧!', 
-					  link: '<%=request.url+"&m_id=#{@wechat_config.member_id}"%>', 
+					  link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&same=<%=params[:same]%>&id=<%=params[:id]%>&<%=params[:o_id].nil? ? "log_id=#{params[:log_id]} : "o_id=params[:o_id]" %>&m_id=<%=@wechat_config.member_id%>', 
 						imgUrl: 'http://weixin.linkke.cn/images/forward.png',
 						success: function () { 
 						},
