@@ -617,3 +617,191 @@ Cannot redirect to nil!
 Cannot redirect to nil!
 /home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
                   
+                        --------------2015-12-17 01:12:42-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-12-17 10:00:33-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-12-17 10:46:01-------------
+                       /wechat/gzh_manage/oauth?code=02118c9ea6dd5cf6f770d9b60783b31I&state=123&appid=wx79a4ddd4baf25f8a
+code=02118c9ea6dd5cf6f770d9b60783b31I&state=123&appid=wx79a4ddd4baf25f8a
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-12-17 20:23:25-------------
+                       /wechat/wc_front/redbage?appid=wx697eed6c8f1d5c78&same=dep20151206175231&log_id=15331&id=2525&from=singlemessage&isappinstalled=0
+appid=wx697eed6c8f1d5c78&same=dep20151206175231&log_id=15331&id=2525&from=singlemessage&isappinstalled=0
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:31: syntax error, unexpected tIDENTIFIER, expecting ':'
+...g_id=#{params[:log_id]} : "o_id=params[:o_id]" );@output_buf...
+...                               ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:31: syntax error, unexpected tSTRING_BEG, expecting ')'
+...log_id]} : "o_id=params[:o_id]" );@output_buffer.safe_append...
+...                               ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:41: syntax error, unexpected ',', expecting ')'
+...ain.class==OrderByMasseuse ? ",记得一定要找#{@main.per...
+...                               ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:42: syntax error, unexpected ':', expecting ')'
+					  desc: \''.freeze;@output_buffer.ap...
+					       ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:43: syntax error, unexpected tIDENTIFIER, expecting ':'
+...g_id=#{params[:log_id]} : "o_id=params[:o_id]" );@output_buf...
+...                               ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:43: syntax error, unexpected tSTRING_BEG, expecting ')'
+...log_id]} : "o_id=params[:o_id]" );@output_buffer.safe_append...
+...                               ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:54: syntax error, unexpected tIDENTIFIER, expecting ')'
+@output_buffer.safe_append='		<div class="mui-content">
+                            		               ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:54: syntax error, unexpected tSTRING_BEG, expecting keyword_do or '{' or '('
+@output_buffer.safe_append='		<div class="mui-content">
+                            		                        ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:55: syntax error, unexpected tIDENTIFIER, expecting ')'
+			<div class="header">
+			                  ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:56: syntax error, unexpected tIDENTIFIER, expecting ')'
+				<div class="box_img">
+				                   ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:57: syntax error, unexpected tINTEGER, expecting ')'
+...safe_append='" alt="" width="55px" height="55px" />
+...                               ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:57: syntax error, unexpected tINTEGER, expecting ')'
+... alt="" width="55px" height="55px" />
+...                               ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:59: syntax error, unexpected tIDENTIFIER, expecting ')'
+				<div class="header_tip">我刚去完'.freeze;@outpu...
+				                      ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:59: syntax error, unexpected tIDENTIFIER, expecting ')'
+...d].nil? ? "" : "，推荐你找#{@main.per_user_masseuse.job...
+...                               ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:62: unknown regexp options - dv
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:63: syntax error, unexpected '<'
+				<div class="HuiSuo_img">
+				 ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:64: syntax error, unexpected '<'
+					<img src="'.freeze;@output_buf...
+					 ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:64: syntax error, unexpected tIDENTIFIER, expecting ')'
+...utput_buffer.safe_append='" alt="" height="130px" />
+...                               ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:64: syntax error, unexpected tIDENTIFIER, expecting ')'
+...er.safe_append='" alt="" height="130px" />
+...                               ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:64: syntax error, unexpected '>'
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:67: unknown regexp options - dv
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:68: syntax error, unexpected '<'
+					<div class="HuiSuo_phone">电...
+					 ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:68: syntax error, unexpected tSTRING_BEG, expecting keyword_do or '{' or '('
+...class="HuiSuo_phone">电话：'.freeze;@output_buffer.append...
+...                               ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:69: unknown regexp options - dv
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:70: syntax error, unexpected '<'
+				<div class="box_btn">
+				 ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:71: syntax error, unexpected '<'
+					<button class="mui-btn mui-btn...
+					 ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:71: syntax error, unexpected tIDENTIFIER, expecting ')'
+...s="mui-btn mui-btn-outlined" id="go_technician">先去看看...
+...                               ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:72: unknown regexp options - btt
+/.../n has a non escaped non ASCII character in non ASCII-8BIT script: /button>
+					<button id="share_btn" class="mui-btn mui-btn-positive comfirm_BD">\u9886\u53D6\uFFE5'.freeze;@output_buffer.append=(@coupon_rule.face_value);@output_buffer.safe_append='\u4EE3\u91D1\u5238</
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:73: syntax error, unexpected '<'
+				</div>
+				 ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:74: unknown regexp option - a
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:75: syntax error, unexpected '<'
+				<div class="Line"></div>
+				 ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:75: syntax error, unexpected '<'
+				<div class="Line"></div>
+				                   ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:77: unknown regexp options - dv
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:78: syntax error, unexpected '<'
+					<div>www.linkke.cn</div>
+					 ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:79: unknown regexp options - dv
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:80: syntax error, unexpected '<'
+			</div>
+			 ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:81: unknown regexp options - dv
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:82: syntax error, unexpected '<'
+		<div id="shareit_BangDing">
+		 ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:83: syntax error, unexpected '<'
+			<div id="BangDing">
+			 ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:84: syntax error, unexpected '<'
+				<div class="box_icon close_BD">
+				 ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:85: syntax error, unexpected '<'
+					<span class="mui-icon mui-icon-closeempty"></span>
+					 ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:85: syntax error, unexpected '<'
+					<span class="mui-icon mui-icon-closeempty"></span>
+					                                            ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:86: unknown regexp options - dv
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:87: syntax error, unexpected '<'
+				<div class="BangDing_tip">送...
+				 ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:87: syntax error, unexpected tSTRING_BEG, expecting keyword_do or '{' or '('
+...ss="BangDing_tip">送你一张'.freeze;@output_buffer.append...
+...                               ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:87: syntax error, unexpected tIDENTIFIER, expecting ')'
+...uffer.safe_append='的代金券</div>
+...                               ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:89: unknown regexp options - dv
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:90: syntax error, unexpected '<'
+					<div class="voucher">代金券</div>
+					 ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:91: unknown regexp options - dv
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:92: syntax error, unexpected '<'
+				<div class="huisuo_addr">'.fre...
+				 ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:94: unknown regexp options - btt
+/.../n has a non escaped non ASCII character in non ASCII-8BIT script: /div>
+				<div class="infor_input_2">
+					<button id="btn" class="mui-btn mui-btn-outlined">\u83B7\u53D6\u9A8C\u8BC1\u7801</
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:95: syntax error, unexpected '<'
+					<input type="tel" placeholder=...
+					 ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:95: syntax error, unexpected tIDENTIFIER, expecting ')'
+...		<input type="tel" placeholder="请输入手机号码！" r...
+...		                             ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:95: syntax error, unexpected tIDENTIFIER, expecting ')'
+...输入手机号码！" required="" id=\'phone\' />
+...                               ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:95: syntax error, unexpected tIDENTIFIER, expecting ')'
+...手机号码！" required="" id=\'phone\' />
+...                               ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:229: syntax error, unexpected keyword_end, expecting ')'
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:231: syntax error, unexpected keyword_ensure, expecting ')'
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:233: syntax error, unexpected keyword_end, expecting ')'
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionview-4.2.1/lib/action_view/template.rb:296:in `module_eval'
+                  
+                        --------------2015-12-17 20:25:07-------------
+                       /wechat/wc_front/redbage?appid=wx697eed6c8f1d5c78&same=dep20151206175231&log_id=15331&id=2525&from=singlemessage&isappinstalled=0
+appid=wx697eed6c8f1d5c78&same=dep20151206175231&log_id=15331&id=2525&from=singlemessage&isappinstalled=0
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:31: syntax error, unexpected tIDENTIFIER, expecting ':'
+...g_id=#{params[:log_id]} : "o_id=#{params[:o_id]}" );@output_...
+...                               ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:43: syntax error, unexpected tIDENTIFIER, expecting ':'
+...g_id=#{params[:log_id]} : "o_id=#{params[:o_id]}" );@output_...
+...                               ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:52: syntax error, unexpected keyword_end, expecting ')'
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:53: syntax error, unexpected keyword_do_cond, expecting ')'
+	content_for :body do		
+	                    ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:229: syntax error, unexpected keyword_end, expecting ')'
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:231: syntax error, unexpected keyword_ensure, expecting ')'
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:233: syntax error, unexpected keyword_end, expecting ')'
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionview-4.2.1/lib/action_view/template.rb:296:in `module_eval'
+                  
