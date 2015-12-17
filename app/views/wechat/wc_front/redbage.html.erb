@@ -119,9 +119,11 @@
 		<script type="text/javascript">
 			$(function() {
 				$('.header_tip').css( 'width',window.innerWidth*0.92-60 );
-				$('.HuiSuo_img').css( 'width',window.innerWidth*0.92*0.85 );
 				$('.HuiSuo_contact').css( 'width',window.innerWidth*0.92*0.85 );
 				$('#BangDing>.box_img').css( 'height',$('.box_img').width()*1.3 );
+				$('.HuiSuo_img').css( 'width',window.innerWidth*0.92*0.85 );
+				$('.HuiSuo_img').css( 'height',window.innerWidth*0.92*0.85*2/3 );
+				$('.HuiSuo_img>img').css( 'height',window.innerWidth*0.92*0.85*2/3-6 );
 				$('.HuiSuo_img>img').css( 'width',window.innerWidth*0.92*0.85-6 );
 				<%if params[:o_id].nil?%>
                     var param="log_id=<%=params[:log_id]%>" 

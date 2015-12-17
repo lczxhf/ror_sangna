@@ -102,11 +102,12 @@
 			$(function() {
 				var level=0;
 				$('.header_tip').css( 'width',window.innerWidth*0.92-60 );
-				$('.HuiSuo_img').css( 'width',window.innerWidth*0.92*0.85 );
 				$('.HuiSuo_contact').css( 'width',window.innerWidth*0.92*0.85 );
 				$('#BangDing>.box_img').css( 'height',$('.box_img').width()*1.3 );
+				$('.HuiSuo_img').css( 'width',window.innerWidth*0.92*0.85 );
+				$('.HuiSuo_img').css( 'height',window.innerWidth*0.92*0.85*2/3 );
+				$('.HuiSuo_img>img').css( 'height',window.innerWidth*0.92*0.85*2/3-6 );
 				$('.HuiSuo_img>img').css( 'width',window.innerWidth*0.92*0.85-6 );
-
 				$("#share_btn").on("click", function() {
 		      	  <%if @level.nil?%>
 		        	if (level>0){
