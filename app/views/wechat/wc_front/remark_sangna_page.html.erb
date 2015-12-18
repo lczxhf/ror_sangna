@@ -24,9 +24,9 @@
 				});
 
 				wx.onMenuShareTimeline({
-		      title: '送你<%=Region.where(regions_code:@log.per_user.district_id).first.try(:regions_NAME)%><%=@log.per_user.name%>代金券!', 
+		      title: "<%= (title=@log.per_user.get_forward_assets('title'))[0]%>", 
 		        link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&same=<%=params[:same_id]%>&log_id=<%=@log.id%>&id=<%=@log.member_id%>',
-		        imgUrl: 'http://weixin.linkke.cn/images/forward.png',
+		        imgUrl: "<%= img_url=@log.per_user.get_forward_assets('img')%>",
 		        success: function(res){
 		        	$("#shareit").hide(); 						
 		        },
@@ -36,10 +36,10 @@
 
 
 			 wx.onMenuShareAppMessage({
-				    title: '送你<%=Region.where(regions_code:@log.per_user.district_id).first.try(:regions_NAME)%><%=@log.per_user.name%>代金券!', 
-					  desc: '<%=@log.per_user.name%>送我红包了!赶紧去抢吧!', 
+				    title: '<%=title[0]%>', 
+					  desc: '<%=title[1]%>', 
 					  link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&same=<%=params[:same_id]%>&log_id=<%=@log.id%>&id=<%=@log.member_id%>', 
-						imgUrl: 'http://weixin.linkke.cn/images/forward.png',
+						imgUrl: '<%=img_url%>',
 						success: function () { 
 		        	$("#shareit").hide(); 						
 						},

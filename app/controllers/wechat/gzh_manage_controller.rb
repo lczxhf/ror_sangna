@@ -103,6 +103,7 @@ class Wechat::GzhManageController < ApplicationController
 
 	  def oauth
 					puts params
+		  if params[:code]
           url="https://api.weixin.qq.com/sns/oauth2/component/access_token?appid=#{params[:appid]}&code=#{params[:code]}&grant_type=authorization_code&component_appid=wxf6a05c0e64bc48e1&component_access_token="+Rails.cache.read(:access_token) 
           result=JSON.parse(ThirdParty.get_to_wechat(url))
 					puts result
@@ -139,6 +140,7 @@ class Wechat::GzhManageController < ApplicationController
 							puts "next_url is #{next_url}"
 							cookies.delete(:next_url)
 							redirect_to next_url
+		  end
 		end
 
 		def change_qrcode_test

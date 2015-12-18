@@ -37,9 +37,9 @@
 				    menuList: ['menuItem:profile','menuItem:addContact'] // 要显示的菜单项，所有menu项见附录3
 			});
 		wx.onMenuShareTimeline({
-		      title: '送你<%=Region.where(regions_code:@order.per_user.district_id).first.try(:regions_NAME)%><%=@order.per_user.name%>代金券,记得一定要找<%=@order.per_user_masseuse.job_number%>服务啊!', 
+		      title: "<%= (title=@order.per_user.get_forward_assets('title'))[0]%>", 
 		        link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&o_id=<%=@order.id%>&id=<%=@order.member_id%>&same=<%=params[:same]%>',
-		        imgUrl: 'http://weixin.linkke.cn/images/forward.png',
+		        imgUrl: "<%= img_url=@order.per_user.get_forward_assets('img')%>",
 		        success: function(res){
 								var data=$("#my_form").serialize();
 								if (data==''){
@@ -70,10 +70,10 @@
 
 
 			 wx.onMenuShareAppMessage({
-				    title: '送你<%=Region.where(regions_code:@order.per_user.district_id).first.try(:regions_NAME)%><%=@order.per_user.name%>代金券,一定要找<%=@order.per_user_masseuse.job_number%>服务啊!', 
-					  desc: '<%=@order.per_user.name%>送我红包了!赶紧去抢吧!', 
+				    title: '<%=title[0]%>', 
+					  desc: '<%=title[1]%>', 
 					  link: 'http://weixin.linkke.cn/wechat/wc_front/redbage?appid=<%=params[:appid]%>&o_id=<%=@order.id%>&id=<%=@order.member_id%>&same=<%=params[:same]%>', 
-						imgUrl: 'http://weixin.linkke.cn/images/forward.png',
+						imgUrl: '<%=img_url%>',
 						success: function () { 
 								var data=$("#my_form").serialize();
 								if (data==''){

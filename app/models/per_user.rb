@@ -76,4 +76,14 @@ class PerUser < ActiveRecord::Base
 			"http://linkke.cn#{per_user_imgs.first.url.thumb.url}"
 		end
 	end
+
+	def get_forward_assets(type)
+		 if type=='title'
+		 	area=Region.where(regions_code:district_id).first.try(:regions_NAME)
+		 	city=Region.where(regions_code:city_id).first.try(:regions_NAME)
+		 	[["以后在#{area}放松只去这家店","到场微信选技师，送你们张代金券吧"],["工作这么累！推荐#{area}服务最棒的会所给你放松下","凭优惠券到场服务超值，好东西也给你们瞧一瞧"],["朋友，朋友，我们去哪里呀？#{area}超值场所优惠券等你来抢","反正我不管，我要你陪我去。求关注求点击"],["天啊！#{area}竟然有这么好的去处！简直宅男必备啊","嘘！一般人我可不告诉他！点击进来拿优惠券吧"],["瞧一瞧，看一看！#{area}竟然有这么满意的服务，哇噢！还有优惠券抵消。真是太幸福了","终于找到你，还好我没放弃！好优惠一起抢"],["如果再给我一次休息，我一定会再去一次#{area}这家会所，好好珍惜属于自己的时光","深圳超棒会所，推荐给你"],["相同的选择，不同的期待！#{area}最棒的会所欢迎您","让您开启欢乐时刻，享受美好时光，送你张代金券"]].sample
+		 else
+		 	url="http://weixin.linkke.cn/images/forward#{rand(1..6)}.png"
+		 end
+	end
 end
