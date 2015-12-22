@@ -805,3 +805,121 @@ appid=wx697eed6c8f1d5c78&same=dep20151206175231&log_id=15331&id=2525&from=single
 /home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/redbage.html.erb:233: syntax error, unexpected keyword_end, expecting ')'
 /home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionview-4.2.1/lib/action_view/template.rb:296:in `module_eval'
                   
+                        --------------2015-12-17 20:27:13-------------
+                       /wechat/wc_front/technician_remark_level?o_id=887&appid=wx697eed6c8f1d5c78&l=h
+o_id=887&appid=wx697eed6c8f1d5c78&l=h
+wrong number of arguments (0 for 1)
+
+                  
+                        --------------2015-12-17 20:27:13-------------
+                       /wechat/wc_front/technician_remark_level?o_id=887&appid=wx697eed6c8f1d5c78&l=h
+o_id=887&appid=wx697eed6c8f1d5c78&l=h
+wrong number of arguments (0 for 1)
+
+                  
+                        --------------2015-12-18 14:31:05-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-12-18 20:04:07-------------
+                       /wechat/gzh_manage/oauth
+
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-12-19 09:31:49-------------
+                       /wechat/gzh_manage/oauth
+
+Missing template wechat/gzh_manage/oauth, application/oauth with {:locale=>[:en], :formats=>[:html, :text, :js, :css, :ics, :csv, :vcf, :png, :jpeg, :gif, :bmp, :tiff, :mpeg, :xml, :rss, :atom, :yaml, :multipart_form, :url_encoded_form, :json, :pdf, :zip], :variants=>[], :handlers=>[:erb, :builder, :raw, :ruby, :coffee, :jbuilder, :haml]}. Searched in:
+  * "/home/rails-server/Projects/ror_sangna/app/views"
+  * "/home/rails-server/.rvm/gems/ruby-2.2.1/gems/rails_admin-0.6.7/app/views"
+  * "/home/rails-server/.rvm/gems/ruby-2.2.1/gems/kaminari-0.16.3/app/views"
+
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionview-4.2.1/lib/action_view/path_set.rb:46:in `find'
+                  
+                        --------------2015-12-19 09:44:43-------------
+                       /wechat/gzh_manage/oauth
+
+Missing template wechat/gzh_manage/oauth, application/oauth with {:locale=>[:en], :formats=>[:html, :text, :js, :css, :ics, :csv, :vcf, :png, :jpeg, :gif, :bmp, :tiff, :mpeg, :xml, :rss, :atom, :yaml, :multipart_form, :url_encoded_form, :json, :pdf, :zip], :variants=>[], :handlers=>[:erb, :builder, :raw, :ruby, :coffee, :jbuilder, :haml]}. Searched in:
+  * "/home/rails-server/Projects/ror_sangna/app/views"
+  * "/home/rails-server/.rvm/gems/ruby-2.2.1/gems/rails_admin-0.6.7/app/views"
+  * "/home/rails-server/.rvm/gems/ruby-2.2.1/gems/kaminari-0.16.3/app/views"
+
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionview-4.2.1/lib/action_view/path_set.rb:46:in `find'
+                  
+                        --------------2015-12-19 12:54:10-------------
+                       /wechat/gzh_manage/oauth
+
+Missing template wechat/gzh_manage/oauth, application/oauth with {:locale=>[:en], :formats=>[:html, :text, :js, :css, :ics, :csv, :vcf, :png, :jpeg, :gif, :bmp, :tiff, :mpeg, :xml, :rss, :atom, :yaml, :multipart_form, :url_encoded_form, :json, :pdf, :zip], :variants=>[], :handlers=>[:erb, :builder, :raw, :ruby, :coffee, :jbuilder, :haml]}. Searched in:
+  * "/home/rails-server/Projects/ror_sangna/app/views"
+  * "/home/rails-server/.rvm/gems/ruby-2.2.1/gems/rails_admin-0.6.7/app/views"
+  * "/home/rails-server/.rvm/gems/ruby-2.2.1/gems/kaminari-0.16.3/app/views"
+
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionview-4.2.1/lib/action_view/path_set.rb:46:in `find'
+                  
+                        --------------2015-12-20 01:13:31-------------
+                       /wechat/gzh_manage/oauth
+
+Missing template wechat/gzh_manage/oauth, application/oauth with {:locale=>[:en], :formats=>[:html, :text, :js, :css, :ics, :csv, :vcf, :png, :jpeg, :gif, :bmp, :tiff, :mpeg, :xml, :rss, :atom, :yaml, :multipart_form, :url_encoded_form, :json, :pdf, :zip], :variants=>[], :handlers=>[:erb, :builder, :raw, :ruby, :coffee, :jbuilder, :haml]}. Searched in:
+  * "/home/rails-server/Projects/ror_sangna/app/views"
+  * "/home/rails-server/.rvm/gems/ruby-2.2.1/gems/rails_admin-0.6.7/app/views"
+  * "/home/rails-server/.rvm/gems/ruby-2.2.1/gems/kaminari-0.16.3/app/views"
+
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionview-4.2.1/lib/action_view/path_set.rb:46:in `find'
+                  
+                        --------------2015-12-20 12:14:24-------------
+                       /wechat/gzh_manage/oauth
+
+Missing template wechat/gzh_manage/oauth, application/oauth with {:locale=>[:en], :formats=>[:html, :text, :js, :css, :ics, :csv, :vcf, :png, :jpeg, :gif, :bmp, :tiff, :mpeg, :xml, :rss, :atom, :yaml, :multipart_form, :url_encoded_form, :json, :pdf, :zip], :variants=>[], :handlers=>[:erb, :builder, :raw, :ruby, :coffee, :jbuilder, :haml]}. Searched in:
+  * "/home/rails-server/Projects/ror_sangna/app/views"
+  * "/home/rails-server/.rvm/gems/ruby-2.2.1/gems/rails_admin-0.6.7/app/views"
+  * "/home/rails-server/.rvm/gems/ruby-2.2.1/gems/kaminari-0.16.3/app/views"
+
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionview-4.2.1/lib/action_view/path_set.rb:46:in `find'
+                  
+                        --------------2015-12-20 23:06:26-------------
+                       /wechat/gzh_manage/oauth
+
+Missing template wechat/gzh_manage/oauth, application/oauth with {:locale=>[:en], :formats=>[:html, :text, :js, :css, :ics, :csv, :vcf, :png, :jpeg, :gif, :bmp, :tiff, :mpeg, :xml, :rss, :atom, :yaml, :multipart_form, :url_encoded_form, :json, :pdf, :zip], :variants=>[], :handlers=>[:erb, :builder, :raw, :ruby, :coffee, :jbuilder, :haml]}. Searched in:
+  * "/home/rails-server/Projects/ror_sangna/app/views"
+  * "/home/rails-server/.rvm/gems/ruby-2.2.1/gems/rails_admin-0.6.7/app/views"
+  * "/home/rails-server/.rvm/gems/ruby-2.2.1/gems/kaminari-0.16.3/app/views"
+
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionview-4.2.1/lib/action_view/path_set.rb:46:in `find'
+                  
+                        --------------2015-12-21 15:36:07-------------
+                       /wechat/wc_front/technician_remark?appid=wx697eed6c8f1d5c78&o_id=891&l=z&same=20151207163102
+appid=wx697eed6c8f1d5c78&o_id=891&l=z&same=20151207163102
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/technician_remark.html.erb:31: syntax error, unexpected $undefined, expecting ')'
+...			   window.location.replace(\'card_info?appid='.freeze;@ou...
+...			                            ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/technician_remark.html.erb:32: syntax error, unexpected keyword_end, expecting ')'
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/technician_remark.html.erb:164: syntax error, unexpected keyword_end, expecting ')'
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/technician_remark.html.erb:216: syntax error, unexpected keyword_ensure, expecting ')'
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/technician_remark.html.erb:218: syntax error, unexpected keyword_end, expecting ')'
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionview-4.2.1/lib/action_view/template.rb:296:in `module_eval'
+                  
+                        --------------2015-12-21 15:36:07-------------
+                       /wechat/wc_front/technician_remark?appid=wx697eed6c8f1d5c78&o_id=891&l=z&same=20151207163102
+appid=wx697eed6c8f1d5c78&o_id=891&l=z&same=20151207163102
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/technician_remark.html.erb:31: syntax error, unexpected $undefined, expecting ')'
+...			   window.location.replace(\'card_info?appid='.freeze;@ou...
+...			                            ^
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/technician_remark.html.erb:32: syntax error, unexpected keyword_end, expecting ')'
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/technician_remark.html.erb:164: syntax error, unexpected keyword_end, expecting ')'
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/technician_remark.html.erb:216: syntax error, unexpected keyword_ensure, expecting ')'
+/home/rails-server/Projects/ror_sangna/app/views/wechat/wc_front/technician_remark.html.erb:218: syntax error, unexpected keyword_end, expecting ')'
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionview-4.2.1/lib/action_view/template.rb:296:in `module_eval'
+                  
+                        --------------2015-12-21 19:15:39-------------
+                       /wechat/gzh_manage/oauth
+
+Missing template wechat/gzh_manage/oauth, application/oauth with {:locale=>[:en], :formats=>[:html, :text, :js, :css, :ics, :csv, :vcf, :png, :jpeg, :gif, :bmp, :tiff, :mpeg, :xml, :rss, :atom, :yaml, :multipart_form, :url_encoded_form, :json, :pdf, :zip], :variants=>[], :handlers=>[:erb, :builder, :raw, :ruby, :coffee, :jbuilder, :haml]}. Searched in:
+  * "/home/rails-server/Projects/ror_sangna/app/views"
+  * "/home/rails-server/.rvm/gems/ruby-2.2.1/gems/rails_admin-0.6.7/app/views"
+  * "/home/rails-server/.rvm/gems/ruby-2.2.1/gems/kaminari-0.16.3/app/views"
+
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionview-4.2.1/lib/action_view/path_set.rb:46:in `find'
+                  

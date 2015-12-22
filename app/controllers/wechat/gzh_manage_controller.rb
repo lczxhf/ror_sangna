@@ -140,6 +140,8 @@ class Wechat::GzhManageController < ApplicationController
 							puts "next_url is #{next_url}"
 							cookies.delete(:next_url)
 							redirect_to next_url
+			else
+				  render nothing: true
 		  end
 		end
 
