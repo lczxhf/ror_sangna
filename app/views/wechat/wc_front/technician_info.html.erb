@@ -161,7 +161,7 @@
 			<div class="title_2">本技师承诺:只在本店内提供正规水疗服务</div>
 			<div class="box_jishi">
 				<div class="jishi_img">
-					<img src="<%=@technician.get_image(@wechat_config.member_id)%>"  class="mui-action-preview" alt="" width="65px" height="65px" />
+					<img src="<%=@technician.get_image(@wechat_config.member_id,true)%>"  class="mui-action-preview" alt="" width="65px" height="65px" />
 				</div>
 				<%if @technician.seniority%>
 				<div class="box_seniority">

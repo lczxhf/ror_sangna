@@ -34,17 +34,21 @@ class PerUserMasseuse < ActiveRecord::Base
 	    end
 
 
-			def get_image(member_id)
+			def get_image(member_id,type=false)
 						case img_permission
 						when 1 then
-							 masseuses_imgs.active.first.try(:url).try(:normal).try(:url) || "/images/default_img.png"
+							 url=masseuses_imgs.active.first.try(:url).try(:thumb).try(:url) || "/images/default_img.png"
 						when 2 then
-							 "/images/buttom_img.png"
+							 url="/images/buttom_img.png"
 						when 3 then
-							 Member.where("hand_code != ''").where(id:member_id).first	? (masseuses_imgs.active.first.try(:url).try(:normal).try(:url) || '/images/default_img.png')  : "/images/buttom_img.png"
+							 url=Member.where("hand_code != ''").where(id:member_id).first	? (masseuses_imgs.active.first.try(:url).try(:thumb).try(:url) || '/images/default_img.png')  : "/images/buttom_img.png"
 						when 4 then
-							OrderByMasseuse.where(masseuse_id:id,member_id:member_id).first ? (masseuses_imgs.active.first.try(:url).try(:normal).try(:url) || '/images/default_img.png')  : "/images/buttom_img.png"
+							url=OrderByMasseuse.where(masseuse_id:id,member_id:member_id).first ? (masseuses_imgs.active.first.try(:url).try(:thumb).try(:url) || '/images/default_img.png')  : "/images/buttom_img.png"
 						end
+						if type
+						   url.gusb!("thumb_","")
+						end
+						url
 			end
 	    private
 	    #加密密码
