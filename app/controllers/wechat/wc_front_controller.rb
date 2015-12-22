@@ -678,7 +678,7 @@ end
 						<div class="box_img jishi_background">
 							<img class="jishi_img" src="#{technician.get_image(member_id)}" alt="" height="50px" width="50px" />
 						</div>
-			}+	if technician.seniority
+			}+if technician.seniority
 				%{
 						<div class="box_seniority">
 							<span class="seniority_num">#{technician.seniority}</span>

@@ -35,19 +35,24 @@ class PerUserMasseuse < ActiveRecord::Base
 
 
 			def get_image(member_id,type=false)
+						host="http://img.sudayi.com"
 						case img_permission
 						when 1 then
-							 url=masseuses_imgs.active.first.try(:url).try(:thumb).try(:url) || "/images/default_img.png"
+							 url=host+(masseuses_imgs.active.first.try(:url).try(:thumb).try(:url) || '') || "/images/default_img.png"
 						when 2 then
 							 url="/images/buttom_img.png"
 						when 3 then
-							 url=Member.where("hand_code != ''").where(id:member_id).first	? (masseuses_imgs.active.first.try(:url).try(:thumb).try(:url) || '/images/default_img.png')  : "/images/buttom_img.png"
+							 url=Member.where("hand_code != ''").where(id:member_id).first	? (host+(masseuses_imgs.active.first.try(:url).try(:thumb).try(:url) || '') || '/images/default_img.png')  : "/images/buttom_img.png"
 						when 4 then
-							url=OrderByMasseuse.where(masseuse_id:id,member_id:member_id).first ? (masseuses_imgs.active.first.try(:url).try(:thumb).try(:url) || '/images/default_img.png')  : "/images/buttom_img.png"
+							url=OrderByMasseuse.where(masseuse_id:id,member_id:member_id).first ? (host+(masseuses_imgs.active.first.try(:url).try(:thumb).try(:url) || '') || '/images/default_img.png')  : "/images/buttom_img.png"
 						end
 						if type
 						   url.gusb!("thumb_","")
 						end
+						if url.size==21
+								url="/images/default_img.png"
+						end
+						puts url
 						url
 			end
 	    private

@@ -923,3 +923,39 @@ Missing template wechat/gzh_manage/oauth, application/oauth with {:locale=>[:en]
 
 /home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionview-4.2.1/lib/action_view/path_set.rb:46:in `find'
                   
+                        --------------2015-12-22 20:01:00-------------
+                       /wechat/wc_front/page_technician?appid=wx55d4d556c43b3bfc&page=1&inscene=false
+appid=wx55d4d556c43b3bfc&page=1&inscene=false
+no implicit conversion of nil into String
+/home/rails-server/Projects/ror_sangna/app/models/per_user_masseuse.rb:41:in `+'
+                  
+                        --------------2015-12-22 20:01:36-------------
+                       /wechat/wc_front/page_technician?appid=wx55d4d556c43b3bfc&page=1&inscene=false
+appid=wx55d4d556c43b3bfc&page=1&inscene=false
+no implicit conversion of nil into String
+/home/rails-server/Projects/ror_sangna/app/models/per_user_masseuse.rb:41:in `+'
+                  
+                        --------------2015-12-22 20:01:50-------------
+                       /wechat/wc_front/page_technician?appid=wx55d4d556c43b3bfc&page=1&inscene=false
+appid=wx55d4d556c43b3bfc&page=1&inscene=false
+no implicit conversion of nil into String
+/home/rails-server/Projects/ror_sangna/app/models/per_user_masseuse.rb:41:in `+'
+                  
+                        --------------2015-12-22 20:02:49-------------
+                       /wechat/wc_front/page_technician?appid=wx55d4d556c43b3bfc&page=1&inscene=false
+appid=wx55d4d556c43b3bfc&page=1&inscene=false
+no implicit conversion of nil into String
+/home/rails-server/Projects/ror_sangna/app/models/per_user_masseuse.rb:41:in `+'
+                  
+                        --------------2015-12-22 20:03:13-------------
+                       /wechat/wc_front/page_technician?appid=wx55d4d556c43b3bfc&page=1&inscene=false
+appid=wx55d4d556c43b3bfc&page=1&inscene=false
+no implicit conversion of nil into String
+/home/rails-server/Projects/ror_sangna/app/models/per_user_masseuse.rb:41:in `+'
+                  
+                        --------------2015-12-22 20:03:31-------------
+                       /wechat/wc_front/page_technician?appid=wx55d4d556c43b3bfc&page=1&inscene=false
+appid=wx55d4d556c43b3bfc&page=1&inscene=false
+no implicit conversion of nil into String
+/home/rails-server/Projects/ror_sangna/app/models/per_user_masseuse.rb:41:in `+'
+                  
