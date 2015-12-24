@@ -104,6 +104,9 @@ class Wechat::GzhManageController < ApplicationController
 	  def oauth
 					puts params
 		  if params[:code]
+					if !Rails.cache.read("access_token")
+							ThirdParty.get_access_token
+					end
           url="https://api.weixin.qq.com/sns/oauth2/component/access_token?appid=#{params[:appid]}&code=#{params[:code]}&grant_type=authorization_code&component_appid=wxf6a05c0e64bc48e1&component_access_token="+Rails.cache.read(:access_token) 
           result=JSON.parse(ThirdParty.get_to_wechat(url))
 					puts result
@@ -211,12 +214,12 @@ def change_qrcode
 								render template: '/wechat/wc_front/wechat_error'
 						else
 							log=qrcode.qrcode_logs.where(user_id:params[:user_id],status:2).first
-							if log.nil? 
-								log=qrcode.qrcode_logs.build
-								log.created_at=Time.new('2000-01-01')
-								log.status=2
-								log.user_id=params[:user_id]
-							end
+							#if log.blank?
+							#	log=qrcode.qrcode_logs.build
+							#	log.created_at=Time.new('2000-01-01')
+							#	log.status=2
+							#	log.user_id=params[:user_id]
+							#end
 							log.member=wechat_config.member
 							log.member_bind_time=Time.now
 							coupons_records=wechat_config.member.coupons_records.where("status in (1,2)")

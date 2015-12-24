@@ -47,7 +47,7 @@ class PerUserMasseuse < ActiveRecord::Base
 							url=OrderByMasseuse.where(masseuse_id:id,member_id:member_id).first ? (host+(masseuses_imgs.active.first.try(:url).try(:thumb).try(:url) || '') || '/images/default_img.png')  : "/images/buttom_img.png"
 						end
 						if type
-						   url.gusb!("thumb_","")
+						   url.gsub!("thumb_","")
 						end
 						if url.size==21
 								url="/images/default_img.png"

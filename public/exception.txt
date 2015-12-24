@@ -959,3 +959,213 @@ appid=wx55d4d556c43b3bfc&page=1&inscene=false
 no implicit conversion of nil into String
 /home/rails-server/Projects/ror_sangna/app/models/per_user_masseuse.rb:41:in `+'
                   
+                        --------------2015-12-23 02:29:02-------------
+                       /wechat/wc_front/technician_info?t_id=1649&appid=wx79a4ddd4baf25f8a
+t_id=1649&appid=wx79a4ddd4baf25f8a
+undefined method `gusb!' for #<String:0x00000006b3d098>
+
+                  
+                        --------------2015-12-23 06:53:55-------------
+                       /wechat/wc_front/technician_info?t_id=1652&appid=wx8e6f688c12a24dc3
+t_id=1652&appid=wx8e6f688c12a24dc3
+undefined method `gusb!' for "http://img.sudayi.com":String
+
+                  
+                        --------------2015-12-23 06:53:55-------------
+                       /wechat/wc_front/technician_info?t_id=1652&appid=wx8e6f688c12a24dc3
+t_id=1652&appid=wx8e6f688c12a24dc3
+undefined method `gusb!' for "http://img.sudayi.com":String
+
+                  
+                        --------------2015-12-23 06:54:14-------------
+                       /wechat/wc_front/technician_info?t_id=1652&appid=wx8e6f688c12a24dc3
+t_id=1652&appid=wx8e6f688c12a24dc3
+undefined method `gusb!' for "http://img.sudayi.com":String
+
+                  
+                        --------------2015-12-23 06:54:14-------------
+                       /wechat/wc_front/technician_info?t_id=1652&appid=wx8e6f688c12a24dc3
+t_id=1652&appid=wx8e6f688c12a24dc3
+undefined method `gusb!' for "http://img.sudayi.com":String
+
+                  
+                        --------------2015-12-23 06:55:32-------------
+                       /wechat/wc_front/technician_info?t_id=1652&appid=wx8e6f688c12a24dc3
+t_id=1652&appid=wx8e6f688c12a24dc3
+undefined method `gusb!' for "http://img.sudayi.com":String
+
+                  
+                        --------------2015-12-23 06:55:32-------------
+                       /wechat/wc_front/technician_info?t_id=1652&appid=wx8e6f688c12a24dc3
+t_id=1652&appid=wx8e6f688c12a24dc3
+undefined method `gusb!' for "http://img.sudayi.com":String
+
+                  
+                        --------------2015-12-23 07:04:46-------------
+                       /wechat/wc_front/technician_info?t_id=1652&appid=wx8e6f688c12a24dc3
+t_id=1652&appid=wx8e6f688c12a24dc3
+undefined method `gusb!' for "http://img.sudayi.com":String
+
+                  
+                        --------------2015-12-23 07:04:48-------------
+                       /wechat/wc_front/technician_info?t_id=1652&appid=wx8e6f688c12a24dc3
+t_id=1652&appid=wx8e6f688c12a24dc3
+undefined method `gusb!' for "http://img.sudayi.com":String
+
+                  
+                        --------------2015-12-23 07:04:48-------------
+                       /wechat/wc_front/technician_info?t_id=1652&appid=wx8e6f688c12a24dc3
+t_id=1652&appid=wx8e6f688c12a24dc3
+undefined method `gusb!' for "http://img.sudayi.com":String
+
+                  
+                        --------------2015-12-23 07:04:48-------------
+                       /wechat/wc_front/technician_info?t_id=1652&appid=wx8e6f688c12a24dc3
+t_id=1652&appid=wx8e6f688c12a24dc3
+undefined method `gusb!' for "http://img.sudayi.com":String
+
+                  
+                        --------------2015-12-23 07:04:48-------------
+                       /wechat/wc_front/technician_info?t_id=1652&appid=wx8e6f688c12a24dc3
+t_id=1652&appid=wx8e6f688c12a24dc3
+undefined method `gusb!' for "http://img.sudayi.com":String
+
+                  
+                        --------------2015-12-23 07:06:22-------------
+                       /wechat/wc_front/technician_info?t_id=1652&appid=wx8e6f688c12a24dc3
+t_id=1652&appid=wx8e6f688c12a24dc3
+undefined method `gusb!' for "http://img.sudayi.com":String
+
+                  
+                        --------------2015-12-23 07:06:22-------------
+                       /wechat/wc_front/technician_info?t_id=1652&appid=wx8e6f688c12a24dc3
+t_id=1652&appid=wx8e6f688c12a24dc3
+undefined method `gusb!' for "http://img.sudayi.com":String
+
+                  
+                        --------------2015-12-23 10:51:09-------------
+                       /wechat/wc_front/technician_info?t_id=1017&appid=wx55d4d556c43b3bfc
+t_id=1017&appid=wx55d4d556c43b3bfc
+undefined method `gusb!' for #<String:0x00000002b89820>
+
+                  
+                        --------------2015-12-23 10:52:29-------------
+                       /wechat/wc_front/technician_info?t_id=1045&appid=wx55d4d556c43b3bfc
+t_id=1045&appid=wx55d4d556c43b3bfc
+undefined method `gusb!' for #<String:0x00000005c61a88>
+
+                  
+                        --------------2015-12-23 10:52:57-------------
+                       /wechat/wc_front/technician_info?t_id=1045&appid=wx55d4d556c43b3bfc
+t_id=1045&appid=wx55d4d556c43b3bfc
+undefined method `gusb!' for #<String:0x000000041977e8>
+
+                  
+                        --------------2015-12-23 11:12:14-------------
+                       /wechat/wc_front/technician_info?t_id=1424&appid=wx9d492f6c23071d55
+t_id=1424&appid=wx9d492f6c23071d55
+undefined method `gusb!' for "http://img.sudayi.com":String
+
+                  
+                        --------------2015-12-23 11:12:17-------------
+                       /wechat/wc_front/technician_info?t_id=1478&appid=wx9d492f6c23071d55
+t_id=1478&appid=wx9d492f6c23071d55
+undefined method `gusb!' for "http://img.sudayi.com":String
+
+                  
+                        --------------2015-12-23 11:12:22-------------
+                       /wechat/wc_front/technician_info?t_id=1475&appid=wx9d492f6c23071d55
+t_id=1475&appid=wx9d492f6c23071d55
+undefined method `gusb!' for "http://img.sudayi.com":String
+
+                  
+                        --------------2015-12-23 11:12:27-------------
+                       /wechat/wc_front/technician_info?t_id=1423&appid=wx9d492f6c23071d55
+t_id=1423&appid=wx9d492f6c23071d55
+undefined method `gusb!' for "http://img.sudayi.com":String
+
+                  
+                        --------------2015-12-23 12:10:19-------------
+                       /wechat/wc_front/technician_info?t_id=1649&appid=wx79a4ddd4baf25f8a
+t_id=1649&appid=wx79a4ddd4baf25f8a
+undefined method `gusb!' for #<String:0x00000006e1f388>
+
+                  
+                        --------------2015-12-23 12:10:24-------------
+                       /wechat/wc_front/technician_info?t_id=1649&appid=wx79a4ddd4baf25f8a
+t_id=1649&appid=wx79a4ddd4baf25f8a
+undefined method `gusb!' for #<String:0x00000006823a60>
+
+                  
+                        --------------2015-12-23 12:10:52-------------
+                       /wechat/wc_front/technician_info?t_id=1649&appid=wx79a4ddd4baf25f8a
+t_id=1649&appid=wx79a4ddd4baf25f8a
+undefined method `gusb!' for #<String:0x0000000637e758>
+
+                  
+                        --------------2015-12-23 12:11:49-------------
+                       /wechat/wc_front/technician_info?t_id=1649&appid=wx79a4ddd4baf25f8a
+t_id=1649&appid=wx79a4ddd4baf25f8a
+undefined method `gusb!' for #<String:0x00000005d0f818>
+
+                  
+                        --------------2015-12-24 01:31:37-------------
+                       /wechat/gzh_manage/oauth?code=04152117169c62b25c27ae59b721959d&state=123&appid=wx55d4d556c43b3bfc
+code=04152117169c62b25c27ae59b721959d&state=123&appid=wx55d4d556c43b3bfc
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-12-24 09:42:54-------------
+                       /wechat/gzh_manage/oauth?code=041862fc5f0e7a45cedf8e15997ff65P&state=123&appid=wx9d492f6c23071d55
+code=041862fc5f0e7a45cedf8e15997ff65P&state=123&appid=wx9d492f6c23071d55
+no implicit conversion of nil into String
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:107:in `+'
+                  
+                        --------------2015-12-24 09:43:00-------------
+                       /wechat/gzh_manage/oauth?code=041010419eed0ad59ac5230ffda78aeW&state=123&appid=wx9d492f6c23071d55
+code=041010419eed0ad59ac5230ffda78aeW&state=123&appid=wx9d492f6c23071d55
+no implicit conversion of nil into String
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:107:in `+'
+                  
+                        --------------2015-12-24 09:43:05-------------
+                       /wechat/gzh_manage/oauth?code=0016b74d9c03a5b733c1dfbc2f9842em&state=123&appid=wx9d492f6c23071d55
+code=0016b74d9c03a5b733c1dfbc2f9842em&state=123&appid=wx9d492f6c23071d55
+no implicit conversion of nil into String
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:107:in `+'
+                  
+                        --------------2015-12-24 09:43:14-------------
+                       /wechat/gzh_manage/oauth?code=0111d42035ece7cc8872cf6b6df9f77T&state=123&appid=wx55d4d556c43b3bfc
+code=0111d42035ece7cc8872cf6b6df9f77T&state=123&appid=wx55d4d556c43b3bfc
+no implicit conversion of nil into String
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:107:in `+'
+                  
+                        --------------2015-12-24 09:45:48-------------
+                       /wechat/gzh_manage/oauth?code=041ef65feada82ce5b63b227ae782d5q&state=123&appid=wx9d492f6c23071d55
+code=041ef65feada82ce5b63b227ae782d5q&state=123&appid=wx9d492f6c23071d55
+no implicit conversion of nil into String
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:107:in `+'
+                  
+                        --------------2015-12-24 09:46:44-------------
+                       /wechat/gzh_manage/oauth?code=041a78ebdca7fd150eb88e9a718738b-&state=123&appid=wx79a4ddd4baf25f8a
+code=041a78ebdca7fd150eb88e9a718738b-&state=123&appid=wx79a4ddd4baf25f8a
+no implicit conversion of nil into String
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:107:in `+'
+                  
+                        --------------2015-12-24 09:46:57-------------
+                       /wechat/gzh_manage/oauth?code=0012c825e38e70c59b99682d09f01d5M&state=123&appid=wx79a4ddd4baf25f8a
+code=0012c825e38e70c59b99682d09f01d5M&state=123&appid=wx79a4ddd4baf25f8a
+no implicit conversion of nil into String
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:107:in `+'
+                  
+                        --------------2015-12-24 10:13:47-------------
+                       /wechat/gzh_manage/oauth?code=041ba7736be10163bb23833b73c1223m&state=123&appid=wx84739480a3d503e7
+code=041ba7736be10163bb23833b73c1223m&state=123&appid=wx84739480a3d503e7
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-12-24 10:14:45-------------
+                       /wechat/gzh_manage/oauth?code=011cc25c45437ea90891bb8b32cfa77j&state=123&appid=wx84739480a3d503e7
+code=011cc25c45437ea90891bb8b32cfa77j&state=123&appid=wx84739480a3d503e7
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  

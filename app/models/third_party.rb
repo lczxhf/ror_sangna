@@ -19,16 +19,20 @@ class ThirdParty
  	        end	
 	end
 		
-#	def  self.get_access_token(ticket)
-# 	  uri = URI('https://api.weixin.qq.com/cgi-bin/component/api_component_token')
-#		Net::HTTP.start(uri.host, uri.port,:use_ssl => uri.scheme == 'https') do |http|
-# 		   request= Net::HTTP::Post.new(uri,{'Content-Type'=>'application/json'})
-#		   request.body='{"component_appid":"'+@@wechat_info.appid+'","component_appsecret":"'+@@wechat_info.appsecret+'","component_verify_ticket":"'+ticket+'"}'
-#			puts request.body
-# 		    response=http.request request
-#		    response.body
-#	        end
-#	end
+	def  self.get_access_token()
+		ticket=Rails.cache.read("ticket")
+ 	  uri = URI('https://api.weixin.qq.com/cgi-bin/component/api_component_token')
+		Net::HTTP.start(uri.host, uri.port,:use_ssl => uri.scheme == 'https') do |http|
+ 		   request= Net::HTTP::Post.new(uri,{'Content-Type'=>'application/json'})
+		   request.body='{"component_appid":"wxf6a05c0e64bc48e1","component_appsecret":"0c79e1fa963cd80cc0be99b20a18faeb","component_verify_ticket":"'+ticket+'"}'
+ 		    response=http.request request
+		    result=JSON.parse(response.body)
+				if access_token = result['component_access_token']
+						Rails.cache.write(:access_token,access_token,expires_in: 90.minu    tes)
+						Rails.cache.write("access_token_time",0)
+				end
+	   end
+	end
 	
   #向微信发起post请求
 	def self.sent_to_wechat(url,body)

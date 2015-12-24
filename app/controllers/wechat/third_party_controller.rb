@@ -42,24 +42,24 @@ class Wechat::ThirdPartyController < ApplicationController
 #					#render plain:  result.root.get_elements('msg')[0][0].to_s
 #					render plain: a.inspect
 #			end
-		Dir::foreach('/home/rails-server/Projects/0') do |file_name|
-				if file=(/\w+\.[a-zA-Z0-9]+/.match(file_name))
-						file="/home/rails-server/Projects/0/"+file.to_s
-						File.open(file,'r') do |img|
-							file_name.gsub!(/[\.]{1}.*/,"")	
-							if technician=PerUserMasseuse.where(user_id:0,job_number:file_name,del:1,status:1).first
-									if technician.masseuses_imgs.empty?
-									masseuses_img=MasseusesImg.new		
-									masseuses_img.user_id=0
-									masseuses_img.per_user_masseuse=technician
-									masseuses_img.url=img
-									masseuses_img.i_type=1
-									masseuses_img.save
-									end
-							end
-						end
-				end
-		end
+	#	Dir::foreach('/home/rails-server/Projects/0') do |file_name|
+	#			if file=(/\w+\.[a-zA-Z0-9]+/.match(file_name))
+	#					file="/home/rails-server/Projects/0/"+file.to_s
+	#					File.open(file,'r') do |img|
+	#						file_name.gsub!(/[\.]{1}.*/,"")	
+	#						if technician=PerUserMasseuse.where(user_id:0,job_number:file_name,del:1,status:1).first
+	#								if technician.masseuses_imgs.empty?
+	#								masseuses_img=MasseusesImg.new		
+	#								masseuses_img.user_id=0
+	#								masseuses_img.per_user_masseuse=technician
+	#								masseuses_img.url=img
+	#								masseuses_img.i_type=1
+	#								masseuses_img.save
+	#								end
+	#						end
+	#					end
+	#			end
+	#	end
   end
 
 def test1
