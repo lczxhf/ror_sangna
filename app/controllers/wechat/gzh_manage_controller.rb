@@ -73,7 +73,6 @@ class Wechat::GzhManageController < ApplicationController
 						 end
 			end
       url="https://api.weixin.qq.com/sns/oauth2/component/access_token?appid=#{gzh.appid}&code=#{params[:code]}&grant_type=authorization_code&component_appid=#{APPID}&component_access_token="+Rails.cache.read(:access_token)
-			puts url
       result=JSON.parse(ThirdParty.get_to_wechat(url))
       puts result
       if previous=WechatConfig.where(openid:result['openid'],sangna_config_id:gzh.id).first
@@ -81,8 +80,9 @@ class Wechat::GzhManageController < ApplicationController
 
       else
           wechat_config=WechatConfig.new
+          wechat_config.del=2
       end
-			cookies.signed["#{params[:appid]}_openid"]=result["openid"]
+	  cookies.signed["#{params[:appid]}_openid"]=result["openid"]
       wechat_config.sangna_config=gzh
       wechat_config.code=params[:code]
       wechat_config.token=result['access_token']

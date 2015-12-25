@@ -136,7 +136,7 @@ class Sangna
 	def self.get_oauth2_info(wechat_config_id,appid)
 				wechat_config=WechatConfig.includes(:sangna_config).find(wechat_config_id)
 				sangna_config=wechat_config.sangna_config
-				 if Time.now-sangna_config.updated_at>=7000
+				 if Time.now-sangna_config.updated_at>=4500
 					  result=JSON.parse(ThirdParty.refresh_gzh_token(Rails.cache.read(:access_token),appid,sangna_config.appid,sangna_config.refresh_token))
 						if result['authorizer_refresh_token']
 								sangna_config.refresh_token=result['authorizer_refresh_token']
@@ -154,7 +154,7 @@ class Sangna
 						 wechat_user=WechatUser.new
 						 wechat_user.wechat_config=wechat_config
 				end
-				wechat_user.del=2
+				wechat_user.del=wechat_config.del
 				wechat_user.member=wechat_config.member
 				wechat_user.nickname=info['nickname']
 				wechat_user.sex=info['sex'].to_i

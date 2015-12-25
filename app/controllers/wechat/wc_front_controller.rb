@@ -1,6 +1,7 @@
 class Wechat::WcFrontController < ApplicationController
 			require "rexml/document" 
 	before_action :check_openid,:except=>[:remark,:get_redbage,:project_class,:tip,:card_rule]
+	before_action :authorize,:only => [:redbage] 
 	before_action :set_sangna_config,:except=>[:remark,:get_redbage,:change_collect,:card_rule]
 	include Wechat::WcFrontHelper
 	def choose_technician
@@ -756,4 +757,16 @@ end
 				end
 				collect.save
 	end
+
+	def authorize
+       if !cookies["#{params[:appid]}_openid"] || $redis.get(cookies.signed["#{params[:appid]}_openid"]).nil?
+           cookies.signed[:next_url]=request.url
+           auth_url="https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{params[:appid]}&redirect_uri=http://weixin.linkke.cn/wechat/gzh_manage/authorize&response_type=code&scope=snsapi_userinfo&state=123&component_appid=wxf6a05c0e64bc48e1#wechat_redirect"
+            redirect_to auth_url
+       else
+           @wechat_config=fetch_redis(cookies.signed["#{params[:appid]}_openid"]) do
+              WechatConfig.includes(:wechat_user).find_by_openid(cookies.signed["#{params[:appid]}_openid"])
+          end
+       end
+    end
 end
