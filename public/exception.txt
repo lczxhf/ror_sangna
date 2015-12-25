@@ -1169,3 +1169,33 @@ code=011cc25c45437ea90891bb8b32cfa77j&state=123&appid=wx84739480a3d503e7
 Cannot redirect to nil!
 /home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
                   
+                        --------------2015-12-24 17:12:25-------------
+                       /wechat/wc_front/redbage?appid=wx1afe4579d119834a&o_id=856&id=2512&same=20151012143830&from=timeline&isappinstalled=0
+appid=wx1afe4579d119834a&o_id=856&id=2512&same=20151012143830&from=timeline&isappinstalled=0
+undefined method `face_value' for nil:NilClass
+
+                  
+                        --------------2015-12-24 17:12:32-------------
+                       /wechat/wc_front/redbage?appid=wx1afe4579d119834a&o_id=856&id=2512&same=20151012143830&from=timeline&isappinstalled=0
+appid=wx1afe4579d119834a&o_id=856&id=2512&same=20151012143830&from=timeline&isappinstalled=0
+undefined method `face_value' for nil:NilClass
+
+                  
+                        --------------2015-12-24 22:12:40-------------
+                       /wechat/wc_front/choose_technician?appid=wxcb5d0f19cf223f88
+appid=wxcb5d0f19cf223f88
+A JSON text must at least contain two octets!
+
+                  
+                        --------------2015-12-24 22:12:46-------------
+                       /wechat/wc_front/choose_technician?appid=wxcb5d0f19cf223f88
+appid=wxcb5d0f19cf223f88
+A JSON text must at least contain two octets!
+
+                  
+                        --------------2015-12-24 22:13:42-------------
+                       /wechat/wc_front/choose_technician?appid=wx84739480a3d503e7
+appid=wx84739480a3d503e7
+A JSON text must at least contain two octets!
+
+                  

@@ -28,7 +28,7 @@ class ThirdParty
  		    response=http.request request
 		    result=JSON.parse(response.body)
 				if access_token = result['component_access_token']
-						Rails.cache.write(:access_token,access_token,expires_in: 90.minu    tes)
+						Rails.cache.write(:access_token,access_token,expires_in: 90.minutes)
 						Rails.cache.write("access_token_time",0)
 				end
 	   end
