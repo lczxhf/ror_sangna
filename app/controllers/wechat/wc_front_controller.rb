@@ -1,6 +1,6 @@
 class Wechat::WcFrontController < ApplicationController
 			require "rexml/document" 
-	before_action :check_openid,:except=>[:remark,:get_redbage,:project_class,:tip,:card_rule]
+	before_action :check_openid,:except=>[:redbage,:remark,:get_redbage,:project_class,:tip,:card_rule]
 	before_action :authorize,:only => [:redbage] 
 	before_action :set_sangna_config,:except=>[:remark,:get_redbage,:change_collect,:card_rule]
 	include Wechat::WcFrontHelper

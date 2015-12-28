@@ -1199,3 +1199,187 @@ appid=wx84739480a3d503e7
 A JSON text must at least contain two octets!
 
                   
+                        --------------2015-12-25 20:59:54-------------
+                       /wechat/gzh_manage/authorize
+
+Missing template wechat/gzh_manage/authorize, application/authorize with {:locale=>[:en], :formats=>[:html, :text, :js, :css, :ics, :csv, :vcf, :png, :jpeg, :gif, :bmp, :tiff, :mpeg, :xml, :rss, :atom, :yaml, :multipart_form, :url_encoded_form, :json, :pdf, :zip], :variants=>[], :handlers=>[:erb, :builder, :raw, :ruby, :coffee, :jbuilder, :haml]}. Searched in:
+  * "/home/rails-server/Projects/ror_sangna/app/views"
+  * "/home/rails-server/.rvm/gems/ruby-2.2.1/gems/rails_admin-0.6.7/app/views"
+  * "/home/rails-server/.rvm/gems/ruby-2.2.1/gems/kaminari-0.16.3/app/views"
+
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionview-4.2.1/lib/action_view/path_set.rb:46:in `find'
+                  
+                        --------------2015-12-26 06:40:31-------------
+                       /wechat/gzh_manage/authorize?code=0216f9fd5b8cef129c9feb880633fbc-&state=123&appid=wx84739480a3d503e7
+code=0216f9fd5b8cef129c9feb880633fbc-&state=123&appid=wx84739480a3d503e7
+undefined local variable or method `appid' for #<Wechat::GzhManageController:0x0000000742e580>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:67:in `authorize'
+                  
+                        --------------2015-12-26 13:47:49-------------
+                       /wechat/gzh_manage/authorize?code=0410e41d04d5fe288462974b27e01bct&state=123&appid=wx9d492f6c23071d55
+code=0410e41d04d5fe288462974b27e01bct&state=123&appid=wx9d492f6c23071d55
+undefined local variable or method `appid' for #<Wechat::GzhManageController:0x000000068f7928>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:67:in `authorize'
+                  
+                        --------------2015-12-27 00:12:12-------------
+                       /wechat/gzh_manage/authorize?code=021ff0cfaba69fa42c2997019953952j&state=123&appid=wx9d492f6c23071d55
+code=021ff0cfaba69fa42c2997019953952j&state=123&appid=wx9d492f6c23071d55
+undefined local variable or method `appid' for #<Wechat::GzhManageController:0x00000006c6d620>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:67:in `authorize'
+                  
+                        --------------2015-12-27 00:12:30-------------
+                       /wechat/gzh_manage/authorize?code=0315bdd676ad5f438d0e207fc1286c2s&state=123&appid=wxcb5d0f19cf223f88
+code=0315bdd676ad5f438d0e207fc1286c2s&state=123&appid=wxcb5d0f19cf223f88
+undefined local variable or method `appid' for #<Wechat::GzhManageController:0x000000065d5bf0>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:67:in `authorize'
+                  
+                        --------------2015-12-27 00:12:45-------------
+                       /wechat/gzh_manage/authorize?code=00113e809bf6cc488a99b270f3c7b977&state=123&appid=wx9d492f6c23071d55
+code=00113e809bf6cc488a99b270f3c7b977&state=123&appid=wx9d492f6c23071d55
+undefined local variable or method `appid' for #<Wechat::GzhManageController:0x000000060a8970>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:67:in `authorize'
+                  
+                        --------------2015-12-27 00:15:14-------------
+                       /wechat/gzh_manage/authorize?code=021e9fbaa1deeef68faafe683da4595v&state=123&appid=wx9d492f6c23071d55
+code=021e9fbaa1deeef68faafe683da4595v&state=123&appid=wx9d492f6c23071d55
+undefined local variable or method `appid' for #<Wechat::GzhManageController:0x00000005b402d0>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:67:in `authorize'
+                  
+                        --------------2015-12-27 00:15:43-------------
+                       /wechat/gzh_manage/authorize?code=021e9fbaa1deeef68faafe683da4595v&state=123&appid=wx9d492f6c23071d55&from=groupmessage&isappinstalled=0
+code=021e9fbaa1deeef68faafe683da4595v&state=123&appid=wx9d492f6c23071d55&from=groupmessage&isappinstalled=0
+undefined local variable or method `appid' for #<Wechat::GzhManageController:0x00000001e4d760>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:67:in `authorize'
+                  
+                        --------------2015-12-27 00:15:43-------------
+                       /wechat/gzh_manage/authorize?code=021e9fbaa1deeef68faafe683da4595v&state=123&appid=wx9d492f6c23071d55&from=groupmessage&isappinstalled=0
+code=021e9fbaa1deeef68faafe683da4595v&state=123&appid=wx9d492f6c23071d55&from=groupmessage&isappinstalled=0
+undefined local variable or method `appid' for #<Wechat::GzhManageController:0x00000006a5b738>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:67:in `authorize'
+                  
+                        --------------2015-12-27 00:15:46-------------
+                       /wechat/gzh_manage/authorize?code=021e9fbaa1deeef68faafe683da4595v&state=123&appid=wx9d492f6c23071d55&from=groupmessage&isappinstalled=0
+code=021e9fbaa1deeef68faafe683da4595v&state=123&appid=wx9d492f6c23071d55&from=groupmessage&isappinstalled=0
+undefined local variable or method `appid' for #<Wechat::GzhManageController:0x00000006cb5d80>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:67:in `authorize'
+                  
+                        --------------2015-12-27 00:15:46-------------
+                       /wechat/gzh_manage/authorize?code=021e9fbaa1deeef68faafe683da4595v&state=123&appid=wx9d492f6c23071d55&from=groupmessage&isappinstalled=0
+code=021e9fbaa1deeef68faafe683da4595v&state=123&appid=wx9d492f6c23071d55&from=groupmessage&isappinstalled=0
+undefined local variable or method `appid' for #<Wechat::GzhManageController:0x00000006791a20>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:67:in `authorize'
+                  
+                        --------------2015-12-27 00:15:51-------------
+                       /wechat/gzh_manage/authorize?code=021e9fbaa1deeef68faafe683da4595v&state=123&appid=wx9d492f6c23071d55&from=groupmessage&isappinstalled=0
+code=021e9fbaa1deeef68faafe683da4595v&state=123&appid=wx9d492f6c23071d55&from=groupmessage&isappinstalled=0
+undefined local variable or method `appid' for #<Wechat::GzhManageController:0x000000061c9980>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:67:in `authorize'
+                  
+                        --------------2015-12-27 00:15:52-------------
+                       /wechat/gzh_manage/authorize?code=021e9fbaa1deeef68faafe683da4595v&state=123&appid=wx9d492f6c23071d55&from=groupmessage&isappinstalled=0
+code=021e9fbaa1deeef68faafe683da4595v&state=123&appid=wx9d492f6c23071d55&from=groupmessage&isappinstalled=0
+undefined local variable or method `appid' for #<Wechat::GzhManageController:0x00000005c2a128>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:67:in `authorize'
+                  
+                        --------------2015-12-27 00:15:53-------------
+                       /wechat/gzh_manage/authorize?code=021e9fbaa1deeef68faafe683da4595v&state=123&appid=wx9d492f6c23071d55&from=groupmessage&isappinstalled=0
+code=021e9fbaa1deeef68faafe683da4595v&state=123&appid=wx9d492f6c23071d55&from=groupmessage&isappinstalled=0
+undefined local variable or method `appid' for #<Wechat::GzhManageController:0x00000004a7c700>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:67:in `authorize'
+                  
+                        --------------2015-12-27 00:15:58-------------
+                       /wechat/gzh_manage/authorize?code=021e9fbaa1deeef68faafe683da4595v&state=123&appid=wx9d492f6c23071d55&from=groupmessage&isappinstalled=0
+code=021e9fbaa1deeef68faafe683da4595v&state=123&appid=wx9d492f6c23071d55&from=groupmessage&isappinstalled=0
+undefined local variable or method `appid' for #<Wechat::GzhManageController:0x00000003facaf0>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:67:in `authorize'
+                  
+                        --------------2015-12-27 00:16:14-------------
+                       /wechat/gzh_manage/authorize?code=021e9fbaa1deeef68faafe683da4595v&state=123&appid=wx9d492f6c23071d55&from=groupmessage&isappinstalled=0
+code=021e9fbaa1deeef68faafe683da4595v&state=123&appid=wx9d492f6c23071d55&from=groupmessage&isappinstalled=0
+undefined local variable or method `appid' for #<Wechat::GzhManageController:0x00000004962a90>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:67:in `authorize'
+                  
+                        --------------2015-12-27 00:16:14-------------
+                       /wechat/gzh_manage/authorize?code=021e9fbaa1deeef68faafe683da4595v&state=123&appid=wx9d492f6c23071d55&from=groupmessage&isappinstalled=0
+code=021e9fbaa1deeef68faafe683da4595v&state=123&appid=wx9d492f6c23071d55&from=groupmessage&isappinstalled=0
+undefined local variable or method `appid' for #<Wechat::GzhManageController:0x00000004998140>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:67:in `authorize'
+                  
+                        --------------2015-12-27 00:17:06-------------
+                       /wechat/gzh_manage/authorize?code=021e9fbaa1deeef68faafe683da4595v&state=123&appid=wx9d492f6c23071d55&from=groupmessage&isappinstalled=0
+code=021e9fbaa1deeef68faafe683da4595v&state=123&appid=wx9d492f6c23071d55&from=groupmessage&isappinstalled=0
+undefined local variable or method `appid' for #<Wechat::GzhManageController:0x000000068c9ac8>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:67:in `authorize'
+                  
+                        --------------2015-12-27 00:17:49-------------
+                       /wechat/gzh_manage/authorize?code=021e9fbaa1deeef68faafe683da4595v&state=123&appid=wx9d492f6c23071d55&from=groupmessage&isappinstalled=0
+code=021e9fbaa1deeef68faafe683da4595v&state=123&appid=wx9d492f6c23071d55&from=groupmessage&isappinstalled=0
+undefined local variable or method `appid' for #<Wechat::GzhManageController:0x00000007075e48>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:67:in `authorize'
+                  
+                        --------------2015-12-27 00:19:10-------------
+                       /wechat/gzh_manage/authorize?code=0215d822f7b47f37d4952d333ece4a8g&state=123&appid=wx84739480a3d503e7
+code=0215d822f7b47f37d4952d333ece4a8g&state=123&appid=wx84739480a3d503e7
+undefined local variable or method `appid' for #<Wechat::GzhManageController:0x00000006c1da30>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:67:in `authorize'
+                  
+                        --------------2015-12-27 00:20:30-------------
+                       /wechat/gzh_manage/authorize?code=021e9fbaa1deeef68faafe683da4595v&state=123&appid=wx9d492f6c23071d55&from=groupmessage&isappinstalled=0
+code=021e9fbaa1deeef68faafe683da4595v&state=123&appid=wx9d492f6c23071d55&from=groupmessage&isappinstalled=0
+undefined local variable or method `appid' for #<Wechat::GzhManageController:0x00000005ec14b8>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/gzh_manage_controller.rb:67:in `authorize'
+                  
+                        --------------2015-12-27 00:22:17-------------
+                       /wechat/gzh_manage/authorize?code=021e9fbaa1deeef68faafe683da4595v&state=123&appid=wx9d492f6c23071d55&from=groupmessage&isappinstalled=0
+code=021e9fbaa1deeef68faafe683da4595v&state=123&appid=wx9d492f6c23071d55&from=groupmessage&isappinstalled=0
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-12-27 09:18:36-------------
+                       /wechat/gzh_manage/authorize?code=021e9fbaa1deeef68faafe683da4595v&state=123&appid=wx9d492f6c23071d55&from=groupmessage&isappinstalled=0
+code=021e9fbaa1deeef68faafe683da4595v&state=123&appid=wx9d492f6c23071d55&from=groupmessage&isappinstalled=0
+Mysql2::Error: Field 'username' doesn't have a default value: INSERT INTO `members` (`user_id`, `created_at`, `updated_at`) VALUES (51, '2015-12-27 09:18:36', '2015-12-27 09:18:36')
+
+                  
+                        --------------2015-12-27 09:18:38-------------
+                       /wechat/gzh_manage/authorize?code=021e9fbaa1deeef68faafe683da4595v&state=123&appid=wx9d492f6c23071d55&from=groupmessage&isappinstalled=0
+code=021e9fbaa1deeef68faafe683da4595v&state=123&appid=wx9d492f6c23071d55&from=groupmessage&isappinstalled=0
+Mysql2::Error: Field 'username' doesn't have a default value: INSERT INTO `members` (`user_id`, `created_at`, `updated_at`) VALUES (51, '2015-12-27 09:18:38', '2015-12-27 09:18:38')
+
+                  
+                        --------------2015-12-27 09:18:40-------------
+                       /wechat/gzh_manage/authorize?code=021e9fbaa1deeef68faafe683da4595v&state=123&appid=wx9d492f6c23071d55&from=groupmessage&isappinstalled=0
+code=021e9fbaa1deeef68faafe683da4595v&state=123&appid=wx9d492f6c23071d55&from=groupmessage&isappinstalled=0
+Mysql2::Error: Field 'username' doesn't have a default value: INSERT INTO `members` (`user_id`, `created_at`, `updated_at`) VALUES (51, '2015-12-27 09:18:40', '2015-12-27 09:18:40')
+
+                  
+                        --------------2015-12-27 10:03:18-------------
+                       /wechat/gzh_manage/authorize?code=021e9fbaa1deeef68faafe683da4595v&state=123&appid=wx9d492f6c23071d55&from=groupmessage&isappinstalled=0
+code=021e9fbaa1deeef68faafe683da4595v&state=123&appid=wx9d492f6c23071d55&from=groupmessage&isappinstalled=0
+Mysql2::Error: Field 'username' doesn't have a default value: INSERT INTO `members` (`user_id`, `created_at`, `updated_at`) VALUES (51, '2015-12-27 10:03:18', '2015-12-27 10:03:18')
+
+                  
+                        --------------2015-12-27 10:03:20-------------
+                       /wechat/gzh_manage/authorize?code=021e9fbaa1deeef68faafe683da4595v&state=123&appid=wx9d492f6c23071d55&from=groupmessage&isappinstalled=0
+code=021e9fbaa1deeef68faafe683da4595v&state=123&appid=wx9d492f6c23071d55&from=groupmessage&isappinstalled=0
+Mysql2::Error: Field 'username' doesn't have a default value: INSERT INTO `members` (`user_id`, `created_at`, `updated_at`) VALUES (51, '2015-12-27 10:03:20', '2015-12-27 10:03:20')
+
+                  
+                        --------------2015-12-28 11:15:25-------------
+                       /wechat/gzh_manage/oauth?code=0317e1fc87ce23a62371f1234f48b26M&state=123&appid=wx55d4d556c43b3bfc
+code=0317e1fc87ce23a62371f1234f48b26M&state=123&appid=wx55d4d556c43b3bfc
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2015-12-28 14:11:38-------------
+                       /wechat/third_party/auth_code?id=77&auth_code=queryauthcode@@@Zd9jbBNGiREvfyuvmDjg3iFyOocPBk8Ad0TGruaDXO5QWML-8BzgRiTl7XkU-xZKbK8ccASYNgjvHOsCRt60iA&expires_in=3600
+id=77&auth_code=queryauthcode@@@Zd9jbBNGiREvfyuvmDjg3iFyOocPBk8Ad0TGruaDXO5QWML-8BzgRiTl7XkU-xZKbK8ccASYNgjvHOsCRt60iA&expires_in=3600
+no implicit conversion of nil into String
+/home/rails-server/Projects/ror_sangna/app/models/sangna.rb:52:in `+'
+                  
+                        --------------2015-12-28 14:12:23-------------
+                       /wechat/third_party/auth_code?id=78&auth_code=queryauthcode@@@Zd9jbBNGiREvfyuvmDjg3k2GFCsCBRc7VvlLXr1LmDD7lcNzNzbuBn-tq86SxCNMmJUXAr0FSRoI_I1JLl98CQ&expires_in=3600
+id=78&auth_code=queryauthcode@@@Zd9jbBNGiREvfyuvmDjg3k2GFCsCBRc7VvlLXr1LmDD7lcNzNzbuBn-tq86SxCNMmJUXAr0FSRoI_I1JLl98CQ&expires_in=3600
+no implicit conversion of nil into String
+/home/rails-server/Projects/ror_sangna/app/models/sangna.rb:52:in `+'
+                  

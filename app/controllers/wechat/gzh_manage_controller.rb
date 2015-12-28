@@ -64,7 +64,7 @@ class Wechat::GzhManageController < ApplicationController
 			puts params
       gzh=SangnaConfig.where(appid:params[:appid]).first
 			 if Time.now-gzh.updated_at>=4500
-				     result=JSON.parse(ThirdParty.refresh_gzh_token(Rails.cache.read(:access_token),appid,gzh.appid,gzh.refresh_token))
+				     result=JSON.parse(ThirdParty.refresh_gzh_token(Rails.cache.read(:access_token),APPID,gzh.appid,gzh.refresh_token))
 						 if result['authorizer_refresh_token']
 								gzh.refresh_token=result['authorizer_refresh_token']
 								gzh.token=result['authorizer_access_token']
