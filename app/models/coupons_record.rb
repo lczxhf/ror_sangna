@@ -10,6 +10,8 @@ class CouponsRecord < ActiveRecord::Base
 	#belongs_to :departure_rule,class_name: 'UserDepartureCouponsRule',foreign_key: 'departure_rule_id'
 	belongs_to :accurate_rule,class_name: 'UserAccuratePresenceCouponsRule',foreign_key: 'accurate_rule_id'
 	belongs_to :accurate_record,class_name: 'UserAccuratePresenceCouponsRecord',foreign_key: 'accurate_presence_coupons_record_id'
+	belongs_to :per_user_masseuse,foreign_key: 'masseuse_id'
+	belongs_to :user_masseuse_coupons_rule ,foreign_key: 'masseuse_coupons_rule_id'
 	before_save :add_new_tip
 
 

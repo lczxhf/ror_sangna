@@ -37,3 +37,4 @@ Rails.application.config.assets.version = '1.0'
  Rails.application.config.assets.precompile += %w(wechat_front/common.css)
  Rails.application.config.assets.precompile += %w(wechat_front/iconfont.css)
  Rails.application.config.assets.precompile += %w(wechat_front/iconfont_2.css)
+Rails.application.config.assets.precompile += %w(wechat/jquery.fly.js)

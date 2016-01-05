@@ -62,10 +62,10 @@
 <%end%>
 <%content_for :body do%>		
 		<div class="mui-content">
-			<div class="box_Choice">
+			<!-- <div class="box_Choice">
 				<button type="button" class="mui-btn mui-btn-outlined btn_Comment btn_Selected">普通代金券</button>
 				<button type="button" class="mui-btn mui-btn-outlined btn_Scene ">现场代金券</button>
-			</div>
+			</div> -->
 			<!--评论代金券-->
 			<div id="Comment_Vouchers">
 			<%@cards.each do |card|%>
@@ -93,13 +93,7 @@
 								<div class="Voucher_Validity">有效时间：<%=(card.created_at+card.coupons_rule.due_day.days).strftime('%Y年%m月%d日')%></div>
 							</div>
 						</div>
-				<%end%>
-			<%end%>
-	
-			</div>
-			<div id="Scene_Vouchers">
-			<%@cards.each do |card|%>
-			   <%if card.coupons_classes_id.in?([2,4]) && card.status.in?([1,2])%>
+				<%elsif card.coupons_classes_id.in?([2,4,5]) && card.status.in?([1,2])%>
 				<div class="box_coupons" onclick='rule(<%=card.id%>)'>
 					<div class="Voucher_infor_left_Scene">
 						<div class="Discount_num">￥<%=card.value%></div>
@@ -116,7 +110,7 @@
                 			 <%end%>
               			
 						<div class="box_infor">
-							<div class="Project_name"><%=card.coupons_classes_id==2 ? card.ab_recommended_project.per_user_project.name : '所有项目'%></div>
+							<div class="Project_name"><%=get_card_scope(card)%></div>
 							<div class="Voucher_number"><%=card.number%></div>
 							<div class="Use_Rule">使用规则</div>
 						</div>
@@ -125,7 +119,37 @@
 				</div>
 				<%end%>
 			<%end%>
-			</div>
+	
+<!-- 			</div>
+			<div id="Scene_Vouchers">
+			<%@cards.each do |card|%>
+			   <%if card.coupons_classes_id.in?([2,4,5]) && card.status.in?([1,2])%>
+				<div class="box_coupons" onclick='rule(<%=card.id%>)'>
+					<div class="Voucher_infor_left_Scene">
+						<div class="Discount_num">￥<%=card.value%></div>
+						<div class="box_line"></div>
+						<div class="Voucher_type">现场代金券</div>
+						
+					</div>
+					<div class="Voucher_infor_right">
+						
+                			<%if card.status==1%>
+                   				<img class="IMG_Voucher_status" src="/images/NoActivation.png" alt="" width="50px" />
+                			 <%elsif card.status==2%>
+                    			<img class="IMG_Voucher_status" src="/images/Activation.png" alt="" width="50px" />
+                			 <%end%>
+              			
+						<div class="box_infor">
+							<div class="Project_name"><%=get_card_scope(card)%></div>
+							<div class="Voucher_number"><%=card.number%></div>
+							<div class="Use_Rule">使用规则</div>
+						</div>
+						<div class="Voucher_Validity">有效期:离场前</div>
+					</div>
+				</div>
+				<%end%>
+			<%end%>
+			</div> -->
 			
 		</div>
 		<!--弹窗---卡劵-->
@@ -169,30 +193,30 @@
 				$('.Voucher_infor_left_Scene').css('width',120*194/206);
 				$('.Voucher_infor_right').css('width',window.innerWidth*0.96-120*194/206);
 				//切换代金券
-				$('.btn_Scene').click(function(){
-					$('#Scene_Vouchers').show();
-					$('#Comment_Vouchers').hide();
-					$(this).addClass('btn_Selected');
-					if($('.btn_Comment').hasClass('btn_Selected')){
-						$('.btn_Comment').removeClass('btn_Selected')
-					}
-				})
-				$('.btn_Comment').click(function(){
-					$('#Scene_Vouchers').hide();
-					$('#Comment_Vouchers').show();
-					$(this).addClass('btn_Selected');
-					if($('.btn_Scene').hasClass('btn_Selected')){
-						$('.btn_Scene').removeClass('btn_Selected')
-					}
-				})
-				<%if params[:prompt]=='true' || params[:num].to_i>0%>
-					$('#Scene_Vouchers').show();
-					$('#Comment_Vouchers').hide();
-					$('.btn_Scene').addClass('btn_Selected');
-					if($('.btn_Comment').hasClass('btn_Selected')){
-						$('.btn_Comment').removeClass('btn_Selected')
-					}
-				  <%end%>
+				// $('.btn_Scene').click(function(){
+				// 	$('#Scene_Vouchers').show();
+				// 	$('#Comment_Vouchers').hide();
+				// 	$(this).addClass('btn_Selected');
+				// 	if($('.btn_Comment').hasClass('btn_Selected')){
+				// 		$('.btn_Comment').removeClass('btn_Selected')
+				// 	}
+				// })
+				// $('.btn_Comment').click(function(){
+				// 	$('#Scene_Vouchers').hide();
+				// 	$('#Comment_Vouchers').show();
+				// 	$(this).addClass('btn_Selected');
+				// 	if($('.btn_Scene').hasClass('btn_Selected')){
+				// 		$('.btn_Scene').removeClass('btn_Selected')
+				// 	}
+				// })
+				// <%if params[:prompt]=='true' || params[:num].to_i>0%>
+				// 	$('#Scene_Vouchers').show();
+				// 	$('#Comment_Vouchers').hide();
+				// 	$('.btn_Scene').addClass('btn_Selected');
+				// 	if($('.btn_Comment').hasClass('btn_Selected')){
+				// 		$('.btn_Comment').removeClass('btn_Selected')
+				// 	}
+				//   <%end%>
 				<%if params[:num].to_i>0%>
 				//代金券弹窗提示
 				  

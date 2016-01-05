@@ -1,35 +1,105 @@
 <%content_for :head do%>
 		<meta charset="utf-8">
 	    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-	    <meta name="format-detection" content="telephone=no" />
-
+			<meta name="format-detection" content="telephone=no" />
 		<%=javascript_include_tag "jquery-2.1.0"%>
 		<%=javascript_include_tag "mui.min"%>
+<%=stylesheet_link_tag "wechat_front/mui.min"%> 
 		<%=stylesheet_link_tag "wechat_front/common"%>
 		<%=stylesheet_link_tag "wechat_front/WIFI_page"%>
+		<link href="https://cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/font-awesome/4.4.0/fonts/fontawesome-webfont.svg"/>
 	    <title>WIFI推荐页面</title>
 	    <script type="text/javascript">
+		function to_card(){
+									window.location.href='card_info?appid=<%=@sangna_config.appid%>&prompt=true';
+				}
 	    $(function(){
+		
 	    	$.get("recommend_technician",{appid:'<%=params[:appid]%>'},function(obj){
 	    		$("#technician_data").html(obj);
 	    	})
+				$('.box-content>.text-content').css('width', $('.box_infor_Binding').width()-128);
+				$('.Popup-tips-rule').hide();
+				$('.Popup-tips-max').hide();
+				$('.box_infor_Binding').find('.mui-icon-closeempty').click(function(){
+						$('.Popup-tips-rule').hide();
+						$('.Popup-tips-max').hide();
+				})
+				$('.box_infor_Binding').find('.delay').click(function(){
+							$('.Popup-tips-rule').hide();
+							$('.Popup-tips-max').hide();
+				})
+				$('.Popup-tips-max').find('.public_btn').click(function(){
+							$('.Popup-tips-max').hide();
+				})
+					$(document).on('tap', '.technician-rule', function(event){ 
+							var Jin=$(this);
+						$.post('get_tech_card',{appid:'<%=@sangna_config.appid%>',tech_id:Jin.attr('target')},function(obj){
+								if(obj=='err'){
+									$('.Popup-tips-max').show();
+									Jin.show();
+								}else if (obj=='unvaild'){
+										mui.toast('会所或技师暂未开启此功能！');
+										Jin.show();
+								}else{
+										content=$(Jin.siblings("[class=JiShi_JobNum]")[0]).children()[0].innerHTML
+										$('#card_content').html("恭喜您获得"+content+"技师代金券，此代金券只能现场使用！")
+										$('.Popup-tips-rule').show();
+								}	 
+						})
+						event.stopPropagation() 
+					})
+					$(document).on('tap','i',function(){
+							if($(this).hasClass('fa-thumbs-o-up')){
+									add_like(this)
+									$.post("operate_like",{appid:'<%=@sangna_config.appid%>',type:'add',tech_id:$(this).parent().parent().prev().val()},function(obj){
+											if(obj=='err'){
+													del_like(this)  
+											}
+									})
+							}else{
+									del_like(this)  
+									$.post("operate_like",{appid:'<%=@sangna_config.appid%>',type:'del',tech_id:$(this).parent().parent().prev().val()},function(obj){
+											if(obj=='err'){
+													add_like(this)  
+											}
+									})	
+							}
+					e.stopPropagation() 
+				});
+						$(document).on("tap",'.Jishi_infor',function(){
+									show_info($(this).children().eq(0).val()); 
+						})
 	    })
-	    function show_info(technician_id){
-					window.location.href="technician_info?t_id="+technician_id+"&appid=<%=params[:appid]%>";
+			function add_like(obj){
+				    $(obj).removeClass('fa-thumbs-o-up animation-delete');
+						$(obj).addClass('fa-thumbs-up animation-zan');
+						var praise_num = $(obj).parent().find('span');
+						praise_num.html(parseInt(praise_num.html())+1);
 			}
+			function del_like(obj){
+					$(obj).removeClass('fa-thumbs-up animation-zan');
+					$(obj).addClass('fa-thumbs-o-up animation-delete');
+					var praise_num = $(obj).parent().find('span');
+					praise_num.html(parseInt(praise_num.html())-1);
+			}
+			function show_info(technician_id){
+									window.location.href="technician_info?t_id="+technician_id+"&appid=<%=params[:appid]%>";
+												}
 	    </script>
 <%end%>
 <%content_for :body do%>	
 		<div class="mui-content">
 			<div class="box_infor">
 				<div class="Li_WIFIinfor">
-					<span class="WIFI_Name">WI-FI账号</span>
-					<span class="WIFI_Password">密码</span>
+					<div class="WIFI_Name">WI-FI账号</div>
+					<div class="WIFI_Password">密码</div>
 				</div>
 				<%@wifi_infos.each do |wifi|%>
-				<div class="Li_WIFIinfor">
-					<span class="WIFI_Name"><%=wifi.wifi_name%></span>
-					<span class="WIFI_Password"><%=wifi.wifi_password%></span>
+				<div class="Li_WIFIinfor wifi" >
+					<div class="WIFI_Name"><%=wifi.wifi_name%></div>
+					<div class="WIFI_Password"><%=wifi.wifi_password%></div>
 				</div>
 				<%end%>
 			</div>
@@ -40,4 +110,34 @@
 			</div>
 			<a href="choose_technician?appid=<%=params[:appid]%>" class="A_allTechnician">查看全部技师</a>
 		</div>
+
+			<!--弹窗-提示领取页-->
+	<div class="Popup Popup-tips-rule">
+				<div class="Mask_layer"></div>
+				<div class="content_Binding">
+						<div class="box_infor_Binding">
+									<span class="mui-icon mui-icon-closeempty"></span>
+									<div class="box-content clearfix">
+											<img src="/images/Jin.png" height="100px" width="100px"/>
+											<div class="text-content" id='card_content'>恭喜您获得XXX技师代金券，此代金券只能现场使用！</div>
+									</div>
+									<button type="button" class="mui-btn public_btn" onclick='to_card()'>看一看</button>
+									<a class="delay">稍后查看</a>
+							</div>
+					</div>
+	</div>
+	<!--弹窗-提示领取到达上限-->
+<div class="Popup Popup-tips-max">
+		<div class="Mask_layer"></div>
+		<div class="content_Binding">
+				<div class="box_infor_Binding">
+						<span class="mui-icon mui-icon-closeempty"></span>
+						<div class="box-content clearfix">
+								<img src="/images/BaoCuo_Page.png" height="90px" width="90px"/>
+								<div class="text-content">您的领取次数已达到上限！</div>
+						</div>
+						<button type="button" class="mui-btn public_btn">确定</button>
+				</div>
+		</div>
+</div>
 <%end%>

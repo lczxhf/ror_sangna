@@ -103,6 +103,16 @@ module Wechat::WcFrontHelper
 			end
 	end
 
+  def get_card_scope(card)
+       case card.coupons_classes_id
+       when 2 then
+         card.ab_recommended_project.per_user_project.name
+       when 4 then
+         '所有项目'
+       when 5 then
+         card.per_user_masseuse.job_number+"技师"
+       end
+  end
 
 	def signature(timestamp,noncestr)
 			if !Rails.cache.read("#{params[:appid]}_ticket")

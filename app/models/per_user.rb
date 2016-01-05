@@ -12,7 +12,7 @@ class PerUser < ActiveRecord::Base
 	has_many :user_qr_code_rule,foreign_key: 'user_id'
 	has_many :per_user_projects,foreign_key: "user_id"
 	has_many :member,foreign_key: 'user_id'
-
+	has_many :user_masseuse_coupons_rule,foreign_key: 'user_id'
 	#返回当前会所的完整地址
 	#"xx省xx市xx区"
 	def get_address

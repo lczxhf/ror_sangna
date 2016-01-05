@@ -236,6 +236,41 @@ class Wechat::WcFrontController < ApplicationController
 		end
 	end
 
+	def get_tech_card
+	 rule=UserMasseuseCouponsRule.where(user_id:@sangna_config.per_user_id,del:1,status:1).first
+     if rule
+       if $redis.exists("tech_card:#{@wechat_config.member_id}")=='0' || $redis.llen("tech_card:#{@wechat_config.member_id}").to_i < rule.member_sum
+         masseuse=PerUserMasseuse.find(params[:tech_id])
+         if masseuse.masseuse_coupons_status==1
+             coupons_record=CouponsRecord.new
+             coupons_record.user_id=@sangna_config.per_user_id
+             coupons_record.member_id=@wechat_config.member_id
+             o = [('a'..'z'),('A'..'Z')].map{|i| i.to_a}.flatten
+             string = (0...4).map{ o[rand(o.length)] }.join
+             coupons_record.number=Time.now.to_i.to_s+string
+             coupons_record.status=2
+             coupons_record.value=rule.face_value
+             coupons_record.coupons_classes_id=5
+             coupons_record.masseuse_coupons_rule_id=rule.id
+             coupons_record.departure_log_id= QrcodeLog.where(member_id:@wechat_config.member_id,status:2).pluck(:id).first
+             coupons_record.masseuse_id=params[:tech_id]
+             if coupons_record.save
+                 $redis.lpush("tech_card:#{@wechat_config.member_id}",params[:tech_id])
+                 render plain: 'ok'
+            else
+                render plain: 'unvaild'
+             end
+         else
+            render plain: 'unvaild'
+         end
+       else
+         render plain: 'err'
+       end
+     else
+         render plain: 'unvaild'
+     end
+	end
+	
 	def recommend_technician
 			technicians=@sangna_config.per_user.per_user_masseuses.active.where(work_status:2).order("rand()").limit(2)
 			html=technicians.collect do |technician|
@@ -537,14 +572,14 @@ end
 				if @wechat_config.member.username!=@wechat_config.openid && @wechat_config.member.username!='未关注'
 						@bind=true
 				end
-				@cards=@sangna_config.per_user.coupons_records.includes(:coupons_rule,:accurate_rule,ab_recommended_project:[:per_user_project]).where('status in (1,2)').where(member_id:@wechat_config.member_id).order("status asc").order(created_at: :desc)
+				@cards=@sangna_config.per_user.coupons_records.includes(:per_user_masseuse,:coupons_rule,:accurate_rule,ab_recommended_project:[:per_user_project]).where('status in (1,2)').where(member_id:@wechat_config.member_id).order("status asc").order(created_at: :desc)
 	end
 
 	def card_rule
 				if params[:rule_id]
 					@card=CouponsRule.find(params[:rule_id]).coupons_records.build(coupons_classes_id:3)
 				else
-					@card=CouponsRecord.includes(:coupons_rule).find(params[:id])
+					@card=CouponsRecord.find(params[:id])
 				end
 	end
 
@@ -697,15 +732,29 @@ end
 
 			}+if inscene=='true'
 					if sangna_config.per_user.on_off_duty_auth==1
+				      if technician.masseuse_coupons_status==1 && !technician.id.to_s.in?($redis.lrange("tech_card:#{member_id}",0,-1))
+                   			dots="<div class='technician-rule technician-rule2' target='#{technician.id}'>
+                   				<img src='/images/Jin.png' width='55px' height='55px'/>
+                   				</div>"
+               		  else
+                   		dots=''
+               		  end
 						if technician.work_status==1
-							"<span class='waiting'>待</span>"
+							dots+"<span class='waiting'>待</span>"
 						elsif technician.work_status==2
-							"<div><span class='spare'>闲</span></div>"
+							dots+"<div><span class='spare'>闲</span></div>"
 						elsif technician.work_status==3
-							"<div><div class='box_busy'><span class='busy'>忙</span><div class='surplus_time'>#{time}分钟后空闲</div></div></div>"
+							dots+"<div><div class='box_busy'><span class='busy'>忙</span><div class='surplus_time'>#{time}分钟后空闲</div></div></div>"
 						end
 					else
-						 "<div class='praise'>"+
+							if technician.masseuse_coupons_status==1 && !technician.id.to_s.in?($redis.lrange("tech_card:#{member_id}",0,-1))
+				              dots="<div class='technician-rule' target='#{technician.id}'>
+				                   <img src='/images/Jin.png' width='35px' height='35px'/>
+				                   </div>"
+				            else
+				                dots=''
+				            end
+						 	dots+"<div class='praise'>"+
 			                if technician.id.to_s.in?($redis.lrange("mem_like:#{member_id}",0,-1))
                                 "<i class='fa fa-thumbs-up animation-zan'></i>"
                             else

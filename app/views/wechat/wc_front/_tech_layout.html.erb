@@ -22,7 +22,7 @@
 			<div class="close">离开</div>
 		</div>
 	<%end%>
-		<!--弹窗---提示扫描-->
+		<!--弹窗-提示扫描-->
 		<div class="BJ_shareit">
 			<div id="BJ_shareit">
 				<span class="mui-icon mui-icon-closeempty"></span>
@@ -71,6 +71,7 @@
 				<div class="right_box">
 					<div class="user_img_2" onclick='toperson()'>
 						<img src="<%=wechat_config.wechat_user.headimgurl%>" alt=""  width="36px" height="36px" />
+						<span class="mui-icon iconfont icon-dian"></span>
 					</div>
 					<div class="hand_box">
 					<%if !wechat_config.member.per_user_qr_code%>
@@ -93,6 +94,106 @@
 			</ul>
 	 </div>
 	</div>
+	<%if inscene%>
+			<!--弹窗-提示领取页-->
+		<div class="Popup Popup-tips-rule">
+			<div class="Mask_layer"></div>
+			<div class="content_Binding">
+				<div class="box_infor_Binding">
+					<span class="mui-icon mui-icon-closeempty"></span>
+					<div class="box-content clearfix">
+						<img src="/images/Jin.png" height="100px" width="100px"/>
+						<div class="text-content" id='card_content'>恭喜您获得XXX技师代金券，此代金券只能现场使用！</div>
+					</div>
+					<button type="button" class="mui-btn public_btn" onclick='to_card()'>看一看</button>
+					<a class="delay">稍后查看</a>
+				</div>
+			</div>
+		</div>
+		<!--弹窗-提示领取到达上限-->
+		<div class="Popup Popup-tips-max">
+			<div class="Mask_layer"></div>
+			<div class="content_Binding">
+				<div class="box_infor_Binding">
+					<span class="mui-icon mui-icon-closeempty"></span>
+					<div class="box-content clearfix">
+						<img src="/images/BaoCuo_Page.png" height="90px" width="90px"/>
+						<div class="text-content">您的领取次数已达到上限！</div>
+					</div>
+					<button type="button" class="mui-btn public_btn">确定</button>
+				</div>
+			</div>
+		</div>
+		<%=javascript_include_tag "wechat/jquery.fly"%>
+		<script type="text/javascript">
+			$(function(){
+				$('.box-content>.text-content').css('width', $('.box_infor_Binding').width()-128);
+					$('.Popup-tips-rule').hide();
+					$('.Popup-tips-max').hide();
+
+				$('.box_infor_Binding').find('.mui-icon-closeempty').click(function(){
+					$('.Popup-tips-rule').hide();
+					$('.Popup-tips-max').hide();
+				})
+				$('.box_infor_Binding').find('.delay').click(function(){
+					$('.Popup-tips-rule').hide();
+					$('.Popup-tips-max').hide();
+				})
+				$('.Popup-tips-max').find('.public_btn').click(function(){
+					$('.Popup-tips-max').hide();
+				})
+			})
+		</script>
+		<script type="text/javascript">
+			function to_card(){
+				window.location.href='card_info?appid=<%=per_user.sangna_config.appid%>&prompt=true';
+			}
+			$(function(){
+				var offset = $(".user_img_2").offset();
+			    $(document).on('tap', '.technician-rule', function(event){ 
+			        var addcar = $(this); 
+					var X = addcar.offset().left;
+					var Y = addcar.offset().top;
+			        var img = addcar.find('img').attr('src'); 
+			        $(this).hide();
+			        var Jin=$(this);
+			        var flyer = $('<img class="u-flyer" src="'+img+'">'); 
+//			        alert(12);
+			        flyer.fly({ 
+			            start: { 
+			                left: X, //开始位置（必填）#fly元素会被设置成position: fixed 
+			                top: Y, //开始位置（必填） 
+			            }, 
+			            end: { 
+			                left: offset.left+30, //结束位置（必填） 
+			                top: offset.top, //结束位置（必填） 
+			                width: 0, //结束时宽度 
+			                height: 0 //结束时高度 
+			            }, 
+			            onEnd: function(){ //结束回调 
+			               $('.right_box .user_img_2 .icon-dian').show();
+										 $.post('get_tech_card',{appid:'<%=per_user.sangna_config.appid%>',tech_id:addcar.attr('target')},function(obj){
+													if(obj=='err'){
+														$('.right_box .user_img_2 .icon-dian').hide();
+														$('.Popup-tips-max').show();
+														Jin.show();
+													}else if (obj=='unvaild'){
+														$('.right_box .user_img_2 .icon-dian').hide();
+														mui.toast('会所或技师暂未开启此功能！');
+														Jin.show();
+													}else{
+														content=$(addcar.siblings("[class=JiShi_JobNum]")[0]).children()[0].innerHTML
+														$('#card_content').html("恭喜您获得"+content+"技师代金券，此代金券只能现场使用！")
+														$('.Popup-tips-rule').show();
+													}	 
+										 })
+			            } 
+			        }); 
+							event.stopPropagation() 
+			    }); 
+			})
+		</script>
+	<%end%>
 <%if !inscene %>
 
 		<nav class="mui-bar mui-bar-tab">
