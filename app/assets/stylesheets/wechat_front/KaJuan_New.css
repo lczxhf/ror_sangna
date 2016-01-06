@@ -25,7 +25,10 @@
 	background: #F2E0D3 !important;
 }
 /*评论代金券*/
-
+#Comment_Vouchers{
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
 #Scene_Vouchers{
 	display: none;
 }

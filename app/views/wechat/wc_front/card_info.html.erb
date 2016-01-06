@@ -122,33 +122,7 @@
 	
 <!-- 			</div>
 			<div id="Scene_Vouchers">
-			<%@cards.each do |card|%>
-			   <%if card.coupons_classes_id.in?([2,4,5]) && card.status.in?([1,2])%>
-				<div class="box_coupons" onclick='rule(<%=card.id%>)'>
-					<div class="Voucher_infor_left_Scene">
-						<div class="Discount_num">￥<%=card.value%></div>
-						<div class="box_line"></div>
-						<div class="Voucher_type">现场代金券</div>
-						
-					</div>
-					<div class="Voucher_infor_right">
-						
-                			<%if card.status==1%>
-                   				<img class="IMG_Voucher_status" src="/images/NoActivation.png" alt="" width="50px" />
-                			 <%elsif card.status==2%>
-                    			<img class="IMG_Voucher_status" src="/images/Activation.png" alt="" width="50px" />
-                			 <%end%>
-              			
-						<div class="box_infor">
-							<div class="Project_name"><%=get_card_scope(card)%></div>
-							<div class="Voucher_number"><%=card.number%></div>
-							<div class="Use_Rule">使用规则</div>
-						</div>
-						<div class="Voucher_Validity">有效期:离场前</div>
-					</div>
-				</div>
-				<%end%>
-			<%end%>
+			
 			</div> -->
 			
 		</div>
