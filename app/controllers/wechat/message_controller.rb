@@ -89,22 +89,22 @@ class Wechat::MessageController < ApplicationController
 
    def entry(wechat_config,qrcode)
    							qrcode=PerUserQrCode.find(qrcode)
-							log=qrcode.qrcode_logs.last 
-							if log.nil? || log.member
-								log=qrcode.qrcode_logs.build
-								log.created_at=Time.new('2000-01-01')
-							end
-							log.member=wechat_config.member
-							log.member_bind_time=Time.now
-							coupons_records=wechat_config.member.coupons_records.where("status in (1,2)")
-							log.entrance_card_count=coupons_records.size
-							log.entrance_card_sum= coupons_records.collect{|a| a.value}.sum
-							log.save
-							wechat_config.member.hand_code=qrcode.id
-							wechat_config.member.save
-							coupons_records.each do |a|
-								a.status=2
-								a.save
-							end
+							log=qrcode.qrcode_logs.where(status:2).first
+							if log.present?
+								if log.member.nil?
+									log.member=wechat_config.member
+									log.member_bind_time=Time.now
+									coupons_records=wechat_config.member.coupons_records.where("status in (1,2)")
+									log.entrance_card_count=coupons_records.size
+									log.entrance_card_sum= coupons_records.collect{|a| a.value}.sum
+									log.save
+									wechat_config.member.hand_code=qrcode.id
+									wechat_config.member.save
+									coupons_records.each do |a|
+										a.status=2
+										a.save
+									end
+								end
+						end
    end
 end

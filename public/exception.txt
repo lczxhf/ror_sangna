@@ -1383,3 +1383,411 @@ id=78&auth_code=queryauthcode@@@Zd9jbBNGiREvfyuvmDjg3k2GFCsCBRc7VvlLXr1LmDD7lcNz
 no implicit conversion of nil into String
 /home/rails-server/Projects/ror_sangna/app/models/sangna.rb:52:in `+'
                   
+                        --------------2015-12-28 19:27:35-------------
+                       /wechat/gzh_manage/oauth?code=04191448689c6fb0f5218c559ac516b9&state=123&appid=wx8e6f688c12a24dc3
+code=04191448689c6fb0f5218c559ac516b9&state=123&appid=wx8e6f688c12a24dc3
+Connection timed out - connect(2) for "api.weixin.qq.com" port 443
+/home/rails-server/.rvm/rubies/ruby-2.2.1/lib/ruby/2.2.0/net/http.rb:879:in `initialize'
+                  
+                        --------------2015-12-31 16:11:19-------------
+                       /wechat/third_party/auth_code?id=72&auth_code=queryauthcode@@@84czcLKVZhEbuCfLHpnYpU6YNsHe08dPVt_L3evgD6tp_7oHLDCqEOYByC3nfcXOLPu53m18-GgVWHguAvwvtA&expires_in=3600
+id=72&auth_code=queryauthcode@@@84czcLKVZhEbuCfLHpnYpU6YNsHe08dPVt_L3evgD6tp_7oHLDCqEOYByC3nfcXOLPu53m18-GgVWHguAvwvtA&expires_in=3600
+no implicit conversion of nil into String
+/home/rails-server/Projects/ror_sangna/app/models/sangna.rb:52:in `+'
+                  
+                        --------------2015-12-31 16:11:33-------------
+                       /wechat/third_party/auth_code?id=72&auth_code=queryauthcode@@@84czcLKVZhEbuCfLHpnYpU6YNsHe08dPVt_L3evgD6tp_7oHLDCqEOYByC3nfcXOLPu53m18-GgVWHguAvwvtA&expires_in=3600
+id=72&auth_code=queryauthcode@@@84czcLKVZhEbuCfLHpnYpU6YNsHe08dPVt_L3evgD6tp_7oHLDCqEOYByC3nfcXOLPu53m18-GgVWHguAvwvtA&expires_in=3600
+no implicit conversion of nil into String
+/home/rails-server/Projects/ror_sangna/app/models/sangna.rb:52:in `+'
+                  
+                        --------------2015-12-31 16:11:40-------------
+                       /wechat/third_party/auth_code?id=72&auth_code=queryauthcode@@@84czcLKVZhEbuCfLHpnYpU6YNsHe08dPVt_L3evgD6tp_7oHLDCqEOYByC3nfcXOLPu53m18-GgVWHguAvwvtA&expires_in=3600
+id=72&auth_code=queryauthcode@@@84czcLKVZhEbuCfLHpnYpU6YNsHe08dPVt_L3evgD6tp_7oHLDCqEOYByC3nfcXOLPu53m18-GgVWHguAvwvtA&expires_in=3600
+no implicit conversion of nil into String
+/home/rails-server/Projects/ror_sangna/app/models/sangna.rb:52:in `+'
+                  
+                        --------------2015-12-31 16:11:40-------------
+                       /wechat/third_party/auth_code?id=72&auth_code=queryauthcode@@@84czcLKVZhEbuCfLHpnYpU6YNsHe08dPVt_L3evgD6tp_7oHLDCqEOYByC3nfcXOLPu53m18-GgVWHguAvwvtA&expires_in=3600
+id=72&auth_code=queryauthcode@@@84czcLKVZhEbuCfLHpnYpU6YNsHe08dPVt_L3evgD6tp_7oHLDCqEOYByC3nfcXOLPu53m18-GgVWHguAvwvtA&expires_in=3600
+no implicit conversion of nil into String
+/home/rails-server/Projects/ror_sangna/app/models/sangna.rb:52:in `+'
+                  
+                        --------------2015-12-31 16:12:05-------------
+                       /wechat/third_party/auth_code?id=72&auth_code=queryauthcode@@@84czcLKVZhEbuCfLHpnYpU6YNsHe08dPVt_L3evgD6tp_7oHLDCqEOYByC3nfcXOLPu53m18-GgVWHguAvwvtA&expires_in=3600
+id=72&auth_code=queryauthcode@@@84czcLKVZhEbuCfLHpnYpU6YNsHe08dPVt_L3evgD6tp_7oHLDCqEOYByC3nfcXOLPu53m18-GgVWHguAvwvtA&expires_in=3600
+no implicit conversion of nil into String
+/home/rails-server/Projects/ror_sangna/app/models/sangna.rb:52:in `+'
+                  
+                        --------------2015-12-31 16:13:23-------------
+                       /wechat/third_party/auth_code?id=72&auth_code=queryauthcode@@@84czcLKVZhEbuCfLHpnYpU6YNsHe08dPVt_L3evgD6tp_7oHLDCqEOYByC3nfcXOLPu53m18-GgVWHguAvwvtA&expires_in=3600
+id=72&auth_code=queryauthcode@@@84czcLKVZhEbuCfLHpnYpU6YNsHe08dPVt_L3evgD6tp_7oHLDCqEOYByC3nfcXOLPu53m18-GgVWHguAvwvtA&expires_in=3600
+no implicit conversion of nil into String
+/home/rails-server/Projects/ror_sangna/app/models/sangna.rb:52:in `+'
+                  
+                        --------------2015-12-31 16:14:03-------------
+                       /wechat/third_party/auth_code?id=72&auth_code=queryauthcode@@@84czcLKVZhEbuCfLHpnYpU6YNsHe08dPVt_L3evgD6tp_7oHLDCqEOYByC3nfcXOLPu53m18-GgVWHguAvwvtA&expires_in=3600
+id=72&auth_code=queryauthcode@@@84czcLKVZhEbuCfLHpnYpU6YNsHe08dPVt_L3evgD6tp_7oHLDCqEOYByC3nfcXOLPu53m18-GgVWHguAvwvtA&expires_in=3600
+no implicit conversion of nil into String
+/home/rails-server/Projects/ror_sangna/app/models/sangna.rb:52:in `+'
+                  
+                        --------------2015-12-31 16:14:56-------------
+                       /wechat/third_party/auth_code?id=72&auth_code=queryauthcode@@@84czcLKVZhEbuCfLHpnYpU6YNsHe08dPVt_L3evgD6tp_7oHLDCqEOYByC3nfcXOLPu53m18-GgVWHguAvwvtA&expires_in=3600
+id=72&auth_code=queryauthcode@@@84czcLKVZhEbuCfLHpnYpU6YNsHe08dPVt_L3evgD6tp_7oHLDCqEOYByC3nfcXOLPu53m18-GgVWHguAvwvtA&expires_in=3600
+no implicit conversion of nil into String
+/home/rails-server/Projects/ror_sangna/app/models/sangna.rb:52:in `+'
+                  
+                        --------------2015-12-31 16:16:18-------------
+                       /wechat/third_party/auth_code?id=72&auth_code=queryauthcode@@@TcOliiUQop390rCTUMy7njFGg-tZatIInH-gV-Tv_z9R5Rtd0eZqyX3mYAfOx7bNtBWIwRINMBT9SlQDdIt9YQ&expires_in=3600
+id=72&auth_code=queryauthcode@@@TcOliiUQop390rCTUMy7njFGg-tZatIInH-gV-Tv_z9R5Rtd0eZqyX3mYAfOx7bNtBWIwRINMBT9SlQDdIt9YQ&expires_in=3600
+no implicit conversion of nil into String
+/home/rails-server/Projects/ror_sangna/app/models/sangna.rb:52:in `+'
+                  
+                        --------------2015-12-31 16:23:40-------------
+                       /wechat/third_party/auth_code?id=72&auth_code=queryauthcode@@@TcOliiUQop390rCTUMy7nvstaTcX5uQSDphcKQPOgBDQvA8BU7qqrbU8Eux-IKIsWXOWAbTqrOFxrnjVgOupxA&expires_in=3600
+id=72&auth_code=queryauthcode@@@TcOliiUQop390rCTUMy7nvstaTcX5uQSDphcKQPOgBDQvA8BU7qqrbU8Eux-IKIsWXOWAbTqrOFxrnjVgOupxA&expires_in=3600
+no implicit conversion of nil into String
+/home/rails-server/Projects/ror_sangna/app/models/sangna.rb:52:in `+'
+                  
+                        --------------2016-01-01 13:08:05-------------
+                       /wechat/message/wx266b6b5d2e2b3870?signature=949a255aff8915fa5a125c4a9973825ea2c78231&timestamp=1451624885&nonce=657788473&encrypt_type=aes&msg_signature=dcc3952fa7a8913f7c294471744294e9d0b3278a
+signature=949a255aff8915fa5a125c4a9973825ea2c78231&timestamp=1451624885&nonce=657788473&encrypt_type=aes&msg_signature=dcc3952fa7a8913f7c294471744294e9d0b3278a
+undefined method `id' for nil:NilClass
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/message_controller.rb:29:in `receive'
+                  
+                        --------------2016-01-02 19:42:03-------------
+                       /wechat/gzh_manage/oauth?code=0419748c0f8c48314f8b45e3de1f02aK&state=123&appid=wx55d4d556c43b3bfc
+code=0419748c0f8c48314f8b45e3de1f02aK&state=123&appid=wx55d4d556c43b3bfc
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2016-01-03 13:53:21-------------
+                       /wechat/gzh_manage/oauth?code=0410bc8c5e6a308aff963bb9141ef18B&state=123&appid=wx79a4ddd4baf25f8a
+code=0410bc8c5e6a308aff963bb9141ef18B&state=123&appid=wx79a4ddd4baf25f8a
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2016-01-05 17:27:47-------------
+                       /wechat/gzh_manage/authorize?code=0218ec8c05138835059c2b756bb0582a&state=123&appid=wx9d492f6c23071d55
+code=0218ec8c05138835059c2b756bb0582a&state=123&appid=wx9d492f6c23071d55
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2016-01-05 17:27:51-------------
+                       /wechat/gzh_manage/authorize?code=04188c89976bf3c0818e47874153d743&state=123&appid=wx9d492f6c23071d55
+code=04188c89976bf3c0818e47874153d743&state=123&appid=wx9d492f6c23071d55
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2016-01-06 12:03:11-------------
+                       /wechat/wc_front/page_technician?appid=wx697eed6c8f1d5c78&page=1&inscene=true
+appid=wx697eed6c8f1d5c78&page=1&inscene=true
+undefined local variable or method `‘无’' for #<Wechat::WcFrontController:0x00000006951d38>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/wc_front_controller.rb:731:in `generate_technician_html'
+                  
+                        --------------2016-01-06 12:03:11-------------
+                       /wechat/wc_front/page_technician?appid=wx697eed6c8f1d5c78&page=1&inscene=true
+appid=wx697eed6c8f1d5c78&page=1&inscene=true
+undefined local variable or method `‘无’' for #<Wechat::WcFrontController:0x00000007156178>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/wc_front_controller.rb:731:in `generate_technician_html'
+                  
+                        --------------2016-01-06 12:03:16-------------
+                       /wechat/wc_front/page_technician?appid=wx697eed6c8f1d5c78&page=1&inscene=true
+appid=wx697eed6c8f1d5c78&page=1&inscene=true
+undefined local variable or method `‘无’' for #<Wechat::WcFrontController:0x000000078e4c28>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/wc_front_controller.rb:731:in `generate_technician_html'
+                  
+                        --------------2016-01-06 12:03:17-------------
+                       /wechat/wc_front/page_technician?appid=wx697eed6c8f1d5c78&page=1&inscene=true
+appid=wx697eed6c8f1d5c78&page=1&inscene=true
+undefined local variable or method `‘无’' for #<Wechat::WcFrontController:0x00000007387780>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/wc_front_controller.rb:731:in `generate_technician_html'
+                  
+                        --------------2016-01-06 12:03:23-------------
+                       /wechat/wc_front/page_technician?appid=wx697eed6c8f1d5c78&page=1&inscene=true
+appid=wx697eed6c8f1d5c78&page=1&inscene=true
+undefined local variable or method `‘无’' for #<Wechat::WcFrontController:0x00000007ee7ee0>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/wc_front_controller.rb:731:in `generate_technician_html'
+                  
+                        --------------2016-01-06 12:03:23-------------
+                       /wechat/wc_front/page_technician?appid=wx697eed6c8f1d5c78&page=1&inscene=true
+appid=wx697eed6c8f1d5c78&page=1&inscene=true
+undefined local variable or method `‘无’' for #<Wechat::WcFrontController:0x00000007c91b00>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/wc_front_controller.rb:731:in `generate_technician_html'
+                  
+                        --------------2016-01-06 12:05:47-------------
+                       /wechat/wc_front/page_technician?appid=wx697eed6c8f1d5c78&page=1&inscene=true
+appid=wx697eed6c8f1d5c78&page=1&inscene=true
+undefined local variable or method `‘无’' for #<Wechat::WcFrontController:0x00000004da7d80>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/wc_front_controller.rb:731:in `generate_technician_html'
+                  
+                        --------------2016-01-06 12:05:48-------------
+                       /wechat/wc_front/page_technician?appid=wx697eed6c8f1d5c78&page=1&inscene=true
+appid=wx697eed6c8f1d5c78&page=1&inscene=true
+undefined local variable or method `‘无’' for #<Wechat::WcFrontController:0x00000005351510>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/wc_front_controller.rb:731:in `generate_technician_html'
+                  
+                        --------------2016-01-06 12:05:57-------------
+                       /wechat/wc_front/page_technician?appid=wx697eed6c8f1d5c78&page=1&inscene=true
+appid=wx697eed6c8f1d5c78&page=1&inscene=true
+undefined local variable or method `‘无’' for #<Wechat::WcFrontController:0x00000007989660>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/wc_front_controller.rb:731:in `generate_technician_html'
+                  
+                        --------------2016-01-06 12:05:57-------------
+                       /wechat/wc_front/page_technician?appid=wx697eed6c8f1d5c78&page=1&inscene=true
+appid=wx697eed6c8f1d5c78&page=1&inscene=true
+undefined local variable or method `‘无’' for #<Wechat::WcFrontController:0x00000007f57740>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/wc_front_controller.rb:731:in `generate_technician_html'
+                  
+                        --------------2016-01-06 12:06:40-------------
+                       /wechat/wc_front/page_technician?appid=wx697eed6c8f1d5c78&page=1&inscene=true
+appid=wx697eed6c8f1d5c78&page=1&inscene=true
+undefined local variable or method `‘无’' for #<Wechat::WcFrontController:0x0000000768a798>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/wc_front_controller.rb:731:in `generate_technician_html'
+                  
+                        --------------2016-01-06 12:06:40-------------
+                       /wechat/wc_front/page_technician?appid=wx697eed6c8f1d5c78&page=1&inscene=true
+appid=wx697eed6c8f1d5c78&page=1&inscene=true
+undefined local variable or method `‘无’' for #<Wechat::WcFrontController:0x00000006f62a38>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/wc_front_controller.rb:731:in `generate_technician_html'
+                  
+                        --------------2016-01-06 12:07:19-------------
+                       /wechat/wc_front/page_technician?appid=wx697eed6c8f1d5c78&page=1&inscene=true
+appid=wx697eed6c8f1d5c78&page=1&inscene=true
+undefined local variable or method `‘无’' for #<Wechat::WcFrontController:0x00000006747fb0>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/wc_front_controller.rb:731:in `generate_technician_html'
+                  
+                        --------------2016-01-06 12:07:19-------------
+                       /wechat/wc_front/page_technician?appid=wx697eed6c8f1d5c78&page=1&inscene=true
+appid=wx697eed6c8f1d5c78&page=1&inscene=true
+undefined local variable or method `‘无’' for #<Wechat::WcFrontController:0x00000005350160>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/wc_front_controller.rb:731:in `generate_technician_html'
+                  
+                        --------------2016-01-06 12:08:57-------------
+                       /wechat/wc_front/page_technician?appid=wx79a4ddd4baf25f8a&page=1&inscene=false
+appid=wx79a4ddd4baf25f8a&page=1&inscene=false
+undefined local variable or method `‘无’' for #<Wechat::WcFrontController:0x00000006a0bf58>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/wc_front_controller.rb:731:in `generate_technician_html'
+                  
+                        --------------2016-01-06 12:09:03-------------
+                       /wechat/wc_front/page_technician?appid=wx79a4ddd4baf25f8a&page=1&inscene=false
+appid=wx79a4ddd4baf25f8a&page=1&inscene=false
+undefined local variable or method `‘无’' for #<Wechat::WcFrontController:0x0000000758a1e0>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/wc_front_controller.rb:731:in `generate_technician_html'
+                  
+                        --------------2016-01-06 12:09:09-------------
+                       /wechat/wc_front/page_technician?appid=wx79a4ddd4baf25f8a&page=1&inscene=false
+appid=wx79a4ddd4baf25f8a&page=1&inscene=false
+undefined local variable or method `‘无’' for #<Wechat::WcFrontController:0x00000007f50490>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/wc_front_controller.rb:731:in `generate_technician_html'
+                  
+                        --------------2016-01-06 12:09:18-------------
+                       /wechat/wc_front/page_technician?appid=wx697eed6c8f1d5c78&page=1&inscene=true
+appid=wx697eed6c8f1d5c78&page=1&inscene=true
+undefined local variable or method `‘无’' for #<Wechat::WcFrontController:0x0000000803bb70>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/wc_front_controller.rb:731:in `generate_technician_html'
+                  
+                        --------------2016-01-06 12:09:19-------------
+                       /wechat/wc_front/page_technician?appid=wx697eed6c8f1d5c78&page=1&inscene=true
+appid=wx697eed6c8f1d5c78&page=1&inscene=true
+undefined local variable or method `‘无’' for #<Wechat::WcFrontController:0x00000007d43350>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/wc_front_controller.rb:731:in `generate_technician_html'
+                  
+                        --------------2016-01-06 12:09:31-------------
+                       /wechat/wc_front/page_technician?appid=wx79a4ddd4baf25f8a&page=1&inscene=false
+appid=wx79a4ddd4baf25f8a&page=1&inscene=false
+undefined local variable or method `‘无’' for #<Wechat::WcFrontController:0x000000078a7378>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/wc_front_controller.rb:731:in `generate_technician_html'
+                  
+                        --------------2016-01-06 12:09:39-------------
+                       /wechat/wc_front/page_technician?appid=wx79a4ddd4baf25f8a&page=1&inscene=false
+appid=wx79a4ddd4baf25f8a&page=1&inscene=false
+undefined local variable or method `‘无’' for #<Wechat::WcFrontController:0x00000006e2c998>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/wc_front_controller.rb:731:in `generate_technician_html'
+                  
+                        --------------2016-01-06 12:09:50-------------
+                       /wechat/wc_front/page_technician?&appid=wx9d492f6c23071d55&page=3&inscene=false
+&appid=wx9d492f6c23071d55&page=3&inscene=false
+undefined local variable or method `‘无’' for #<Wechat::WcFrontController:0x000000053ea468>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/wc_front_controller.rb:731:in `generate_technician_html'
+                  
+                        --------------2016-01-06 12:09:50-------------
+                       /wechat/wc_front/page_technician?&appid=wx9d492f6c23071d55&page=3&inscene=false
+&appid=wx9d492f6c23071d55&page=3&inscene=false
+undefined local variable or method `‘无’' for #<Wechat::WcFrontController:0x00000003de6b80>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/wc_front_controller.rb:731:in `generate_technician_html'
+                  
+                        --------------2016-01-06 12:09:58-------------
+                       /wechat/wc_front/page_technician?&appid=wx9d492f6c23071d55&page=3&inscene=false
+&appid=wx9d492f6c23071d55&page=3&inscene=false
+undefined local variable or method `‘无’' for #<Wechat::WcFrontController:0x00000007614c78>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/wc_front_controller.rb:731:in `generate_technician_html'
+                  
+                        --------------2016-01-06 12:10:56-------------
+                       /wechat/wc_front/page_technician?appid=wxcb5d0f19cf223f88&page=1&inscene=false
+appid=wxcb5d0f19cf223f88&page=1&inscene=false
+undefined local variable or method `‘无’' for #<Wechat::WcFrontController:0x00000007a287d8>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/wc_front_controller.rb:731:in `generate_technician_html'
+                  
+                        --------------2016-01-06 12:11:00-------------
+                       /wechat/wc_front/page_technician?appid=wxcb5d0f19cf223f88&page=1&inscene=false
+appid=wxcb5d0f19cf223f88&page=1&inscene=false
+undefined local variable or method `‘无’' for #<Wechat::WcFrontController:0x0000000766e278>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/wc_front_controller.rb:731:in `generate_technician_html'
+                  
+                        --------------2016-01-06 12:11:04-------------
+                       /wechat/wc_front/page_technician?appid=wx697eed6c8f1d5c78&page=1&inscene=true
+appid=wx697eed6c8f1d5c78&page=1&inscene=true
+undefined local variable or method `‘无’' for #<Wechat::WcFrontController:0x000000070e7098>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/wc_front_controller.rb:731:in `generate_technician_html'
+                  
+                        --------------2016-01-06 12:11:04-------------
+                       /wechat/wc_front/page_technician?appid=wx697eed6c8f1d5c78&page=1&inscene=true
+appid=wx697eed6c8f1d5c78&page=1&inscene=true
+undefined local variable or method `‘无’' for #<Wechat::WcFrontController:0x00000006dde900>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/wc_front_controller.rb:731:in `generate_technician_html'
+                  
+                        --------------2016-01-06 12:11:07-------------
+                       /wechat/wc_front/page_technician?appid=wx697eed6c8f1d5c78&page=1&inscene=true
+appid=wx697eed6c8f1d5c78&page=1&inscene=true
+undefined local variable or method `‘无’' for #<Wechat::WcFrontController:0x00000006ab44f0>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/wc_front_controller.rb:731:in `generate_technician_html'
+                  
+                        --------------2016-01-06 12:11:07-------------
+                       /wechat/wc_front/page_technician?appid=wx697eed6c8f1d5c78&page=1&inscene=true
+appid=wx697eed6c8f1d5c78&page=1&inscene=true
+undefined local variable or method `‘无’' for #<Wechat::WcFrontController:0x000000067bde40>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/wc_front_controller.rb:731:in `generate_technician_html'
+                  
+                        --------------2016-01-06 12:11:12-------------
+                       /wechat/wc_front/page_technician?appid=wx697eed6c8f1d5c78&page=1&inscene=true
+appid=wx697eed6c8f1d5c78&page=1&inscene=true
+undefined local variable or method `‘无’' for #<Wechat::WcFrontController:0x00000005771d70>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/wc_front_controller.rb:731:in `generate_technician_html'
+                  
+                        --------------2016-01-06 12:11:12-------------
+                       /wechat/wc_front/page_technician?appid=wx697eed6c8f1d5c78&page=1&inscene=true
+appid=wx697eed6c8f1d5c78&page=1&inscene=true
+undefined local variable or method `‘无’' for #<Wechat::WcFrontController:0x000000052f5710>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/wc_front_controller.rb:731:in `generate_technician_html'
+                  
+                        --------------2016-01-06 12:11:57-------------
+                       /wechat/wc_front/page_technician?appid=wx697eed6c8f1d5c78&page=1&inscene=true
+appid=wx697eed6c8f1d5c78&page=1&inscene=true
+undefined local variable or method `‘无’' for #<Wechat::WcFrontController:0x0000000798a830>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/wc_front_controller.rb:731:in `generate_technician_html'
+                  
+                        --------------2016-01-06 12:11:57-------------
+                       /wechat/wc_front/page_technician?appid=wx697eed6c8f1d5c78&page=1&inscene=true
+appid=wx697eed6c8f1d5c78&page=1&inscene=true
+undefined local variable or method `‘无’' for #<Wechat::WcFrontController:0x00000007445ac8>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/wc_front_controller.rb:731:in `generate_technician_html'
+                  
+                        --------------2016-01-06 12:12:39-------------
+                       /wechat/wc_front/page_technician?appid=wx79a4ddd4baf25f8a&page=1&inscene=false
+appid=wx79a4ddd4baf25f8a&page=1&inscene=false
+undefined local variable or method `‘无’' for #<Wechat::WcFrontController:0x00000006a55838>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/wc_front_controller.rb:731:in `generate_technician_html'
+                  
+                        --------------2016-01-06 12:12:56-------------
+                       /wechat/wc_front/page_technician?appid=wx79a4ddd4baf25f8a&page=1&inscene=false
+appid=wx79a4ddd4baf25f8a&page=1&inscene=false
+undefined local variable or method `‘无’' for #<Wechat::WcFrontController:0x0000000736f888>
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/wc_front_controller.rb:731:in `generate_technician_html'
+                  
+                        --------------2016-01-06 16:40:10-------------
+                       /wechat/third_party/auth_code?id=78&auth_code=queryauthcode@@@fAyTTkLZZqlHI-yw-H50qi9AKigL1W3VXLQME3kKsx3FOceyd9iaJMY4fdZD2_8M1LUS81G3JF7GHUJgRsd9bQ&expires_in=3600
+id=78&auth_code=queryauthcode@@@fAyTTkLZZqlHI-yw-H50qi9AKigL1W3VXLQME3kKsx3FOceyd9iaJMY4fdZD2_8M1LUS81G3JF7GHUJgRsd9bQ&expires_in=3600
+no implicit conversion of nil into String
+/home/rails-server/Projects/ror_sangna/app/models/sangna.rb:52:in `+'
+                  
+                        --------------2016-01-06 16:42:57-------------
+                       /wechat/third_party/auth_code?id=78&auth_code=queryauthcode@@@fAyTTkLZZqlHI-yw-H50qj2e7_BIwXKOroez580U6E5lq5EqNp12Si9zUCFEC0P9wuEQh_t9oM56njCgGRgDjw&expires_in=3600
+id=78&auth_code=queryauthcode@@@fAyTTkLZZqlHI-yw-H50qj2e7_BIwXKOroez580U6E5lq5EqNp12Si9zUCFEC0P9wuEQh_t9oM56njCgGRgDjw&expires_in=3600
+no implicit conversion of nil into String
+/home/rails-server/Projects/ror_sangna/app/models/sangna.rb:52:in `+'
+                  
+                        --------------2016-01-06 17:59:40-------------
+                       /wechat/gzh_manage/authorize?code=001b36f1180297fd13d73955865d41cy&state=123&appid=wx79a4ddd4baf25f8a
+code=001b36f1180297fd13d73955865d41cy&state=123&appid=wx79a4ddd4baf25f8a
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2016-01-07 21:26:16-------------
+                       /wechat/message/wxfa582b8c22ed3cc6?signature=40a1ab9dbf9b44b908b3e28ce678d11b1a0c1d12&timestamp=1452173176&nonce=1516330465&encrypt_type=aes&msg_signature=df50d37e5d9c2bbef3f38cb0386fb653c02451dc
+signature=40a1ab9dbf9b44b908b3e28ce678d11b1a0c1d12&timestamp=1452173176&nonce=1516330465&encrypt_type=aes&msg_signature=df50d37e5d9c2bbef3f38cb0386fb653c02451dc
+undefined method `id' for nil:NilClass
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/message_controller.rb:29:in `receive'
+                  
+                        --------------2016-01-08 12:20:53-------------
+                       /wechat/third_party/auth_code?id=78&auth_code=queryauthcode@@@dPTXyoeKQuoxX4QTp2_99oP0pN1UhTf1W8DrRxgP1KLEtsNgIIYzn2e3sHgIECVxkg5-Y2nzS6ghBOCpCCc2ag&expires_in=3600
+id=78&auth_code=queryauthcode@@@dPTXyoeKQuoxX4QTp2_99oP0pN1UhTf1W8DrRxgP1KLEtsNgIIYzn2e3sHgIECVxkg5-Y2nzS6ghBOCpCCc2ag&expires_in=3600
+no implicit conversion of nil into String
+/home/rails-server/Projects/ror_sangna/app/models/sangna.rb:52:in `+'
+                  
+                        --------------2016-01-08 12:32:38-------------
+                       /wechat/third_party/receive?signature=c38979d0d88c096759a6212d295385ec55fa4476&timestamp=1452227553&nonce=1381977638&encrypt_type=aes&msg_signature=43f873862cf5ab394dc067df389291e5c446655f
+signature=c38979d0d88c096759a6212d295385ec55fa4476&timestamp=1452227553&nonce=1381977638&encrypt_type=aes&msg_signature=43f873862cf5ab394dc067df389291e5c446655f
+undefined method `update_attribute' for nil:NilClass
+/home/rails-server/Projects/ror_sangna/app/controllers/wechat/third_party_controller.rb:115:in `receive'
+                  
+                        --------------2016-01-10 22:07:54-------------
+                       /wechat/gzh_manage/oauth?code=001888feacef3c83a317c3fa2f98d9ci&state=123&appid=wx55d4d556c43b3bfc
+code=001888feacef3c83a317c3fa2f98d9ci&state=123&appid=wx55d4d556c43b3bfc
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2016-01-11 11:33:09-------------
+                       /admin/per_user?_pjax=%5Bdata-pjax-container%5D
+_pjax=%5Bdata-pjax-container%5D
+Unable to autoload constant UserMasseuseCouponsRule, expected /home/rails-server/Projects/ror_sangna/app/models/user_masseuse_coupons_rule.rb to define it
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/activesupport-4.2.1/lib/active_support/dependencies.rb:495:in `load_missing_constant'
+                  
+                        --------------2016-01-11 11:33:09-------------
+                       /admin/per_user
+
+Unable to autoload constant UserMasseuseCouponsRule, expected /home/rails-server/Projects/ror_sangna/app/models/user_masseuse_coupons_rule.rb to define it
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/activesupport-4.2.1/lib/active_support/dependencies.rb:495:in `load_missing_constant'
+                  
+                        --------------2016-01-11 11:33:22-------------
+                       /admin/per_user?_pjax=%5Bdata-pjax-container%5D
+_pjax=%5Bdata-pjax-container%5D
+Unable to autoload constant UserMasseuseCouponsRule, expected /home/rails-server/Projects/ror_sangna/app/models/user_masseuse_coupons_rule.rb to define it
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/activesupport-4.2.1/lib/active_support/dependencies.rb:495:in `load_missing_constant'
+                  
+                        --------------2016-01-11 11:33:22-------------
+                       /admin/per_user
+
+Unable to autoload constant UserMasseuseCouponsRule, expected /home/rails-server/Projects/ror_sangna/app/models/user_masseuse_coupons_rule.rb to define it
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/activesupport-4.2.1/lib/active_support/dependencies.rb:495:in `load_missing_constant'
+                  
+                        --------------2016-01-11 11:34:52-------------
+                       /admin/per_user
+
+Unable to autoload constant UserMasseuseCouponsRule, expected /home/rails-server/Projects/ror_sangna/app/models/user_masseuse_coupons_rule.rb to define it
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/activesupport-4.2.1/lib/active_support/dependencies.rb:495:in `load_missing_constant'
+                  
+                        --------------2016-01-12 01:23:13-------------
+                       /wechat/gzh_manage/oauth?code=001d2923c3eebfc0019710adc44897bj&state=123&appid=wx55d4d556c43b3bfc
+code=001d2923c3eebfc0019710adc44897bj&state=123&appid=wx55d4d556c43b3bfc
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2016-01-12 01:23:15-------------
+                       /wechat/gzh_manage/oauth?code=001d2923c3eebfc0019710adc44897bj&state=123&appid=wx55d4d556c43b3bfc
+code=001d2923c3eebfc0019710adc44897bj&state=123&appid=wx55d4d556c43b3bfc
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2016-01-12 03:26:17-------------
+                       /wechat/gzh_manage/oauth?code=0312636784e6ac3212f2e222b46d378o&state=123&appid=wx55d4d556c43b3bfc
+code=0312636784e6ac3212f2e222b46d378o&state=123&appid=wx55d4d556c43b3bfc
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  
+                        --------------2016-01-12 20:40:22-------------
+                       /wechat/gzh_manage/authorize?code=001e4aa5e2e49df59f12b52829fc9a9M&state=123&appid=wx9d492f6c23071d55
+code=001e4aa5e2e49df59f12b52829fc9a9M&state=123&appid=wx9d492f6c23071d55
+Cannot redirect to nil!
+/home/rails-server/.rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_controller/metal/redirecting.rb:70:in `redirect_to'
+                  

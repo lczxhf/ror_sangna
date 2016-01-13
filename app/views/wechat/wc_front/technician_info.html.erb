@@ -155,7 +155,7 @@
 					<a href="javascript:history.go(-1);" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a> 
 					<h1 class="mui-title">详细</h1>
 		</header>
--!>
+--!>
 		
 		<div class="mui-content">
 			<div class="title_2">本技师承诺:只在本店内提供正规水疗服务</div>
@@ -178,8 +178,8 @@
 					<span class=""><%=@technician.per_user_project.try(:name) || "无"%></span>
 				</div>
 				<span id='collect' class="mui-icon iconfont icon-xingxing<%=is_collect(params[:appid],@technician.id)%>"></span>
-			<!-	<span class="on_site fs11">在场时间:></span>
-			-!>
+			<!--	<span class="on_site fs11">在场时间:></span>
+			--!>
 			</div>
 		<!--	<div class="box_yuyue">
 				<div class="title fs16">预约</div>
@@ -215,7 +215,7 @@
 					</li>
 				<%end%>
 				<%else%>
-					<li>技师善未完善资料！</li>
+					<li>技师未完善资料！</li>
 				<%end%>
 				</ul>	
 			</div>

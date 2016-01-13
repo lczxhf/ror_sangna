@@ -728,7 +728,7 @@ end
 							<span class="jishi_num fs17">#{technician.job_number}</span>
 							<span class="jishi_sex fs11">（#{technician.sex==1 ? "男":"女"}）</span>
 						</div>
-						<span class="jishi_type">#{technician.per_user_project.try(:name) || ‘无’}</span>
+						<span class="jishi_type">#{technician.per_user_project.try(:name) || '无'}</span>
 
 			}+if inscene=='true'
 					if sangna_config.per_user.on_off_duty_auth==1
