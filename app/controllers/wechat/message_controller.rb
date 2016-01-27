@@ -33,8 +33,11 @@ class Wechat::MessageController < ApplicationController
 									wechat_config.member=member
 							end
 							if qrcode=Rails.cache.read("#{@weixin_message.FromUserName}_entrance")
-								puts qrcode
-								entry(wechat_config,qrcode)
+								if gzh.per_user.on_off_dupy_auth == 3
+									simplest_enter(qrcode,wechat_config,gzh.per_user)
+								else
+									entry(wechat_config,qrcode,gzh.per_user)
+								end
 								Rails.cache.delete("#{@weixin_message.FromUserName}_entrance")
 								Rails.cache.delete("#{qrcode}_entrance")
 							end
@@ -87,7 +90,7 @@ class Wechat::MessageController < ApplicationController
 
    private
 
-   def entry(wechat_config,qrcode)
+   def entry(wechat_config,qrcode,per_user)
    							qrcode=PerUserQrCode.find(qrcode)
 							log=qrcode.qrcode_logs.where(status:2).first
 							if log.present?
@@ -100,11 +103,44 @@ class Wechat::MessageController < ApplicationController
 									log.save
 									wechat_config.member.hand_code=qrcode.id
 									wechat_config.member.save
-									coupons_records.each do |a|
-										a.status=2
-										a.save
+									if !coupons_records.empty?
+										sql=ActiveRecord::Base.connection.execute("update coupons_records set status=2 where id in (#{coupons_records.collect{|a| a.id}.join(',')})")
 									end
+									SentWifiMessage.perform_in(30.seconds,per_user.id,wechat_config.openid)
 								end
 						end
    end
+   		def simplest_enter(qrcode,wechat_config,per_user)
+   			qrcode=PerUserQrCode.find(qrcode)
+         log = QrcodeLog.new
+         log.per_user_qr_code = qrcode
+         log.status = 2
+         log.per_user = per_user
+         log.member = wechat_config.member
+         log.member_bind_time = Time.now
+         coupons_records=wechat_config.member.coupons_records.where("status in (1,2)")
+         log.entrance_card_count=coupons_records.size
+         log.entrance_card_sum= coupons_records.collect{|a| a.value}.sum
+         log.save
+         wechat_config.member.hand_code=qrcode.id
+         wechat_config.member.save
+         unvalid_cards=coupons_records.collect do |a|
+             if a.status == 1
+                   if Time.now - (a.created_at + 1.day) >= 0
+                         a.id
+                   else
+                        nil
+                   end
+             else
+                   nil
+             end
+         end.compact
+         if !unvalid_cards.empty?
+         CouponsRecord.where("id in (#{unvalid_cards.join(',')})").update_all(status:2)
+     	 end
+     	 SentEnterCard.perform_async(wechat_config.member_id,per_user.id,log.id,wechat_config.openid)
+     	 AutoUnbind.perform_in(per_user.approach_time_setting.minutes,wechat_config.member_id)
+     	 SentWifiMessage.perform_in(30.seconds,per_user.id,wechat_config.openid)
+     	 
+		end
 end

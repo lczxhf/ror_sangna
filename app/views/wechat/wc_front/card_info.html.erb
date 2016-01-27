@@ -69,7 +69,7 @@
 			<!--评论代金券-->
 			<div id="Comment_Vouchers">
 			<%@cards.each do |card|%>
-				<%if card.coupons_classes_id.in?([1,3]) && card.status.in?([1,2])%>	
+				<%if card.coupons_classes_id.in?([1,3,6]) && card.status.in?([1,2])%>	
 						<div class="box_coupons" onclick='rule(<%=card.id%>)'>
 							<div class="Voucher_infor_left_Comment">
 								<div class="Discount_num">￥<%=card.value%></div>
