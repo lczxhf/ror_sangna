@@ -225,6 +225,46 @@ class Sangna
 		ThirdParty.sent_to_wechat(url,body)
 	end
 	
+	def self.add_fake_data
+			 imgs = CSV.read(Rails.root.join('public','wechatHeadImgList_160116-1557.csv'))
+			 names = CSV.read(Rails.root.join('public','wechatNickNameList_160116-1756.csv'))
+			 user_ids = [32,35,51,70,63,64,83,82]
+			 1500.times.each do |index|
+				name = names[names.size-1-index][0]
+				if name.present?
+						time=rand(1446307200..1452960000)
+						member = Member.new
+						member.del=2
+						member.username=index
+						member.created_at = Time.at(time)
+						member.user_id = user_ids.sample
+						if member.save
+								wechat_config = WechatConfig.new
+								wechat_config.del=2
+								wechat_config.openid=index
+								wechat_config.created_at=member.created_at
+								wechat_config.member = member
+								if wechat_config.save
+											wechat_user = WechatUser.new
+											wechat_user.wechat_config = wechat_config
+											wechat_user.member = member
+											wechat_user.nickname = name[name.size/2,name.size]
+											wechat_user.sex = rand(0..1)
+											wechat_user.headimgurl = imgs[imgs.size-1-index][0]
+											wechat_user.subscribe_time = time
+											wechat_user.created_at = member.created_at
+											wechat_user.del=2
+											wechat_user.save
+								end
+						end
+				 end
+			 end
+	end
+
+
+	def self.rm_fake_data
+			Member.where(del:2).destroy_all
+	end
 	private
 	 def self.return_url_body(by_what,token,first,type,array)
 		if by_what=='group'

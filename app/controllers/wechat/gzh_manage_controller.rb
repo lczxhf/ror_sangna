@@ -210,8 +210,8 @@ def change_qrcode
               				wechat_config.instance_eval{|a| a.association_cache.delete_if{|b| b==:member}}
 							wechat_config.wechat_user
 							$redis.set(wechat_config.openid,Marshal.dump(wechat_config))
-							if !coupons_records.empty?
-								sql=ActiveRecord::Base.connection.execute("update coupons_records set status=2 where id in (#{coupons_records.collect{|a| a.id}.join(',')})")
+							if !wechat_config.member.coupons_records.empty?
+								sql=ActiveRecord::Base.connection.execute("update coupons_records set status=2 where id in (#{wechat_config.member.coupons_records.collect{|a| a.id}.join(',')})")
 							end
 							
 							puts 'jinchang'

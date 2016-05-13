@@ -33,7 +33,7 @@ class Wechat::MessageController < ApplicationController
 									wechat_config.member=member
 							end
 							if qrcode=Rails.cache.read("#{@weixin_message.FromUserName}_entrance")
-								if gzh.per_user.on_off_dupy_auth == 3
+								if gzh.per_user.on_off_duty_auth == 3
 									simplest_enter(qrcode,wechat_config,gzh.per_user)
 								else
 									entry(wechat_config,qrcode,gzh.per_user)
